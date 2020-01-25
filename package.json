@@ -2,7 +2,6 @@
   "name": "client",
   "version": "0.0.0",
   "description": "Client",
-  "homepage": "https://hoosayin.github.io/Naqel-Client",
   "private": true,
   "author": {
     "name": "Hussain Naeem"
@@ -19,8 +18,6 @@
     "react-scripts": "^3.3.0"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d biuld",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -38,5 +35,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": "10.15"
   }
 }
