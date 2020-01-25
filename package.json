@@ -2,12 +2,14 @@
   "name": "client",
   "version": "0.0.0",
   "description": "Client",
+  "homepage": "https://hoosayin.github.io/Naqel-Client",
   "private": true,
   "author": {
     "name": "Hussain Naeem"
   },
   "dependencies": {
     "axios": "^0.19.0",
+    "gh-pages": "^2.2.0",
     "jquery": "^3.4.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
@@ -17,6 +19,8 @@
     "react-scripts": "^3.3.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d biuld",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
