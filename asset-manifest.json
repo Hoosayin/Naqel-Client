@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Naqel-Client/static/css/main.4c414e65.chunk.css",
+    "main.js": "/Naqel-Client/static/js/main.1cc9c210.chunk.js",
+    "main.js.map": "/Naqel-Client/static/js/main.1cc9c210.chunk.js.map",
+    "runtime-main.js": "/Naqel-Client/static/js/runtime-main.1c2fb77c.js",
+    "runtime-main.js.map": "/Naqel-Client/static/js/runtime-main.1c2fb77c.js.map",
+    "static/js/2.ecc4ffe1.chunk.js": "/Naqel-Client/static/js/2.ecc4ffe1.chunk.js",
+    "static/js/2.ecc4ffe1.chunk.js.map": "/Naqel-Client/static/js/2.ecc4ffe1.chunk.js.map",
+    "index.html": "/Naqel-Client/index.html",
+    "precache-manifest.d07af071b7a115545935fc3339408b25.js": "/Naqel-Client/precache-manifest.d07af071b7a115545935fc3339408b25.js",
+    "service-worker.js": "/Naqel-Client/service-worker.js",
+    "static/css/main.4c414e65.chunk.css.map": "/Naqel-Client/static/css/main.4c414e65.chunk.css.map",
+    "static/js/2.ecc4ffe1.chunk.js.LICENSE": "/Naqel-Client/static/js/2.ecc4ffe1.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1c2fb77c.js",
+    "static/js/2.ecc4ffe1.chunk.js",
+    "static/css/main.4c414e65.chunk.css",
+    "static/js/main.1cc9c210.chunk.js"
+  ]
+}
