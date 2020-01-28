@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/WOW/static/css/main.4c414e65.chunk.css",
-    "main.js": "/WOW/static/js/main.ffbd26b9.chunk.js",
-    "main.js.map": "/WOW/static/js/main.ffbd26b9.chunk.js.map",
-    "runtime-main.js": "/WOW/static/js/runtime-main.c7891f7b.js",
-    "runtime-main.js.map": "/WOW/static/js/runtime-main.c7891f7b.js.map",
-    "static/js/2.4348e11a.chunk.js": "/WOW/static/js/2.4348e11a.chunk.js",
-    "static/js/2.4348e11a.chunk.js.map": "/WOW/static/js/2.4348e11a.chunk.js.map",
-    "index.html": "/WOW/index.html",
-    "precache-manifest.ddab17b84fd63798665fdf71ee69cc19.js": "/WOW/precache-manifest.ddab17b84fd63798665fdf71ee69cc19.js",
-    "service-worker.js": "/WOW/service-worker.js",
-    "static/css/main.4c414e65.chunk.css.map": "/WOW/static/css/main.4c414e65.chunk.css.map",
-    "static/js/2.4348e11a.chunk.js.LICENSE": "/WOW/static/js/2.4348e11a.chunk.js.LICENSE"
+    "main.css": "/Naqel-Client/static/css/main.4c414e65.chunk.css",
+    "main.js": "/Naqel-Client/static/js/main.8ecb7489.chunk.js",
+    "main.js.map": "/Naqel-Client/static/js/main.8ecb7489.chunk.js.map",
+    "runtime-main.js": "/Naqel-Client/static/js/runtime-main.1c2fb77c.js",
+    "runtime-main.js.map": "/Naqel-Client/static/js/runtime-main.1c2fb77c.js.map",
+    "static/js/2.fcb1aec7.chunk.js": "/Naqel-Client/static/js/2.fcb1aec7.chunk.js",
+    "static/js/2.fcb1aec7.chunk.js.map": "/Naqel-Client/static/js/2.fcb1aec7.chunk.js.map",
+    "index.html": "/Naqel-Client/index.html",
+    "precache-manifest.5b109d8077dca3e37d732e7b5870a059.js": "/Naqel-Client/precache-manifest.5b109d8077dca3e37d732e7b5870a059.js",
+    "service-worker.js": "/Naqel-Client/service-worker.js",
+    "static/css/main.4c414e65.chunk.css.map": "/Naqel-Client/static/css/main.4c414e65.chunk.css.map",
+    "static/js/2.fcb1aec7.chunk.js.LICENSE": "/Naqel-Client/static/js/2.fcb1aec7.chunk.js.LICENSE"
   },
   "entrypoints": [
-    "static/js/runtime-main.c7891f7b.js",
-    "static/js/2.4348e11a.chunk.js",
+    "static/js/runtime-main.1c2fb77c.js",
+    "static/js/2.fcb1aec7.chunk.js",
     "static/css/main.4c414e65.chunk.css",
-    "static/js/main.ffbd26b9.chunk.js"
+    "static/js/main.8ecb7489.chunk.js"
   ]
 }
