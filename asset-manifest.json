@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/naqel-client/static/css/main.4c414e65.chunk.css",
-    "main.js": "/naqel-client/static/js/main.ffbd26b9.chunk.js",
-    "main.js.map": "/naqel-client/static/js/main.ffbd26b9.chunk.js.map",
-    "runtime-main.js": "/naqel-client/static/js/runtime-main.9cad4e23.js",
-    "runtime-main.js.map": "/naqel-client/static/js/runtime-main.9cad4e23.js.map",
-    "static/js/2.4e935cca.chunk.js": "/naqel-client/static/js/2.4e935cca.chunk.js",
-    "static/js/2.4e935cca.chunk.js.map": "/naqel-client/static/js/2.4e935cca.chunk.js.map",
-    "index.html": "/naqel-client/index.html",
-    "precache-manifest.5696ec3d9ddf78cf562cf9144a3932bc.js": "/naqel-client/precache-manifest.5696ec3d9ddf78cf562cf9144a3932bc.js",
-    "service-worker.js": "/naqel-client/service-worker.js",
-    "static/css/main.4c414e65.chunk.css.map": "/naqel-client/static/css/main.4c414e65.chunk.css.map",
-    "static/js/2.4e935cca.chunk.js.LICENSE": "/naqel-client/static/js/2.4e935cca.chunk.js.LICENSE"
+    "main.css": "/WOW/static/css/main.4c414e65.chunk.css",
+    "main.js": "/WOW/static/js/main.ffbd26b9.chunk.js",
+    "main.js.map": "/WOW/static/js/main.ffbd26b9.chunk.js.map",
+    "runtime-main.js": "/WOW/static/js/runtime-main.c7891f7b.js",
+    "runtime-main.js.map": "/WOW/static/js/runtime-main.c7891f7b.js.map",
+    "static/js/2.4348e11a.chunk.js": "/WOW/static/js/2.4348e11a.chunk.js",
+    "static/js/2.4348e11a.chunk.js.map": "/WOW/static/js/2.4348e11a.chunk.js.map",
+    "index.html": "/WOW/index.html",
+    "precache-manifest.ddab17b84fd63798665fdf71ee69cc19.js": "/WOW/precache-manifest.ddab17b84fd63798665fdf71ee69cc19.js",
+    "service-worker.js": "/WOW/service-worker.js",
+    "static/css/main.4c414e65.chunk.css.map": "/WOW/static/css/main.4c414e65.chunk.css.map",
+    "static/js/2.4348e11a.chunk.js.LICENSE": "/WOW/static/js/2.4348e11a.chunk.js.LICENSE"
   },
   "entrypoints": [
-    "static/js/runtime-main.9cad4e23.js",
-    "static/js/2.4e935cca.chunk.js",
+    "static/js/runtime-main.c7891f7b.js",
+    "static/js/2.4348e11a.chunk.js",
     "static/css/main.4c414e65.chunk.css",
     "static/js/main.ffbd26b9.chunk.js"
   ]
