@@ -11,7 +11,6 @@ class AddTruck extends Component {
         super(props);
 
         this.state = {
-            Show: this.props.Show,
         };
 
         this.onChange = this.onChange.bind(this);
@@ -36,9 +35,9 @@ class AddTruck extends Component {
     render() {
         return (
             <div>
-                <div class="modal in" style={this.state.Show ? { display: "block", paddingRight: "17px", } : { display: "none", paddingRight: "17px", }}>
+                <div div class="modal in" tabindex="-1" role="dialog" aria-labelledby="modal-sample-label" aria-hidden="true" style={{ display: "block" }}>
                     <div class="modal-dialog">
-                        <div class="modal-content animated fadeIn">
+                        <div class="modal-content">
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div>
                                     <img alt="add.png" src="./images/add.png" height="60" />
@@ -49,20 +48,18 @@ class AddTruck extends Component {
                                         <label class="control-label">Confirmation Code</label>
                                         <input type="text" name="ConfirmCode" class="form-control" autocomplete="off"
                                             value={this.state.ConfirmCode} onChange={this.onChange} />
-                                        <span class="text-danger">{this.state.Errors["ConfirmCode"]}</span>
+                                        <span class="text-danger">Hello</span>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-default" onClick={e => { this.setState({ Show: false, }) }}>Cancel</button>
+                                    <button class="btn btn-default" onClick={this.props.OnAddTruckPopupRemove}>Cancel</button>
                                     <input type="submit" value="Confirm" class="btn btn-primary" disabled={!this.state.ValidForm} />
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-
-                {this.state.MessageBox}
-            </div>
+                </div>
         );
     }
 };

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
+import ProfilePhoto from "./ProfilePhoto";
 
 class Profile extends Component {
     constructor() {
@@ -56,20 +57,70 @@ class Profile extends Component {
     render() {
         return (
             <div>
-                <div style={{ padding: "20px", backgroundColor: "#202020", }}>
+                <div class="jumbotron theme-default">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-12">
-                                <img class="animated slideInUp" src="./images/driver.png" alt="profile.jpg" height="60" />
-                                <div class="type-h3 animated slideInUp" style={{ paddingTop: "10px", color: "#008575" }}>
-                                    {`${this.state.FirstName} ${this.state.LastName}`}
-                                </div>
-                                <div class="type-sh3 animated slideInUp" style={{ color: "white" }}>
+                            <div class="col-md-6">
+                                <ProfilePhoto />
+                            </div>
+                            <div class="col-md-18">
+                                <div class="type-h3" style={{ color: "#008575" }}>
+                                    {this.state.FirstName + " " + this.state.LastName}
+                                    </div>
+                                <div class="type-sh3">
                                     <span class="fa fa-car"></span>   Driver
                                     </div>
-                                <div class="type-sh5 animated slideInUp" style={{ color: "white" }}>
-                                    {this.state.Email}
-                                </div>
+                                <div>
+                                    <ol class="list-items theme-alt">
+                                        <li class="list-items-row">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <strong><span class="fa fa-id-card" style={{ color: "#008575" }}></span></strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a style={{ textDecoration: "none", }}>Username:</a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {this.state.Username}
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-items-row">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <strong><span class="fa fa-envelope" style={{ color: "#008575", }}></span></strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a style={{ textDecoration: "none", }}>Email:</a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {this.state.Email}
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-items-row">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <strong><span class="fa fa-phone" style={{ color: "#008575" }}></span></strong>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a style={{ textDecoration: "none", }}>Phone Number:</a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {this.state.PhoneNumber}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="btn-group">
+                                <button class="btn btn-primary" href="#">Driving Licence</button>
+                                <button class="btn btn-primary" href="#">Exit/Entry</button>
+                                <button class="btn btn-primary" href="#">Identity Card</button>
+                                <button class="btn btn-primary" href="#">Permit Licence</button>
                             </div>
                         </div>
                     </div>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TabMenu } from "../styles/TabStyles";
 
 import Profile from "./Profile";
+import NoTruck from "./NoTruck";
 import Trucks from "./Trucks";
 import Permits from "./Permits";
 import FinancialAffairs from "./FinancialAffairs";
@@ -33,7 +34,7 @@ class Dashboard extends Component {
                             <Profile />
                         </div>
                         <div role="tabpanel" class="tab-pane" id="trucks">
-                            <Trucks />
+                            <NoTruck />
                         </div>
                         <div role="tabpanel" class="tab-pane" id="permits">
                             <Permits />

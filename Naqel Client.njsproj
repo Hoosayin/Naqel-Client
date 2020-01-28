@@ -65,6 +65,7 @@
     <Content Include="public\images\create_back.jpg" />
     <Content Include="public\images\create_event_back.jpg" />
     <Content Include="public\images\dashboard_back.png" />
+    <Content Include="public\images\defaultProfilePhoto.png" />
     <Content Include="public\images\delete_back.jpg" />
     <Content Include="public\images\driver.png" />
     <Content Include="public\images\edit_admin_back.jpg" />
@@ -182,6 +183,7 @@
     <Content Include="src\components\AccountSetup.js" />
     <Content Include="src\components\AddTruck.js" />
     <Content Include="src\components\BackToTop.js" />
+    <Content Include="src\components\ProfilePhoto.js" />
     <Content Include="src\components\CodeConfirmation.js" />
     <Content Include="src\components\Congratulations.js" />
     <Content Include="src\components\Dashboard.js" />
