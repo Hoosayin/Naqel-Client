@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
 import ProfilePhoto from "./ProfilePhoto";
+import WarningAlert from "./WarningAlert";
 
 class Profile extends Component {
     constructor() {
@@ -16,6 +17,7 @@ class Profile extends Component {
             Gender: "",
             Nationality: "",
             DateOfBirth: "",
+            WarningAlert: null,
             Errors: {}
         };
     }
@@ -54,17 +56,31 @@ class Profile extends Component {
         }
     }
 
+    onImageUploaded = message => {
+        if (message) {
+            this.setState({
+                WarningAlert: (<WarningAlert Message={message} OnClose={this.onImageUploaded} />)
+            });
+        }
+        else {
+            this.setState({
+                WarningAlert: null
+            });
+        }
+    }
+
     render() {
         return (
             <div>
+                {this.state.WarningAlert}
                 <div class="jumbotron theme-default">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
-                                <ProfilePhoto />
+                                <ProfilePhoto OnImageUploaded={this.onImageUploaded} />
                             </div>
                             <div class="col-md-18">
-                                <div class="type-h3" style={{ color: "#008575" }}>
+                                <div class="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
                                     {this.state.FirstName + " " + this.state.LastName}
                                     </div>
                                 <div class="type-sh3">

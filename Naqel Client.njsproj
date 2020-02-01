@@ -183,6 +183,9 @@
     <Content Include="src\components\AccountSetup.js" />
     <Content Include="src\components\AddTruck.js" />
     <Content Include="src\components\BackToTop.js" />
+    <Content Include="src\components\NoTruck.js" />
+    <Content Include="src\components\ImageUploader.js" />
+    <Content Include="src\components\WarningAlert.js" />
     <Content Include="src\components\ProfilePhoto.js" />
     <Content Include="src\components\CodeConfirmation.js" />
     <Content Include="src\components\Congratulations.js" />

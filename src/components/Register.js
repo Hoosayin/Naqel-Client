@@ -228,9 +228,7 @@ class Register extends Component {
                     <div class="modal-dialog">
                         <div class="modal-content animated fadeIn">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="modal-sample-label">
-                                    Terms of Use
-                    </h4>
+                                <h4 class="modal-title" id="modal-sample-label">Terms of Use</h4>
                             </div>
                             <div class="modal-body text-justify">
                                 Your privacy is important to us. <span>{Strings.APP_NAME}</span>'s Privacy Statement describes the types of data we collect from you, how we use your Data, and the legal bases we have to process your Data. The Privacy Statement also describes how {String.APP_NAME} uses your content, which is information submitted by you to {Strings.APP_NAME} via the Services. Where processing is based on consent and to the extent permitted by law, by agreeing to these Terms, you consent to {Strings.APP_NAME}’ collection, use and disclosure of your content and data as described in the privacy statement. In some cases, we will provide separate notice and request your consent as referenced in the privacy statement.

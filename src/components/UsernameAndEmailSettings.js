@@ -91,7 +91,7 @@ class UsernameAndEmailSettings extends Component {
                     break;
                 }
 
-                await axios.post("users/validateUsername", {
+                await axios.post("https://naqelserver.azurewebsites.net/users/validateUsername", {
                     Username: value,
                 })
                     .then(res => {
@@ -124,7 +124,7 @@ class UsernameAndEmailSettings extends Component {
                     break;
                 }
 
-                await axios.post("users/validateEmail", {
+                await axios.post("https://naqelserver.azurewebsites.net/users/validateEmail", {
                     Email: value,
                 })
                     .then(res => {

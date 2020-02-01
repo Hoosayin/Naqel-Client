@@ -59,7 +59,7 @@ class PasswordSettings extends Component {
 
         switch (field) {
             case "CurrentPassword":
-                await axios.post("users/validatePassword", {
+                await axios.post("https://naqelserver.azurewebsites.net/users/validatePassword", {
                     DriverID: jwt_decode(localStorage.userToken).DriverID,
                     Password: value,
                 })

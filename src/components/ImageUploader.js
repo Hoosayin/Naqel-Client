@@ -1,43 +1,37 @@
 import React, { Component } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { uploadDriverProfilePhoto } from "./DriverFunctions";
 import Strings from "../res/strings";
 
-class ProfilePhoto extends Component {
+class ImageUploader extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             Image: null,
-            ImageURL: "./images/defaultProfilePhoto.png",
             DriverID: null,
-            ImageCategory: "ProfilePicture",
             UploadProgress: null,
         };
+
         this.onImageUpload = this.onImageUpload.bind(this);
     }
 
     componentDidMount() {
-        const decoded = jwt_decode(localStorage.userToken);
-
-        this.setState({
-            ImageURL: decoded.ProfilePhotoURL,
-        });
-
-        this.setState({
-            DriverID: decoded.DriverID,
-        });
+        if (localStorage.userToken) {
+            const decoded = jwt_decode(localStorage.userToken);
+            this.setState({
+                DriverID: decoded.DriverID,
+            });
+        }
     }
 
     onImageUpload = event => {
         this.state.Image = event.target.files[0];
-        console.log(this.state.Image);
         const formData = new FormData();
 
         try {            
             formData.append("DriverID", this.state.DriverID);
-            formData.append("ImageCategory", this.state.ImageCategory);
+            formData.append("ImageCategory", this.props.ImageCategory);
             formData.append("Image", this.state.Image, this.state.Image.name);
         }
         catch (exception) {
@@ -62,37 +56,19 @@ class ProfilePhoto extends Component {
                     ),
                 });
             }
-        })
-            .then(async response => {
-                response = response.data;
-                console.log(response);
+        }).then(async response => {
+            this.props.OnImageUploaded(response.data);
 
-                if (response.message === "Image uploaded successfully.") {
-                    const driverProfilePhoto = {
-                        DriverID: this.state.DriverID,
-                        URL: response.imageUrl,
-                        FileName: response.filename
-                    }
-
-                    await uploadDriverProfilePhoto(driverProfilePhoto)
-                        .then(res => {
-                            if (res === "Driver's profile photo is updated." ||
-                                res === "Driver's profile photo is added.") {
-                                this.setState({
-                                    ImageURL: response.imageUrl,
-                                    UploadProgress: null,
-                                });
-                            }
-                        }); 
-                }
-            })
-            .catch(() => {
-                this.props.OnImageUploaded("Invalid Image.");
-                this.setState({
-                    ImageURL: "./images/defaultProfilePhoto.png",
-                    UploadProgress: null,
-                });
+            this.setState({
+                UploadProgress: null,
             });
+        }).catch((error) => {
+            this.props.OnImageUploaded(error);
+
+            this.setState({
+                UploadProgress: null,
+            });
+        });
     }
 
     onSubmit = async e => {
@@ -105,15 +81,15 @@ class ProfilePhoto extends Component {
                 <input type="file" onChange={this.onImageUpload} style={{ display: "none", }} ref={fileInput => this.fileInput = fileInput} />
                 <figure class="media">
                     <div class="media-img media-img-has-play ratio-movie" style={{
-                        width: "200px",
-                        height: "200px",
+                        width: this.props.Width,
+                        height: this.props.Height,
                         border: "0px",
                         padding: "0px",
                         border: "5px solid #3A3A3C"
                     }}>
                         <a href="#" onClick={() => this.fileInput.click()}>
                             <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                src={this.state.ImageURL} alt="ProfilePhoto.png" />
+                                src={this.props.Source} alt="dafault-image.png" />
                             <i class="glyph glyph-edit"></i>
                         </a>
                     </div>
@@ -125,4 +101,4 @@ class ProfilePhoto extends Component {
     }
 };
 
-export default ProfilePhoto;
+export default ImageUploader;

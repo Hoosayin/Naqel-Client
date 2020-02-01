@@ -15,7 +15,7 @@ import Footer from "./components/Footer";
 class App extends Component {
     render() {
         return (
-            <HashRouter basename="/">
+            <Router basename="/">
                 <div className="App">
                     <Header />
                     <Route exact path="/" component={Landing} />
@@ -28,7 +28,7 @@ class App extends Component {
                     <BackToTop />
                     <Footer />
                 </div>
-            </HashRouter>
+            </Router>
         );
     }
 }
