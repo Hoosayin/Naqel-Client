@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import jwt_decode from "jwt-decode";
 import AddTruck from "./AddTruck";
 
 class NoTruck extends Component {
@@ -13,10 +14,18 @@ class NoTruck extends Component {
         this.onAddTruckDialogRemove = this.onAddTruckDialogRemove.bind(this);
     }
 
+    componentDidUpdate() {
+        const driver = jwt_decode(localStorage.userToken);
+
+        if (driver.Truck) {
+            this.props.OnTruckUpdated();
+        }
+    }
+
     onAddTruckDialogRemove = () => {
         this.setState({
             AddTruck: null,
-        });
+        });        
     }
 
     onAddTruckDialogCreate = () => {

@@ -91,7 +91,7 @@ class Profile extends Component {
                                         <li class="list-items-row">
                                             <div class="row">
                                                 <div class="col-md-2">
-                                                    <strong><span class="fa fa-id-card" style={{ color: "#008575" }}></span></strong>
+                                                    <strong><span class="fa fa-at" style={{ color: "#008575" }}></span></strong>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <a style={{ textDecoration: "none", }}>Username:</a>
@@ -152,7 +152,7 @@ class Profile extends Component {
                                     <li class="list-items-row">
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <strong><span class="fa fa-id-card" style={{ color: "#008575" }}></span></strong>
+                                                <strong><span class="fa fa-at" style={{ color: "#008575" }}></span></strong>
                                             </div>
                                             <div class="col-md-4">
                                                 <a style={{ textDecoration: "none", }}>Username:</a>

@@ -1,28 +1,58 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Landing extends Component {
     render() {
         return (
             <div>
-                <div>
-                    <div class="jumbotron" style={{ width: "100%", backgroundColor: "#3A3A3C" }}>
+                <div id="slider">
+                    <div class="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 col-md-push-12 text-center">
                                     <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                        alt="truck.png" src="./images/truck.png" style={{ borderRadius: "50%" }} data-source-index="1" />
+                                        alt="truck.png" src="./images/truck.png" data-source-index="2" />
                                 </div>
                                 <div class="col-md-12 col-md-pull-12">
-                                    <div class="type-h3" style={{ color: "#25AAE1", }}>
-                                        Transport Jobs
+                                    <div class="type-h3" style={{ color: "#008575", }}>Weclome to Naqel</div>
+                                    <div class="type-sh3" style={{ color: "#949496", }}>Transport Services On-The-Go</div>
+                                    <p style={{ color: "#D1D2D4", }}>Welcome to Naqel! If you are a trader or a broker, and you want to publish job opportunities for drivers nearby, well, you are on the right place. Naqel is a mediator among traders, brokers and drivers, and provides intuitive and secure way to get transport services.</p>
+                                    <p style={{ color: "#D1D2D4", }}>Not a Trader or a Broker? No worries! Naqel provides services for drivers too. If you are a driver, and you are searching for job opportunities, you are just one step away. Create your account on our Web Service, and we will notify you job oppprtunities on your personal account.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                                    <div class="type-sh3" style={{ color: "#949496", }}>
-                                        Transport Services On-The-Go!
+                    <div class="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#16171F" }}>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12 col-md-push-12 text-center">
+                                    <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
+                                        alt="oath.png" src="./images/oath.png" data-source-index="2" />
+                                </div>
+                                <div class="col-md-12 col-md-pull-12">
+                                    <div class="type-h3" style={{ color: "#008575", }}>Privacy</div>
+                                    <div class="type-sh3" style={{ color: "#949496", }}>Your Privacy is Important to Us</div>
+                                    <p style={{ color: "#D1D2D4", }}>Naqel's Privacy Statement describes the types of data we collect from you, how we use your data, and the legal bases we have to process your data. The Privacy Statement also describes how Naqel uses your content, which is information submitted by you to Naqel via the Services.</p>
+                                    <p style={{ color: "#D1D2D4", }}>Where processing is based on consent and to the extent permitted by law, by agreeing to these Terms, you consent to Naqel's collection, use and disclosure of your content and data as described in the privacy statement.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                                    <p style={{ color: "#D1D2D4", }}>Morbi porta elit vel ante tempus, vel fringilla augue tincidunt. Donec vehicula lorem velit, at pulvinar purus maximus at. Sed id libero interdum, pellentesque magna eu, varius ex. Morbi quis leo consequat, tempor massa ut, gravida enim. Nam a neque in turpis dapibus varius ut ut tortor. Cras sagittis massa nisi. Aliquam mollis, lectus molestie finibus vulputate, neque sem posuere tellus, eu dapibus erat massa id tortor. Vivamus sed dictum sapien, et tristique odio. Quisque ac ligula viverra, sollicitudin sapien in, sollicitudin est. Cras ultrices malesuada porttitor. Nunc non enim eget eros gravida sodales.</p>
-                                    <h4 style={{ fontWeight: "bold", color: "#D1D2D4", }}>
-                                        SABER MAIS
-                    </h4>
+                    <div class="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#00201C" }}>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12 col-md-push-12 text-center">
+                                    <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
+                                        alt="account.png" src="./images/account.png" data-source-index="2" />
+                                </div>
+                                <div class="col-md-12 col-md-pull-12">
+                                    <div class="type-h3" style={{ color: "#008575", }}>User Accounts</div>
+                                    <div class="type-sh3" style={{ color: "#949496", }}>Signup and/or Login</div>
+                                    <p style={{ color: "#D1D2D4", }}>Do you want to use our services right now? No Worries! Just signup by filling up precise forms and/or login to your profile. Drivers can view job opprotunities on their dashboards. Traders and/or Brokers can post job requests for freight from thier accounts.</p>
+                                    <div class="btn-group">
+                                        <Link to="/register" class="btn btn-secondary">Signup</Link>
+                                        <Link to="/login" class="btn btn-primary">Login</Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -35,15 +65,15 @@ class Landing extends Component {
                             <div class="col-md-24 text-center">
                                 <div class="row section-gallery">
                                     <div class="col-md-8">
-                                        <h4 style={{ fontWeight: "bold", }}>LOCALIZAÇÃO</h4>
+                                        <h4 style={{ fontWeight: "bold", }}>LOCATION</h4>
                                         <div class="type-p1 text-center">
-                                            Centro
+                                            Wah
                             <br />
-                                            Rio De Janeiro, Brasil
+                                            Punjab, Pakistan
                         </div>
                                     </div>
                                     <div class="col-md-8">
-                                        <h4 style={{ fontWeight: "bold", }}>AO REDOR DO GLOBO</h4>
+                                        <h4 style={{ fontWeight: "bold", }}>AROUND THE GLOBE</h4>
                                         <div class="type-p1 text-center text-light" style={{ color: "#25AAE1", }}>
                                             <a class="fa" href="#">
                                                 <i class="fab fa-fw fa-facebook-f"></i>
@@ -57,8 +87,8 @@ class Landing extends Component {
                                         </div>
                                     </div>
                                     <div class="col-md-8">
-                                        <h4 style={{ fontWeight: "bold", }}>SOBRE NOS</h4>
-                                        <div class="type-p1 text-center">"Transport Jobs" e criado por Core Infinite. Para obter mais informacoes, visite <a style={{ textDecoration: "none", color: "#25AAE1", }} href="#" class="color-type-accent">coreinfinte.com</a></div>
+                                        <h4 style={{ fontWeight: "bold", }}>CONTACT US</h4>
+                                        <div class="type-p1 text-center">Naqel is created by Core Infinite. For more information, visit <a style={{ textDecoration: "none", color: "#008575", }} href="#" class="color-type-accent">coreinfinte.com</a></div>
                                     </div>
                                 </div>
                             </div>

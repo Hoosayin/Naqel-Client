@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import jwt_decode from "jwt-decode"; 
 import { Required } from "../styles/MiscellaneousStyles";
 
 import {
@@ -30,7 +31,9 @@ class EmailConfirmation extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        if (isNaN(this.state.ConfirmationCode)) {
+        const code = jwt_decode(localStorage.newCredentialsToken).Code; 
+
+        if (this.state.ConfirmationCode === "") {
 
             this.setState({
                 NullError: true,
@@ -39,7 +42,7 @@ class EmailConfirmation extends Component {
 
             return;
         }
-        else if (this.state.ConfirmationCode != 12345) {
+        else if (this.state.ConfirmationCode != code) {
 
             this.setState({
                 NullError: false,
@@ -77,7 +80,7 @@ class EmailConfirmation extends Component {
                                 <div class="form-group">
                                     <label htmlFor="ConfirmationCode" class="control-label">Confirmation Code</label>
                                     <span class="text-danger" style={Required}>*</span>
-                                    <input htmlFor="ConfirmationCode" type="number" name="ConfirmationCode" class="form-control"
+                                    <input htmlFor="ConfirmationCode" type="text" name="ConfirmationCode" class="form-control"
                                         value={this.state.ConfirmationCode} onChange={this.onChange} />
                                 </div>
                                 <div class="form-group">

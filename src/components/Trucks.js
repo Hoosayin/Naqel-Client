@@ -1,28 +1,56 @@
 import React, { Component } from "react";
+import jwt_decode from "jwt-decode";
+import Truck from "./Truck";
+import NoTruck from "./NoTruck";
 
 class Trucks extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            Truck: <NoTruck OnTruckUpdated={this.onTruckUpdated} />
+        };
+
+        this.onTruckUpdated = this.onTruckUpdated.bind(this);
+    }
+
+    componentDidMount() {
+        if (localStorage.userToken) {
+            const driver = jwt_decode(localStorage.userToken);
+
+            if (driver.Truck) {
+                this.setState({
+                    Truck: <Truck OnTruckUpdated={this.onTruckUpdated} />
+                });
+            }
+        }
+    }
+
+    onTruckUpdated = () => {
+        const driver = jwt_decode(localStorage.userToken);
+
+        if (driver.Truck) {
+            this.setState({
+                Truck: null
+            });
+            this.setState({
+                Truck: <Truck OnTruckUpdated={this.onTruckUpdated} />
+            });
+        }
+        else {
+            this.setState({
+                Truck: null
+            });
+            this.setState({
+                Truck: <NoTruck OnTruckUpdated={this.onTruckUpdated} />
+            });
+        }
+    }
+
     render() {
         return (
             <div>
-                <div style={{ padding: "20px", backgroundColor: "#175D76", }}>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <img src="./images/trucks.png" height="60" />
-                                <div class="type-h3" style={{ paddingTop: "10px", color: "white", }}>
-                                    Truck
-                                    </div>
-                                <div class="type-sh3" style={{ color: "white", }}>
-                                    Manage Your Truck
-                                    </div>
-                                <div class="btn-group">
-                                    <a class="btn btn-primary">Add New</a>
-                                    <a class="btn btn-primary">Edit</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {this.state.Truck}
             </div>
         );
     }

@@ -108,7 +108,7 @@ export const uploadDriverProfilePhoto = async driverProfilePhoto => {
 
 // POST: AddTruck
 export const addTruck = async newTruck => {
-    return await axios.put(`${Strings.NAQEL_SERVER}users/dashboard/addTruck`, {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/addTruck`, {
         Token: newTruck.Token,
         PlateNumber: newTruck.PlateNumber,
         Owner: newTruck.Owner,
@@ -118,6 +118,32 @@ export const addTruck = async newTruck => {
         Type: newTruck.Type,
         MaximumWeight: newTruck.MaximumWeight,
         PhotoURL: newTruck.PhotoURL
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: UpdateTruckPhoto
+export const updateTruckPhoto = async updatedTruck => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/updateTruckPhoto`, {
+        Token: updatedTruck.Token,
+        PhotoURL: updatedTruck.PhotoURL
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: UpdateTruck
+export const updateTruck = async updatedTruck => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/updateTruck`, {
+        Token: updatedTruck.Token,
+        PlateNumber: updatedTruck.PlateNumber,
+        Owner: updatedTruck.Owner,
+        ProductionYear: updatedTruck.ProductionYear,
+        Brand: updatedTruck.Brand,
+        Model: updatedTruck.Model,
+        Type: updatedTruck.Type,
+        MaximumWeight: updatedTruck.MaximumWeight
     }).then(res => {
         return res.data;
     });

@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import axios from "axios";
-import jwt_decode from "jwt-decode";
 import { addTruck } from "./DriverFunctions";
 import MessageBox from "./MessageBox";
-import jsonWebToken from "jsonwebtoken";
 import { Required } from "../styles/MiscellaneousStyles";
 import ImageUploader from "./ImageUploader";
 
@@ -32,6 +28,7 @@ class AddTruck extends Component {
             ValidPhotoURL: false,
 
             ValidForm: false,
+            MessageBox: null,
 
             Errors: {
                 PlateNumber: "",
@@ -48,6 +45,7 @@ class AddTruck extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.validateField = this.validateField.bind(this);
+        this.onInvalidImageSelected = this.onInvalidImageSelected.bind(this);
         this.onImageUploaded = this.onImageUploaded.bind(this);
     }
 
@@ -133,8 +131,29 @@ class AddTruck extends Component {
         });
     }
 
+    onInvalidImageSelected = () => {
+        this.validateField("PhotoURL", null);
+    }
+
+    onImageUploaded = response => {
+        if (response.message === "Image uploaded successfully.") {
+            this.setState({
+                PhotoURL: response.imageUrl
+            });
+
+            this.validateField("PhotoURL", this.state.PhotoURL);
+        }
+        else {
+            this.validateField("PhotoURL", null);
+        }
+    }
+
     onSubmit = async event => {
         event.preventDefault();
+
+        if (!this.state.ValidForm) {
+            return;
+        }
 
         const newTruck = {
             Token: localStorage.getItem("userToken"),
@@ -149,31 +168,17 @@ class AddTruck extends Component {
         }
 
         await addTruck(newTruck)
-            .then(res => {
-                if (res === "Driver is updated.") {
-                    let decodedToken = jwt_decode(localStorage.userToken);
-                    decodedToken["Password"] = this.state.Password;
-                    let token = jsonWebToken.sign(decodedToken, "mysecret");
-                    localStorage.setItem("userToken", token);
-
+            .then(response => {
+                if (response.Message === "Driver's truck is added.") {
+                    localStorage.setItem("userToken", response.Token);
+                    this.props.OnAddTruckDialogRemove();
+                }
+                else {
                     this.setState({
-                        MessageBox: (<MessageBox Message="Settings saved successfully." Show={true} />),
+                        MessageBox: (<MessageBox Message="Truck Not Added." Show={true} />),
                     });
                 }
             });
-    }
-
-    onImageUploaded(response) {
-        if (response.message === "Image uploaded successfully.") {
-            this.setState({
-                PhotoURL: response.imageUrl
-            });
-
-            this.validateField("PhotoURL", this.state.PhotoURL);
-        }
-        else {
-            this.validateField("PhotoURL", null);
-        }
     }
 
     render() {
@@ -195,8 +200,10 @@ class AddTruck extends Component {
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <ImageUploader Source={this.state.PhotoURL} Height="220px"
-                                                    Width="220px" OnImageUploaded={this.onImageUploaded} ImageCategory="Truck" />
-                                                <span class="text-danger">{this.state.Errors["PhotoURL"]}</span>
+                                                    Width="220px" OnImageUploaded={this.onImageUploaded} OnInvalidImageSelected={this.onInvalidImageSelected} ImageCategory="Truck" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="text-danger">{this.state.Errors["PhotoURL"]}</label>
                                             </div>
                                         </div>
                                         <div class="col-md-12">                                          
@@ -260,6 +267,7 @@ class AddTruck extends Component {
                         </p>
                     </div>
                 </div>
+                {this.state.MessageBox}
             </div>             
         );
     }

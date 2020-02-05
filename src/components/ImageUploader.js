@@ -27,6 +27,16 @@ class ImageUploader extends Component {
 
     onImageUpload = event => {
         this.state.Image = event.target.files[0];
+
+        if (this.state.Image) {
+            let mimeType = this.state.Image.type;
+
+            if (!mimeType.startsWith("image")) {
+                this.props.OnInvalidImageSelected();
+                return;
+            }
+        }
+
         const formData = new FormData();
 
         try {            

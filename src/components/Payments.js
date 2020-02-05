@@ -18,10 +18,6 @@ class Payments extends Component {
                                 <div class="type-sh3" style={{ color: "#949496", }}>
                                     Under-Construction
                     </div>
-                                <p style={{ color: "#D1D2D4", }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis placerat sollicitudin dui mollis imperdiet. Nam fringilla sed odio sit amet luctus. In hac habitasse platea dictumst. Nunc non nulla in quam porttitor pretium eget congue metus. Morbi volutpat nisl ut urna interdum mollis. Cras pretium nisi vel neque vulputate, a luctus purus dictum. Mauris non mauris semper, consectetur nisi id, lacinia libero. Curabitur ante diam, viverra at sagittis quis, ullamcorper quis felis. Curabitur maximus tellus non sagittis finibus. Nullam ut dolor tincidunt nisi fermentum suscipit. Maecenas eleifend lorem sit amet massa tristique facilisis. Nunc varius velit et magna suscipit gravida. Phasellus lobortis congue magna ut iaculis. Sed sodales ut tortor a interdum. Maecenas sagittis augue augue, eu sollicitudin libero volutpat eu. Phasellus tempor lobortis gravida</p>
-                                <h4 style={{ fontWeight: "bold", color: "#006F61", }}>
-                                    SABER MAIS
-                    </h4>
                             </div>
                         </div>
                     </div>
