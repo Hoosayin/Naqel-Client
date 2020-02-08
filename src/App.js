@@ -8,7 +8,8 @@ import Register from "./components/register/Register";
 import EmailConfirmation from "./components/register/EmailConfirmation";
 import AccountSetup from "./components/register/AccountSetup";
 import Congratulations from "./components/register/Congratulations";
-import Dashboard from "./components/driver/dashboard/Dashboard";
+import Dashboard from "./components/users/dashboard/Dashboard";
+import TraderDashboard from "./components/users/dashboard/TraderDashboard"
 import BackToTop from "./controls/BackToTop";
 import Footer from "./components/shared/Footer";
 
@@ -25,6 +26,7 @@ class App extends Component {
                     <Route exact path="/congratulations" component={Congratulations} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/dashboard" component={Dashboard} />
+                    <Route exact path="/traderdashboard" component={TraderDashboard} />
                     <BackToTop />
                     <Footer />
                 </div>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { accountSetup } from "../driver/DriverFunctions";
+import { accountSetup } from "../users/DriverFunctions";
+import { TraderAccountSetup } from "../users/TraderFunctions"
 import { Required } from "../../styles/MiscellaneousStyles";
 import jwt_decode from "jwt-decode";
 
@@ -76,12 +77,24 @@ class AccountSetup extends Component {
             Nationality: this.state.Nationality,
         }
 
-        accountSetup(newDriver)
-            .then(res => {
-                localStorage.removeItem("verifiedCredentialsToken");
-                localStorage.setItem("IsCreatedSuccessfully", true);
-                this.props.history.push(`/congratulations`);
-            });
+  
+        if (newDriver.RegisterAs == "Driver") {
+            accountSetup(newDriver)
+                .then(res => {
+                    localStorage.removeItem("verifiedCredentialsToken");
+                    localStorage.setItem("IsCreatedSuccessfully", true);
+                    this.props.history.push(`/congratulations`);
+                });
+        }
+        if (newDriver.RegisterAs == "Trader" || newDriver.RegisterAs == "Broker") {
+            TraderAccountSetup(newDriver)
+                .then(res => {
+                    localStorage.removeItem("verifiedCredentialsToken");
+                    localStorage.setItem("IsCreatedSuccessfully", true);
+                    this.props.history.push(`/congratulations`);
+                });
+        }
+
     }
 
     render() {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { login } from "../driver/DriverFunctions";
+import { login } from "../users/DriverFunctions";
+import { traderBrokerLogin } from "../users/TraderFunctions"
 import Preloader from "../../controls/Preloader";
 
 import {
@@ -56,20 +57,41 @@ class Login extends Component {
             SignInAs: this.state.SignInAs,
         };
 
-        login(driver)
-            .then(res => {
-                if (res &&
-                    localStorage.userToken) {
-                    this.props.history.push(`/dashboard`);
-                }
-                else {
-                    this.setState({
-                        NullError: false,
-                        InvalidUsernameOrPassword: true,
-                        Preloader: null
-                    });
-                }
-            });
+
+
+        if (this.state.SignInAs == "Driver") {
+            login(driver)
+                .then(res => {
+                    if (res &&
+                        localStorage.userToken) {
+                        this.props.history.push(`/dashboard`);
+                    }
+                    else {
+                        this.setState({
+                            NullError: false,
+                            InvalidUsernameOrPassword: true,
+                            Preloader: null
+                        });
+                    }
+                });
+        }
+        else {
+            traderBrokerLogin(driver)
+                .then(res => {
+                    if (res &&
+                        localStorage.userToken) {
+                        this.props.history.push(`/traderdashboard`);
+                    }
+                    else {
+                        this.setState({
+                            NullError: false,
+                            InvalidUsernameOrPassword: true,
+                            Preloader: null
+                        });
+                    }
+                });
+        }
+
     }
 
     render() {

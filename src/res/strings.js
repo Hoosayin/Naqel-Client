@@ -4,6 +4,6 @@ module.exports = {
     USER_NOT_FOUND: "Username not found.",
     INVALID_PASSWORD: "Invalid password.",
     USERNAME_OR_EMAIL_TAKEN: "Username or email is already taken.",
-    NAQEL_SERVER: "https://naqelserver.azurewebsites.net/",
+    NAQEL_SERVER: "http://localhost:1337/", //https://naqelserver.azurewebsites.net/
     IMAGE_UPLOADER: "https://us-central1-naqel-transport-jobs.cloudfunctions.net/uploadImage"
 };

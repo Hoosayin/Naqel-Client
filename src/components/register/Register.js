@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { register } from "../driver/DriverFunctions";
+import { register } from "../users/DriverFunctions";
+import { traderRegister } from "../users/TraderFunctions"
 import Strings from "../../res/strings";
 import { Required } from "../../styles/MiscellaneousStyles";
 
@@ -115,19 +116,40 @@ class Register extends Component {
             RegisterAs: this.state.RegisterAs,
         }
 
-        register(newCredentials)
-            .then(res => {
-                if (res &&
-                    localStorage.newCredentialsToken) {
-                    this.props.history.push(`/emailConfirmation`);
-                }
-                else {
-                    this.setState({
-                        NullError: false,
-                        UsernameOrEmailTaken: true,
-                    });
-                }
-            });
+        if (newCredentials.RegisterAs == "Driver") {
+            register(newCredentials)
+                .then(res => {
+                    if (res &&
+                        localStorage.newCredentialsToken) {
+                        this.props.history.push(`/emailConfirmation`);
+                    }
+                    else {
+                        this.setState({
+                            NullError: false,
+                            UsernameOrEmailTaken: true,
+                        });
+                    }
+                });
+        }
+        else if (newCredentials.RegisterAs == "Trader" || newCredentials.RegisterAs == "Broker") {
+            traderRegister(newCredentials)
+                .then(res => {
+                    if (res &&
+                        localStorage.newCredentialsToken) {
+                        this.props.history.push(`/emailConfirmation`);
+                    }
+                    else {
+                        this.setState({
+                            NullError: false,
+                            UsernameOrEmailTaken: true,
+                        });
+                    }
+                });
+        
+    }
+
+
+
     }
 
     render() {
