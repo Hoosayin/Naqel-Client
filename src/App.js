@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { HashRouter, BrowserRouter as Router, Route } from "react-router-dom";
 
-import Header from "./components/Header";
-import Landing from "./components/Landing";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import EmailConfirmation from "./components/EmailConfirmation";
-import AccountSetup from "./components/AccountSetup";
-import Congratulations from "./components/Congratulations";
-import Dashboard from "./components/Dashboard";
-import BackToTop from "./components/BackToTop";
-import Footer from "./components/Footer";
+import Header from "./components/shared/Header";
+import Landing from "./components/landing/Landing";
+import Login from "./components/login/Login";
+import Register from "./components/register/Register";
+import EmailConfirmation from "./components/register/EmailConfirmation";
+import AccountSetup from "./components/register/AccountSetup";
+import Congratulations from "./components/register/Congratulations";
+import Dashboard from "./components/driver/dashboard/Dashboard";
+import BackToTop from "./controls/BackToTop";
+import Footer from "./components/shared/Footer";
 
 class App extends Component {
     render() {
