@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { login } from "../users/DriverFunctions";
-import { traderBrokerLogin } from "../users/TraderFunctions"
+import { traderBrokerLogin } from "../users/TraderFunctions";
 import Preloader from "../../controls/Preloader";
 
 import {
@@ -59,7 +59,8 @@ class Login extends Component {
 
 
 
-        if (this.state.SignInAs == "Driver") {
+        if (this.state.SignInAs === "Driver") {
+            console.log("logging in as Driver.");
             login(driver)
                 .then(res => {
                     if (res &&

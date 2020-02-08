@@ -40,6 +40,7 @@ export const accountSetup = newDriver => {
 
 // POST: Login
 export const login = driver => {
+    console.log("POST to /login");
     return axios.post(`${Strings.NAQEL_SERVER}users/login`, {
         EmailOrUsername: driver.EmailOrUsername,
         Password: driver.Password,
