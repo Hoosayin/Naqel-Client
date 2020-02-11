@@ -181,6 +181,7 @@
     <Content Include="README.md" />
     <Content Include="src\App.js" />
     <Content Include="src\App.js.bak" />
+    <Content Include="src\components\users\dashboard\profile\documents\drivingLicence\AddDrivingLicenceButton.js" />
     <Content Include="src\components\users\dashboard\profile\documents\drivingLicence\EditDrivingLicenceDialog.js" />
     <Content Include="src\components\users\dashboard\profile\documents\drivingLicence\AddDrivingLicenceDialog.js" />
     <Content Include="src\components\users\dashboard\profile\documents\drivingLicence\DrivingLicenceListItem.js" />

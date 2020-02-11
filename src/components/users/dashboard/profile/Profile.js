@@ -1,9 +1,10 @@
+/// <reference path= />
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
 import ProfilePhoto from "./ProfilePhoto";
 import WarningAlert from "../../../../controls/WarningAlert";
-import AddDrivingLicenceDialog from "./documents/drivingLicence/AddDrivingLicenceDialog.js";
 import DocumentsList from "./documents/DocumentsList.js";
+import AddDrivingLicenceButton from "./documents/drivingLicence/AddDrivingLicenceButton.js";
 
 class Profile extends Component {
     constructor() {
@@ -19,8 +20,9 @@ class Profile extends Component {
             Gender: "",
             Nationality: "",
             DateOfBirth: "",
+
             WarningAlert: null,
-            AddDrivingLicenceDialog: null,
+            AddDrivingLicenceButton: null,
             DocumentsList: null,
             Errors: {}
         };
@@ -65,6 +67,17 @@ class Profile extends Component {
 
     onDocumentsUpdated = () => {
         const driver = jwt_decode(localStorage.userToken);
+
+        if (driver.DrivingLicence) {
+            this.setState({
+                AddDrivingLicenceButton: null
+            });
+        }
+        else {
+            this.setState({
+                AddDrivingLicenceButton: <AddDrivingLicenceButton OnDocumentsUpdated={this.onDocumentsUpdated} />
+            });
+        }
 
         if (driver.DrivingLicence) {
             this.setState({
@@ -160,26 +173,7 @@ class Profile extends Component {
                         </div>
                         <div class="row">
                             <div class="btn-group">
-                                <button
-                                    type="button"
-                                    class="btn btn-primary"
-                                    data-toggle="modal"
-                                    data-target="#add-driving-licence-dialog"
-                                    onMouseDown={() => {
-                                        this.setState({
-                                            AddDrivingLicenceDialog: (<AddDrivingLicenceDialog
-                                                OnAddDrivingLicenceDialogRemove={() => {
-                                                    this.setState({
-                                                        AddDrivingLicenceDialog: null,
-                                                    });
-                                                }}
-                                                OnDrivingLicenceAdded={cancelButton => {
-                                                    cancelButton.click();
-                                                    // Update Profile Here to display newly Added Driving Licence.
-                                                    //this.props.OnTruckUpdated();
-                                                }} />),
-                                        });
-                                    }}>Add Driving Licence</button>
+                                {this.state.AddDrivingLicenceButton}
                                 <button class="btn btn-primary" href="#">Exit/Entry</button>
                                 <button class="btn btn-primary" href="#">Identity Card</button>
                                 <button class="btn btn-primary" href="#">Permit Licence</button>
