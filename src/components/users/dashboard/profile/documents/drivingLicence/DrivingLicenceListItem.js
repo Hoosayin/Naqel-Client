@@ -96,6 +96,9 @@ class DrivingLicenceListItem extends Component {
                         </div>
                         <div class="col-md-6">
                             <div>
+                                <span style={{ fontWeight: "bold", color: "#404040" }}>DRIVING LICENCE</span>
+                            </div>
+                            <div>
                                 <span style={{ fontWeight: "bold", color: "#404040" }}>Licence Number:</span> {this.state.LicenceNumber}
                             </div>
                             <div>
