@@ -21,7 +21,7 @@ class GeneralSettings extends Component {
             ValidLastName: true,
             ValidPhoneNumber: true,
 
-            ValidForm: true,
+            ValidForm: false,
             SettingsSaved: false,
 
             Errors: {
@@ -111,6 +111,10 @@ class GeneralSettings extends Component {
     onSubmit = e => {
         e.preventDefault();
 
+        if (!this.state.ValidForm) {
+            return;
+        }
+
         const updatedDriver = {
             DriverID: jwt_decode(localStorage.userToken).DriverID,
             FirstName: this.state.FirstName,
@@ -153,7 +157,7 @@ class GeneralSettings extends Component {
                     <div class="entity-list entity-list-expandable">
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-signature"></span>
+                                <span class="fas fa-comment"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -168,7 +172,7 @@ class GeneralSettings extends Component {
                         </div>
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-signature"></span>
+                                <span class="fas fa-comment"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -183,7 +187,7 @@ class GeneralSettings extends Component {
                         </div>
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-birthday-cake"></span>
+                                <span class="fas fa-birthday-cake"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -197,7 +201,7 @@ class GeneralSettings extends Component {
                         </div>
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class={this.state.Gender === "Male" ? "fa fa-male" : "fa fa-female"}></span>
+                                <span class={this.state.Gender === "Male" ? "fas fa-male" : "fas fa-female"}></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="dropdown" style={{ width: "193px", maxWidth: "296px", }}>
@@ -207,8 +211,8 @@ class GeneralSettings extends Component {
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                        <li><a onClick={e => { this.state.Gender = "Male" }} onChange={this.onChange}>Male</a></li>
-                                        <li><a onClick={e => { this.state.Gender = "Female" }} onChange={this.onChange}>Female</a></li>
+                                        <li><a onClick={event => { this.setState({ Gender: "Male" }); }}>Male</a></li>
+                                        <li><a onClick={event => { this.setState({ Gender: "Female" }); }}>Female</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -218,7 +222,7 @@ class GeneralSettings extends Component {
                         </div>
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-flag"></span>
+                                <span class="fas fa-flag"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -232,7 +236,7 @@ class GeneralSettings extends Component {
                         </div>
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-phone"></span>
+                                <span class="fas fa-phone"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -247,7 +251,7 @@ class GeneralSettings extends Component {
                         </div>
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-location-arrow"></span>
+                                <span class="fas fa-location-arrow"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -261,7 +265,7 @@ class GeneralSettings extends Component {
                         </div>
                         <div class="entity-list-item active">
                             <div class="item-icon">
-                                <span class="fa fa-save"></span>
+                                <span class="fas fa-save"></span>
                             </div>
                             <div class="item-content-primary">
                                 <div class="content-text-primary">Save Changes?</div>

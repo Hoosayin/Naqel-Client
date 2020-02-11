@@ -40,7 +40,7 @@ class ImageUploader extends Component {
         const formData = new FormData();
 
         try {            
-            formData.append("DriverID", this.state.DriverID);
+            formData.append("ImageID", this.state.DriverID);
             formData.append("ImageCategory", this.props.ImageCategory);
             formData.append("Image", this.state.Image, this.state.Image.name);
         }
@@ -98,8 +98,7 @@ class ImageUploader extends Component {
                         border: "5px solid #3A3A3C"
                     }}>
                         <a onClick={() => this.fileInput.click()}>
-                            <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                src={this.props.Source} alt="dafault-image.png" />
+                            <img src={this.props.Source} alt="dafault-image.png" />
                             <i class="glyph glyph-edit"></i>
                         </a>
                     </div>

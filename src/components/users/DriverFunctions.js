@@ -9,7 +9,7 @@ export const register = newCredentials => {
         Password: newCredentials.Password,
         RegisterAs: newCredentials.RegisterAs,
     }).then(res => {
-        if (res.data.localeCompare(Strings.USERNAME_OR_EMAIL_TAKEN) == 0) {
+        if (res.data.localeCompare(Strings.USERNAME_OR_EMAIL_TAKEN) === 0) {
             return res.data;
         }
         else {
@@ -46,8 +46,8 @@ export const login = driver => {
         Password: driver.Password,
         SignInAs: driver.SignInAs,
     }).then(res => {
-        if (res.data.localeCompare(Strings.USER_NOT_FOUND) == 0 ||
-            res.data.localeCompare(Strings.INVALID_PASSWORD) == 0) {
+        if (res.data.localeCompare(Strings.USER_NOT_FOUND) === 0 ||
+            res.data.localeCompare(Strings.INVALID_PASSWORD) === 0) {
             return res.data;
         }
         else {
@@ -180,6 +180,43 @@ export const updateTrailer = async updatedTrailer => {
         MaximumWeight: updatedTrailer.MaximumWeight,
         PhotoURL: updatedTrailer.PhotoURL,
         Type: updatedTrailer.Type
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: addDrivingLicence
+export const addDrivingLicence = async newDrivingLicence => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/addDrivingLicence`, {
+        Token: newDrivingLicence.Token,
+        LicenceNumber: newDrivingLicence.LicenceNumber,
+        Type: newDrivingLicence.Type,
+        ReleaseDate: newDrivingLicence.ReleaseDate,
+        ExpiryDate: newDrivingLicence.ExpiryDate,
+        PhotoURL: newDrivingLicence.PhotoURL,
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: updateDrivingLicence
+export const updateDrivingLicence = async updatedDrivingLicence => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/updateDrivingLicence`, {
+        Token: updatedDrivingLicence.Token,
+        LicenceNumber: updatedDrivingLicence.LicenceNumber,
+        Type: updatedDrivingLicence.Type,
+        ReleaseDate: updatedDrivingLicence.ReleaseDate,
+        ExpiryDate: updatedDrivingLicence.ExpiryDate,
+        PhotoURL: updatedDrivingLicence.PhotoURL,
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: deleteDrivingLicence
+export const deleteDrivingLicence = async discardedDrivingLicence => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/deleteDrivingLicence`, {
+        Token: discardedDrivingLicence.Token,
     }).then(res => {
         return res.data;
     });

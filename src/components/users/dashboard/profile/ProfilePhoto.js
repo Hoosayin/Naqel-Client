@@ -36,7 +36,7 @@ class ProfilePhoto extends Component {
         const formData = new FormData();
 
         try {            
-            formData.append("DriverID", this.state.DriverID);
+            formData.append("ImageID", this.state.DriverID);
             formData.append("ImageCategory", this.state.ImageCategory);
             formData.append("Image", this.state.Image, this.state.Image.name);
         }

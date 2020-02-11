@@ -10,7 +10,7 @@ export const traderRegister = newCredentials => {
         RegisterAs: newCredentials.RegisterAs,
     })
         .then(res => {
-            if (res.data.localeCompare(Strings.USERNAME_OR_EMAIL_TAKEN) == 0) {
+            if (res.data.localeCompare(Strings.USERNAME_OR_EMAIL_TAKEN) === 0) {
                 return res.data;
             }
             else {
@@ -48,8 +48,8 @@ export const traderBrokerLogin = driver => {
         SignInAs: driver.SignInAs,
     })
         .then(res => {
-            if (res.data.localeCompare(Strings.USER_NOT_FOUND) == 0 ||
-                res.data.localeCompare(Strings.INVALID_PASSWORD) == 0) {
+            if (res.data.localeCompare(Strings.USER_NOT_FOUND) === 0 ||
+                res.data.localeCompare(Strings.INVALID_PASSWORD) === 0) {
                 return res.data;
             }
             else {

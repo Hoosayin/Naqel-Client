@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import jwt_decode from "jwt-decode";
 import { Required } from "../../../../../styles/MiscellaneousStyles";
 import ImageUploader from "../../../../../controls/ImageUploader";
 import Preloader from "../../../../../controls/Preloader.js";

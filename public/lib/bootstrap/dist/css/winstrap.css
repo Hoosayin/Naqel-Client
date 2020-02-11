@@ -6132,7 +6132,7 @@ button.close {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale; }
 
-.fa {
+.fas {
     width: 1em;
     height: 1em;
     vertical-align: middle;
@@ -6140,7 +6140,7 @@ button.close {
     margin: 3px;
 }
 
-    .fa:before {
+    .fas:before {
         display: block;
         width: 1em;
         text-align: center;

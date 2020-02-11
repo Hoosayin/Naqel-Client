@@ -136,7 +136,7 @@ class Truck extends Component {
                                                     <strong><span class="fas fa-list-ol" style={{ color: "#008575" }}></span></strong>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <a style={{ textDecoration: "none", }}>Plate Number:</a>
+                                                    <a href="" style={{ textDecoration: "none", }}>Plate Number:</a>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {this.state.PlateNumber}

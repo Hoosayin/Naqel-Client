@@ -22,7 +22,7 @@ class UsernameAndEmailSettings extends Component {
             ValidNewUsername: true,
             ValidNewEmail: true,
 
-            ValidForm: true,
+            ValidForm: false,
             MessageBox: "",
 
             Errors: {
@@ -157,6 +157,10 @@ class UsernameAndEmailSettings extends Component {
     onSubmit = async e => {
         e.preventDefault();
 
+        if (!this.state.ValidForm) {
+            return;
+        }
+
         if (this.state.NewUsername === this.state.Username &&
             this.state.NewEmail === this.state.Email) {
             return;
@@ -215,7 +219,7 @@ class UsernameAndEmailSettings extends Component {
                     <div class="entity-list entity-list-expandable">
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-at"></span>
+                                <span class="fas fa-at"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -230,7 +234,7 @@ class UsernameAndEmailSettings extends Component {
                         </div>
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-envelope"></span>
+                                <span class="fas fa-envelope"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -245,7 +249,7 @@ class UsernameAndEmailSettings extends Component {
                         </div>
                         <div class="entity-list-item active">
                             <div class="item-icon">
-                                <span class="fa fa-save"></span>
+                                <span class="fas fa-save"></span>
                             </div>
                             <div class="item-content-primary">
                                 <div class="content-text-primary">Save Changes?</div>

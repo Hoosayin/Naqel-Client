@@ -86,8 +86,7 @@ class TrailersList extends Component {
                                         </div>
                                         <div>
                                             <span style={{ fontWeight: "bold", color: "#404040" }}>Trailer Type:</span> {value.Type}
-                                        </div>
-                                        
+                                        </div>                                      
                                     </div>
                                     <div class="col-md-6">
                                         
@@ -106,7 +105,11 @@ class TrailersList extends Component {
                                             }} />
                                     </div>
                                     <div class="col-md-4 text-right">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target={`#edit-trailer-dialog${index}`}
+                                        <button
+                                            type="button"
+                                            class="btn btn-primary"
+                                            data-toggle="modal"
+                                            data-target={`#edit-trailer-dialog${index}`}
                                             onMouseDown={() => {
                                                 let editTrailerDialogs = this.state.EditTrailerDialogs;
 

@@ -19,7 +19,7 @@ class PasswordSettings extends Component {
             ValidNewPassword: false,
             ValidConfirmPassword: false,
 
-            ValidForm: true,
+            ValidForm: false,
             MessageBox: "",
 
             Errors: {
@@ -103,6 +103,10 @@ class PasswordSettings extends Component {
     onSubmit = async e => {
         e.preventDefault();
 
+        if (!this.state.ValidForm) {
+            return;
+        }
+
         const updatedDriver = {
             DriverID: jwt_decode(localStorage.userToken).DriverID,
             Password: this.state.NewPassword,
@@ -131,7 +135,7 @@ class PasswordSettings extends Component {
                     <div class="entity-list entity-list-expandable">
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-key"></span>
+                                <span class="fas fa-key"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -146,7 +150,7 @@ class PasswordSettings extends Component {
                         </div>
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-key"></span>
+                                <span class="fas fa-key"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -161,7 +165,7 @@ class PasswordSettings extends Component {
                         </div>
                         <div class="entity-list-item">
                             <div class="item-icon">
-                                <span class="fa fa-key"></span>
+                                <span class="fas fa-key"></span>
                             </div>
                             <div class="item-content-secondary">
                                 <div class="form-group">
@@ -176,7 +180,7 @@ class PasswordSettings extends Component {
                         </div>
                         <div class="entity-list-item active">
                             <div class="item-icon">
-                                <span class="fa fa-save"></span>
+                                <span class="fas fa-save"></span>
                             </div>
                             <div class="item-content-primary">
                                 <div class="content-text-primary">Save Changes?</div>

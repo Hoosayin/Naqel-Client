@@ -37,7 +37,7 @@ class TraderBrokerProfilePhoto extends Component {
         const formData = new FormData();
 
         try {
-            formData.append("TraderID", this.state.TraderID);
+            formData.append("ImageID", this.state.TraderID);
             formData.append("ImageCategory", this.state.ImageCategory);
             formData.append("Image", this.state.Image, this.state.Image.name);
         }
