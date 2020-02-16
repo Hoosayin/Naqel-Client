@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import AddDrivingLicenceDialog from "./AddDrivingLicenceDialog.js";
+import AddIdentityCardDialog from "./AddIdentityCardDialog.js";
 
-class AddDrivingLicenceButton extends Component {
+class AddIdentityCardButton extends Component {
     constructor() {
         super();
 
         this.state = {
-            AddDrivingLicenceDialog: null,
+            AddIdentityCardDialog: null,
         };
     }
 
@@ -18,27 +18,27 @@ class AddDrivingLicenceButton extends Component {
                     class="btn btn-primary"
                     style={{ minWidth: "152px" }}
                     data-toggle="modal"
-                    data-target="#add-driving-licence-dialog"
+                    data-target="#add-identity-card-dialog"
                     onMouseDown={() => {
                         this.setState({
-                            AddDrivingLicenceDialog: (<AddDrivingLicenceDialog
-                                OnAddDrivingLicenceDialogRemove={() => {
+                            AddIdentityCardDialog: <AddIdentityCardDialog
+                                OnCancel={() => {
                                     this.setState({
-                                        AddDrivingLicenceDialog: null,
+                                        AddIdentityCardDialog: null,
                                     });
                                 }}
-                                OnDrivingLicenceAdded={cancelButton => {
+                                OnOK={cancelButton => {
                                     cancelButton.click();
                                     this.props.OnDocumentsUpdated();
-                                }} />),
+                                }} />,
                         });
                     }}>
-                    <span class="fas fa-plus" aria-hidden="true"></span> Driving Licence
+                    <span class="fas fa-plus" aria-hidden="true"></span> Identity Card
                 </button>
-                {this.state.AddDrivingLicenceDialog}
+                {this.state.AddIdentityCardDialog}
             </section>
         );
     }
 };
 
-export default AddDrivingLicenceButton;
+export default AddIdentityCardButton;

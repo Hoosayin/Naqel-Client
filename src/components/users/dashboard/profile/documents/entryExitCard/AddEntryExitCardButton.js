@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import AddDrivingLicenceDialog from "./AddDrivingLicenceDialog.js";
+import AddEntryExitCardDialog from "./AddEntryExitCardDialog.js";
 
-class AddDrivingLicenceButton extends Component {
+class AddEntryExitCardButton extends Component {
     constructor() {
         super();
 
         this.state = {
-            AddDrivingLicenceDialog: null,
+            AddEntryExitCardDialog: null,
         };
     }
 
@@ -18,27 +18,27 @@ class AddDrivingLicenceButton extends Component {
                     class="btn btn-primary"
                     style={{ minWidth: "152px" }}
                     data-toggle="modal"
-                    data-target="#add-driving-licence-dialog"
+                    data-target="#add-entry-exit-card-dialog"
                     onMouseDown={() => {
                         this.setState({
-                            AddDrivingLicenceDialog: (<AddDrivingLicenceDialog
-                                OnAddDrivingLicenceDialogRemove={() => {
+                            AddEntryExitCardDialog: (<AddEntryExitCardDialog
+                                OnCancel={() => {
                                     this.setState({
-                                        AddDrivingLicenceDialog: null,
+                                        AddEntryExitCardDialog: null,
                                     });
                                 }}
-                                OnDrivingLicenceAdded={cancelButton => {
+                                OnOK={cancelButton => {
                                     cancelButton.click();
                                     this.props.OnDocumentsUpdated();
                                 }} />),
                         });
                     }}>
-                    <span class="fas fa-plus" aria-hidden="true"></span> Driving Licence
+                    <span class="fas fa-plus" aria-hidden="true"></span> Entry/Exit Card
                 </button>
-                {this.state.AddDrivingLicenceDialog}
+                {this.state.AddEntryExitCardDialog}
             </section>
         );
     }
 };
 
-export default AddDrivingLicenceButton;
+export default AddEntryExitCardButton;

@@ -221,3 +221,69 @@ export const deleteDrivingLicence = async discardedDrivingLicence => {
         return res.data;
     });
 };
+
+// POST: addEntryExitCard
+export const addEntryExitCard = async newEntryExitCard => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/addEntryExitCard`, {
+        Token: newEntryExitCard.Token,
+        EntryExitNumber: newEntryExitCard.EntryExitNumber,
+        Type: newEntryExitCard.Type,
+        ReleaseDate: newEntryExitCard.ReleaseDate,
+        NumberOfMonths: newEntryExitCard.NumberOfMonths,
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: updateEntryExiCard
+export const updateEntryExitCard = async updatedEntryExitCard => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/updateEntryExitCard`, {
+        Token: updatedEntryExitCard.Token,
+        EntryExitNumber: updatedEntryExitCard.EntryExitNumber,
+        Type: updatedEntryExitCard.Type,
+        ReleaseDate: updatedEntryExitCard.ReleaseDate,
+        NumberOfMonths: updatedEntryExitCard.NumberOfMonths,
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: deleteEntryExitCard
+export const deleteEntryExitCard = async discardedEntryExitCard => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/deleteEntryExitCard`, {
+        Token: discardedEntryExitCard.Token,
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: addIdentityCard
+export const addIdentityCard = async newIdentityCard => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/addIdentityCard`, {
+        Token: newIdentityCard.Token,
+        IDNumber: newIdentityCard.IDNumber,
+        PhotoURL: newIdentityCard.PhotoURL,
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: updateIdentityCard
+export const updateIdentityCard = async updatedIdentityCard => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/updateIdentityCard`, {
+        Token: updatedIdentityCard.Token,
+        IDNumber: updatedIdentityCard.IDNumber,
+        PhotoURL: updatedIdentityCard.PhotoURL,
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: deleteIdentityCard
+export const deleteIdentityCard = async discardedIdentityCard => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/deleteIdentityCard`, {
+        Token: discardedIdentityCard.Token,
+    }).then(res => {
+        return res.data;
+    });
+};

@@ -1,10 +1,8 @@
-/// <reference path= />
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
 import ProfilePhoto from "./ProfilePhoto";
 import WarningAlert from "../../../../controls/WarningAlert";
 import DocumentsList from "./documents/DocumentsList.js";
-import AddDrivingLicenceButton from "./documents/drivingLicence/AddDrivingLicenceButton.js";
 
 class Profile extends Component {
     constructor() {
@@ -22,12 +20,8 @@ class Profile extends Component {
             DateOfBirth: "",
 
             WarningAlert: null,
-            AddDrivingLicenceButton: null,
-            DocumentsList: null,
             Errors: {}
         };
-
-        this.onDocumentsUpdated = this.onDocumentsUpdated.bind(this);
     }
 
     componentDidMount() {
@@ -46,8 +40,6 @@ class Profile extends Component {
                 PhoneNumber: decoded.PhoneNumber,
                 Nationality: decoded.Nationality,
             });
-
-            this.onDocumentsUpdated();
         }
         else {
             this.setState({
@@ -61,35 +53,6 @@ class Profile extends Component {
                 Gender: "",
                 Nationality: "",
                 DateOfBirth: "",
-            });
-        }
-    }
-
-    onDocumentsUpdated = () => {
-        const driver = jwt_decode(localStorage.userToken);
-
-        if (driver.DrivingLicence) {
-            this.setState({
-                AddDrivingLicenceButton: null
-            });
-        }
-        else {
-            this.setState({
-                AddDrivingLicenceButton: <AddDrivingLicenceButton OnDocumentsUpdated={this.onDocumentsUpdated} />
-            });
-        }
-
-        if (driver.DrivingLicence) {
-            this.setState({
-                DocumentsList: null
-            });
-            this.setState({
-                DocumentsList: <DocumentsList OnDocumentsUpdated={this.onDocumentsUpdated} />
-            });
-        }
-        else {
-            this.setState({
-                DocumentsList: null
             });
         }
     }
@@ -171,14 +134,6 @@ class Profile extends Component {
                                 </div> 
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="btn-group">
-                                {this.state.AddDrivingLicenceButton}
-                                <button class="btn btn-primary" href="#">Exit/Entry</button>
-                                <button class="btn btn-primary" href="#">Identity Card</button>
-                                <button class="btn btn-primary" href="#">Permit Licence</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="jumbotron theme-alt" style={{ backgroundColor: "#00221E" }}>
@@ -251,7 +206,7 @@ class Profile extends Component {
                         </div>
                     </div>
                 </div>
-                {this.state.DocumentsList}
+                <DocumentsList />
                 {this.state.AddDrivingLicenceDialog}
             </div>
         );

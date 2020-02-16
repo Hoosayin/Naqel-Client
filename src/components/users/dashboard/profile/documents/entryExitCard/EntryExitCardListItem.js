@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
-import EditDriverLicenceDialog from "./EditDrivingLicenceDialog.js";
-import { deleteDrivingLicence } from "../../../../DriverFunctions.js";
+import EditEntryExitCardDialog from "./EditEntryExitCardDialog.js";
+import { deleteEntryExitCard } from "../../../../DriverFunctions.js";
 import Preloader from "../../../../../../controls/Preloader.js";
 
-class DrivingLicenceListItem extends Component {
+class EntryExitCardListItem extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            DrivingLicenceID: "",
-            LicenceNumber: "",
-            Type: "",
+            EntryExitCardID: "",
+            EntryExitNumber: "",
+            Type: "Simple",
             ReleaseDate: "",
-            ExpiryDate: "",
-            PhotoURL: "./images/default_image.png",
-            EditDrivingLicenceDialog: null,
+            NumberOfMonths: "",
+
+            EditEntryExitCardDialog: null,
             Preloader: null
         };
 
@@ -27,15 +27,15 @@ class DrivingLicenceListItem extends Component {
             Preloader: <Preloader />
         });
 
-        const discardedDrivingLicence = {
+        const discardedEntryExitCard = {
             Token: localStorage.getItem("userToken")
         };
 
-        console.log(`Going to delete Driving Licence.`);
+        console.log(`Going to delete Exit/Entry card.`);
 
-        await deleteDrivingLicence(discardedDrivingLicence)
+        await deleteEntryExitCard(discardedEntryExitCard)
             .then(response => {
-                if (response.Message === "Driving Licence is deleted.") {
+                if (response.Message === "Entry/Exit card is deleted.") {
                     localStorage.setItem("userToken", response.Token);
                     this.props.OnDocumentsUpdated();
                 }
@@ -48,38 +48,34 @@ class DrivingLicenceListItem extends Component {
 
     componentDidMount() {
         if (localStorage.userToken) {
-            const drivingLicence = jwt_decode(localStorage.userToken).DrivingLicence;
+            const entryExitCard = jwt_decode(localStorage.userToken).EntryExitCard;
 
-            if (drivingLicence) {
+            if (entryExitCard) {
                 this.setState({
-                    DrivingLicenceID: drivingLicence.DrivingLicenceID,
-                    LicenceNumber: drivingLicence.LicenceNumber,
-                    Type: drivingLicence.Type,
-                    ReleaseDate: drivingLicence.ReleaseDate,
-                    ExpiryDate: drivingLicence.ExpiryDate,
-                    PhotoURL: drivingLicence.PhotoURL,
+                    EntryExitCardID: entryExitCard.EntryExitCardID,
+                    EntryExitNumber: entryExitCard.EntryExitNumber,
+                    Type: entryExitCard.Type,
+                    ReleaseDate: entryExitCard.ReleaseDate,
+                    NumberOfMonths: entryExitCard.NumberOfMonths,
                 });
-
-                console.log(this.state.ExpiryDate);
 
                 return;
             }
         }
 
         this.setState({
-            DrivingLicenceID: "",
-            LicenceNumber: "",
-            Type: "",
+            EntryExitCardID: "",
+            EntryExitNumber: "",
+            Type: "Simple",
             ReleaseDate: "",
-            ExpiryDate: "",
-            PhotoURL: "./images/default_image.png",
+            NumberOfMonths: "",
         });
     }
 
     render() {
         return (
             <li class="list-items-row">
-                <div data-toggle="collapse" aria-expanded="false" data-target={`#driving-licence-${this.state.DrivingLicenceID}`}>
+                <div data-toggle="collapse" aria-expanded="false" data-target={`#entry-exit-card-${this.state.EntryExitCardID}`}>
                     <div class="row">
                         <div class="col-md-2">
                             <i class="glyph glyph-add"></i>
@@ -88,7 +84,7 @@ class DrivingLicenceListItem extends Component {
                         </div>
                         <div class="col-md-4">
                             <img class="img-responsive visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                src={this.state.PhotoURL} alt="trailer.png" data-source-index="2" style={{
+                                src="./images/default_image.png" alt="trailer.png" data-source-index="2" style={{
                                     overflow: "hidden",
                                     border: "5px solid #3A3A3C",
                                     margin: "5px"
@@ -96,10 +92,10 @@ class DrivingLicenceListItem extends Component {
                         </div>
                         <div class="col-md-6">
                             <div>
-                                <span style={{ fontWeight: "bold", color: "#008575" }}>DRIVING LICENCE</span>
+                                <span style={{ fontWeight: "bold", color: "#008575" }}>ENTRY/EXIT CARD</span>
                             </div>
                             <div>
-                                <span style={{ fontWeight: "bold", color: "#404040" }}>Licence Number:</span> {this.state.LicenceNumber}
+                                <span style={{ fontWeight: "bold", color: "#404040" }}>Entry/Exit Number:</span> {this.state.EntryExitNumber}
                             </div>
                             <div>
                                 <span style={{ fontWeight: "bold", color: "#404040" }}>Licence Type:</span> {this.state.Type}
@@ -108,17 +104,17 @@ class DrivingLicenceListItem extends Component {
                                 <span style={{ fontWeight: "bold", color: "#404040" }}>Release Date:</span> {this.state.ReleaseDate}
                             </div>
                             <div>
-                                <span style={{ fontWeight: "bold", color: "#404040" }}>Expiry Date:</span> {this.state.ExpiryDate}
+                                <span style={{ fontWeight: "bold", color: "#404040" }}>Number of Months:</span> {this.state.NumberOfMonths}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="collapse" id={`driving-licence-${this.state.DrivingLicenceID}`}>
+                <div class="collapse" id={`entry-exit-card-${this.state.EntryExitCardID}`}>
                     <div class="row">
                         <div class="col-md-18 col-md-offset-2">
                             <img class="img-responsive visible-xs-inline-block visible-sm-inline-block"
-                                src={this.state.PhotoURL} alt="trailer.png" data-source-index="2" style={{
+                                src="./images/default_image.png" alt="trailer.png" data-source-index="2" style={{
                                     overflow: "hidden",
                                     border: "5px solid #3A3A3C",
                                     margin: "5px"
@@ -129,19 +125,19 @@ class DrivingLicenceListItem extends Component {
                                 type="button"
                                 class="btn btn-primary"
                                 data-toggle="modal"
-                                data-target="#edit-driving-licence-dialog"
+                                data-target="#edit-entry-exit-card-dialog"
                                 onMouseDown={() => {
                                     this.setState({
-                                        EditDrivingLicenceDialog: (<EditDriverLicenceDialog
-                                            OnDismissDialog={() => {
+                                        EditEntryExitCardDialog: <EditEntryExitCardDialog
+                                            OnCancel={() => {
                                                 this.setState({
-                                                    EditDrivingLicenceDialog: null
+                                                    EditEntryExitCardDialog: null
                                                 });
                                             }}
-                                            OnDrivingLicenceUpdated={cancelButton => {
+                                            OnOK={cancelButton => {
                                                 cancelButton.click();
                                                 this.props.OnDocumentsUpdated();
-                                            }} />)
+                                            }} />
                                     });
                                 }}>
                                 Edit
@@ -151,10 +147,10 @@ class DrivingLicenceListItem extends Component {
                     </div>
                 </div>               
                 {this.state.Preloader}
-                {this.state.EditDrivingLicenceDialog}
+                {this.state.EditEntryExitCardDialog}
             </li>        
         );
     }
 };
 
-export default DrivingLicenceListItem;
+export default EntryExitCardListItem;

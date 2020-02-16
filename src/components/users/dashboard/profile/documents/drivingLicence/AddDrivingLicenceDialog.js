@@ -137,7 +137,7 @@ class AddDrivingLicenceDialog extends Component {
 
     render() {
         return (
-            <section>
+            <section class="text-left">
                 <div class="modal" id="add-driving-licence-dialog"
                     tabindex="-1" role="dialog"
                     aria-labelledby="modal-sample-label" aria-hidden="true">
