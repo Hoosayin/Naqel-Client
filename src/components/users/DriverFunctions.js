@@ -287,3 +287,42 @@ export const deleteIdentityCard = async discardedIdentityCard => {
         return res.data;
     });
 };
+
+// POST: addPermitLicence
+export const addPermitLicence = async newPermitLicence => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/addPermitLicence`, {
+        Token: newPermitLicence.Token,
+        PermitNumber: newPermitLicence.PermitNumber,
+        ExpiryDate: newPermitLicence.ExpiryDate,
+        PhotoURL: newPermitLicence.PhotoURL,
+        Code: newPermitLicence.Code,
+        Place: newPermitLicence.Place
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: deletePermitLicence
+export const deletePermitLicence = async discardedPermitLicence => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/deletePermitLicence`, {
+        Token: discardedPermitLicence.Token,
+        PermitLicenceID: discardedPermitLicence.PermitLicenceID
+    }).then(res => {
+        return res.data;
+    });
+};
+
+// POST: updatePermitLicence
+export const updatePermitLicence = async updatedPermitLicence => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/updatePermitLicence`, {
+        Token: updatedPermitLicence.Token,
+        PermitLicenceID: updatedPermitLicence.PermitLicenceID,
+        PermitNumber: updatedPermitLicence.PermitNumber,
+        ExpiryDate: updatedPermitLicence.ExpiryDate,
+        PhotoURL: updatedPermitLicence.PhotoURL,
+        Code: updatedPermitLicence.Code,
+        Place: updatedPermitLicence.Place
+    }).then(res => {
+        return res.data;
+    });
+};

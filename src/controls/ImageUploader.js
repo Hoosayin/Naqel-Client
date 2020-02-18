@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 import Strings from "../res/strings";
 
 class ImageUploader extends Component {
@@ -9,20 +8,10 @@ class ImageUploader extends Component {
 
         this.state = {
             Image: null,
-            DriverID: null,
             UploadProgress: null,
         };
 
         this.onImageUpload = this.onImageUpload.bind(this);
-    }
-
-    componentDidMount() {
-        if (localStorage.userToken) {
-            const decoded = jwt_decode(localStorage.userToken);
-            this.setState({
-                DriverID: decoded.DriverID,
-            });
-        }
     }
 
     onImageUpload = event => {
@@ -39,9 +28,7 @@ class ImageUploader extends Component {
 
         const formData = new FormData();
 
-        try {            
-            formData.append("ImageID", this.state.DriverID);
-            formData.append("ImageCategory", this.props.ImageCategory);
+        try {
             formData.append("Image", this.state.Image, this.state.Image.name);
         }
         catch (exception) {
