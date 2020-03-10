@@ -59,6 +59,8 @@ class CodeConfirmation extends Component {
     onSubmit = async e => {
         e.preventDefault();
 
+
+
         if (this.state.Show) {
             const updatedDriver = {
                 DriverID: jwt_decode(localStorage.userToken).DriverID,

@@ -19,7 +19,7 @@ class Dashboard extends Component {
             return (
                 <div>
                     <ul class="nav nav-tabs theme-alt" role="tablist" style={TabMenu}>
-                        <li role="presentation" class="active"><a href="#profile" aria-controls="prfile" role="tab" data-toggle="tab">Profile</a></li>
+                        <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
                         <li role="presentation"><a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">Trucks</a></li>
                         <li role="presentation"><a href="#permits" aria-controls="permits" role="tab" data-toggle="tab">Permits</a></li>
                         <li role="presentation"><a href="#financialAffairs" aria-controls="financialAffairs" role="tab" data-toggle="tab">Financial Affairs</a></li>

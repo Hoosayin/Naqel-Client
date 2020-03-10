@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import CodeConfirmation from "./CodeConfirmation";
+import Strings from "../../../../res/strings.js";
+import CodeConfirmationDialog from "./CodeConfirmationDialog.js";
 import { usernameAndEmailSettings } from "../../DriverFunctions";
-import MessageBox from "../../../../controls/MessageBox";
-import jsonWebToken from "jsonwebtoken";
+import Preloader from "../../../../controls/Preloader.js";
 
 class UsernameAndEmailSettings extends Component {
     constructor() {
@@ -23,7 +23,7 @@ class UsernameAndEmailSettings extends Component {
             ValidNewEmail: true,
 
             ValidForm: false,
-            MessageBox: "",
+            CodeConfirmationDialog: null,
 
             Errors: {
                 NewUsername: "",
@@ -169,45 +169,51 @@ class UsernameAndEmailSettings extends Component {
 
         if (this.state.NewEmail === this.state.Email) {
             const updatedDriver = {
-                DriverID: jwt_decode(localStorage.userToken).DriverID,
+                Token: localStorage.getItem("userToken"),
                 Username: this.state.NewUsername,
                 Email: this.state.NewEmail,
             };
 
-            usernameAndEmailSettings(updatedDriver)
-                .then(res => {
-                    if (res === "Driver is updated.") {
-                        let decodedToken = jwt_decode(localStorage.userToken);
+            this.setState({
+                Preloader: <Preloader />
+            });
 
-                        decodedToken["Username"] = this.state.NewUsername;
-                        decodedToken["Email"] = this.state.NewEmail;
-
-                        let token = jsonWebToken.sign(decodedToken, "mysecret");
-                        localStorage.setItem("userToken", token);
-
-                        this.setState({
-                            MessageBox: (<MessageBox Message="Username is updated successfully." Show={true} />),
-                        });
+            await usernameAndEmailSettings(updatedDriver)
+                .then(response => {
+                    if (response.Message === "driver is updated.") {
+                        localStorage.setItem("userToken", response.Token);
+                        this.props.OnSettingsSaved();
                     }
-                    else {
-                        this.setState({
-                            MessageBox: (<MessageBox Message="Settings could not be saved. Please try later." Show={true} />),
-                        });
-                    }
+
+                    this.setState({
+                        Preloader: null
+                    });
                 });
         }
         else {
-            await axios.post("users/sendCode", {
+            await axios.post(`${Strings.NAQEL_SERVER}users/sendCode`, {
                 Email: this.state.NewEmail,
-            })
-                .then(res => {
-                    if (res) {
-                        this.setState({
-                            CodeConfirmation: (<CodeConfirmation Code={res.data} Show={true}
-                                Username={this.state.NewUsername} Email={this.state.NewEmail} />),
-                        });
-                    }
-                });
+            }).then(response => {
+                if (response) {
+                    console.log(response);
+                    console.log("Going to open Dialog.");
+                    this.setState({
+                        CodeConfirmationDialog: <CodeConfirmationDialog
+                            Code={response.Code}
+                            Username={this.state.NewUsername}
+                            Email={this.state.NewEmail}
+                            OnCancel={() => {
+                                this.setState({
+                                    CodeConfirmationDialog: null,
+                                });
+                            }}
+                            OnOK={cancelButton => {
+                                cancelButton.click();
+                                this.props.OnDocumentsUpdated();
+                            }} />
+                    });
+                }
+            });
         }
     }
 
@@ -262,9 +268,8 @@ class UsernameAndEmailSettings extends Component {
                     </div>
                 </form>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-
-                {this.state.CodeConfirmation}
-                {this.state.MessageBox}
+                {this.state.Preloader}
+                {this.state.CodeConfirmationDialog}
             </div> 
         );
     }

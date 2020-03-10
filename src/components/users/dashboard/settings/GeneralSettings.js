@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
-import jsonWebToken from "jsonwebtoken";
+import Preloader from "../../../../controls/Preloader.js";
 import { generalSettings } from "../../DriverFunctions";
-import MessageBox from "../../../../controls/MessageBox";
 
 class GeneralSettings extends Component {
     constructor() {
@@ -23,6 +22,7 @@ class GeneralSettings extends Component {
 
             ValidForm: false,
             SettingsSaved: false,
+            Preloader: null,
 
             Errors: {
                 FirstName: "",
@@ -108,15 +108,15 @@ class GeneralSettings extends Component {
         });
     }
 
-    onSubmit = e => {
-        e.preventDefault();
+    onSubmit = async event => {
+        event.preventDefault();
 
         if (!this.state.ValidForm) {
             return;
         }
 
         const updatedDriver = {
-            DriverID: jwt_decode(localStorage.userToken).DriverID,
+            Token: localStorage.getItem("userToken"),
             FirstName: this.state.FirstName,
             LastName: this.state.LastName,
             Address: this.state.Address,
@@ -126,30 +126,24 @@ class GeneralSettings extends Component {
             DateOfBirth: this.state.DateOfBirth,
         }
 
-        generalSettings(updatedDriver)
-            .then(res => {
-                let decodedToken = jwt_decode(localStorage.userToken);
+        this.setState({
+            Preloader: <Preloader />
+        });
 
-                decodedToken["FirstName"] = this.state.FirstName;
-                decodedToken["LastName"] = this.state.LastName;
-                decodedToken["Address"] = this.state.Address;
-                decodedToken["PhoneNumber"] = this.state.PhoneNumber;
-                decodedToken["Gender"] = this.state.Gender;
-                decodedToken["Nationality"] = this.state.Nationality;
-                decodedToken["DateOfBirth"] = this.state.DateOfBirth;
+        await generalSettings(updatedDriver).then(response => {
+            console.log(response);
+            if (response.Message === "driver is updated.") {
+                localStorage.setItem("userToken", response.Token);
+                this.props.OnSettingsSaved();
+            }
 
-                let token = jsonWebToken.sign(decodedToken, "mysecret");
-                localStorage.setItem("userToken", token);
-
-                this.setState({
-                    SettingsSaved: true,
-                });
+            this.setState({
+                Preloader: null
             });
+        });
     }
 
     render() {
-        const messageBox = (<MessageBox Message="Settings saved successfully." Show={true} />);
-
         return (
             <div>
                 <div class="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>General Settings</div>
@@ -211,8 +205,8 @@ class GeneralSettings extends Component {
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                        <li><a onClick={event => { this.setState({ Gender: "Male" }); }}>Male</a></li>
-                                        <li><a onClick={event => { this.setState({ Gender: "Female" }); }}>Female</a></li>
+                                        <li><a onClick={() => { this.setState({ Gender: "Male" }); }}>Male</a></li>
+                                        <li><a onClick={() => { this.setState({ Gender: "Female" }); }}>Female</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -278,8 +272,7 @@ class GeneralSettings extends Component {
                     </div>
                 </form>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-
-                {this.state.SettingsSaved && messageBox}
+                {this.state.Preloader}
             </div>
         );
     }

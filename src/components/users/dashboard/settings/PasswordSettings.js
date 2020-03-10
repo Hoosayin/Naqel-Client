@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import jsonWebToken from "jsonwebtoken";
+import Preloader from "../../../../controls/Preloader.js";
 import { passwordSettings } from "../../DriverFunctions";
-import MessageBox from "../../../../controls/MessageBox";
 
 class PasswordSettings extends Component {
     constructor() {
@@ -20,7 +19,7 @@ class PasswordSettings extends Component {
             ValidConfirmPassword: false,
 
             ValidForm: false,
-            MessageBox: "",
+            Preloader: null,
 
             Errors: {
                 CurrentPassword: "",
@@ -108,23 +107,26 @@ class PasswordSettings extends Component {
         }
 
         const updatedDriver = {
-            DriverID: jwt_decode(localStorage.userToken).DriverID,
+            Token: localStorage.getItem("userToken"),
             Password: this.state.NewPassword,
         }
 
-        await passwordSettings(updatedDriver)
-            .then(res => {
-                if (res === "Driver is updated.") {
-                    let decodedToken = jwt_decode(localStorage.userToken);
-                    decodedToken["Password"] = this.state.Password;
-                    let token = jsonWebToken.sign(decodedToken, "mysecret");
-                    localStorage.setItem("userToken", token);
+        this.setState({
+            Preloader: <Preloader />
+        });
 
-                    this.setState({
-                        MessageBox: (<MessageBox Message="Settings saved successfully." Show={true} />),
-                    });
-                }
+        console.log("Going to update password.");
+
+        await passwordSettings(updatedDriver).then(response => {
+            if (response.Message === "driver is updated.") {
+                localStorage.setItem("userToken", response.Token);
+                this.props.OnSettingsSaved();
+            }
+
+            this.setState({
+                Preloader: null
             });
+        });
     }
 
     render() {
@@ -193,8 +195,7 @@ class PasswordSettings extends Component {
                     </div>
                 </form>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-
-                {this.state.MessageBox}
+                {this.state.Preloader}
             </div>
         );
     }

@@ -181,6 +181,12 @@
     <Content Include="README.md" />
     <Content Include="src\App.js" />
     <Content Include="src\App.js.bak" />
+    <Content Include="src\components\users\dashboard\jobs\jobOffers\JobOffers.js" />
+    <Content Include="src\components\users\dashboard\jobs\jobRequests\AddJobRequestDialog.js" />
+    <Content Include="src\components\users\dashboard\jobs\jobRequests\EditJobRequestDialog.js" />
+    <Content Include="src\components\users\dashboard\jobs\jobRequests\JobRequestsList.js" />
+    <Content Include="src\components\users\dashboard\jobs\jobRequests\JobRequests.js" />
+    <Content Include="src\components\users\dashboard\jobs\onGoingJobs\OnGoingJobs.js" />
     <Content Include="src\components\users\dashboard\permits\AddPermitLicenceDialog.js" />
     <Content Include="src\components\users\dashboard\permits\EditPermitLicenceDialog.js" />
     <Content Include="src\components\users\dashboard\permits\PermitLicencesList.js" />
@@ -199,6 +205,7 @@
     <Content Include="src\components\users\dashboard\profile\TraderBrokerProfile.js" />
     <Content Include="src\components\users\dashboard\profile\TraderBrokerProfilePhoto.js" />
     <Content Include="src\components\users\dashboard\profile\documents\DocumentsList.js" />
+    <Content Include="src\components\users\dashboard\settings\CodeConfirmationDialog.js" />
     <Content Include="src\components\users\dashboard\settings\TBGeneralSettings.js" />
     <Content Include="src\components\users\dashboard\settings\TBPasswordSettings.js" />
     <Content Include="src\components\users\dashboard\settings\TBSettings.js" />
@@ -216,6 +223,7 @@
     <Content Include="src\components\users\dashboard\trucks\NoTruck.js" />
     <Content Include="src\controls\ImageUploader.js" />
     <Content Include="src\components\users\dashboard\trucks\Truck.js" />
+    <Content Include="src\controls\Map.js" />
     <Content Include="src\controls\WarningAlert.js" />
     <Content Include="src\components\users\dashboard\profile\ProfilePhoto.js" />
     <Content Include="src\components\users\dashboard\settings\CodeConfirmation.js" />
@@ -272,6 +280,9 @@
     <Folder Include="src\components\users\dashboard\" />
     <Folder Include="src\components\users\dashboard\jobs\" />
     <Folder Include="src\components\users\dashboard\financial_affairs\" />
+    <Folder Include="src\components\users\dashboard\jobs\jobRequests\" />
+    <Folder Include="src\components\users\dashboard\jobs\jobOffers\" />
+    <Folder Include="src\components\users\dashboard\jobs\onGoingJobs\" />
     <Folder Include="src\components\users\dashboard\payments\" />
     <Folder Include="src\components\users\dashboard\permits\" />
     <Folder Include="src\components\users\dashboard\profile\documents\" />

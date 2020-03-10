@@ -8,13 +8,13 @@ export const register = newCredentials => {
         Email: newCredentials.Email,
         Password: newCredentials.Password,
         RegisterAs: newCredentials.RegisterAs,
-    }).then(res => {
-        if (res.data.localeCompare(Strings.USERNAME_OR_EMAIL_TAKEN) === 0) {
-            return res.data;
+    }).then(response => {
+        if (response.data.localeCompare(Strings.USERNAME_OR_EMAIL_TAKEN) === 0) {
+            return response.data;
         }
         else {
-            localStorage.setItem("newCredentialsToken", res.data);
-            return res.data;
+            localStorage.setItem("newCredentialsToken", response.data);
+            return response.data;
         }
     });
 };
@@ -33,8 +33,8 @@ export const accountSetup = newDriver => {
         Address: newDriver.Address,
         PhoneNumber: newDriver.PhoneNumber,
         Nationality: newDriver.Nationality,
-    }).then(res => {
-        console.log(res.data);
+    }).then(response => {
+        console.log(response.data);
     });
 };
 
@@ -45,14 +45,14 @@ export const login = driver => {
         EmailOrUsername: driver.EmailOrUsername,
         Password: driver.Password,
         SignInAs: driver.SignInAs,
-    }).then(res => {
-        if (res.data.localeCompare(Strings.USER_NOT_FOUND) === 0 ||
-            res.data.localeCompare(Strings.INVALID_PASSWORD) === 0) {
-            return res.data;
+    }).then(response => {
+        if (response.data.localeCompare(Strings.USER_NOT_FOUND) === 0 ||
+            response.data.localeCompare(Strings.INVALID_PASSWORD) === 0) {
+            return response.data;
         }
         else {
-            localStorage.setItem('userToken', res.data);
-            return res.data;
+            localStorage.setItem('userToken', response.data);
+            return response.data;
         }
     }).catch(error => {
         console.log(error);
@@ -60,9 +60,9 @@ export const login = driver => {
 };
 
 // POST: GeneralSettings
-export const generalSettings = updatedDriver => {
-    return axios.post(`${Strings.NAQEL_SERVER}users/dashboard/generalSettings`, {
-        DriverID: updatedDriver.DriverID,
+export const generalSettings = async updatedDriver => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/generalSettings`, {
+        Token: updatedDriver.Token,
         FirstName: updatedDriver.FirstName,
         LastName: updatedDriver.LastName,
         Address: updatedDriver.Address,
@@ -70,29 +70,29 @@ export const generalSettings = updatedDriver => {
         Gender: updatedDriver.Gender,
         Nationality: updatedDriver.Nationality,
         DateOfBirth: updatedDriver.DateOfBirth,
-    }).then(res => {
-        console.log(res.data);
+    }).then(response => {
+        return response.data;
     });
 };
 
 // POST: UsernameAndEmailSettings
 export const usernameAndEmailSettings = async updatedDriver => {
     return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/usernameAndEmailSettings`, {
-        DriverID: updatedDriver.DriverID,
+        Token: updatedDriver.Token,
         Username: updatedDriver.Username,
         Email: updatedDriver.Email,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
 // POST: PasswordSettings
 export const passwordSettings = async updatedDriver => {
     return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/passwordSettings`, {
-        DriverID: updatedDriver.DriverID,
+        Token: updatedDriver.Token,
         Password: updatedDriver.Password,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -102,8 +102,8 @@ export const uploadDriverProfilePhoto = async driverProfilePhoto => {
         DriverID: driverProfilePhoto.DriverID,
         URL: driverProfilePhoto.URL,
         FileName: driverProfilePhoto.FileName
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -119,8 +119,8 @@ export const addTruck = async newTruck => {
         Type: newTruck.Type,
         MaximumWeight: newTruck.MaximumWeight,
         PhotoURL: newTruck.PhotoURL
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -129,8 +129,8 @@ export const updateTruckPhoto = async updatedTruck => {
     return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/updateTruckPhoto`, {
         Token: updatedTruck.Token,
         PhotoURL: updatedTruck.PhotoURL
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -145,8 +145,8 @@ export const updateTruck = async updatedTruck => {
         Model: updatedTruck.Model,
         Type: updatedTruck.Type,
         MaximumWeight: updatedTruck.MaximumWeight
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -157,8 +157,8 @@ export const addTrailer = async newTrailer => {
         MaximumWeight: newTrailer.MaximumWeight,
         PhotoURL: newTrailer.PhotoURL,
         Type: newTrailer.Type
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -167,8 +167,8 @@ export const deleteTrailer = async discardedTrailer => {
     return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/deleteTrailer`, {
         Token: discardedTrailer.Token,
         TrailerID: discardedTrailer.TrailerID
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -180,8 +180,8 @@ export const updateTrailer = async updatedTrailer => {
         MaximumWeight: updatedTrailer.MaximumWeight,
         PhotoURL: updatedTrailer.PhotoURL,
         Type: updatedTrailer.Type
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -194,8 +194,8 @@ export const addDrivingLicence = async newDrivingLicence => {
         ReleaseDate: newDrivingLicence.ReleaseDate,
         ExpiryDate: newDrivingLicence.ExpiryDate,
         PhotoURL: newDrivingLicence.PhotoURL,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -208,8 +208,8 @@ export const updateDrivingLicence = async updatedDrivingLicence => {
         ReleaseDate: updatedDrivingLicence.ReleaseDate,
         ExpiryDate: updatedDrivingLicence.ExpiryDate,
         PhotoURL: updatedDrivingLicence.PhotoURL,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -217,8 +217,8 @@ export const updateDrivingLicence = async updatedDrivingLicence => {
 export const deleteDrivingLicence = async discardedDrivingLicence => {
     return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/deleteDrivingLicence`, {
         Token: discardedDrivingLicence.Token,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -230,8 +230,8 @@ export const addEntryExitCard = async newEntryExitCard => {
         Type: newEntryExitCard.Type,
         ReleaseDate: newEntryExitCard.ReleaseDate,
         NumberOfMonths: newEntryExitCard.NumberOfMonths,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -243,8 +243,8 @@ export const updateEntryExitCard = async updatedEntryExitCard => {
         Type: updatedEntryExitCard.Type,
         ReleaseDate: updatedEntryExitCard.ReleaseDate,
         NumberOfMonths: updatedEntryExitCard.NumberOfMonths,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -252,8 +252,8 @@ export const updateEntryExitCard = async updatedEntryExitCard => {
 export const deleteEntryExitCard = async discardedEntryExitCard => {
     return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/deleteEntryExitCard`, {
         Token: discardedEntryExitCard.Token,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -263,8 +263,8 @@ export const addIdentityCard = async newIdentityCard => {
         Token: newIdentityCard.Token,
         IDNumber: newIdentityCard.IDNumber,
         PhotoURL: newIdentityCard.PhotoURL,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -274,8 +274,8 @@ export const updateIdentityCard = async updatedIdentityCard => {
         Token: updatedIdentityCard.Token,
         IDNumber: updatedIdentityCard.IDNumber,
         PhotoURL: updatedIdentityCard.PhotoURL,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -283,8 +283,8 @@ export const updateIdentityCard = async updatedIdentityCard => {
 export const deleteIdentityCard = async discardedIdentityCard => {
     return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/deleteIdentityCard`, {
         Token: discardedIdentityCard.Token,
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -297,8 +297,8 @@ export const addPermitLicence = async newPermitLicence => {
         PhotoURL: newPermitLicence.PhotoURL,
         Code: newPermitLicence.Code,
         Place: newPermitLicence.Place
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -307,8 +307,8 @@ export const deletePermitLicence = async discardedPermitLicence => {
     return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/deletePermitLicence`, {
         Token: discardedPermitLicence.Token,
         PermitLicenceID: discardedPermitLicence.PermitLicenceID
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -322,7 +322,44 @@ export const updatePermitLicence = async updatedPermitLicence => {
         PhotoURL: updatedPermitLicence.PhotoURL,
         Code: updatedPermitLicence.Code,
         Place: updatedPermitLicence.Place
-    }).then(res => {
-        return res.data;
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addJobRequest
+export const addJobRequest = async newJobRequest => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/addJobRequest`, {
+        Token: newJobRequest.Token,
+        LoadingPlace: newJobRequest.LoadingPlace,
+        UnloadingPlace: newJobRequest.UnloadingPlace,
+        TripType: newJobRequest.TripType,
+        Price: newJobRequest.Price,
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: updateJobRequest
+export const updateJobRequest = async updatedJobRequest => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/updateJobRequest`, {
+        Token: updatedJobRequest.Token,
+        JobRequestID: updatedJobRequest.JobRequestID,
+        LoadingPlace: updatedJobRequest.LoadingPlace,
+        UnloadingPlace: updatedJobRequest.UnloadingPlace,
+        TripType: updatedJobRequest.TripType,
+        Price: updatedJobRequest.Price,
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: deleteJobRequest
+export const deleteJobRequest = async discardedJobRequest => {
+    return await axios.post(`${Strings.NAQEL_SERVER}users/dashboard/deleteJobRequest`, {
+        Token: discardedJobRequest.Token,
+        JobRequestID: discardedJobRequest.JobRequestID
+    }).then(response => {
+        return response.data;
     });
 };
