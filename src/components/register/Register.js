@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { register } from "../users/DriverFunctions";
-import { traderRegister } from "../users/TraderFunctions"
+import { registerDriver } from "../drivers/DriverFunctions";
+import { registerTrader } from "../traders/TraderFunctions"
 import Strings from "../../res/strings";
 import { Required } from "../../styles/MiscellaneousStyles";
 
@@ -23,12 +23,14 @@ class Register extends Component {
             ConfirmPassword: "",
             RegisterAs: "Driver",
             NullError: false,
+
             PasswordsMatched: false,
             UsernameOrEmailTaken: false,
             ValidEmail: false,
             ValidPassword: false,
             ValidForm: false,
             Agreed: false,
+
             Errors: {
                 Email: "",
                 Password: "",
@@ -93,8 +95,8 @@ class Register extends Component {
         });
     }
 
-    onSubmit = e => {
-        e.preventDefault();
+    onSubmit = async event => {
+        event.preventDefault();
 
         if (this.state.Username === "" ||
             this.state.Email === "" ||
@@ -117,39 +119,32 @@ class Register extends Component {
         }
 
         if (newCredentials.RegisterAs == "Driver") {
-            register(newCredentials)
-                .then(res => {
-                    if (res &&
-                        localStorage.newCredentialsToken) {
-                        this.props.history.push(`/emailConfirmation`);
-                    }
-                    else {
-                        this.setState({
-                            NullError: false,
-                            UsernameOrEmailTaken: true,
-                        });
-                    }
-                });
+            await registerDriver(newCredentials).then(response => {
+                if (response && localStorage.newCredentialsToken) {
+                    this.props.history.push("/emailConfirmation");
+                }
+                else {
+                    this.setState({
+                        NullError: false,
+                        UsernameOrEmailTaken: true,
+                    });
+                }
+            });
         }
         else if (newCredentials.RegisterAs == "Trader" || newCredentials.RegisterAs == "Broker") {
-            traderRegister(newCredentials)
-                .then(res => {
-                    if (res &&
-                        localStorage.newCredentialsToken) {
-                        this.props.history.push(`/emailConfirmation`);
-                    }
-                    else {
-                        this.setState({
-                            NullError: false,
-                            UsernameOrEmailTaken: true,
-                        });
-                    }
-                });
-        
-    }
-
-
-
+            console.log("Seting up resources for new trader or broker...");
+            await registerTrader(newCredentials).then(response => {
+                if (response && localStorage.newCredentialsToken) {
+                    this.props.history.push("/emailConfirmation");
+                }
+                else {
+                    this.setState({
+                        NullError: false,
+                        UsernameOrEmailTaken: true,
+                    });
+                }
+            });
+        }
     }
 
     render() {
@@ -159,9 +154,7 @@ class Register extends Component {
                     <div class="theme-default animated fadeIn" style={Card}>
                         <div style={CardChild}>
                             <img src="./images/signup.png" alt="signup.png" height="60" />
-                            <div class="type-h3" style={CardTitle}>
-                                Sign Up
-                            </div>
+                            <div class="type-h3" style={CardTitle}>Sign Up</div>
                             <br />
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div class="form-group">
@@ -236,8 +229,7 @@ class Register extends Component {
                                             <br />
                                         </div>
                                     }
-                                    
-                                    
+
                                     <label class="control-label">Have an account? <span><Link to="/login">Sign In Now!</Link></span></label>
                                 </div>
                                 <input type="submit" value="Next" class="btn btn-primary" disabled={!this.state.ValidForm} />
@@ -254,7 +246,7 @@ class Register extends Component {
                             </div>
                             <div class="modal-body text-justify">
                                 Your privacy is important to us. <span>{Strings.APP_NAME}</span>'s Privacy Statement describes the types of data we collect from you, how we use your Data, and the legal bases we have to process your Data. The Privacy Statement also describes how {String.APP_NAME} uses your content, which is information submitted by you to {Strings.APP_NAME} via the Services. Where processing is based on consent and to the extent permitted by law, by agreeing to these Terms, you consent to {Strings.APP_NAME}’ collection, use and disclosure of your content and data as described in the privacy statement. In some cases, we will provide separate notice and request your consent as referenced in the privacy statement.
-                </div>
+                                </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-info" data-dismiss="modal">Ok</button>
                             </div>

@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-
-import {
-    CongratulationsCardBack,
-    CardXLarge,
-} from "../../styles/CardStyles";
+import { CongratulationsCardBack, CardXLarge } from "../../styles/CardStyles";
 
 class EmailConfirmation extends Component {
     constructor() {
@@ -12,15 +8,15 @@ class EmailConfirmation extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onSubmit = e => {
-        e.preventDefault();
+    onSubmit = event => {
+        event.preventDefault();
         localStorage.removeItem("IsCreatedSuccessfully");
-        this.props.history.push(`/login`);
+        this.props.history.push("/login");
     }
 
     render() {
         if (!localStorage.IsCreatedSuccessfully) {
-            this.props.history.push(`/register`);
+            this.props.history.push("/register");
             return <a />
         }
         else {
@@ -34,12 +30,8 @@ class EmailConfirmation extends Component {
                                         alt="congrats.png" src="./images/congrats.png" data-source-index="2" />
                                 </div>
                                 <div class="col-md-12 col-md-pull-12">
-                                    <div class="type-h3">
-                                        Congratulations
-                                        </div>
-                                    <div class="type-sh3">
-                                        Your account has been created successfully.
-                                        </div>
+                                    <div class="type-h3">Congratulations</div>
+                                    <div class="type-sh3">Your account has been created successfully.</div>
                                     <br />
                                     <form noValidate onSubmit={this.onSubmit}>
                                         <input type="submit" value="Sign In" class="btn btn-primary" />

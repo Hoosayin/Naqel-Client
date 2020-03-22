@@ -28,8 +28,8 @@ class EmailConfirmation extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    onSubmit = e => {
-        e.preventDefault();
+    onSubmit = event => {
+        event.preventDefault();
 
         const code = jwt_decode(localStorage.newCredentialsToken).Code; 
 
@@ -54,13 +54,13 @@ class EmailConfirmation extends Component {
         else {
             localStorage.setItem("verifiedCredentialsToken", localStorage.newCredentialsToken);
             localStorage.removeItem("newCredentialsToken");
-            this.props.history.push(`/accountSetup`);
+            this.props.history.push("/setupAccount");
         }
     }
 
     render() {
         if (!localStorage.newCredentialsToken) {
-            this.props.history.push(`/register`);
+            this.props.history.push("/register");
             return <a />
         }
         else {
@@ -69,12 +69,8 @@ class EmailConfirmation extends Component {
                     <div class="theme-default animated fadeIn" style={Card}>
                         <div style={CardChild}>
                             <img src="./images/passcode.png" alt="passcode.png" height="60" />
-                            <div class="type-h3" style={CardTitle}>
-                                Email Confirmation
-                </div>
-                            <div class="type-sh3">
-                                We delivered a confirmation code to your email.
-                </div>
+                            <div class="type-h3" style={CardTitle}>Email Confirmation</div>
+                            <div class="type-sh3">We delivered a confirmation code to your email.</div>
                             <br />
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div class="form-group">
