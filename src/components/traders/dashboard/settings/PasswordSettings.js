@@ -123,64 +123,64 @@ class PasswordSettings extends Component {
     render() {
         return (
             <section>
-                <div class="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF" }}>Change Password</div>
+                <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF" }}>Change Password</div>
                 <form noValidate onSubmit={this.onSubmit}>
-                    <div class="entity-list entity-list-expandable">
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-key"></span>
+                    <div className="entity-list entity-list-expandable">
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-key"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="password" name="CurrentPassword" class="form-control" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="password" name="CurrentPassword" className="form-control" autoComplete="off"
                                         value={this.state.CurrentPassword} onChange={this.onChange} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Current Password</div>
-                                <div class="text-danger">{this.state.Errors["CurrentPassword"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Current Password</div>
+                                <div className="text-danger">{this.state.Errors["CurrentPassword"]}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-key"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-key"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="password" name="NewPassword" class="form-control" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="password" name="NewPassword" className="form-control" autoComplete="off"
                                         value={this.state.NewPassword} onChange={this.onChange} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">New Password</div>
-                                <div class="text-danger">{this.state.Errors["NewPassword"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">New Password</div>
+                                <div className="text-danger">{this.state.Errors["NewPassword"]}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-key"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-key"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="password" name="ConfirmPassword" class="form-control" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="password" name="ConfirmPassword" className="form-control" autoComplete="off"
                                         value={this.state.ConfirmPassword} onChange={this.onChange} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Confirm Password</div>
-                                <div class="text-danger">{this.state.Errors["ConfirmPassword"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Confirm Password</div>
+                                <div className="text-danger">{this.state.Errors["ConfirmPassword"]}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item active">
-                            <div class="item-icon">
-                                <span class="fas fa-save"></span>
+                        <div className="entity-list-item active">
+                            <div className="item-icon">
+                                <span className="fas fa-save"></span>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Save Changes?</div>
-                                <div class="content-text-secondary">This cannot be undone.</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Save Changes?</div>
+                                <div className="content-text-secondary">This cannot be undone.</div>
                             </div>
-                            <div class="item-content-expanded">
-                                <input type="submit" value="Save" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                            <div className="item-content-expanded">
+                                <input type="submit" value="Save" className="btn btn-primary" disabled={!this.state.ValidForm} />
                             </div>
                         </div>
                     </div>

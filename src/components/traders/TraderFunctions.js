@@ -52,8 +52,9 @@ export const loginTrader = async trader => {
 };
 
 // GET: GetData
-export const getData = async request => {
-    return await axios.get(`${Strings.NAQEL_SERVER}traders/get${request.Get}`, {
+export const getData = request => {
+    console.log(`Sending GET request to ${Strings.NAQEL_SERVER}traders/get${request.Get}...`);
+    return axios.get(`${Strings.NAQEL_SERVER}traders/get${request.Get}`, {
         headers: { Authorization: `JWT ${request.Token}` }
     }).then(response => {
         return response.data;
@@ -145,6 +146,40 @@ export const passwordSettings = async updatedTrader => {
         Password: updatedTrader.Password,
     }, {
         headers: { Authorization: `JWT ${updatedTrader.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addIdentityCard
+export const addIdentityCard = newIdentityCard => {
+    return axios.post(`${Strings.NAQEL_SERVER}traders/addIdentityCard`, {
+        IDNumber: newIdentityCard.IDNumber,
+        PhotoURL: newIdentityCard.PhotoURL
+    }, {
+        headers: { Authorization: `JWT ${newIdentityCard.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: updateIdentityCard
+export const updateIdentityCard = updatedIdentityCard => {
+    return axios.post(`${Strings.NAQEL_SERVER}traders/updateIdentityCard`, {
+        IDNumber: updatedIdentityCard.IDNumber,
+        PhotoURL: updatedIdentityCard.PhotoURL
+    }, {
+        headers: { Authorization: `JWT ${updatedIdentityCard.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: deleteIdentityCard
+export const deleteIdentityCard = discardedIdentityCard => {
+    console.log("Posting to delete from axios...")
+    return axios.delete(`${Strings.NAQEL_SERVER}traders/deleteIdentityCard`, {
+        headers: { Authorization: `JWT ${discardedIdentityCard.Token}` }
     }).then(response => {
         return response.data;
     });

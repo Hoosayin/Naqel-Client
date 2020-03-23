@@ -158,127 +158,127 @@ class GeneralSettings extends Component {
     render() {
         return (
             <div>
-                <div class="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>General Settings</div>
+                <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>General Settings</div>
                 <form noValidate onSubmit={this.onSubmit}>
-                    <div class="entity-list entity-list-expandable">
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-comment"></span>
+                    <div className="entity-list entity-list-expandable">
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-comment"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
+                            <div className="item-content-secondary">
+                                <div className="form-group">
                                     <input type="text" className="form-control" name="FirstName" autoComplete="off"
                                         value={this.state.FirstName} onChange={this.onChange} style={{ width: "193px", }} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">First Name</div>
-                                <div class="text-danger">{this.state.Errors["FirstName"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">First Name</div>
+                                <div className="text-danger">{this.state.Errors["FirstName"]}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-comment"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-comment"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
+                            <div className="item-content-secondary">
+                                <div className="form-group">
                                     <input type="text" className="form-control" name="LastName" autoComplete="off"
                                         value={this.state.LastName} onChange={this.onChange} style={{ width: "193px", }} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Last Name</div>
-                                <div class="text-danger">{this.state.Errors["LastName"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Last Name</div>
+                                <div className="text-danger">{this.state.Errors["LastName"]}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-birthday-cake"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-birthday-cake"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="date" class="form-control" name="DateOfBirth" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="date" className="form-control" name="DateOfBirth" autoComplete="off"
                                         value={this.state.DateOfBirth} onChange={this.onChange} style={{ width: "193px", }} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Date of Birth</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Date of Birth</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class={this.state.Gender === "Male" ? "fas fa-male" : "fas fa-female"}></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className={this.state.Gender === "Male" ? "fas fa-male" : "fas fa-female"}></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="dropdown" style={{ width: "193px", maxWidth: "296px", }}>
-                                    <button id="example-dropdown" class="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
+                            <div className="item-content-secondary">
+                                <div className="dropdown" style={{ width: "193px", maxWidth: "296px", }}>
+                                    <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
                                         aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
                                         <span>{this.state.Gender}</span>
-                                        <span class="caret"></span>
+                                        <span className="caret"></span>
                                     </button>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
+                                    <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
                                         <li><a onClick={() => { this.setState({ Gender: "Male" }); this.validateField("", ""); }}>Male</a></li>
                                         <li><a onClick={() => { this.setState({ Gender: "Female" }); this.validateField("", ""); }}>Female</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Gender</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Gender</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-flag"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-flag"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" className="form-control" name="Nationality" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="text" className="form-control" name="Nationality" autoComplete="off"
                                         value={this.state.Nationality} onChange={this.onChange} style={{ width: "193px", }} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Nationality</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Nationality</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-phone"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-phone"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" className="form-control" name="PhoneNumber" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="text" className="form-control" name="PhoneNumber" autoComplete="off"
                                         placeholder="+XXXXXXXXXXXX" value={this.state.PhoneNumber} onChange={this.onChange} style={{ width: "193px", }} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Phone Number</div>
-                                <div class="text-danger">{this.state.Errors["PhoneNumber"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Phone Number</div>
+                                <div className="text-danger">{this.state.Errors["PhoneNumber"]}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-location-arrow"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-location-arrow"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" className="form-control" name="Address" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="text" className="form-control" name="Address" autoComplete="off"
                                         value={this.state.Address} onChange={this.onChange} style={{ width: "393px", }} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Address</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Address</div>
                             </div>
                         </div>
-                        <div class="entity-list-item active">
-                            <div class="item-icon">
-                                <span class="fas fa-save"></span>
+                        <div className="entity-list-item active">
+                            <div className="item-icon">
+                                <span className="fas fa-save"></span>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Save Changes?</div>
-                                <div class="content-text-secondary">This cannot be undone.</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Save Changes?</div>
+                                <div className="content-text-secondary">This cannot be undone.</div>
                             </div>
-                            <div class="item-content-expanded">
-                                <input type="submit" value="Save" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                            <div className="item-content-expanded">
+                                <input type="submit" value="Save" className="btn btn-primary" disabled={!this.state.ValidForm} />
                             </div>
                         </div>
                     </div>

@@ -230,14 +230,6 @@
     <Content Include="src\components\traders\dashboard\jobs\Jobs.js" />
     <Content Include="src\components\traders\dashboard\payments\Payments.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\DocumentsList.js" />
-    <Content Include="src\components\traders\dashboard\profile\documents\drivingLicence\AddDrivingLicenceButton.js" />
-    <Content Include="src\components\traders\dashboard\profile\documents\drivingLicence\AddDrivingLicenceDialog.js" />
-    <Content Include="src\components\traders\dashboard\profile\documents\drivingLicence\DrivingLicenceListItem.js" />
-    <Content Include="src\components\traders\dashboard\profile\documents\drivingLicence\EditDrivingLicenceDialog.js" />
-    <Content Include="src\components\traders\dashboard\profile\documents\entryExitCard\AddEntryExitCardButton.js" />
-    <Content Include="src\components\traders\dashboard\profile\documents\entryExitCard\AddEntryExitCardDialog.js" />
-    <Content Include="src\components\traders\dashboard\profile\documents\entryExitCard\EditEntryExitCardDialog.js" />
-    <Content Include="src\components\traders\dashboard\profile\documents\entryExitCard\EntryExitCardListItem.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\identityCard\AddIdentityCardButton.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\identityCard\AddIdentityCardDialog.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\identityCard\EditIdentityCardDialog.js" />
@@ -370,8 +362,6 @@
     <Folder Include="src\components\traders\dashboard\payments\" />
     <Folder Include="src\components\traders\dashboard\profile\" />
     <Folder Include="src\components\traders\dashboard\profile\documents\" />
-    <Folder Include="src\components\traders\dashboard\profile\documents\drivingLicence\" />
-    <Folder Include="src\components\traders\dashboard\profile\documents\entryExitCard\" />
     <Folder Include="src\components\traders\dashboard\profile\documents\identityCard\" />
     <Folder Include="src\components\traders\dashboard\settings\" />
     <Folder Include="src\components\users\" />

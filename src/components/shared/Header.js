@@ -31,7 +31,7 @@ class Header extends Component {
 
     render() {
         const loginRegisterLinks = (
-            <ul class="nav navbar-nav navbar-right">
+            <ul className="nav navbar-nav navbar-right">
                 <li>
                     <Link to="/register">Register</Link>
                 </li>
@@ -42,7 +42,7 @@ class Header extends Component {
         );
 
         const userLinks = (
-            <ul class="nav navbar-nav navbar-right">
+            <ul className="nav navbar-nav navbar-right">
                 <li>
                     <Link to="/dashboard">{this.state.Username}</Link>
                 </li>
@@ -54,19 +54,19 @@ class Header extends Component {
 
         return (
             <header>
-                <nav class="navbar navbar-default">
-                    <div class="navbar-local color-accent theme-dark">
-                        <div class="container">
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <i class="glyph glyph-hamburger"></i>
+                <nav className="navbar navbar-default">
+                    <div className="navbar-local color-accent theme-dark">
+                        <div className="container">
+                            <div className="navbar-header">
+                                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                                    <span className="sr-only">Toggle navigation</span>
+                                    <i className="glyph glyph-hamburger"></i>
                                 </button>
-                                <Link to="/" class="navbar-brand">{Strings.APP_NAME.toUpperCase()}</Link>
+                                <Link to="/" className="navbar-brand">{Strings.APP_NAME.toUpperCase()}</Link>
                             </div>
 
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-                                <ul class="nav navbar-nav">
+                            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                                <ul className="nav navbar-nav">
                                     
                                 </ul>
                                 {localStorage.userToken ? userLinks : loginRegisterLinks}

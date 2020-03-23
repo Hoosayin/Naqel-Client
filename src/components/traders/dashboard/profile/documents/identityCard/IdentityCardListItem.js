@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import jwt_decode from "jwt-decode";
 import EditIdentityCardDialog from "./EditIdentityCardDialog.js";
-import { deleteIdentityCard } from "../../../../DriverFunctions.js";
+import { getData, deleteIdentityCard } from "../../../../TraderFunctions.js";
 import Preloader from "../../../../../../controls/Preloader.js";
 
 class IdentityCardListItem extends Component {
@@ -9,6 +8,7 @@ class IdentityCardListItem extends Component {
         super(props);
 
         this.state = {
+            Key: Math.floor(Math.random() * 100),
             IdentityCardID: "",
             IDNumber: "",
             PhotoURL: "./images/default_image.png",
@@ -18,73 +18,83 @@ class IdentityCardListItem extends Component {
         };
 
         this.onDelete = this.onDelete.bind(this);
+        this.onRefresh = this.onRefresh.bind(this);
     }
 
-    onDelete = async () => {
+    onDelete = () => {
         this.setState({
             Preloader: <Preloader />
         });
 
-        const discardedIdentityCard = {
-            Token: localStorage.getItem("userToken")
+        let discardedIdentityCard = {
+            Token: localStorage.Token
         };
 
         console.log(`Going to delete Identity Card.`);
 
-        await deleteIdentityCard(discardedIdentityCard)
-            .then(response => {
-                if (response.Message === "Identity card is deleted.") {
-                    localStorage.setItem("userToken", response.Token);
-                    this.props.OnDocumentsUpdated();
-                }
-
-                this.setState({
-                    Preloader: null
-                });
-            });
-    }
-
-    componentDidMount() {
-        if (localStorage.userToken) {
-            const identityCard = jwt_decode(localStorage.userToken).IdentityCard;
-
-            if (identityCard) {
-                this.setState({
-                    IdentityCardID: identityCard.IdentityCardID,
-                    IDNumber: identityCard.IDNumber,
-                    PhotoURL: identityCard.PhotoURL,
-                });
-
-                return;
+        deleteIdentityCard(discardedIdentityCard).then(response => {
+            console.log(response);
+            if (response.Message === "Identity card is deleted.") {
+                this.props.OnDocumentsUpdated();
             }
-        }
 
-        this.setState({
-            IdentityCardID: "",
-            IDNumber: "",
-            PhotoURL: "./images/default_image.png",
+            this.setState({
+                Preloader: null
+            });
         });
     }
 
+    componentDidMount() {
+        this.onRefresh();
+    }
+
+    onRefresh = () => {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "IdentityCard"
+            };
+
+            getData(request).then(response => {
+                if (response.Message === "Identity card found.") {
+                    let identityCard = response.IdentityCard;
+
+                    this.setState({
+                        IdentityCardID: identityCard.IdentityCardID,
+                        IDNumber: identityCard.IDNumber,
+                        PhotoURL: identityCard.PhotoURL
+                    });
+                }
+                else {
+                    this.setState({
+                        IdentityCardID: "",
+                        IDNumber: "",
+                        PhotoURL: "./images/default_image.png"
+                    });
+                }
+            });
+        }
+    };
+
     render() {
         return (
-            <li class="list-items-row">
+            <li className="list-items-row">
                 <div data-toggle="collapse" aria-expanded="false" data-target={`#identity-card-${this.state.IdentityCardID}`}>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <i class="glyph glyph-add"></i>
-                            <i class="glyph glyph-remove"></i>
+                    <div className="row">
+                        <div className="col-md-2">
+                            <i className="glyph glyph-add"></i>
+                            <i className="glyph glyph-remove"></i>
                             <strong>{this.props.Index}</strong>
                         </div>
-                        <div class="col-md-4">
-                            <img class="img-responsive visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
+                        <div className="col-md-4">
+                            <img className="img-responsive visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
                                 src={this.state.PhotoURL} alt="identity_card.png" data-source-index="2" style={{
                                     overflow: "hidden",
                                     border: "5px solid #3A3A3C",
                                     margin: "5px"
                                 }} />
                         </div>
-                        <div class="col-md-6">
+                        <div className="col-md-6">
                             <div>
                                 <span style={{ fontWeight: "bold", color: "#008575" }}>IDENTITY CARD</span>
                             </div>
@@ -95,25 +105,25 @@ class IdentityCardListItem extends Component {
                     </div>
                 </div>
 
-                <div class="collapse" id={`identity-card-${this.state.IdentityCardID}`}>
-                    <div class="row">
-                        <div class="col-md-18 col-md-offset-2">
-                            <img class="img-responsive visible-xs-inline-block visible-sm-inline-block"
+                <div className="collapse" id={`identity-card-${this.state.IdentityCardID}`}>
+                    <div className="row">
+                        <div className="col-md-18 col-md-offset-2">
+                            <img className="img-responsive visible-xs-inline-block visible-sm-inline-block"
                                 src={this.state.PhotoURL} alt="trailer.png" data-source-index="2" style={{
                                     overflow: "hidden",
                                     border: "5px solid #3A3A3C",
                                     margin: "5px"
                                 }} />
                         </div>
-                        <div class="col-md-4 text-right">
+                        <div className="col-md-4 text-right">
                             <button
                                 type="button"
-                                class="btn btn-primary"
+                                className="btn btn-primary"
                                 data-toggle="modal"
                                 data-target="#edit-identity-card-dialog"
                                 onMouseDown={() => {
                                     this.setState({
-                                        EditIdentityCardDialog: (<EditIdentityCardDialog
+                                        EditIdentityCardDialog: <EditIdentityCardDialog
                                             OnCancel={() => {
                                                 this.setState({
                                                     EditIdentityCardDialog: null
@@ -121,13 +131,13 @@ class IdentityCardListItem extends Component {
                                             }}
                                             OnOK={cancelButton => {
                                                 cancelButton.click();
-                                                this.props.OnDocumentsUpdated();
-                                            }} />)
+                                                this.onRefresh();
+                                            }} />
                                     });
                                 }}>
                                 Edit
                                 </button>
-                            <button type="button" class="btn btn-danger" onClick={() => { this.onDelete(); }}>Delete</button>
+                            <button type="button" className="btn btn-danger" onClick={() => { this.onDelete(); }}>Delete</button>
                         </div>
                     </div>
                 </div>               

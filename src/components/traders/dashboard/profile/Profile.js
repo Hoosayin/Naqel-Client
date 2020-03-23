@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getData } from "../../TraderFunctions";
-import Preloader from "../../../../controls/Preloader";
 import ProfilePhoto from "./ProfilePhoto";
+import DocumentsList from "./documents/DocumentsList";
 
 class Profile extends Component {
     constructor(props) {
@@ -16,23 +16,24 @@ class Profile extends Component {
             PhoneNumber: "",
             Gender: "",
             Nationality: "",
-            DateOfBirth: "",
-            Preloader: null
+            DateOfBirth: ""
         };
+
+        this.onRefresh = this.onRefresh.bind(this);
     }
 
-    async componentDidMount() {
-        if (localStorage.Token) {
-            this.setState({
-                Preloader: <Preloader />
-            });
+    componentDidMount() {
+        this.onRefresh();
+    }
 
+    onRefresh = () => {
+        if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
                 Get: "Trader"
             };
 
-            await getData(request).then(response => {
+            getData(request).then(response => {
                 if (response.Message === "Trader found.") {
                     let trader = response.Trader;
 
@@ -45,13 +46,12 @@ class Profile extends Component {
                         PhoneNumber: trader.PhoneNumber,
                         Gender: trader.Gender,
                         Nationality: trader.Nationality,
-                        DateOfBirth: trader.DateOfBirth,
-                        Preloader: null,
+                        DateOfBirth: trader.DateOfBirth
                     });
                 }
             });
         }
-    }
+    };
 
     render() {
         return (
@@ -183,7 +183,7 @@ class Profile extends Component {
                         </div>
                     </div>
                 </div>
-                {this.state.Preloader}
+                <DocumentsList />
             </section>
         );
     }

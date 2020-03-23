@@ -14,8 +14,8 @@ class TradersDashboard extends Component {
         else {
             return (
                 <div>
-                    <ul class="nav nav-tabs theme-alt" role="tablist" style={TabMenu}>
-                        <li role="presentation" class="active">
+                    <ul className="nav nav-tabs theme-alt" role="tablist" style={TabMenu}>
+                        <li role="presentation" className="active">
                             <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onClick={() => { this.refs.Profile.componentDidMount(); }}>Profile</a>
                         </li>                        
                         <li role="presentation"><a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a></li>
@@ -23,17 +23,17 @@ class TradersDashboard extends Component {
                         <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
                     </ul>
 
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="profile">
+                    <div className="tab-content">
+                        <div role="tabpanel" className="tab-pane active" id="profile">
                             <Profile ref="Profile" />
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="jobs">
+                        <div role="tabpanel" className="tab-pane" id="jobs">
                             Jobs
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="payments">
+                        <div role="tabpanel" className="tab-pane" id="payments">
                             Payments
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="settings">
+                        <div role="tabpanel" className="tab-pane" id="settings">
                             <Settings />
                         </div>
                     </div>

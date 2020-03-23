@@ -52,12 +52,12 @@ class ProfilePhoto extends Component {
             await axios.post(Strings.IMAGE_UPLOADER, formData, {
                 onUploadProgress: event => {
                     this.setState({
-                        UploadProgress: <div class="progress-bar">
-                            <div class="progress-circle"></div>
-                            <div class="progress-circle"></div>
-                            <div class="progress-circle"></div>
-                            <div class="progress-circle"></div>
-                            <div class="progress-circle"></div>
+                        UploadProgress: <div className="progress-bar">
+                            <div className="progress-circle"></div>
+                            <div className="progress-circle"></div>
+                            <div className="progress-circle"></div>
+                            <div className="progress-circle"></div>
+                            <div className="progress-circle"></div>
                         </div>
                     });
                 }
@@ -109,8 +109,8 @@ class ProfilePhoto extends Component {
         return (
             <section>
                 <input type="file" onChange={this.onImageUpload} style={{ display: "none", }} ref={fileInput => this.fileInput = fileInput} />
-                <figure class="media">
-                    <div class="media-img media-img-has-play ratio-movie" style={{
+                <figure className="media">
+                    <div className="media-img media-img-has-play ratio-movie" style={{
                         width: "200px",
                         height: "200px",
                         border: "0px",
@@ -118,9 +118,9 @@ class ProfilePhoto extends Component {
                         border: "5px solid #3A3A3C"
                     }}>
                         <a href="#" onClick={() => this.fileInput.click()}>
-                            <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
+                            <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
                                 src={this.state.PhotoURL} alt="ProfilePhoto.png" />
-                            <i class="glyph glyph-edit"></i>
+                            <i className="glyph glyph-edit"></i>
                         </a>
                     </div>
                 </figure>
