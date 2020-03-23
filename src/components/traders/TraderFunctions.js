@@ -177,9 +177,43 @@ export const updateIdentityCard = updatedIdentityCard => {
 
 // POST: deleteIdentityCard
 export const deleteIdentityCard = discardedIdentityCard => {
-    console.log("Posting to delete from axios...")
     return axios.delete(`${Strings.NAQEL_SERVER}traders/deleteIdentityCard`, {
         headers: { Authorization: `JWT ${discardedIdentityCard.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addCommercialRegisterCertificate
+export const addCommercialRegisterCertificate = newCommercialRegisterCertificate => {
+    return axios.post(`${Strings.NAQEL_SERVER}traders/addCommercialRegisterCertificate`, {
+        Number: newCommercialRegisterCertificate.Number,
+        Type: newCommercialRegisterCertificate.Type,
+        PhotoURL: newCommercialRegisterCertificate.PhotoURL
+    }, {
+        headers: { Authorization: `JWT ${newCommercialRegisterCertificate.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: updateCommercialRegisterCertificate
+export const updateCommercialRegisterCertificate = updatedCommercialRegisterCertificate => {
+    return axios.post(`${Strings.NAQEL_SERVER}traders/updateCommercialRegisterCertificate`, {
+        Number: updatedCommercialRegisterCertificate.Number,
+        Type: updatedCommercialRegisterCertificate.Type,
+        PhotoURL: updatedCommercialRegisterCertificate.PhotoURL
+    }, {
+        headers: { Authorization: `JWT ${updatedCommercialRegisterCertificate.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: deleteCommercialRegisterCertificate
+export const deleteCommercialRegisterCertificate = discardedCommercialRegisterCertificate => {
+    return axios.delete(`${Strings.NAQEL_SERVER}traders/deleteCommercialRegisterCertificate`, {
+        headers: { Authorization: `JWT ${discardedCommercialRegisterCertificate.Token}` }
     }).then(response => {
         return response.data;
     });

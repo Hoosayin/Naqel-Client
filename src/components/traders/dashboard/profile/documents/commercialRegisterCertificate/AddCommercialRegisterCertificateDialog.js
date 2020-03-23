@@ -1,64 +1,34 @@
 import React, { Component } from "react";
+import UUID from "uuid-v4";
 import { Required } from "../../../../../../styles/MiscellaneousStyles.js";
 import ImageUploader from "../../../../../../controls/ImageUploader.js";
 import Preloader from "../../../../../../controls/Preloader.js";
-import { getData, updateIdentityCard } from "../../../../TraderFunctions.js";
+import { addCommercialRegisterCertificate } from "../../../../TraderFunctions.js";
 
-class EditIdentityCardDialog extends Component {
+class AddCommercialRegisterCertificateDialog extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            IDNumber: "",
+            Number: UUID(),
+            Type: "",
             PhotoURL: "./images/default_image.png",
 
-            ValidIDNumber: true,
-            ValidPhotoURL: true,
+            ValidType: false,
+            ValidPhotoURL: false,
 
             ValidForm: false,
             Preloader: null,
 
             Errors: {
-                IDNumber: "",
-                PhotoURL: "",
+                Type: "",
+                PhotoURL: ""
             }
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.validateField = this.validateField.bind(this);
-    }
-
-    componentDidMount() {
-        if (localStorage.Token) {
-            this.setState({
-                Preloader: <Preloader />
-            });
-
-            let request = {
-                Token: localStorage.Token,
-                Get: "IdentityCard"
-            };
-
-            getData(request).then(response => {
-                if (response.Message === "Identity card found.") {
-                    let identityCard = response.IdentityCard;
-
-                    this.setState({
-                        IDNumber: identityCard.IDNumber,
-                        PhotoURL: identityCard.PhotoURL,
-                        Preloader: null
-                    });
-                }
-                else {
-                    this.setState({
-                        IDNumber: "",
-                        PhotoURL: "./images/default_image.png",
-                        Preloader: null
-                    });
-                }
-            });
-        }
     }
 
     onChange = event => {
@@ -71,21 +41,13 @@ class EditIdentityCardDialog extends Component {
 
     validateField(field, value) {
         let Errors = this.state.Errors;
-
-        let ValidIDNumber = this.state.ValidIDNumber;
+        let ValidType = this.state.ValidType;
         let ValidPhotoURL = this.state.ValidPhotoURL;
 
         switch (field) {
-            case "IDNumber":
-                ValidIDNumber = (value !== "");
-                Errors.IDNumber = ValidIDNumber ? "" : "ID number is required.";
-
-                if (Errors.IDNumber !== "") {
-                    break;
-                }
-
-                ValidIDNumber = (value >= 1000000000 && value <= 9999999999);
-                Errors.IDNumber = ValidIDNumber ? "" : "ID number must be 10-digits long.";
+            case "Type":
+                ValidType = (value !== "");
+                Errors.Type = ValidType ? "" : "Certificate type is required.";
                 break;
             case "PhotoURL":
                 ValidPhotoURL = (value !== null);
@@ -97,13 +59,13 @@ class EditIdentityCardDialog extends Component {
 
         this.setState({
             Errors: Errors,
-            ValidIDNumber: ValidIDNumber,
+            ValidType: ValidType,
             ValidPhotoURL: ValidPhotoURL,
         }, () => {
-            this.setState({
-                ValidForm: this.state.ValidIDNumber &&
-                    this.state.ValidPhotoURL
-            });
+                this.setState({
+                    ValidForm: this.state.ValidType &&
+                        this.state.ValidPhotoURL
+                });
         });
     }
 
@@ -114,20 +76,21 @@ class EditIdentityCardDialog extends Component {
             return;
         }
 
-        const updatedIdentityCard = {
+        const newCommercialRegisterCertificate = {
             Token: localStorage.Token,
-            IDNumber: this.state.IDNumber,
-            PhotoURL: this.state.PhotoURL,
-        }
+            Number: this.state.Number,
+            Type: this.state.Type,
+            PhotoURL: this.state.PhotoURL
+        };
 
-        console.log("Going to update Identity Card.");
+        console.log("Going to add commercial register certificate.");
 
         this.setState({
             Preloader: <Preloader />
         });
 
-        updateIdentityCard(updatedIdentityCard).then(response => {
-            if (response.Message === "Identity card is updated.") {
+        addCommercialRegisterCertificate(newCommercialRegisterCertificate).then(response => {
+            if (response.Message === "Commercial register certificate is added.") {
                 this.props.OnOK(this.cancelButton);
             }
 
@@ -139,8 +102,8 @@ class EditIdentityCardDialog extends Component {
 
     render() {
         return (
-            <section>
-                <div className="modal" id="edit-identity-card-dialog"
+            <section className="text-left">
+                <div className="modal" id="add-commercial-register-certificate-dialog"
                     tabIndex="-1" role="dialog"
                     aria-labelledby="modal-sample-label" aria-hidden="true">
                     {this.state.Preloader}
@@ -149,8 +112,8 @@ class EditIdentityCardDialog extends Component {
                             <section>
                                 <form noValidate onSubmit={this.onSubmit}>
                                     <div className="modal-header">
-                                        <img alt="pencil.png" src="./images/pencil.png" height="60" />
-                                        <div className="type-h3">Edit Identity Card</div>
+                                        <img alt="add.png" src="./images/add.png" height="60" />
+                                        <div className="type-h3">Add Commercial Register Certificate</div>
                                     </div>
                                     <div className="modal-body">
                                         <div className="row">
@@ -160,7 +123,7 @@ class EditIdentityCardDialog extends Component {
                                                         Source={this.state.PhotoURL}
                                                         Height="220px"
                                                         Width="220px"
-                                                        OnImageUploaded={response => {
+                                                        OnImageUploaded={response => { 
                                                             if (response.message === "Image uploaded successfully.") {
                                                                 this.setState({
                                                                     PhotoURL: response.imageUrl
@@ -175,7 +138,7 @@ class EditIdentityCardDialog extends Component {
                                                         OnInvalidImageSelected={() => {
                                                             this.validateField("PhotoURL", null);
                                                         }}
-                                                        ImageCategory="IdentityCard" />
+                                                        ImageCategory="CommercialRegisterCertificate" />
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="text-danger">{this.state.Errors.PhotoURL}</label>
@@ -183,11 +146,17 @@ class EditIdentityCardDialog extends Component {
                                             </div>
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <label className="control-label">ID Number</label>
+                                                    <label className="control-label">Certificate Number</label>
                                                     <span className="text-danger" style={Required}>*</span>
-                                                    <input type="number" name="IDNumber" className="form-control" autoComplete="off" required
-                                                        value={this.state.IDNumber} onChange={this.onChange} min="1000000000" max="99999999999" />
-                                                    <span className="text-danger">{this.state.Errors.IDNumber}</span>
+                                                    <input type="text" name="Number" className="form-control" autoComplete="off" readOnly
+                                                        value={this.state.Number} onChange={this.onChange} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Certificate Type</label>
+                                                    <span className="text-danger" style={Required}>*</span>
+                                                    <input type="text" name="Type" className="form-control" autoComplete="off" required
+                                                        value={this.state.Type} onChange={this.onChange} />
+                                                    <span className="text-danger">{this.state.Errors.Type}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,16 +164,16 @@ class EditIdentityCardDialog extends Component {
                                     <div className="modal-footer">
                                         <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
                                             ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                        <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                        <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                     </div>
                                 </form>
                             </section>
                         </div>
                     </div>
                 </div>
-            </section>
+            </section>            
         );
     }
 };
 
-export default EditIdentityCardDialog;
+export default AddCommercialRegisterCertificateDialog;

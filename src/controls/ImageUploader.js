@@ -43,12 +43,12 @@ class ImageUploader extends Component {
             onUploadProgress: event => {
                 this.setState({
                     UploadProgress: (
-                        <div class="progress-bar">
-                            <div class="progress-circle"></div>
-                            <div class="progress-circle"></div>
-                            <div class="progress-circle"></div>
-                            <div class="progress-circle"></div>
-                            <div class="progress-circle"></div>
+                        <div className="progress-bar">
+                            <div className="progress-circle"></div>
+                            <div className="progress-circle"></div>
+                            <div className="progress-circle"></div>
+                            <div className="progress-circle"></div>
+                            <div className="progress-circle"></div>
                         </div>
                     ),
                 });
@@ -76,8 +76,8 @@ class ImageUploader extends Component {
         return (
             <div>
                 <input type="file" onChange={this.onImageUpload} style={{ display: "none", }} ref={fileInput => this.fileInput = fileInput} />
-                <figure class="media">
-                    <div class="media-img media-img-has-play ratio-movie" style={{
+                <figure className="media">
+                    <div className="media-img media-img-has-play ratio-movie" style={{
                         width: this.props.Width,
                         height: this.props.Height,
                         border: "0px",
@@ -86,7 +86,7 @@ class ImageUploader extends Component {
                     }}>
                         <a onClick={() => this.fileInput.click()}>
                             <img src={this.props.Source} alt="dafault-image.png" />
-                            <i class="glyph glyph-edit"></i>
+                            <i className="glyph glyph-edit"></i>
                         </a>
                     </div>
                 </figure>

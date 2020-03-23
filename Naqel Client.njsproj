@@ -230,6 +230,10 @@
     <Content Include="src\components\traders\dashboard\jobs\Jobs.js" />
     <Content Include="src\components\traders\dashboard\payments\Payments.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\DocumentsList.js" />
+    <Content Include="src\components\traders\dashboard\profile\documents\commercialRegisterCertificate\AddCommercialRegisterCertificateButton.js" />
+    <Content Include="src\components\traders\dashboard\profile\documents\commercialRegisterCertificate\AddCommercialRegisterCertificateDialog.js" />
+    <Content Include="src\components\traders\dashboard\profile\documents\commercialRegisterCertificate\EditCommercialRegisterCertificateDialog.js" />
+    <Content Include="src\components\traders\dashboard\profile\documents\commercialRegisterCertificate\CommercialRegisterCertificateListItem.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\identityCard\AddIdentityCardButton.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\identityCard\AddIdentityCardDialog.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\identityCard\EditIdentityCardDialog.js" />
@@ -362,6 +366,7 @@
     <Folder Include="src\components\traders\dashboard\payments\" />
     <Folder Include="src\components\traders\dashboard\profile\" />
     <Folder Include="src\components\traders\dashboard\profile\documents\" />
+    <Folder Include="src\components\traders\dashboard\profile\documents\commercialRegisterCertificate\" />
     <Folder Include="src\components\traders\dashboard\profile\documents\identityCard\" />
     <Folder Include="src\components\traders\dashboard\settings\" />
     <Folder Include="src\components\users\" />
