@@ -33,7 +33,7 @@ class AddCommercialRegisterCertificateButton extends Component {
                                 }} />
                         });
                     }}>
-                    <span className="fas fa-plus" aria-hidden="true"></span> Identity Card
+                    <span className="fas fa-plus" aria-hidden="true"></span> CR Certificate
                 </button>
                 {this.state.AddCommercialRegisterCertificateDialog}
             </section>

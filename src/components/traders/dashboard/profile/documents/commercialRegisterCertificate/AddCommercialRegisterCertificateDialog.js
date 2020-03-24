@@ -10,7 +10,7 @@ class AddCommercialRegisterCertificateDialog extends Component {
         super(props);
 
         this.state = {
-            Number: UUID(),
+            Number: UUID().substring(0, 7).toUpperCase(),
             Type: "",
             PhotoURL: "./images/default_image.png",
 

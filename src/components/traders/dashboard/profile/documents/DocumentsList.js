@@ -37,6 +37,7 @@ class DocumentsList extends Component {
 
             getData(request).then(response =>
             {
+                console.log(response);
                 if (response.Message === "Identity card found.") {
                     identityCard = response.IdentityCard;
                 }
@@ -44,7 +45,7 @@ class DocumentsList extends Component {
                     identityCard = undefined;
                 }
 
-                let request = {
+                request = {
                     Token: localStorage.Token,
                     Get: "CommercialRegisterCertificate"
                 };

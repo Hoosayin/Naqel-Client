@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import UUID from "uuid-v4";
 import { Required } from "../../../../../../styles/MiscellaneousStyles.js";
 import ImageUploader from "../../../../../../controls/ImageUploader.js";
 import Preloader from "../../../../../../controls/Preloader.js";
@@ -10,12 +9,12 @@ class EditCommercialRegisterCertificateDialog extends Component {
         super(props);
 
         this.state = {
-            Number: UUID(),
+            Number: "",
             Type: "",
             PhotoURL: "./images/default_image.png",
 
-            ValidType: false,
-            ValidPhotoURL: false,
+            ValidType: true,
+            ValidPhotoURL: true,
 
             ValidForm: false,
             Preloader: null,
@@ -44,7 +43,7 @@ class EditCommercialRegisterCertificateDialog extends Component {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
-                Get: "CommericialRegisterCertificate"
+                Get: "CommercialRegisterCertificate"
             };
 
             getData(request).then(response => {
@@ -60,7 +59,7 @@ class EditCommercialRegisterCertificateDialog extends Component {
                 }
                 else {
                     this.setState({
-                        Number: UUID(),
+                        Number: "",
                         Type: "",
                         PhotoURL: "./images/default_image.png",
                         Preloader: null
