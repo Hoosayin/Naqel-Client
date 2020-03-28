@@ -218,3 +218,56 @@ export const deleteCommercialRegisterCertificate = discardedCommercialRegisterCe
         return response.data;
     });
 };
+
+// POST: addJobOffer
+export const addJobOffer = async newJobOffer => {
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/addJobOffer`, {
+        TripType: newJobOffer.TripType,
+        CargoType: newJobOffer.CargoType,
+        CargoWeight: newJobOffer.CargoWeight,
+        LoadingPlace: newJobOffer.LoadingPlace,
+        UnloadingPlace: newJobOffer.UnloadingPlace,
+        LoadingDate: newJobOffer.LoadingDate,
+        LoadingTime: newJobOffer.LoadingTime,
+        EntryExit: newJobOffer.EntryExit,
+        Price: newJobOffer.Price,
+        AcceptedDelay: newJobOffer.AcceptedDelay,
+        JobOfferType: newJobOffer.JobOfferType
+    }, {
+        headers: { Authorization: `JWT ${newJobOffer.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: updateJobOffer
+export const updateJobOffer = async updatedJobOffer => {
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/updateJobOffer`, {
+        TripType: updatedJobOffer.TripType,
+        CargoType: updatedJobOffer.CargoType,
+        CargoWeight: updatedJobOffer.CargoWeight,
+        LoadingPlace: updatedJobOffer.LoadingPlace,
+        UnloadingPlace: updatedJobOffer.UnloadingPlace,
+        LoadingDate: updatedJobOffer.LoadingDate,
+        LoadingTime: updatedJobOffer.LoadingTime,
+        EntryExit: updatedJobOffer.EntryExit,
+        Price: updatedJobOffer.Price,
+        AcceptedDelay: updatedJobOffer.AcceptedDelay,
+        JobOfferType: updatedJobOffer.JobOfferType
+    }, {
+        headers: { Authorization: `JWT ${updatedJobOffer.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: deleteJobOffer
+export const deleteJobOffer = async discardedJobOffer => {
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/deleteJobOffer`, {
+        JobOfferID: discardedJobOffer.JobOfferID
+    }, {
+        headers: { Authorization: `JWT ${discardedJobOffer.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};

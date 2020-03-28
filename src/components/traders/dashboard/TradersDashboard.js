@@ -28,7 +28,7 @@ class TradersDashboard extends Component {
                             <Profile ref="Profile" />
                         </div>
                         <div role="tabpanel" className="tab-pane" id="jobs">
-                            Jobs
+                            <Jobs />
                         </div>
                         <div role="tabpanel" className="tab-pane" id="payments">
                             Payments

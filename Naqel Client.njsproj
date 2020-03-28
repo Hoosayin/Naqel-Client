@@ -227,7 +227,13 @@
     <Content Include="src\components\drivers\dashboard\trucks\Trucks.js" />
     <Content Include="src\components\drivers\dashboard\trucks\TruckSettings.js" />
     <Content Include="src\components\drivers\DriverFunctions.js" />
+    <Content Include="src\components\traders\dashboard\jobs\jobOffers\AddJobOfferDialog.js" />
+    <Content Include="src\components\traders\dashboard\jobs\jobOffers\EditJobOfferDialog.js" />
+    <Content Include="src\components\traders\dashboard\jobs\jobRequests\JobRequests.js" />
+    <Content Include="src\components\traders\dashboard\jobs\jobOffers\JobOffers.js" />
+    <Content Include="src\components\traders\dashboard\jobs\jobOffers\JobOffersList.js" />
     <Content Include="src\components\traders\dashboard\jobs\Jobs.js" />
+    <Content Include="src\components\traders\dashboard\jobs\onGoingJobs\OnGoingJobs.js" />
     <Content Include="src\components\traders\dashboard\payments\Payments.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\DocumentsList.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\commercialRegisterCertificate\AddCommercialRegisterCertificateButton.js" />
@@ -363,6 +369,9 @@
     <Folder Include="src\components\traders\" />
     <Folder Include="src\components\traders\dashboard\" />
     <Folder Include="src\components\traders\dashboard\jobs\" />
+    <Folder Include="src\components\traders\dashboard\jobs\jobOffers\" />
+    <Folder Include="src\components\traders\dashboard\jobs\jobRequests\" />
+    <Folder Include="src\components\traders\dashboard\jobs\onGoingJobs\" />
     <Folder Include="src\components\traders\dashboard\payments\" />
     <Folder Include="src\components\traders\dashboard\profile\" />
     <Folder Include="src\components\traders\dashboard\profile\documents\" />

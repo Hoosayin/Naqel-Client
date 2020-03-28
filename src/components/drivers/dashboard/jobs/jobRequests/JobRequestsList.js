@@ -60,7 +60,7 @@ class JobRequestsList extends Component {
         }
         else {
             this.setState({
-                PermitLicences: []
+                JobRequests: []
             });
         }
     }
