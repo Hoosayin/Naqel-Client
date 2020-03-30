@@ -19,9 +19,7 @@ class JobOffers extends Component {
     }
 
     onJobOffersUpdated = () => {
-        if (this.JobOffersList) {
-            this.JobOffersList.onComponentUpdated();
-        }
+        this.JobOffersList.onComponentUpdated();
     }
 
     render() {
@@ -65,7 +63,7 @@ class JobOffers extends Component {
                         </div>
                     </div>
                 </div>
-                <JobOffersList ref="JobOffersList" />
+                <JobOffersList ref={jobOffersList => this.JobOffersList = jobOffersList} />
                 {this.state.AddJobOfferDialog}             
             </section>
         );

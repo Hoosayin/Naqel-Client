@@ -285,7 +285,7 @@ class AddJobOfferDialog extends Component {
                                                     <label className="control-label">Loading Time</label>
                                                     <span className="text-danger" style={Required}>*</span>
                                                     <input type="time" name="LoadingTime" className="form-control" autoComplete="off"
-                                                        value={this.state.LoadingDate} onChange={this.onChange} />
+                                                        value={this.state.LoadingTime} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.LoadingTime}</span>
                                                 </div>
                                                 <div className="form-group">
@@ -307,14 +307,14 @@ class AddJobOfferDialog extends Component {
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <button type="button" data-toggle="button" class="btn btn-toggle-switch"
+                                                    <button type="button" data-toggle="button" className="btn btn-toggle-switch"
                                                         autocomplete="off" aria-pressed="false"
                                                         onClick={() => {
                                                             this.state.JobOfferType = (this.state.JobOfferType === "Fixed-Price") ?
                                                                 "Auctionable" : "Fixed-Price";
                                                         }}>
-                                                        <span class="stateLabel stateLabel-on">Auctionable Job Offer</span>
-                                                        <span class="stateLabel stateLabel-off">Fixed-Price Job Offer</span>
+                                                        <span className="stateLabel stateLabel-on">Auctionable Job Offer</span>
+                                                        <span className="stateLabel stateLabel-off">Fixed-Price Job Offer</span>
                                                     </button>
                                                 </div>
                                                 <div className="form-group">

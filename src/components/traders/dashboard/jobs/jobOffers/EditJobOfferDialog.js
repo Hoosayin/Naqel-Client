@@ -8,6 +8,7 @@ class EditJobOfferDialog extends Component {
         super(props);
 
         this.state = {
+            JobOfferID: this.props.JobOffer.JobOfferID,
             LoadingPlace: this.props.JobOffer.LoadingPlace,
             UnloadingPlace: this.props.JobOffer.UnloadingPlace,
             TripType: this.props.JobOffer.TripType,
@@ -104,8 +105,6 @@ class EditJobOfferDialog extends Component {
                 Errors.LoadingDate = ValidLoadingDate ? "" : "Loading date must be later than yesterday.";
                 break;
             case "LoadingTime":
-                ValidLoadingTime = (value !== "");
-                Errors.LoadingTime = ValidLoadingTime ? "" : "Loading time is required.";
                 break;
             case "AcceptedDelay":
                 ValidAcceptedDelay = (value !== "");
@@ -166,6 +165,7 @@ class EditJobOfferDialog extends Component {
 
         const updatedJobOffer = {
             Token: localStorage.Token,
+            JobOfferID: this.state.JobOfferID,
             TripType: this.state.TripType,
             CargoType: this.state.CargoType,
             CargoWeight: this.state.CargoWeight,
@@ -198,18 +198,18 @@ class EditJobOfferDialog extends Component {
     
     render() {
         return (
-            <section class="text-left">
-                <div class="modal" id={`edit-job-offer-dialog-${this.props.DialogID}`}
+            <section className="text-left">
+                <div className="modal" id={`edit-job-offer-dialog-${this.props.DialogID}`}
                     tabIndex="-1" role="dialog"
                     aria-labelledby="modal-sample-label" aria-hidden="true">
                     {this.state.Preloader}
-                    <div class="modal-dialog">
-                        <div class="modal-content">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
                             <section>
                                 <form noValidate onSubmit={this.onSubmit}>
-                                    <div class="modal-header">
+                                    <div className="modal-header">
                                         <img alt="pencil.png" src="./images/pencil.png" height="60" />
-                                        <div class="type-h3">Add Job Offer</div>
+                                        <div className="type-h3">Edit Job Offer</div>
                                     </div>
                                     <div className="modal-body">
                                         <div className="row">
@@ -279,7 +279,7 @@ class EditJobOfferDialog extends Component {
                                                     <label className="control-label">Loading Time</label>
                                                     <span className="text-danger" style={Required}>*</span>
                                                     <input type="time" name="LoadingTime" className="form-control" autoComplete="off"
-                                                        value={this.state.LoadingDate} onChange={this.onChange} />
+                                                        value={this.state.LoadingTime} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.LoadingTime}</span>
                                                 </div>
                                                 <div className="form-group">
@@ -301,22 +301,24 @@ class EditJobOfferDialog extends Component {
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <button type="button" data-toggle="button" class="btn btn-toggle-switch"
-                                                        autocomplete="off" aria-pressed="false"
+                                                    <button type="button" data-toggle="button" className={(this.state.JobOfferType === "Auctionable") ? "btn btn-toggle-switch active" : "btn btn-toggle-switch"}
+                                                        autocomplete="off" aria-pressed={(this.state.JobOfferType === "Auctionable") ? "true" : "false"}
                                                         onClick={() => {
                                                             this.state.JobOfferType = (this.state.JobOfferType === "Fixed-Price") ?
                                                                 "Auctionable" : "Fixed-Price";
+                                                            this.validateField("", "");
                                                         }}>
-                                                        <span class="stateLabel stateLabel-on">Auctionable Job Offer</span>
-                                                        <span class="stateLabel stateLabel-off">Fixed-Price Job Offer</span>
+                                                        <span className="stateLabel stateLabel-on">Auctionable Job Offer</span>
+                                                        <span className="stateLabel stateLabel-off">Fixed-Price Job Offer</span>
                                                     </button>
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="checkbox">
                                                         <label className="control-label">
-                                                            <input type="checkbox" name="EntryExit"
+                                                            <input type="checkbox" name="EntryExit" defaultChecked={(this.state.EntryExit === 1) ? "checked" : ""}
                                                                 value={this.state.EntryExit} onChange={() => {
-                                                                    this.state.EntryExit = this.state.EntryExit ? 0 : 1;
+                                                                    this.state.EntryExit = (this.state.EntryExit === 1) ? 0 : 1;
+                                                                    this.validateField("", "");
                                                                 }}></input>
                                                             <span>Entry/Exit</span>
                                                         </label>
@@ -325,10 +327,10 @@ class EditJobOfferDialog extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
+                                    <div className="modal-footer">
+                                        <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
                                             ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                        <input type="submit" value="Add" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                                        <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                     </div>
                                 </form>
                             </section>

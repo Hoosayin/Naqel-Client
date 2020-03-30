@@ -243,6 +243,7 @@ export const addJobOffer = async newJobOffer => {
 // POST: updateJobOffer
 export const updateJobOffer = async updatedJobOffer => {
     return await axios.post(`${Strings.NAQEL_SERVER}traders/updateJobOffer`, {
+        JobOfferID: updatedJobOffer.JobOfferID,
         TripType: updatedJobOffer.TripType,
         CargoType: updatedJobOffer.CargoType,
         CargoWeight: updatedJobOffer.CargoWeight,
@@ -261,9 +262,10 @@ export const updateJobOffer = async updatedJobOffer => {
     });
 };
 
-// POST: deleteJobOffer
+// DELETE: deleteJobOffer
 export const deleteJobOffer = async discardedJobOffer => {
-    return await axios.post(`${Strings.NAQEL_SERVER}traders/deleteJobOffer`, {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}traders/deleteJobOffer...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}traders/deleteJobOffer`, {
         JobOfferID: discardedJobOffer.JobOfferID
     }, {
         headers: { Authorization: `JWT ${discardedJobOffer.Token}` }
