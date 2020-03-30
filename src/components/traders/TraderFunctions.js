@@ -52,9 +52,9 @@ export const loginTrader = async trader => {
 };
 
 // GET: GetData
-export const getData = request => {
+export const getData = async request => {
     console.log(`Sending GET request to ${Strings.NAQEL_SERVER}traders/get${request.Get}...`);
-    return axios.get(`${Strings.NAQEL_SERVER}traders/get${request.Get}`, {
+    return await axios.get(`${Strings.NAQEL_SERVER}traders/get${request.Get}`, {
         headers: { Authorization: `JWT ${request.Token}` }
     }).then(response => {
         return response.data;

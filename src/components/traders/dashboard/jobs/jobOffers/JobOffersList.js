@@ -21,7 +21,7 @@ class JobOffersList extends Component {
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
-    onDelete = async index => {
+    onDelete = index => {
         this.setState({
             Preloader: <Preloader />
         });
@@ -33,7 +33,7 @@ class JobOffersList extends Component {
 
         console.log(`Going to delete JobOffers[${index}]...`);
 
-        await deleteJobOffer(discardedJobOffer).then(response => {
+        deleteJobOffer(discardedJobOffer).then(response => {
             console.log(response);
             if (response.Message === "Job offer is deleted.") {
                 this.onComponentUpdated();
@@ -49,14 +49,14 @@ class JobOffersList extends Component {
         this.onComponentUpdated();
     }
 
-    onComponentUpdated = () => {
+    onComponentUpdated = async () => {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
                 Get: "JobOffers"
             };
 
-            getData(request).then(response => {
+            await getData(request).then(response => {
                 if (response.Message === "Job offers found.") {
                     console.log(response);
                     this.setState({
