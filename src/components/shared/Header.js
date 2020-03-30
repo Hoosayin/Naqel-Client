@@ -4,28 +4,46 @@ import jwt_decode from "jwt-decode";
 import Strings from "../../res/strings"
 
 class Header extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
-        if (localStorage.userToken) {
-            const decoded = jwt_decode(localStorage.userToken);
-
-            this.state = {
-                Username: decoded.Username,
-            };
-        }
-        else {
-            this.state = {
-                Username: "User",
-            };
-        }
+        this.state = {
+            Username: "User"
+        };
 
         this.logOut = this.logOut.bind(this);
     }
 
-    logOut = e => {
-        e.preventDefault();
-        localStorage.removeItem("userToken");
+    componentDidMount() {
+        if (localStorage.userToken) {
+            const decoded = jwt_decode(localStorage.userToken);
+
+            this.setState({
+                Username: decoded.Username
+            });
+        }
+        else if (localStorage.Token) {
+            this.setState({
+                Username: "Trader"
+            });
+        }
+        else {
+            this.setState({
+                Username: "User"
+            });
+        }
+    }
+
+    logOut = event => {
+        event.preventDefault();
+
+        if (localStorage.userToken) {
+            localStorage.removeItem("userToken");
+        }
+        else if (localStorage.Token) {
+            localStorage.removeItem("Token");
+        }
+
         this.props.history.push(`/login`);
     }
 
@@ -69,7 +87,7 @@ class Header extends Component {
                                 <ul className="nav navbar-nav">
                                     
                                 </ul>
-                                {localStorage.userToken ? userLinks : loginRegisterLinks}
+                                {(localStorage.userToken || localStorage.Token) ? userLinks : loginRegisterLinks}
                             </div>
                         </div>
                     </div>
