@@ -43,10 +43,6 @@ class UsernameAndEmailSettings extends Component {
 
     async componentDidMount() {
         if (localStorage.Token) {
-            this.setState({
-                Preloader: <Preloader />
-            });
-
             let request = {
                 Token: localStorage.Token,
                 Get: "Trader"
@@ -60,8 +56,7 @@ class UsernameAndEmailSettings extends Component {
                         Username: trader.Username,
                         NewUsername: trader.Username,
                         Email: trader.Email,
-                        NewEmail: trader.Email,
-                        Preloader: null
+                        NewEmail: trader.Email
                     });
                 }
                 else {
@@ -69,8 +64,7 @@ class UsernameAndEmailSettings extends Component {
                         Username: "",
                         NewUsername: "",
                         Email: "",
-                        NewEmail: "",
-                        Preloader: null
+                        NewEmail: ""
                     });
                 }
             });

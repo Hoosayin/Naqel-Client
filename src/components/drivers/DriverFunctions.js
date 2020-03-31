@@ -40,23 +40,14 @@ export const setupDriverAccount = async newDriver => {
 
 // POST: Login
 export const loginDriver = async driver => {
-    console.log("POST to /login");
+    console.log(`Sending HTTP POST request on ${Strings.NAQEL_SERVER}drivers/login`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/login`, {
         EmailOrUsername: driver.EmailOrUsername,
         Password: driver.Password,
         SignInAs: driver.SignInAs,
     }).then(response => {
-        if (response.data.localeCompare(Strings.USER_NOT_FOUND) === 0 ||
-            response.data.localeCompare(Strings.INVALID_PASSWORD) === 0) {
-            return response.data;
-        }
-        else {
-            localStorage.setItem('userToken', response.data);
-            return response.data;
-        }
-    }).catch(error => {
-        console.log(error);
-    });
+        return response.data;
+    })
 };
 
 // POST: GeneralSettings

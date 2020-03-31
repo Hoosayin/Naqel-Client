@@ -13,11 +13,11 @@ class Jobs extends Component {
                             <img src="./images/job_requests.png" alt="job_requests.png" />
                         </div>
                         <div className="item-content-secondary">
-                            
+
                         </div>
                         <div className="item-content-primary">
                             <div className="content-text-primary">Job Requests</div>
-                            <div className="content-text-secondary">Explore job requests from Drivers.</div>     
+                            <div className="content-text-secondary">Explore job requests from Drivers.</div>
                         </div>
                     </div>
                     <div className="entity-list-item" href="#job-offers" aria-controls="profile" role="tab" data-toggle="tab">

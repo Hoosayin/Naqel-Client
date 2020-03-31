@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import Strings from "../../res/strings"
 
 class Header extends Component {
@@ -12,26 +11,6 @@ class Header extends Component {
         };
 
         this.logOut = this.logOut.bind(this);
-    }
-
-    componentDidMount() {
-        if (localStorage.userToken) {
-            const decoded = jwt_decode(localStorage.userToken);
-
-            this.setState({
-                Username: decoded.Username
-            });
-        }
-        else if (localStorage.Token) {
-            this.setState({
-                Username: "Trader"
-            });
-        }
-        else {
-            this.setState({
-                Username: "User"
-            });
-        }
     }
 
     logOut = event => {
@@ -62,7 +41,7 @@ class Header extends Component {
         const userLinks = (
             <ul className="nav navbar-nav navbar-right">
                 <li>
-                    <Link to="/dashboard">{this.state.Username}</Link>
+                    <Link to={localStorage.userToken ? "/drivers" : "/traders"}>Dashboard</Link>
                 </li>
                 <li>
                     <Link to="" onClick={this.logOut.bind(this)}>Logout</Link>
@@ -82,11 +61,8 @@ class Header extends Component {
                                 </button>
                                 <Link to="/" className="navbar-brand">{Strings.APP_NAME.toUpperCase()}</Link>
                             </div>
-
                             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-                                <ul className="nav navbar-nav">
-                                    
-                                </ul>
+                                <ul className="nav navbar-nav"></ul>
                                 {(localStorage.userToken || localStorage.Token) ? userLinks : loginRegisterLinks}
                             </div>
                         </div>

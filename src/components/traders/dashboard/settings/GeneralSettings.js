@@ -36,10 +36,6 @@ class GeneralSettings extends Component {
 
     async componentDidMount() {
         if (localStorage.Token) {
-            this.setState({
-                Preloader: <Preloader />
-            });
-
             let request = {
                 Token: localStorage.Token,
                 Get: "Trader"
@@ -56,8 +52,7 @@ class GeneralSettings extends Component {
                         PhoneNumber: trader.PhoneNumber,
                         Gender: trader.Gender,
                         Nationality: trader.Nationality,
-                        DateOfBirth: trader.DateOfBirth,
-                        Preloader: null,
+                        DateOfBirth: trader.DateOfBirth
                     });
                 }
                 else {
@@ -68,8 +63,7 @@ class GeneralSettings extends Component {
                         PhoneNumber: "",
                         Gender: "",
                         Nationality: "",
-                        DateOfBirth: "",
-                        Preloader: null,
+                        DateOfBirth: ""
                     });
                 }
             });

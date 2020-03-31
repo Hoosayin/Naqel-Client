@@ -20,34 +20,66 @@ class Login extends Component {
             Password: "",
             SignInAs: "Driver",
 
+            ValidEmailOrUsername: false,
+            ValidPassword: false,
+
+            ValidForm: false,
             LoggedInAsDriver: false,
             LoggedInAsTrader: false,
+            LoginError: null,
 
-            NullError: false,
-            InvalidUsernameOrPassword: false,
-            Preloader: null,
-            Errors: {}
+            Errors: {
+                EmailOrUsername: "",
+                Password: ""
+            }
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
+    onChange = event => {
+        const name = event.target.name;
+        const value = event.target.value;
+
+        this.setState({ [name]: value },
+            () => { this.validateField(name, value) });
+    }
+
+    validateField(field, value) {
+        let Errors = this.state.Errors;
+        let ValidEmailOrUsername = this.state.ValidEmailOrUsername;
+        let ValidPassword = this.state.ValidPassword;
+
+        switch (field) {
+            case "EmailOrUsername":
+                ValidEmailOrUsername = (value !== "");
+                Errors.EmailOrUsername = ValidEmailOrUsername ? "" : "Email or username is required.";
+                break;
+            case "Password":
+                ValidPassword = (value != "");
+                Errors.Password = ValidPassword ? "" : "Password is required.";
+                break;
+            default:
+                break;
+        }
+
+        this.setState({
+            Errors: Errors,
+            ValidEmailOrUsername: ValidEmailOrUsername,
+            ValidPassword: ValidPassword
+        }, () => {
+                this.setState({
+                    ValidForm: this.state.ValidEmailOrUsername &&
+                    this.state.ValidPassword
+            });
+        });
     }
 
     onSubmit = async event => {
         await event.preventDefault();
 
-        if (this.state.EmailOrUsername == "" ||
-            this.state.Password == "") {
-
-            this.setState({
-                NullError: true,
-                InvalidUsernameOrPassword: false,
-            });
-
+        if (!this.state.ValidForm) {
             return;
         }
 
@@ -65,14 +97,22 @@ class Login extends Component {
             console.log("logging in as Driver...");
 
             await loginDriver(user).then(response => {
-                if (response && localStorage.userToken) {
-                    this.props.history.push("/drivers");
+                console.log(response);
+                if (response.Message === "Login successful.") {
+                    localStorage.setItem("Token", response.Token);
+
+                    this.setState({
+                        LoggedInAsDriver: true,
+                        Preloader: null
+                    });
                 }
                 else {
                     this.setState({
-                        NullError: false,
-                        InvalidUsernameOrPassword: true,
-                        Preloader: null
+                        LoginError: <div>
+                            <label className="control-label text-danger">{response.Message}</label>
+                            <br />
+                        </div>,
+                        Preloader: null,
                     });
                 }
             });
@@ -85,14 +125,17 @@ class Login extends Component {
                     localStorage.setItem("Token", response.Token);
 
                     this.setState({
-                        LoggedInAsTrader: true
+                        LoggedInAsTrader: true,
+                        Preloader: null
                     });
                 }
                 else {
                     this.setState({
-                        NullError: false,
-                        InvalidUsernameOrPassword: true,
-                        Preloader: null
+                        LoginError: <div>
+                            <label className="control-label text-danger">{response.Message}</label>
+                            <br />
+                        </div>,
+                        Preloader: null,
                     });
                 }
             });
@@ -100,7 +143,10 @@ class Login extends Component {
     }
 
     render() {
-        if (this.state.LoggedInAsTrader) {
+        if (this.state.LoggedInAsDriver) {
+            return <Redirect to={"/drivers"} />;
+        }
+        else if (this.state.LoggedInAsTrader) {
             return <Redirect to={"/traders"} />;
         }
         else {
@@ -109,53 +155,44 @@ class Login extends Component {
                     <div className="theme-default animated fadeIn" style={Card} >
                         <div style={CardChild}>
                             <img src="./images/login.png" alt="Login.png" height="60" />
-                            <div class="type-h3" style={CardTitle}>Sign In</div>
+                            <div className="type-h3" style={CardTitle}>Sign In</div>
                             <br />
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div class="form-group">
-                                    <label htmlFor="EmailOrUsername" class="control-label">Email or Username</label>
-                                    <input type="email" class="form-control" name="EmailOrUsername" placeholder="someone@provider.com"
+                                <div className="form-group">
+                                    <label htmlFor="EmailOrUsername" className="control-label">Email or Username</label>
+                                    <input type="email" className="form-control" name="EmailOrUsername" placeholder="someone@provider.com"
                                         value={this.state.EmailOrUsername} onChange={this.onChange} />
+                                    <span className="text-danger">{this.state.Errors.EmailOrUsername}</span>
                                 </div>
-                                <div class="form-group">
-                                    <label htmlFor="Password" class="control-label">Password</label>
+                                <div className="form-group">
+                                    <label htmlFor="Password" className="control-label">Password</label>
                                     <input type="password" className="form-control" name="Password" placeholder="Password"
                                         value={this.state.Password} onChange={this.onChange} />
+                                    <span className="text-danger">{this.state.Errors.Password}</span>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">Sign In As</label>
-                                    <div class="dropdown" style={{ width: "100%" }}>
-                                        <button id="example-dropdown" class="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
+                                <div className="form-group">
+                                    <label className="control-label">Sign In As</label>
+                                    <div className="dropdown" style={{ width: "100%" }}>
+                                        <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
                                             aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
                                             <span>{this.state.SignInAs}</span>
-                                            <span class="caret"></span>
+                                            <span className="caret"></span>
                                         </button>
-                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
+                                        <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
                                             <li><Link onClick={e => { this.state.SignInAs = "Driver" }} onChange={this.onChange}>Driver</Link></li>
                                             <li><Link onClick={e => { this.state.SignInAs = "Trader" }} onChange={this.onChange}>Trader</Link></li>
                                             <li><Link onClick={e => { this.state.SignInAs = "Broker" }} onChange={this.onChange}>Broker</Link></li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    {this.state.NullError &&
-                                        <div>
-                                            <label class="control-label text-danger">Email/Username and password is required.</label>
-                                            <br />
-                                        </div>
-                                    }
-                                    {this.state.InvalidUsernameOrPassword &&
-                                        <div>
-                                            <label class="control-label text-danger">Invalid username or password.</label>
-                                            <br />
-                                        </div>
-                                    }
-                                    <label class="control-label"><Link to="/">Forgot password</Link></label>
+                                <div className="form-group">
+                                    {this.state.LoginError}
+                                    <label className="control-label"><Link to="/">Forgot password</Link></label>
                                     <br />
-                                    <label class="control-label">No account? <span><Link to="/register">Register now</Link></span></label>
+                                    <label className="control-label">No account? <span><Link to="/register">Register now</Link></span></label>
                                 </div>
                                 <div>
-                                    <input type="submit" value="Sign In" class="btn btn-primary" />
+                                    <input type="submit" value="Sign In" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                 </div>
                             </form>
                         </div>
