@@ -50,6 +50,16 @@ export const loginDriver = async driver => {
     })
 };
 
+// GET: GetData
+export const getData = async request => {
+    console.log(`Sending GET request to ${Strings.NAQEL_SERVER}drivers/get${request.Get}...`);
+    return await axios.get(`${Strings.NAQEL_SERVER}drivers/get${request.Get}`, {
+        headers: { Authorization: `JWT ${request.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
 // POST: GeneralSettings
 export const generalSettings = async updatedDriver => {
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/generalSettings`, {
