@@ -15,13 +15,13 @@ class AddEntryExitCardButton extends Component {
             <section>
                 <button
                     type="button"
-                    class="btn btn-primary"
+                    className="btn btn-primary"
                     style={{ minWidth: "152px" }}
                     data-toggle="modal"
                     data-target="#add-entry-exit-card-dialog"
                     onMouseDown={() => {
                         this.setState({
-                            AddEntryExitCardDialog: (<AddEntryExitCardDialog
+                            AddEntryExitCardDialog: <AddEntryExitCardDialog
                                 OnCancel={() => {
                                     this.setState({
                                         AddEntryExitCardDialog: null,
@@ -30,11 +30,10 @@ class AddEntryExitCardButton extends Component {
                                 OnOK={cancelButton => {
                                     cancelButton.click();
                                     this.props.OnDocumentsUpdated();
-                                }} />),
+                                }} />
                         });
                     }}>
-                    <span class="fas fa-plus" aria-hidden="true"></span> Entry/Exit Card
-                </button>
+                    <span className="fas fa-plus" aria-hidden="true"></span> Entry/Exit Card</button>
                 {this.state.AddEntryExitCardDialog}
             </section>
         );
