@@ -104,19 +104,19 @@ class EntryExitCardListItem extends Component {
                             </div>
                             <div style={{ padding: "3px 0px 3px 0px" }}>
                                 <span className="fas fa-hashtag" style={{ color: "#606060" }}></span>
-                                <span style={{ fontWeight: "bold", color: "#404040" }}>Entry/Exit Number:</span> {this.state.EntryExitNumber}
+                                <span style={{ fontWeight: "bold", color: "#606060" }}>Entry/Exit Number:</span> {this.state.EntryExitNumber}
                             </div>
                             <div style={{ padding: "3px 0px 3px 0px" }}>
                                 <span className="fas fa-star-of-life" style={{ color: "#606060" }}></span>
-                                <span style={{ fontWeight: "bold", color: "#404040" }}>Licence Type:</span> {this.state.Type}
+                                <span style={{ fontWeight: "bold", color: "#606060" }}>Licence Type:</span> {this.state.Type}
                             </div>
                             <div style={{ padding: "3px 0px 3px 0px" }}>
                                 <span className="fas fa-calendar" style={{ color: "#606060" }}></span>
-                                <span style={{ fontWeight: "bold", color: "#404040" }}>Release Date:</span> {this.state.ReleaseDate}
+                                <span style={{ fontWeight: "bold", color: "#606060" }}>Release Date:</span> {this.state.ReleaseDate}
                             </div>
                             <div style={{ padding: "3px 0px 3px 0px" }}>
                                 <span className="fas fa-calendar" style={{ color: "#606060" }}></span>
-                                <span style={{ fontWeight: "bold", color: "#404040" }}>Number of Months:</span> {this.state.NumberOfMonths}
+                                <span style={{ fontWeight: "bold", color: "#606060" }}>Number of Months:</span> {this.state.NumberOfMonths}
                             </div>
                         </div>
                     </div>

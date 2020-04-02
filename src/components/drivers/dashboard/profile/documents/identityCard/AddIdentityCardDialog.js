@@ -83,10 +83,10 @@ class AddIdentityCardDialog extends Component {
         }
 
         const newIdentityCard = {
-            Token: localStorage.getItem("userToken"),
+            Token: localStorage.Token,
             IDNumber: this.state.IDNumber,
-            PhotoURL: this.state.PhotoURL,
-        }
+            PhotoURL: this.state.PhotoURL
+        };
 
         console.log("Going to add Identity Card.");
 
@@ -96,7 +96,6 @@ class AddIdentityCardDialog extends Component {
 
         await addIdentityCard(newIdentityCard).then(response => {
             if (response.Message === "Identity card is added.") {
-                localStorage.setItem("userToken", response.Token);
                 this.props.OnOK(this.cancelButton);
             }
 
@@ -107,72 +106,70 @@ class AddIdentityCardDialog extends Component {
     }
 
     render() {
-        return (
-            <section class="text-left">
-                <div class="modal" id="add-identity-card-dialog"
-                    tabindex="-1" role="dialog"
-                    aria-labelledby="modal-sample-label" aria-hidden="true">
-                    {this.state.Preloader}
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <section>
-                                <form noValidate onSubmit={this.onSubmit}>
-                                    <div class="modal-header">
-                                        <img alt="add.png" src="./images/add.png" height="60" />
-                                        <div class="type-h3">Add Identity Card</div>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <ImageUploader
-                                                        Source={this.state.PhotoURL}
-                                                        Height="220px"
-                                                        Width="220px"
-                                                        OnImageUploaded={response => { 
-                                                            if (response.message === "Image uploaded successfully.") {
-                                                                this.setState({
-                                                                    PhotoURL: response.imageUrl
-                                                                });
+        return <section className="text-left">
+            <div className="modal" id="add-identity-card-dialog"
+                tabIndex="-1" role="dialog"
+                aria-labelledby="modal-sample-label" aria-hidden="true">
+                {this.state.Preloader}
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <section>
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <div className="modal-header">
+                                    <img alt="add.png" src="./images/add.png" height="60" />
+                                    <div className="type-h3">Add Identity Card</div>
+                                </div>
+                                <div className="modal-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <ImageUploader
+                                                    Source={this.state.PhotoURL}
+                                                    Height="220px"
+                                                    Width="220px"
+                                                    OnImageUploaded={response => {
+                                                        if (response.message === "Image uploaded successfully.") {
+                                                            this.setState({
+                                                                PhotoURL: response.imageUrl
+                                                            });
 
-                                                                this.validateField("PhotoURL", this.state.PhotoURL);
-                                                            }
-                                                            else {
-                                                                this.validateField("PhotoURL", null);
-                                                            }
-                                                        }}
-                                                        OnInvalidImageSelected={() => {
+                                                            this.validateField("PhotoURL", this.state.PhotoURL);
+                                                        }
+                                                        else {
                                                             this.validateField("PhotoURL", null);
-                                                        }}
-                                                        ImageCategory="IdentityCard" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="text-danger">{this.state.Errors.PhotoURL}</label>
-                                                </div>
+                                                        }
+                                                    }}
+                                                    OnInvalidImageSelected={() => {
+                                                        this.validateField("PhotoURL", null);
+                                                    }}
+                                                    ImageCategory="IdentityCard" />
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">ID Number</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="number" name="IDNumber" class="form-control" autoComplete="off" required
-                                                        value={this.state.IDNumber} onChange={this.onChange} min="1000000000" max="9999999999"/>
-                                                    <span class="text-danger">{this.state.Errors.IDNumber}</span>
-                                                </div>
+                                            <div className="form-group">
+                                                <label className="text-danger">{this.state.Errors.PhotoURL}</label>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <label className="control-label">ID Number</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="number" name="IDNumber" className="form-control" autoComplete="off" required
+                                                    value={this.state.IDNumber} onChange={this.onChange} min="1000000000" max="9999999999" />
+                                                <span className="text-danger">{this.state.Errors.IDNumber}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
-                                            ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                        <input type="submit" value="Add" class="btn btn-primary" disabled={!this.state.ValidForm} />
-                                    </div>
-                                </form>
-                            </section>
-                        </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
+                                        ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
+                                    <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                </div>
+                            </form>
+                        </section>
                     </div>
                 </div>
-            </section>            
-        );
+            </div>
+        </section>;
     }
 };
 

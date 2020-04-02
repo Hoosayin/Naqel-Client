@@ -15,7 +15,7 @@ class AddIdentityCardButton extends Component {
             <section>
                 <button
                     type="button"
-                    class="btn btn-primary"
+                    className="btn btn-primary"
                     style={{ minWidth: "152px" }}
                     data-toggle="modal"
                     data-target="#add-identity-card-dialog"
@@ -33,8 +33,7 @@ class AddIdentityCardButton extends Component {
                                 }} />,
                         });
                     }}>
-                    <span class="fas fa-plus" aria-hidden="true"></span> Identity Card
-                </button>
+                    <span className="fas fa-plus" aria-hidden="true"></span> Identity Card</button>
                 {this.state.AddIdentityCardDialog}
             </section>
         );
