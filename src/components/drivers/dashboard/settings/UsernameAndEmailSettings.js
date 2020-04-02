@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import axios from "axios";
-import jwt_decode from "jwt-decode";
-import Strings from "../../../../res/strings.js";
 import CodeConfirmationDialog from "./CodeConfirmationDialog.js";
-import { usernameAndEmailSettings } from "../../DriverFunctions";
 import Preloader from "../../../../controls/Preloader.js";
+import {
+    getData,
+    validateUsername,
+    validateEmail,
+    sendCode,
+    usernameAndEmailSettings
+} from "../../DriverFunctions.js";
 
 class UsernameAndEmailSettings extends Component {
     constructor() {
@@ -37,106 +40,85 @@ class UsernameAndEmailSettings extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentDidMount() {
-        if (localStorage.userToken) {
-            const decoded = jwt_decode(localStorage.userToken);
+    async componentDidMount() {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "Driver"
+            };
 
-            this.setState({
-                Username: decoded.Username,
-                NewUsername: decoded.Username,
-                Email: decoded.Email,
-                NewEmail: decoded.Email,
-            });
-        }
-        else {
-            this.setState({
-                Username: "",
-                NewUsername: "",
-                Email: "",
-                NewEmail: "",
+            await getData(request).then(response => {
+                if (response.Message === "Driver found.") {
+                    let driver = response.Driver;
+
+                    this.setState({
+                        Username: driver.Username,
+                        NewUsername: driver.Username,
+                        Email: driver.Email,
+                        NewEmail: driver.Email
+                    });
+                }
+                else {
+                    this.setState({
+                        Username: "",
+                        NewUsername: "",
+                        Email: "",
+                        NewEmail: ""
+                    });
+                }
             });
         }
     }
 
-    onChange = e => {
-        const name = e.target.name;
-        const value = e.target.value;
+    onChange = event => {
+        const name = event.target.name;
+        const value = event.target.value;
 
         this.setState({ [name]: value },
             () => { this.validateField(name, value) });
     }
 
-    async validateField(field, value) {
+    validateField(field, value) {
         let Errors = this.state.Errors;
         let ValidNewUsername = this.state.ValidNewUsername;
         let ValidNewEmail = this.state.ValidNewEmail;
-        
+
         switch (field) {
             case "NewUsername":
-                if (value === "") {
-                    ValidNewUsername = false;
-                    Errors.NewUsername = "Username is required.";
+                ValidNewUsername = (value !== "");
+                Errors.NewUsername = ValidNewUsername ? "" : "Username is required.";
+
+                if (Errors.NewUsername != "") {
                     break;
                 }
 
-                if (!value.match(/^[a-z0-9]+$/i)) {
-                    ValidNewUsername = false;
-                    Errors.NewUsername = "Username is invalid.";
+                ValidNewUsername = (value.match(/^[a-z0-9]+$/i));
+                Errors.NewUsername = ValidNewUsername ? "" : "Username is invalid.";
+
+                if (Errors.NewUsername != "") {
                     break;
                 }
 
-                if (value === this.state.Username) {
-                    ValidNewUsername = true;
-                    Errors.NewUsername = "";
-                    break;
-                }
-
-                await axios.post("https://naqelserver.azurewebsites.net/users/validateUsername", {
-                    Username: value,
-                })
-                    .then(res => {
-                        if (res.data === "Username is available.") {
-                            ValidNewUsername = true;
-                            Errors.NewUsername = "";
-                        }
-                        else {
-                            ValidNewUsername = false;
-                            Errors.NewUsername = res.data;
-                        }
-                    });
+                ValidNewUsername = (value !== "Username is unavailable.");
+                Errors.NewUsername = ValidNewUsername ? "" : "Username is unavailable.";
                 break;
             case "NewEmail":
-                if (value === "") {
-                    ValidNewEmail = false;
-                    Errors.NewEmail = "Email is required.";
+                ValidNewEmail = (value !== "");
+                Errors.NewEmail = ValidNewEmail ? "" : "Email is required.";
+
+                if (Errors.NewEmail != "") {
                     break;
                 }
 
-                if (!value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
-                    ValidNewEmail = false;
-                    Errors.NewEmail = "Email is invalid.";
+                ValidNewEmail = (value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i));
+                Errors.NewEmail = ValidNewEmail ? "" : "Email is invalid.";
+
+                if (Errors.NewEmail != "") {
                     break;
                 }
 
-                if (value === this.state.Email) {
-                    ValidNewEmail = true;
-                    Errors.NewEmail = "";
-                    break;
-                }
-
-                await axios.post("https://naqelserver.azurewebsites.net/users/validateEmail", {
-                    Email: value,
-                })
-                    .then(res => {
-                        if (res.data === "Email is already taken.") {
-                            ValidNewEmail = false;
-                            Errors.NewEmail = res.data;
-                        }
-                        else {
-                            ValidNewEmail = true;
-                            Errors.NewEmail = "";
-                        }
-                    });
+                ValidNewEmail = (value !== "Email is already taken.");
+                Errors.NewEmail = ValidNewEmail ? "" : "Email is already taken.";
                 break;
             default:
                 break;
@@ -154,8 +136,8 @@ class UsernameAndEmailSettings extends Component {
         });
     }
 
-    onSubmit = async e => {
-        e.preventDefault();
+    onSubmit = async event => {
+        event.preventDefault();
 
         if (!this.state.ValidForm) {
             return;
@@ -166,10 +148,26 @@ class UsernameAndEmailSettings extends Component {
             return;
         }
 
+        if (this.state.NewUsername !== this.state.Username) {
+            const response = await validateUsername(this.state.NewUsername);
+
+            if (response.Message === "Username is unavailable.") {
+                this.validateField("NewUsername", response.Message);
+                return;
+            }
+        }
+
+        if (this.state.NewEmail !== this.state.Email) {
+            const response = await validateEmail(this.state.NewEmail);
+            if (response.Message === "Email is already taken.") {
+                this.validateField("NewEmail", response.Message);
+                return;
+            }
+        }
 
         if (this.state.NewEmail === this.state.Email) {
             const updatedDriver = {
-                Token: localStorage.getItem("userToken"),
+                Token: localStorage.Token,
                 Username: this.state.NewUsername,
                 Email: this.state.NewEmail,
             };
@@ -178,25 +176,21 @@ class UsernameAndEmailSettings extends Component {
                 Preloader: <Preloader />
             });
 
-            await usernameAndEmailSettings(updatedDriver)
-                .then(response => {
-                    if (response.Message === "driver is updated.") {
-                        localStorage.setItem("userToken", response.Token);
-                        this.props.OnSettingsSaved();
-                    }
+            console.log("Going to update username...");
+            await usernameAndEmailSettings(updatedDriver).then(response => {
+                if (response.Message === "Driver is updated.") {
+                    this.props.OnSettingsSaved();
+                }
 
-                    this.setState({
-                        Preloader: null
-                    });
+                this.setState({
+                    Preloader: null
                 });
+            });
         }
         else {
-            await axios.post(`${Strings.NAQEL_SERVER}users/sendCode`, {
-                Email: this.state.NewEmail,
-            }).then(response => {
-                if (response) {
-                    console.log(response);
-                    console.log("Going to open Dialog.");
+            console.log("Going to send code...");
+            await sendCode(this.state.NewEmail).then(response => {
+                if (response.Message === "Code sent.") {
                     this.setState({
                         CodeConfirmationDialog: <CodeConfirmationDialog
                             Code={response.Code}
@@ -209,7 +203,7 @@ class UsernameAndEmailSettings extends Component {
                             }}
                             OnOK={cancelButton => {
                                 cancelButton.click();
-                                this.props.OnDocumentsUpdated();
+                                this.props.OnSettingsSaved();
                             }} />
                     });
                 }
@@ -235,7 +229,7 @@ class UsernameAndEmailSettings extends Component {
                             </div>
                             <div class="item-content-primary">
                                 <div class="content-text-primary">Username</div>
-                                <div class="content-text-secondary text-danger">{this.state.Errors["NewUsername"]}</div>
+                                <div class="content-text-secondary text-danger">{this.state.Errors.NewUsername}</div>
                             </div>
                         </div>
                         <div class="entity-list-item">
@@ -250,7 +244,7 @@ class UsernameAndEmailSettings extends Component {
                             </div>
                             <div class="item-content-primary">
                                 <div class="content-text-primary">Email</div>
-                                <div class="content-text-secondary text-danger">{this.state.Errors["NewEmail"]}</div>
+                                <div class="content-text-secondary text-danger">{this.state.Errors.NewEmail}</div>
                             </div>
                         </div>
                         <div class="entity-list-item active">

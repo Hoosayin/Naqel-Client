@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import jwt_decode from "jwt-decode";
-import { updateTruck } from "../../DriverFunctions";
+import { getData, updateTruck } from "../../DriverFunctions";
 import Preloader from "../../../../controls/Preloader";
 
 class TruckSettings extends Component {
@@ -43,28 +42,37 @@ class TruckSettings extends Component {
     }
 
     componentDidMount() {
-        if (localStorage.userToken) {
-            const truck = jwt_decode(localStorage.userToken).Truck;
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "Truck"
+            };
 
-            this.setState({
-                PlateNumber: truck.PlateNumber,
-                Owner: truck.Owner,
-                ProductionYear: truck.ProductionYear,
-                Brand: truck.Brand,
-                Model: truck.Model,
-                Type: truck.Type,
-                MaximumWeight: truck.MaximumWeight
-            });
-        }
-        else {
-            this.setState({
-                PlateNumber: "",
-                Owner: "",
-                ProductionYear: "",
-                Brand: "",
-                Model: "",
-                Type: "",
-                MaximumWeight: ""
+            getData(request).then(response => {
+                if (response.Message === "Truck found.") {
+                    let truck = response.Truck;
+
+                    this.setState({
+                        PlateNumber: truck.PlateNumber,
+                        Owner: truck.Owner,
+                        ProductionYear: truck.ProductionYear,
+                        Brand: truck.Brand,
+                        Model: truck.Model,
+                        Type: truck.Type,
+                        MaximumWeight: truck.MaximumWeight
+                    });
+                }
+                else {
+                    this.setState({
+                        PlateNumber: "",
+                        Owner: "",
+                        ProductionYear: "",
+                        Brand: "",
+                        Model: "",
+                        Type: "",
+                        MaximumWeight: ""
+                    });
+                }
             });
         }
     }
@@ -159,7 +167,7 @@ class TruckSettings extends Component {
         }
 
         const updatedTruck = {
-            Token: localStorage.getItem("userToken"),
+            Token: localStorage.Token,
             PlateNumber: this.state.PlateNumber,
             Owner: this.state.Owner,
             ProductionYear: this.state.ProductionYear,
@@ -174,11 +182,10 @@ class TruckSettings extends Component {
         });
 
         await updateTruck(updatedTruck).then(response => {
-            if (response.Message === "Truck is updated in database.") {
-                localStorage.setItem("userToken", response.Token);
-
+            if (response.Message === "Truck is updated.") {
                 this.setState({
-                    Preloader: null
+                    Preloader: null,
+                    ValidForm: false
                 });
 
                 this.props.OnTruckSettingsUpdated();
@@ -190,124 +197,124 @@ class TruckSettings extends Component {
         return (
             <div>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                <div class="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Truck Settings</div>
+                <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Truck Settings</div>
                 <form noValidate onSubmit={this.onSubmit}>
-                    <div class="entity-list entity-list-expandable">
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-list-ol"></span>
+                    <div className="entity-list entity-list-expandable">
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-list-ol"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="number" name="PlateNumber" class="form-control" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="number" name="PlateNumber" className="form-control" autocomplete="off"
                                         value={this.state.PlateNumber} onChange={this.onChange} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Plate Number</div>
-                                <div class="text-danger">{this.state.Errors["PlateNumber"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Plate Number</div>
+                                <div className="text-danger">{this.state.Errors.PlateNumber}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-user"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-user"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" name="Owner" class="form-control" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="text" name="Owner" className="form-control" autocomplete="off"
                                         value={this.state.Owner} onChange={this.onChange} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Owner</div>
-                                <div class="text-danger">{this.state.Errors["Owner"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Owner</div>
+                                <div className="text-danger">{this.state.Errors.Owner}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-calendar-day"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-calendar-day"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="number" name="ProductionYear" class="form-control" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="number" name="ProductionYear" className="form-control" autocomplete="off"
                                         value={this.state.ProductionYear} onChange={this.onChange} placeholder="XXXX" />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Production Year</div>
-                                <div class="text-danger">{this.state.Errors["ProductionYear"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Production Year</div>
+                                <div className="text-danger">{this.state.Errors["ProductionYear"]}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-copyright"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-copyright"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" name="Brand" class="form-control" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="text" name="Brand" className="form-control" autocomplete="off"
                                         value={this.state.Brand} onChange={this.onChange} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Brand</div>
-                                <div class="text-danger">{this.state.Errors["Brand"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Brand</div>
+                                <div className="text-danger">{this.state.Errors.Brand}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-list-ol"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-list-ol"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" name="Model" class="form-control" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="text" name="Model" className="form-control" autocomplete="off"
                                         value={this.state.Model} onChange={this.onChange} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Truck Model</div>
-                                <div class="text-danger">{this.state.Errors["Model"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Truck Model</div>
+                                <div className="text-danger">{this.state.Errors.Model}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-cog"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-cog"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" name="Type" class="form-control" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="text" name="Type" className="form-control" autocomplete="off"
                                         value={this.state.Type} onChange={this.onChange} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Truck Type</div>
-                                <div class="text-danger">{this.state.Errors["Type"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Truck Type</div>
+                                <div className="text-danger">{this.state.Errors.Type}</div>
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-weight"></span>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-weight"></span>
                             </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="number" name="MaximumWeight" class="form-control" autocomplete="off"
+                            <div className="item-content-secondary">
+                                <div className="form-group">
+                                    <input type="number" name="MaximumWeight" className="form-control" autocomplete="off"
                                         value={this.state.MaximumWeight} onChange={this.onChange} />
                                 </div>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Maximum Weight (GVW)</div>
-                                <div class="text-danger">{this.state.Errors["MaximumWeight"]}</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Maximum Weight (GVW)</div>
+                                <div className="text-danger">{this.state.Errors.MaximumWeight}</div>
                             </div>
                         </div>                      
-                        <div class="entity-list-item active">
-                            <div class="item-icon">
-                                <span class="fas fa-save"></span>
+                        <div className="entity-list-item active">
+                            <div className="item-icon">
+                                <span className="fas fa-save"></span>
                             </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Save Changes?</div>
-                                <div class="content-text-secondary">This cannot be undone.</div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Save Changes?</div>
+                                <div className="content-text-secondary">This cannot be undone.</div>
                             </div>
-                            <div class="item-content-expanded">
-                                <input type="submit" value="Save" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                            <div className="item-content-expanded">
+                                <input type="submit" value="Save" className="btn btn-primary" disabled={!this.state.ValidForm} />
                             </div>
                         </div>
                     </div>

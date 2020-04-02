@@ -69,7 +69,7 @@ class Profile extends Component {
                                     {this.state.FirstName + " " + this.state.LastName}
                                     </div>
                                 <div className="type-sh3">
-                                    <span className="fas fa-briefcase"></span>   Trader
+                                    <span className="fas fa-briefcase" style={{ color: "#606060" }}></span>   Trader
                                     </div>
                                 <div>
                                     <ol className="list-items theme-alt">

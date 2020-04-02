@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import jwt_decode from "jwt-decode";
 import { deleteTrailer } from "../../../DriverFunctions.js";
 import EditTrailerDialog from "./EditTrailerDialog.js";
 import Preloader from "../../../../../controls/Preloader.js";
@@ -9,9 +8,9 @@ class TrailersList extends Component {
         super(props);
 
         this.state = {
-            Trailers: [],
+            Trailers: this.props.Trailers,
             EditTrailerDialogs: [],
-            Preloader: null,
+            Preloader: null
         };
 
         this.onDelete = this.onDelete.bind(this);
@@ -23,127 +22,111 @@ class TrailersList extends Component {
         });
 
         const discardedTrailer = {
-            Token: localStorage.getItem("userToken"),
+            Token: localStorage.Token,
             TrailerID: this.state.Trailers[index].TrailerID 
         };
 
-        console.log(`Going to delete Trailers[${index}]`);
+        console.log(`Going to delete Trailers[${index}]...`);
 
-        await deleteTrailer(discardedTrailer)
-            .then(response => {
-                if (response.Message === "Trailer is deleted.") {
-                    localStorage.setItem("userToken", response.Token);
-                    this.props.OnTrailersUpdated();
-                }
-
-                this.setState({
-                    Preloader: null
-                });
-            });
-    }
-
-    componentDidMount() {
-        if (localStorage.userToken) {
-            const trailers = jwt_decode(localStorage.userToken).Truck.Trailers;
-            console.log(trailers);
+        await deleteTrailer(discardedTrailer).then(response => {
+            if (response.Message === "Trailer is deleted.") {
+                this.props.OnTrailersUpdated();
+            }
 
             this.setState({
-                Trailers: trailers
+                Preloader: null
             });
-        }
-        else {
-            this.setState({
-                Trailers: []
-            });
-        }
+        });
     }
 
     render() {
-        return (
-            <section>
-                <div class="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Trailers</div>
-                <ol class="list-items" style={{ margin: "0px" }}>
-                    {this.state.Trailers.map((value, index) => {
-                        return <li class="list-items-row">
-                            <div data-toggle="collapse" aria-expanded="false" data-target={`#${value.TrailerID}`}>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <i class="glyph glyph-add"></i>
-                                        <i class="glyph glyph-remove"></i>
-                                        <strong>{index + 1}</strong>
+        return <section>
+            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Trailers</div>
+            <ol className="list-items" style={{ margin: "0px" }}>
+                {this.state.Trailers.map((value, index) => {
+                    return <li key={index} className="list-items-row">
+                        <div data-toggle="collapse" aria-expanded="false" data-target={`#${value.TrailerID}`}>
+                            <div className="row">
+                                <div className="col-md-2">
+                                    <i className="glyph glyph-add"></i>
+                                    <i className="glyph glyph-remove"></i>
+                                    <strong>{index + 1}</strong>
+                                </div>
+                                <div className="col-md-4">
+                                    <img className="img-responsive visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
+                                        src={value.PhotoURL} alt="trailer.png" data-source-index="2" style={{
+                                            overflow: "hidden",
+                                            border: "5px solid #3A3A3C",
+                                            margin: "5px"
+                                        }} />
+                                </div>
+                                <div className="col-md-6">
+                                    <div style={{ padding: "3px 0px 3px 0px" }}>
+                                        <span className="fas fa-weight" style={{ color: "#606060" }}></span>
+                                        <span style={{ fontWeight: "bold", color: "#606060" }}>Maximum Weight (GVM):</span> {value.MaximumWeight}
                                     </div>
-                                    <div class="col-md-4">
-                                        <img class="img-responsive visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                            src={value.PhotoURL} alt="trailer.png" data-source-index="2" style={{
-                                                overflow: "hidden",
-                                                border: "5px solid #3A3A3C",
-                                                margin: "5px"
-                                            }} />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div>
-                                            <span style={{ fontWeight: "bold", color: "#404040" }}>Maximum Weight (GVM):</span> {value.MaximumWeight}
-                                        </div>
-                                        <div>
-                                            <span style={{ fontWeight: "bold", color: "#404040" }}>Trailer Type:</span> {value.Type}
-                                        </div>                                      
-                                    </div>
-                                    <div class="col-md-6">
-                                        
+                                    <div style={{ padding: "3px 0px 3px 0px" }}>
+                                        <span className="fas fa-star-of-life" style={{ color: "#606060" }}></span>
+                                        <span style={{ fontWeight: "bold", color: "#606060" }}>Trailer Type:</span> {value.Type}
                                     </div>
                                 </div>
-                            </div>
+                                <div className="col-md-6">
 
-                            <div class="collapse" id={value.TrailerID}>
-                                <div class="row">
-                                    <div class="col-md-18 col-md-offset-2">
-                                        <img class="img-responsive visible-xs-inline-block visible-sm-inline-block"
-                                            src={value.PhotoURL} alt="trailer.png" data-source-index="2" style={{
-                                                overflow: "hidden",
-                                                border: "5px solid #3A3A3C",
-                                                margin: "5px"
-                                            }} />
-                                    </div>
-                                    <div class="col-md-4 text-right">
-                                        <button
-                                            type="button"
-                                            class="btn btn-primary"
-                                            data-toggle="modal"
-                                            data-target={`#edit-trailer-dialog${index}`}
-                                            onMouseDown={() => {
-                                                let editTrailerDialogs = this.state.EditTrailerDialogs;
-
-                                                editTrailerDialogs[index] = (<EditTrailerDialog dialogID={index}
-                                                    Trailer={value} OnEditTrailerDialogRemove={() => {
-                                                        let editTrailerDialogs = this.state.EditTrailerDialogs
-                                                        editTrailerDialogs[index] = null;
-
-                                                        this.setState({
-                                                            EditTrailerDialogs: editTrailerDialogs,
-                                                        });
-
-                                                    }} OnTrailerUpdated={cancelButton => {
-                                                        cancelButton.click();
-                                                        this.props.OnTrailersUpdated();
-                                                    }} />);
-
-                                                this.setState({
-                                                    EditTrailerDialogs: editTrailerDialogs,
-                                                });
-                                            }}>
-                                            Edit
-                                            </button>
-                                        <button type="button" class="btn btn-danger" onClick={event => { this.onDelete(index); }}>Delete</button>
-                                    </div>
                                 </div>
                             </div>
-                            {this.state.EditTrailerDialogs[index]}
-                        </li>
-                    })}
-                </ol>
-                {this.state.Preloader}
-            </section>         
-        );
+                        </div>
+
+                        <div className="collapse" id={value.TrailerID}>
+                            <div className="row">
+                                <div className="col-md-18 col-md-offset-2">
+                                    <img className="img-responsive visible-xs-inline-block visible-sm-inline-block"
+                                        src={value.PhotoURL} alt="trailer.png" data-source-index="2" style={{
+                                            overflow: "hidden",
+                                            border: "5px solid #3A3A3C",
+                                            margin: "5px"
+                                        }} />
+                                </div>
+                                <div className="col-md-4 text-right">
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary"
+                                        data-toggle="modal"
+                                        data-target={`#edit-trailer-dialog${index}`}
+                                        onMouseDown={() => {
+                                            let editTrailerDialogs = this.state.EditTrailerDialogs;
+
+                                            editTrailerDialogs[index] = <EditTrailerDialog
+                                                dialogID={index}
+                                                Trailer={value}
+                                                OnCancel={() => {
+                                                    let editTrailerDialogs = this.state.EditTrailerDialogs
+                                                    editTrailerDialogs[index] = null;
+
+                                                    this.setState({
+                                                        EditTrailerDialogs: editTrailerDialogs,
+                                                    });
+
+                                                }}
+                                                OnOK={cancelButton => {
+                                                    cancelButton.click();
+                                                    this.props.OnTrailersUpdated();
+                                                }} />;
+
+                                            this.setState({
+                                                EditTrailerDialogs: editTrailerDialogs,
+                                            });
+                                        }}>
+                                        Edit</button>
+                                    <button type="button" className="btn btn-danger" onClick={() => { this.onDelete(index); }}>Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                        {this.state.EditTrailerDialogs[index]}
+                    </li>
+                })}
+            </ol>
+            {this.state.Preloader}
+        </section>;
     }
 };
 

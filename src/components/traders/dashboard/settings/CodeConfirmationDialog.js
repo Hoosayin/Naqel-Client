@@ -80,38 +80,38 @@ class CodeConfirmationDialog extends Component {
 
     render() {
         return (
-            <section class="text-left">
+            <section className="text-left">
                 <div
-                    class="modal in" id="code-confirmation-dialog" tabindex="-1"
+                    className="modal in" id="code-confirmation-dialog" tabIndex="-1"
                     role="dialog" aria-labelledby="modal-sample-label" aria-hidden="true"
                     style={{ display: "block" }}>
-                    <div class="modal-dialog">
+                    <div className="modal-dialog">
                         {this.state.Preloader}
-                        <div class="modal-dialog">
-                            <div class="modal-content">
+                        <div className="modal-dialog">
+                            <div className="modal-content">
                                 <section>
                                     <form noValidate onSubmit={this.onSubmit}>
-                                        <div class="modal-header">
+                                        <div className="modal-header">
                                             <img alt="passcode.png" src="./images/passcode.png" height="60" />
-                                            <div class="type-h3">Email Confirmation</div>
-                                            <div class="type-sh3">We delivered a confirmation code to your email.</div>
+                                            <div className="type-h3">Email Confirmation</div>
+                                            <div className="type-sh3">We delivered a confirmation code to your email.</div>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Confirmation Code</label>
-                                                        <input type="text" name="ConfirmCode" class="form-control" autocomplete="off"
+                                        <div className="modal-body">
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <div className="form-group">
+                                                        <label className="control-label">Confirmation Code</label>
+                                                        <input type="text" name="ConfirmCode" className="form-control" autocomplete="off"
                                                             value={this.state.ConfirmCode} onChange={this.onChange} />
-                                                        <span class="text-danger">{this.state.Errors.ConfirmCode}</span>
+                                                        <span className="text-danger">{this.state.Errors.ConfirmCode}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
+                                        <div className="modal-footer">
+                                            <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
                                                 ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                            <input type="submit" value="Confirm" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value="Confirm" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </form>
                                 </section>

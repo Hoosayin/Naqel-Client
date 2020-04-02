@@ -43,7 +43,6 @@ class ProfilePhoto extends Component {
 
     onImageUpload = async event => {
         this.state.Image = event.target.files[0];
-        console.log(this.state.Image);
         const formData = new FormData();
 
         try {

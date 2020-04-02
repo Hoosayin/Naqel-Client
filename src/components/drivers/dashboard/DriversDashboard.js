@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Profile from "./profile/Profile";
-import Trucks from "./trucks/Trucks";
+import Truck from "./trucks/Truck";
 import Permits from "./permits/Permits";
 import FinancialAffairs from "./financial_affairs/FinancialAffairs";
 import Jobs from "./jobs/Jobs";
@@ -35,16 +35,14 @@ class DriversDashboard extends Component {
                         <Profile />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="trucks">
-                        <Trucks />
+                        <Truck />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="permits">
-                        <Permits />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="financialAffairs">
                         <FinancialAffairs />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="jobs">
-                        <Jobs />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="payments">
                         <Payments />

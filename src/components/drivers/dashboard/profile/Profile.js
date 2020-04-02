@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ProfilePhoto from "./ProfilePhoto";
-import WarningAlert from "../../../../controls/WarningAlert";
 import DocumentsList from "./documents/DocumentsList.js";
 import { getData } from "../../DriverFunctions.js";
 
@@ -66,28 +65,14 @@ class Profile extends Component {
         }
     }
 
-    onImageUploaded = message => {
-        if (message) {
-            this.setState({
-                WarningAlert: (<WarningAlert Message={message} OnClose={this.onImageUploaded} />)
-            });
-        }
-        else {
-            this.setState({
-                WarningAlert: null
-            });
-        }
-    }
-
     render() {
         return <section>
-            {this.state.WarningAlert}
             <div className="jumbotron theme-default">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-6">
                             <div className="form-group" style={{ marginBottom: "5px", }}>
-                                <ProfilePhoto OnImageUploaded={this.onImageUploaded} />
+                                <ProfilePhoto />
                             </div>
                         </div>
                         <div className="col-md-18">
@@ -95,7 +80,7 @@ class Profile extends Component {
                                 {this.state.FirstName + " " + this.state.LastName}
                             </div>
                             <div className="type-sh3">
-                                <span className="fas fa-car"></span>   Driver
+                                <span className="fas fa-car" style={{ color: "#606060" }}></span>   Driver
                                     </div>
                             <div>
                                 <ol className="list-items theme-alt">
@@ -214,8 +199,6 @@ class Profile extends Component {
                     </div>
                 </div>
             </div>
-            <DocumentsList />
-            {this.state.AddDrivingLicenceDialog}
         </section>;
     }
 };

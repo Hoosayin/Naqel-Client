@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import jwt_decode from "jwt-decode";
 import { Required } from "../../../../../styles/MiscellaneousStyles";
 import ImageUploader from "../../../../../controls/ImageUploader";
 import Preloader from "../../../../../controls/Preloader.js";
@@ -12,7 +11,6 @@ class AddTrailerDialog extends Component {
         this.state = {
             MaximumWeight: "",
             PhotoURL: "./images/default_image.png",
-            ImageCategory: "Trailer-1",
             Type: "",
 
             ValidMaximumWeight: false,
@@ -32,25 +30,6 @@ class AddTrailerDialog extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.validateField = this.validateField.bind(this);
-        this.onInvalidImageSelected = this.onInvalidImageSelected.bind(this);
-        this.onImageUploaded = this.onImageUploaded.bind(this);
-    }
-
-    componentDidMount() {
-        if (localStorage.userToken) {
-            const trailers = jwt_decode(localStorage.userToken).Truck.Trailers;
-
-            if (trailers) {
-                this.setState({
-                    ImageCategory: `Trailer-${trailers.length + 1}`
-                });
-            }
-            else {
-                this.setState({
-                    ImageCategory: "Trailer-1"
-                });
-            }         
-        }
     }
 
     onChange = event => {
@@ -106,23 +85,6 @@ class AddTrailerDialog extends Component {
         });
     }
 
-    onInvalidImageSelected = () => {
-        this.validateField("PhotoURL", null);
-    }
-
-    onImageUploaded = response => {
-        if (response.message === "Image uploaded successfully.") {
-            this.setState({
-                PhotoURL: response.imageUrl
-            });
-
-            this.validateField("PhotoURL", this.state.PhotoURL);
-        }
-        else {
-            this.validateField("PhotoURL", null);
-        }
-    }
-
     onSubmit = async event => {
         event.preventDefault();
 
@@ -131,13 +93,13 @@ class AddTrailerDialog extends Component {
         }
 
         const newTrailer = {
-            Token: localStorage.getItem("userToken"),
+            Token: localStorage.Token,
             MaximumWeight: this.state.MaximumWeight,
             PhotoURL: this.state.PhotoURL,
             Type: this.state.Type
         }
 
-        console.log("Going to add the trailer.");
+        console.log("Going to add the trailer...");
 
         this.setState({
             Preloader: <Preloader />
@@ -145,8 +107,7 @@ class AddTrailerDialog extends Component {
 
         await addTrailer(newTrailer).then(response => {
             if (response.Message === "Trailer is added.") {
-                localStorage.setItem("userToken", response.Token);
-                this.props.OnTrailerAdded(this.cancelButton);
+                this.props.OnOK(this.cancelButton);
             }
 
             this.setState({
@@ -158,52 +119,67 @@ class AddTrailerDialog extends Component {
     render() {
         return (
             <section>
-                <div class="modal" id="add-trailer-dialog"
-                    tabindex="-1" role="dialog"
+                <div className="modal" id="add-trailer-dialog"
+                    tabIndex="-1" role="dialog"
                     aria-labelledby="modal-sample-label" aria-hidden="true">
                     {this.state.Preloader}
-                    <div class="modal-dialog">
-                        <div class="modal-content">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
                             <section>
                                 <form noValidate onSubmit={this.onSubmit}>
-                                    <div class="modal-header">
+                                    <div className="modal-header">
                                         <img alt="add.png" src="./images/add.png" height="60" />
-                                        <div class="type-h3">New Trailer</div>
+                                        <div className="type-h3">New Trailer</div>
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <ImageUploader Source={this.state.PhotoURL} Height="220px"
-                                                        Width="220px" OnImageUploaded={this.onImageUploaded}
-                                                        OnInvalidImageSelected={this.onInvalidImageSelected} ImageCategory={this.state.ImageCategory} />
+                                    <div className="modal-body">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="form-group">
+                                                    <ImageUploader Source={this.state.PhotoURL}
+                                                        Height="220px" Width="220px"
+                                                        OnImageUploaded={response => {
+                                                            if (response.message === "Image uploaded successfully.") {
+                                                                this.setState({
+                                                                    PhotoURL: response.imageUrl
+                                                                });
+
+                                                                this.validateField("PhotoURL", this.state.PhotoURL);
+                                                            }
+                                                            else {
+                                                                this.validateField("PhotoURL", null);
+                                                            }
+                                                        }}
+                                                        OnInvalidImageSelected={() => {
+                                                            this.validateField("PhotoURL", null);
+                                                        }}
+                                                        ImageCategory="" />
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="text-danger">{this.state.Errors["PhotoURL"]}</label>
+                                                <div className="form-group">
+                                                    <label className="text-danger">{this.state.Errors.PhotoURL}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Maximum Weight (GVW)</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="number" name="MaximumWeight" class="form-control" autocomplete="off"
+                                            <div className="col-md-12">
+                                                <div className="form-group">
+                                                    <label className="control-label">Maximum Weight (GVW)</label>
+                                                    <span className="text-danger" style={Required}>*</span>
+                                                    <input type="number" name="MaximumWeight" className="form-control" autocomplete="off"
                                                         value={this.state.MaximumWeight} onChange={this.onChange} />
-                                                    <span class="text-danger">{this.state.Errors["MaximumWeight"]}</span>
+                                                    <span className="text-danger">{this.state.Errors.MaximumWeight}</span>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="control-label">Trailer Type</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="text" name="Type" class="form-control" autocomplete="off"
+                                                <div className="form-group">
+                                                    <label className="control-label">Trailer Type</label>
+                                                    <span className="text-danger" style={Required}>*</span>
+                                                    <input type="text" name="Type" className="form-control" autocomplete="off"
                                                         value={this.state.Type} onChange={this.onChange} />
-                                                    <span class="text-danger">{this.state.Errors.Type}</span>
+                                                    <span className="text-danger">{this.state.Errors.Type}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-default" data-dismiss="modal" onClick={this.props.OnAddTrailerDialogRemove}
+                                    <div className="modal-footer">
+                                        <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
                                             ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                        <input type="submit" value="Add" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                                        <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                     </div>
                                 </form>
                             </section>

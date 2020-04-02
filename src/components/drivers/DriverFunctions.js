@@ -60,10 +60,22 @@ export const getData = async request => {
     });
 };
 
+// POST: UploadDriverProfilePhoto
+export const uploadDriverProfilePhoto = async driverProfilePhoto => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/uploadDriverProfilePhoto`);
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/uploadDriverProfilePhoto`, {
+        PhotoURL: driverProfilePhoto.PhotoURL,
+        FileName: driverProfilePhoto.FileName
+    }, {
+        headers: { Authorization: `JWT ${driverProfilePhoto.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
 // POST: GeneralSettings
 export const generalSettings = async updatedDriver => {
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/generalSettings`, {
-        Token: updatedDriver.Token,
         FirstName: updatedDriver.FirstName,
         LastName: updatedDriver.LastName,
         Address: updatedDriver.Address,
@@ -71,6 +83,36 @@ export const generalSettings = async updatedDriver => {
         Gender: updatedDriver.Gender,
         Nationality: updatedDriver.Nationality,
         DateOfBirth: updatedDriver.DateOfBirth,
+    }, {
+        headers: { Authorization: `JWT ${updatedDriver.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ValidateUsername
+export const validateUsername = async username => {
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/validateUsername`, {
+        Username: username
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ValidateEmail
+export const validateEmail = async email => {
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/validateEmail`, {
+        Email: email
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POSTL SendCode
+export const sendCode = async email => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}users/sendCode...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}users/sendCode`, {
+        Email: email
     }).then(response => {
         return response.data;
     });
@@ -78,10 +120,23 @@ export const generalSettings = async updatedDriver => {
 
 // POST: UsernameAndEmailSettings
 export const usernameAndEmailSettings = async updatedDriver => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/usernameAndEmailSettings...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/usernameAndEmailSettings`, {
-        Token: updatedDriver.Token,
         Username: updatedDriver.Username,
-        Email: updatedDriver.Email,
+        Email: updatedDriver.Email
+    }, {
+        headers: { Authorization: `JWT ${updatedDriver.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ValidatePassword
+export const validatePassword = async passwordPackage => {
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/validatePassword`, {
+        Password: passwordPackage.Password
+    }, {
+        headers: { Authorization: `JWT ${passwordPackage.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -90,19 +145,9 @@ export const usernameAndEmailSettings = async updatedDriver => {
 // POST: PasswordSettings
 export const passwordSettings = async updatedDriver => {
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/passwordSettings`, {
-        Token: updatedDriver.Token,
         Password: updatedDriver.Password,
-    }).then(response => {
-        return response.data;
-    });
-};
-
-// POST: UploadDriverProfilePhoto
-export const uploadDriverProfilePhoto = async driverProfilePhoto => {
-    return await axios.post(`${Strings.NAQEL_SERVER}drivers/uploadDriverProfilePhoto`, {
-        Token: driverProfilePhoto.Token,
-        URL: driverProfilePhoto.URL,
-        FileName: driverProfilePhoto.FileName
+    }, {
+        headers: { Authorization: `JWT ${updatedDriver.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -110,8 +155,8 @@ export const uploadDriverProfilePhoto = async driverProfilePhoto => {
 
 // POST: AddTruck
 export const addTruck = async newTruck => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addTruck...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/addTruck`, {
-        Token: newTruck.Token,
         PlateNumber: newTruck.PlateNumber,
         Owner: newTruck.Owner,
         ProductionYear: newTruck.ProductionYear,
@@ -120,6 +165,8 @@ export const addTruck = async newTruck => {
         Type: newTruck.Type,
         MaximumWeight: newTruck.MaximumWeight,
         PhotoURL: newTruck.PhotoURL
+    }, {
+        headers: { Authorization: `JWT ${newTruck.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -127,9 +174,11 @@ export const addTruck = async newTruck => {
 
 // POST: UpdateTruckPhoto
 export const updateTruckPhoto = async updatedTruck => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/updateTruckPhoto...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/updateTruckPhoto`, {
-        Token: updatedTruck.Token,
         PhotoURL: updatedTruck.PhotoURL
+    }, {
+        headers: { Authorization: `JWT ${updatedTruck.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -137,8 +186,8 @@ export const updateTruckPhoto = async updatedTruck => {
 
 // POST: UpdateTruck
 export const updateTruck = async updatedTruck => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/updateTruck...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/updateTruck`, {
-        Token: updatedTruck.Token,
         PlateNumber: updatedTruck.PlateNumber,
         Owner: updatedTruck.Owner,
         ProductionYear: updatedTruck.ProductionYear,
@@ -146,6 +195,8 @@ export const updateTruck = async updatedTruck => {
         Model: updatedTruck.Model,
         Type: updatedTruck.Type,
         MaximumWeight: updatedTruck.MaximumWeight
+    }, {
+        headers: { Authorization: `JWT ${updatedTruck.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -153,11 +204,13 @@ export const updateTruck = async updatedTruck => {
 
 // POST: AddTrailer
 export const addTrailer = async newTrailer => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addTrailer...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/addTrailer`, {
-        Token: newTrailer.Token,
         MaximumWeight: newTrailer.MaximumWeight,
         PhotoURL: newTrailer.PhotoURL,
         Type: newTrailer.Type
+    }, {
+        headers: { Authorization: `JWT ${newTrailer.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -165,22 +218,25 @@ export const addTrailer = async newTrailer => {
 
 // POST: deleteTrailer
 export const deleteTrailer = async discardedTrailer => {
-    return await axios.post(`${Strings.NAQEL_SERVER}drivers/deleteTrailer`, {
-        Token: discardedTrailer.Token,
-        TrailerID: discardedTrailer.TrailerID
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteTrailer...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteTrailer`, {
+        headers: { Authorization: `JWT ${discardedTrailer.Token}` },
+        data: { TrailerID: discardedTrailer.TrailerID }
     }).then(response => {
         return response.data;
     });
 };
 
 // POST: updateTrailer
-export const updateTrailer = async updatedTrailer => {
-    return await axios.post(`${Strings.NAQEL_SERVER}drivers/updateTrailer`, {
-        Token: updatedTrailer.Token,
+export const updateTrailer = updatedTrailer => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/updateTrailer...`);
+    return axios.post(`${Strings.NAQEL_SERVER}drivers/updateTrailer`, {
         TrailerID: updatedTrailer.TrailerID,
         MaximumWeight: updatedTrailer.MaximumWeight,
         PhotoURL: updatedTrailer.PhotoURL,
         Type: updatedTrailer.Type
+    }, {
+        headers: { Authorization: `JWT ${updatedTrailer.Token}` }
     }).then(response => {
         return response.data;
     });

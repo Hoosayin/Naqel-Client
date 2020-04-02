@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { addTruck } from "../../DriverFunctions";
-import MessageBox from "../../../../controls/MessageBox";
+import Preloader from "../../../../controls/Preloader";
 import { Required } from "../../../../styles/MiscellaneousStyles";
 import ImageUploader from "../../../../controls/ImageUploader";
 
-class AddTruck extends Component {
+class AddTruckDialog extends Component {
     constructor(props) {
         super(props);
 
@@ -28,7 +28,7 @@ class AddTruck extends Component {
             ValidPhotoURL: false,
 
             ValidForm: false,
-            MessageBox: null,
+            Preloader: null,
 
             Errors: {
                 PlateNumber: "",
@@ -45,13 +45,11 @@ class AddTruck extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.validateField = this.validateField.bind(this);
-        this.onInvalidImageSelected = this.onInvalidImageSelected.bind(this);
-        this.onImageUploaded = this.onImageUploaded.bind(this);
     }
 
-    onChange = e => {
-        const name = e.target.name;
-        const value = e.target.value;
+    onChange = event => {
+        const name = event.target.name;
+        const value = event.target.value;
 
         this.setState({ [name]: value },
             () => { this.validateField(name, value) });
@@ -145,23 +143,6 @@ class AddTruck extends Component {
         });
     }
 
-    onInvalidImageSelected = () => {
-        this.validateField("PhotoURL", null);
-    }
-
-    onImageUploaded = response => {
-        if (response.message === "Image uploaded successfully.") {
-            this.setState({
-                PhotoURL: response.imageUrl
-            });
-
-            this.validateField("PhotoURL", this.state.PhotoURL);
-        }
-        else {
-            this.validateField("PhotoURL", null);
-        }
-    }
-
     onSubmit = async event => {
         event.preventDefault();
 
@@ -170,7 +151,7 @@ class AddTruck extends Component {
         }
 
         const newTruck = {
-            Token: localStorage.getItem("userToken"),
+            Token: localStorage.Token,
             PlateNumber: this.state.PlateNumber,
             Owner: this.state.Owner,
             ProductionYear: this.state.ProductionYear,
@@ -181,110 +162,127 @@ class AddTruck extends Component {
             PhotoURL: this.state.PhotoURL
         }
 
-        await addTruck(newTruck)
-            .then(response => {
-                if (response.Message === "Driver's truck is added.") {
-                    localStorage.setItem("userToken", response.Token);
-                    this.props.OnAddTruckDialogRemove();
-                }
-                else {
-                    this.setState({
-                        MessageBox: (<MessageBox Message="Truck Not Added." Show={true} />),
-                    });
-                }
+        this.setState({
+            Preloader: <Preloader />
+        });
+
+        await addTruck(newTruck).then(response => {
+            if (response.Message === "Truck is added.") {
+                this.props.OnOK();
+            }
+
+            this.setState({
+                Preloader: null
             });
+        });
     }
 
     render() {
         return (
-            <div class="modal" id="add-truck-dialog"
-                tabindex="-1" role="dialog"
+            <div className="modal" id="add-truck-dialog"
+                tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
+                {this.state.Preloader}
+                <div className="modal-dialog">
+                    <div className="modal-content">
                         <p>
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div class="modal-header">
+                                <div className="modal-header">
                                     <img alt="add.png" src="./images/add.png" height="60" />
-                                    <div class="type-h3">New Truck</div>
-                                    <div class="type-sh3">These detials will be displayed on your profile.</div>
+                                    <div className="type-h3">New Truck</div>
+                                    <div className="type-sh3">These detials will be displayed on your profile.</div>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <ImageUploader Source={this.state.PhotoURL} Height="220px"
-                                                    Width="220px" OnImageUploaded={this.onImageUploaded} OnInvalidImageSelected={this.onInvalidImageSelected} ImageCategory="Truck" />
+                                <div className="modal-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <ImageUploader Source={this.state.PhotoURL}
+                                                    Height="220px" Width="220px"
+                                                    OnImageUploaded={response => {
+                                                        if (response.message === "Image uploaded successfully.") {
+                                                            this.setState({
+                                                                PhotoURL: response.imageUrl
+                                                            });
+
+                                                            this.validateField("PhotoURL", this.state.PhotoURL);
+                                                        }
+                                                        else {
+                                                            this.validateField("PhotoURL", null);
+                                                        }
+                                                    }}
+                                                    OnInvalidImageSelected={() => {
+                                                        this.validateField("PhotoURL", null);
+                                                    }}
+                                                    ImageCategory="Truck" />
                                             </div>
-                                            <div class="form-group">
-                                                <label class="text-danger">{this.state.Errors["PhotoURL"]}</label>
+                                            <div className="form-group">
+                                                <label className="text-danger">{this.state.Errors.PhotoURL}</label>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">                                          
-                                            <div class="form-group">
-                                                <label class="control-label">Plate Number</label>
-                                                <span class="text-danger" style={Required}>*</span>
-                                                <input type="number" name="PlateNumber" class="form-control" autocomplete="off"
+                                        <div className="col-md-12">                                          
+                                            <div className="form-group">
+                                                <label className="control-label">Plate Number</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="number" name="PlateNumber" className="form-control" autoComplete="off"
                                                     value={this.state.PlateNumber} onChange={this.onChange} />
-                                                <span class="text-danger">{this.state.Errors["PlateNumber"]}</span>
+                                                <span className="text-danger">{this.state.Errors.PlateNumber}</span>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Owner</label>
-                                                <span class="text-danger" style={Required}>*</span>
-                                                <input type="text" name="Owner" class="form-control" autocomplete="off"
+                                            <div className="form-group">
+                                                <label className="control-label">Owner</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="text" name="Owner" className="form-control" autoComplete="off"
                                                     value={this.state.Owner} onChange={this.onChange} />
-                                                <span class="text-danger">{this.state.Errors["Owner"]}</span>
+                                                <span className="text-danger">{this.state.Errors.Owner}</span>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Production Year</label>
-                                                <span class="text-danger" style={Required}>*</span>
-                                                <input type="number" name="ProductionYear" class="form-control" autocomplete="off"
-                                                    value={this.state.ProductionYear} onChange={this.onChange} placeholder="XXXX"/>
-                                                <span class="text-danger">{this.state.Errors["ProductionYear"]}</span>
+                                            <div className="form-group">
+                                                <label className="control-label">Production Year</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="number" name="ProductionYear" className="form-control" autoComplete="off"
+                                                    value={this.state.ProductionYear} onChange={this.onChange} placeholder="XXXX" />
+                                                <span className="text-danger">{this.state.Errors.ProductionYear}</span>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Brand</label>
-                                                <span class="text-danger" style={Required}>*</span>
-                                                <input type="text" name="Brand" class="form-control" autocomplete="off"
+                                            <div className="form-group">
+                                                <label className="control-label">Brand</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="text" name="Brand" className="form-control" autoComplete="off"
                                                     value={this.state.Brand} onChange={this.onChange} />
-                                                <span class="text-danger">{this.state.Errors["Brand"]}</span>
+                                                <span className="text-danger">{this.state.Errors.Brand}</span>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Truck Model</label>
-                                                <span class="text-danger" style={Required}>*</span>
-                                                <input type="text" name="Model" class="form-control" autocomplete="off"
+                                            <div className="form-group">
+                                                <label className="control-label">Truck Model</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="text" name="Model" className="form-control" autoComplete="off"
                                                     value={this.state.Model} onChange={this.onChange} />
-                                                <span class="text-danger">{this.state.Errors["Model"]}</span>
+                                                <span className="text-danger">{this.state.Errors.Model}</span>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Truck Type</label>
-                                                <span class="text-danger" style={Required}>*</span>
-                                                <input type="text" name="Type" class="form-control" autocomplete="off"
+                                            <div className="form-group">
+                                                <label className="control-label">Truck Type</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="text" name="Type" className="form-control" autoComplete="off"
                                                     value={this.state.Type} onChange={this.onChange} />
-                                                <span class="text-danger">{this.state.Errors["Type"]}</span>
+                                                <span className="text-danger">{this.state.Errors.Type}</span>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Maximum Weight (GVW)</label>
-                                                <span class="text-danger" style={Required}>*</span>
-                                                <input type="number" name="MaximumWeight" class="form-control" autocomplete="off"
+                                            <div className="form-group">
+                                                <label className="control-label">Maximum Weight (GVW)</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="number" name="MaximumWeight" className="form-control" autoComplete="off"
                                                     value={this.state.MaximumWeight} onChange={this.onChange} />
-                                                <span class="text-danger">{this.state.Errors["MaximumWeight"]}</span>
+                                                <span className="text-danger">{this.state.Errors.MaximumWeight}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-default" data-dismiss="modal" onClick={this.props.OnAddTruckDialogRemove}>Cancel</button>
-                                    <input type="submit" value="Add" class="btn btn-primary"  disabled={!this.state.ValidForm} />
+                                <div className="modal-footer">
+                                    <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}>Cancel</button>
+                                    <input type="submit" value="Add" className="btn btn-primary"  disabled={!this.state.ValidForm} />
                                 </div>
                             </form>
                         </p>
                     </div>
                 </div>
-                {this.state.MessageBox}
             </div>             
         );
     }
 };
 
-export default AddTruck;
+export default AddTruckDialog;

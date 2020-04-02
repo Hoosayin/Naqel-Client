@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import jwt_decode from "jwt-decode";
 import Preloader from "../../../../controls/Preloader.js";
-import { generalSettings } from "../../DriverFunctions";
+import { getData, generalSettings } from "../../DriverFunctions";
 
 class GeneralSettings extends Component {
     constructor() {
@@ -35,37 +34,45 @@ class GeneralSettings extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentDidMount() {
-        if (localStorage.userToken) {
-            const decoded = jwt_decode(localStorage.userToken);
+    async componentDidMount() {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "Driver"
+            };
 
-            this.setState({
-                FirstName: decoded.FirstName,
-                LastName: decoded.LastName,
-                DateOfBirth: decoded.DateOfBirth,
-                Gender: decoded.Gender,
-                Address: decoded.Address,
-                PhoneNumber: decoded.PhoneNumber,
-                Nationality: decoded.Nationality,
+            await getData(request).then(response => {
+                if (response.Message === "Driver found.") {
+                    let driver = response.Driver;
 
-            });
-        }
-        else {
-            this.setState({
-                FirstName: "",
-                LastName: "",
-                Address: "",
-                PhoneNumber: "",
-                Gender: "",
-                Nationality: "",
-                DateOfBirth: "",
+                    this.setState({
+                        FirstName: driver.FirstName,
+                        LastName: driver.LastName,
+                        Address: driver.Address,
+                        PhoneNumber: driver.PhoneNumber,
+                        Gender: driver.Gender,
+                        Nationality: driver.Nationality,
+                        DateOfBirth: driver.DateOfBirth
+                    });
+                }
+                else {
+                    this.setState({
+                        FirstName: "",
+                        LastName: "",
+                        Address: "",
+                        PhoneNumber: "",
+                        Gender: "",
+                        Nationality: "",
+                        DateOfBirth: ""
+                    });
+                }
             });
         }
     }
 
-    onChange = e => {
-        const name = e.target.name;
-        const value = e.target.value;
+    onChange = event => {
+        const name = event.target.name;
+        const value = event.target.value;
 
         this.setState({ [name]: value },
             () => { this.validateField(name, value) });
@@ -116,24 +123,22 @@ class GeneralSettings extends Component {
         }
 
         const updatedDriver = {
-            Token: localStorage.getItem("userToken"),
+            Token: localStorage.Token,
             FirstName: this.state.FirstName,
             LastName: this.state.LastName,
             Address: this.state.Address,
             PhoneNumber: this.state.PhoneNumber,
             Gender: this.state.Gender,
             Nationality: this.state.Nationality,
-            DateOfBirth: this.state.DateOfBirth,
-        }
+            DateOfBirth: this.state.DateOfBirth
+        };
 
         this.setState({
             Preloader: <Preloader />
         });
 
         await generalSettings(updatedDriver).then(response => {
-            console.log(response);
-            if (response.Message === "driver is updated.") {
-                localStorage.setItem("userToken", response.Token);
+            if (response.Message === "Driver is updated.") {
                 this.props.OnSettingsSaved();
             }
 
@@ -144,137 +149,135 @@ class GeneralSettings extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <div class="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>General Settings</div>
-                <form noValidate onSubmit={this.onSubmit}>
-                    <div class="entity-list entity-list-expandable">
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-comment"></span>
-                            </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" className="form-control" name="FirstName" autoComplete="off"
-                                        value={this.state.FirstName} onChange={this.onChange} style={{ width: "193px", }} />
-                                </div>
-                            </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">First Name</div>
-                                <div class="text-danger">{this.state.Errors["FirstName"]}</div>
+        return <section>
+            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>General Settings</div>
+            <form noValidate onSubmit={this.onSubmit}>
+                <div className="entity-list entity-list-expandable">
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className="fas fa-comment"></span>
+                        </div>
+                        <div className="item-content-secondary">
+                            <div className="form-group">
+                                <input type="text" className="form-control" name="FirstName" autoComplete="off"
+                                    value={this.state.FirstName} onChange={this.onChange} style={{ width: "193px", }} />
                             </div>
                         </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-comment"></span>
-                            </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" className="form-control" name="LastName" autoComplete="off"
-                                        value={this.state.LastName} onChange={this.onChange} style={{ width: "193px", }} />
-                                </div>
-                            </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Last Name</div>
-                                <div class="text-danger">{this.state.Errors["LastName"]}</div>
-                            </div>
-                        </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-birthday-cake"></span>
-                            </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="date" class="form-control" name="DateOfBirth" autocomplete="off"
-                                        value={this.state.DateOfBirth} onChange={this.onChange} style={{ width: "193px", }} />
-                                </div>
-                            </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Date of Birth</div>
-                            </div>
-                        </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class={this.state.Gender === "Male" ? "fas fa-male" : "fas fa-female"}></span>
-                            </div>
-                            <div class="item-content-secondary">
-                                <div class="dropdown" style={{ width: "193px", maxWidth: "296px", }}>
-                                    <button id="example-dropdown" class="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                        <span>{this.state.Gender}</span>
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                        <li><a onClick={() => { this.setState({ Gender: "Male" }); }}>Male</a></li>
-                                        <li><a onClick={() => { this.setState({ Gender: "Female" }); }}>Female</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Gender</div>
-                            </div>
-                        </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-flag"></span>
-                            </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" className="form-control" name="Nationality" autocomplete="off"
-                                        value={this.state.Nationality} onChange={this.onChange} style={{ width: "193px", }} />
-                                </div>
-                            </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Nationality</div>
-                            </div>
-                        </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-phone"></span>
-                            </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" className="form-control" name="PhoneNumber" autocomplete="off"
-                                        placeholder="+XXXXXXXXXXXX" value={this.state.PhoneNumber} onChange={this.onChange} style={{ width: "193px", }} />
-                                </div>
-                            </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Phone Number</div>
-                                <div class="text-danger">{this.state.Errors["PhoneNumber"]}</div>
-                            </div>
-                        </div>
-                        <div class="entity-list-item">
-                            <div class="item-icon">
-                                <span class="fas fa-location-arrow"></span>
-                            </div>
-                            <div class="item-content-secondary">
-                                <div class="form-group">
-                                    <input type="text" className="form-control" name="Address" autocomplete="off"
-                                        value={this.state.Address} onChange={this.onChange} style={{ width: "393px", }} />
-                                </div>
-                            </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Address</div>
-                            </div>
-                        </div>
-                        <div class="entity-list-item active">
-                            <div class="item-icon">
-                                <span class="fas fa-save"></span>
-                            </div>
-                            <div class="item-content-primary">
-                                <div class="content-text-primary">Save Changes?</div>
-                                <div class="content-text-secondary">This cannot be undone.</div>
-                            </div>
-                            <div class="item-content-expanded">
-                                <input type="submit" value="Save" class="btn btn-primary" disabled={!this.state.ValidForm} />
-                            </div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">First Name</div>
+                            <div className="text-danger">{this.state.Errors.FirstName}</div>
                         </div>
                     </div>
-                </form>
-                <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                {this.state.Preloader}
-            </div>
-        );
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className="fas fa-comment"></span>
+                        </div>
+                        <div className="item-content-secondary">
+                            <div className="form-group">
+                                <input type="text" className="form-control" name="LastName" autoComplete="off"
+                                    value={this.state.LastName} onChange={this.onChange} style={{ width: "193px", }} />
+                            </div>
+                        </div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">Last Name</div>
+                            <div className="text-danger">{this.state.Errors.LastName}</div>
+                        </div>
+                    </div>
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className="fas fa-birthday-cake"></span>
+                        </div>
+                        <div className="item-content-secondary">
+                            <div className="form-group">
+                                <input type="date" className="form-control" name="DateOfBirth" autoComplete="off"
+                                    value={this.state.DateOfBirth} onChange={this.onChange} style={{ width: "193px", }} />
+                            </div>
+                        </div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">Date of Birth</div>
+                        </div>
+                    </div>
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className={this.state.Gender === "Male" ? "fas fa-male" : "fas fa-female"}></span>
+                        </div>
+                        <div className="item-content-secondary">
+                            <div className="dropdown" style={{ width: "193px", maxWidth: "296px", }}>
+                                <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
+                                    aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
+                                    <span>{this.state.Gender}</span>
+                                    <span className="caret"></span>
+                                </button>
+                                <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
+                                    <li><a onClick={() => { this.setState({ Gender: "Male" }); }}>Male</a></li>
+                                    <li><a onClick={() => { this.setState({ Gender: "Female" }); }}>Female</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">Gender</div>
+                        </div>
+                    </div>
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className="fas fa-flag"></span>
+                        </div>
+                        <div className="item-content-secondary">
+                            <div className="form-group">
+                                <input type="text" className="form-control" name="Nationality" autoComplete="off"
+                                    value={this.state.Nationality} onChange={this.onChange} style={{ width: "193px", }} />
+                            </div>
+                        </div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">Nationality</div>
+                        </div>
+                    </div>
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className="fas fa-phone"></span>
+                        </div>
+                        <div className="item-content-secondary">
+                            <div className="form-group">
+                                <input type="text" className="form-control" name="PhoneNumber" autoComplete="off"
+                                    placeholder="+XXXXXXXXXXXX" value={this.state.PhoneNumber} onChange={this.onChange} style={{ width: "193px", }} />
+                            </div>
+                        </div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">Phone Number</div>
+                            <div className="text-danger">{this.state.Errors.PhoneNumber}</div>
+                        </div>
+                    </div>
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className="fas fa-location-arrow"></span>
+                        </div>
+                        <div className="item-content-secondary">
+                            <div className="form-group">
+                                <input type="text" className="form-control" name="Address" autoComplete="off"
+                                    value={this.state.Address} onChange={this.onChange} style={{ width: "393px", }} />
+                            </div>
+                        </div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">Address</div>
+                        </div>
+                    </div>
+                    <div className="entity-list-item active">
+                        <div className="item-icon">
+                            <span className="fas fa-save"></span>
+                        </div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">Save Changes?</div>
+                            <div className="content-text-secondary">This cannot be undone.</div>
+                        </div>
+                        <div className="item-content-expanded">
+                            <input type="submit" value="Save" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
+            {this.state.Preloader}
+        </section>;
     }
 };
 
