@@ -51,9 +51,9 @@ export const loginDriver = async driver => {
 };
 
 // GET: GetData
-export const getData = async request => {
+export const getData = request => {
     console.log(`Sending GET request to ${Strings.NAQEL_SERVER}drivers/get${request.Get}...`);
-    return await axios.get(`${Strings.NAQEL_SERVER}drivers/get${request.Get}`, {
+    return axios.get(`${Strings.NAQEL_SERVER}drivers/get${request.Get}`, {
         headers: { Authorization: `JWT ${request.Token}` }
     }).then(response => {
         return response.data;
@@ -244,13 +244,15 @@ export const updateTrailer = updatedTrailer => {
 
 // POST: addDrivingLicence
 export const addDrivingLicence = async newDrivingLicence => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addDrivingLicence...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/addDrivingLicence`, {
-        Token: newDrivingLicence.Token,
         LicenceNumber: newDrivingLicence.LicenceNumber,
         Type: newDrivingLicence.Type,
         ReleaseDate: newDrivingLicence.ReleaseDate,
         ExpiryDate: newDrivingLicence.ExpiryDate,
         PhotoURL: newDrivingLicence.PhotoURL,
+    }, {
+        headers: { Authorization: `JWT ${newDrivingLicence.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -258,13 +260,15 @@ export const addDrivingLicence = async newDrivingLicence => {
 
 // POST: updateDrivingLicence
 export const updateDrivingLicence = async updatedDrivingLicence => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/updateDrivingLicence...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/updateDrivingLicence`, {
-        Token: updatedDrivingLicence.Token,
         LicenceNumber: updatedDrivingLicence.LicenceNumber,
         Type: updatedDrivingLicence.Type,
         ReleaseDate: updatedDrivingLicence.ReleaseDate,
         ExpiryDate: updatedDrivingLicence.ExpiryDate,
         PhotoURL: updatedDrivingLicence.PhotoURL,
+    }, {
+        headers: { Authorization: `JWT ${updatedDrivingLicence.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -272,8 +276,9 @@ export const updateDrivingLicence = async updatedDrivingLicence => {
 
 // POST: deleteDrivingLicence
 export const deleteDrivingLicence = async discardedDrivingLicence => {
-    return await axios.post(`${Strings.NAQEL_SERVER}drivers/deleteDrivingLicence`, {
-        Token: discardedDrivingLicence.Token,
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteDrivingLicence...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteDrivingLicence`, {
+            headers: { Authorization: `JWT ${discardedDrivingLicence.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -281,12 +286,14 @@ export const deleteDrivingLicence = async discardedDrivingLicence => {
 
 // POST: addEntryExitCard
 export const addEntryExitCard = async newEntryExitCard => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addEntryExitCard...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/addEntryExitCard`, {
-        Token: newEntryExitCard.Token,
         EntryExitNumber: newEntryExitCard.EntryExitNumber,
         Type: newEntryExitCard.Type,
         ReleaseDate: newEntryExitCard.ReleaseDate,
         NumberOfMonths: newEntryExitCard.NumberOfMonths,
+    }, {
+        headers: { Authorization: `JWT ${newEntryExitCard.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -294,12 +301,14 @@ export const addEntryExitCard = async newEntryExitCard => {
 
 // POST: updateEntryExiCard
 export const updateEntryExitCard = async updatedEntryExitCard => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/updateEntryExitCard...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/updateEntryExitCard`, {
-        Token: updatedEntryExitCard.Token,
         EntryExitNumber: updatedEntryExitCard.EntryExitNumber,
         Type: updatedEntryExitCard.Type,
         ReleaseDate: updatedEntryExitCard.ReleaseDate,
         NumberOfMonths: updatedEntryExitCard.NumberOfMonths,
+    }, {
+        headers: { Authorization: `JWT ${updatedEntryExitCard.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -307,8 +316,9 @@ export const updateEntryExitCard = async updatedEntryExitCard => {
 
 // POST: deleteEntryExitCard
 export const deleteEntryExitCard = async discardedEntryExitCard => {
-    return await axios.post(`${Strings.NAQEL_SERVER}drivers/deleteEntryExitCard`, {
-        Token: discardedEntryExitCard.Token,
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteEntryExitCard...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteEntryExitCard`, {
+        headers: { Authorization: `JWT ${discardedEntryExitCard.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -316,10 +326,13 @@ export const deleteEntryExitCard = async discardedEntryExitCard => {
 
 // POST: addIdentityCard
 export const addIdentityCard = async newIdentityCard => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addIdentityCard...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/addIdentityCard`, {
         Token: newIdentityCard.Token,
         IDNumber: newIdentityCard.IDNumber,
         PhotoURL: newIdentityCard.PhotoURL,
+    }, {
+        headers: { Authorization: `JWT ${newIdentityCard.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -327,10 +340,13 @@ export const addIdentityCard = async newIdentityCard => {
 
 // POST: updateIdentityCard
 export const updateIdentityCard = async updatedIdentityCard => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/updateIdentityCard...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/updateIdentityCard`, {
         Token: updatedIdentityCard.Token,
         IDNumber: updatedIdentityCard.IDNumber,
         PhotoURL: updatedIdentityCard.PhotoURL,
+    }, {
+        headers: { Authorization: `JWT ${updatedIdentityCard.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -338,8 +354,9 @@ export const updateIdentityCard = async updatedIdentityCard => {
 
 // POST: deleteIdentityCard
 export const deleteIdentityCard = async discardedIdentityCard => {
-    return await axios.post(`${Strings.NAQEL_SERVER}drivers/deleteIdentityCard`, {
-        Token: discardedIdentityCard.Token,
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteIdentityCard...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteIdentityCard`, {
+        headers: { Authorization: `JWT ${discardedIdentityCard.Token}` }
     }).then(response => {
         return response.data;
     });

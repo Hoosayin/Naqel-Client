@@ -4,6 +4,7 @@ import { getData, updateTruckPhoto } from "../../DriverFunctions";
 import TruckSettings from "./TruckSettings";
 import AddTruckDialog from "./AddTruckDialog";
 import Trailers from "./trailers/Trailers";
+import Preloader from "../../../../controls/Preloader";
 
 class Truck extends Component {
     constructor() {
@@ -21,6 +22,7 @@ class Truck extends Component {
             AddTruckDialog: null,
             AddTrailer: null,
             TrailersList: null,
+            Preloader: null
         };
 
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
@@ -37,6 +39,10 @@ class Truck extends Component {
                 Get: "Truck"
             };
 
+            this.setState({
+                Preloader: <Preloader />
+            });
+
             getData(request).then(response => {
                 if (response.Message === "Truck found.") {
                     let truck = response.Truck;
@@ -50,7 +56,8 @@ class Truck extends Component {
                         Type: truck.Type,
                         MaximumWeight: truck.MaximumWeight,
                         PhotoURL: truck.PhotoURL,
-                        TruckFound: true
+                        TruckFound: true,
+                        Preloader: null
                     });
                 }
                 else {
@@ -63,7 +70,8 @@ class Truck extends Component {
                         Type: "",
                         MaximumWeight: "",
                         PhotoURL: "./images/default_image.png",
-                        TruckFound: false
+                        TruckFound: false,
+                        Preloader: null
                     });
                 }
             });
@@ -156,6 +164,7 @@ class Truck extends Component {
                 </div>
                 <TruckSettings OnTruckSettingsUpdated={this.onComponentUpdated} />
                 <Trailers />
+                {this.state.Preloader}
             </section>;
         }
         else {
@@ -199,6 +208,7 @@ class Truck extends Component {
                     </div>
                 </div>
                 {this.state.AddTruckDialog}
+                {this.state.Preloader}
             </section>;
         }
     }

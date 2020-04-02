@@ -106,7 +106,7 @@ class AddDrivingLicenceDialog extends Component {
         }
 
         const newDrivingLicence = {
-            Token: localStorage.getItem("userToken"),
+            Token: localStorage.Token,
             LicenceNumber: this.state.LicenceNumber,
             Type: this.state.Type,
             ReleaseDate: this.state.ReleaseDate,
@@ -122,8 +122,7 @@ class AddDrivingLicenceDialog extends Component {
 
         await addDrivingLicence(newDrivingLicence).then(response => {
             if (response.Message === "Driving Licence is added.") {
-                localStorage.setItem("userToken", response.Token);
-                this.props.OnDrivingLicenceAdded(this.cancelButton);
+                this.props.OnOK(this.cancelButton);
             }
 
             this.setState({
@@ -134,23 +133,23 @@ class AddDrivingLicenceDialog extends Component {
 
     render() {
         return (
-            <section class="text-left">
-                <div class="modal" id="add-driving-licence-dialog"
-                    tabindex="-1" role="dialog"
+            <section className="text-left">
+                <div className="modal" id="add-driving-licence-dialog"
+                    tabIndex="-1" role="dialog"
                     aria-labelledby="modal-sample-label" aria-hidden="true">
                     {this.state.Preloader}
-                    <div class="modal-dialog">
-                        <div class="modal-content">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
                             <section>
                                 <form noValidate onSubmit={this.onSubmit}>
-                                    <div class="modal-header">
+                                    <div className="modal-header">
                                         <img alt="add.png" src="./images/add.png" height="60" />
-                                        <div class="type-h3">Add Driving Licence</div>
+                                        <div className="type-h3">Add Driving Licence</div>
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
+                                    <div className="modal-body">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="form-group">
                                                     <ImageUploader
                                                         Source={this.state.PhotoURL}
                                                         Height="220px"
@@ -172,46 +171,46 @@ class AddDrivingLicenceDialog extends Component {
                                                         }}
                                                         ImageCategory="DrivingLicence" />
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="text-danger">{this.state.Errors.PhotoURL}</label>
+                                                <div className="form-group">
+                                                    <label className="text-danger">{this.state.Errors.PhotoURL}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Licence Number</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="number" name="LicenceNumber" class="form-control" autocomplete="off"
+                                            <div className="col-md-12">
+                                                <div className="form-group">
+                                                    <label className="control-label">Licence Number</label>
+                                                    <span className="text-danger" style={Required}>*</span>
+                                                    <input type="number" name="LicenceNumber" className="form-control" autoComplete="off"
                                                         value={this.state.LicenceNumber} onChange={this.onChange} />
-                                                    <span class="text-danger">{this.state.Errors.LicenceNumber}</span>
+                                                    <span className="text-danger">{this.state.Errors.LicenceNumber}</span>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="control-label">Licence Type</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="text" name="Type" class="form-control" autocomplete="off"
+                                                <div className="form-group">
+                                                    <label className="control-label">Licence Type</label>
+                                                    <span className="text-danger" style={Required}>*</span>
+                                                    <input type="text" name="Type" className="form-control" autoComplete="off"
                                                         value={this.state.Type} onChange={this.onChange} />
-                                                    <span class="text-danger">{this.state.Errors.Type}</span>
+                                                    <span className="text-danger">{this.state.Errors.Type}</span>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="control-label">Release Date</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="date" name="ReleaseDate" class="form-control" autocomplete="off"
+                                                <div className="form-group">
+                                                    <label className="control-label">Release Date</label>
+                                                    <span className="text-danger" style={Required}>*</span>
+                                                    <input type="date" name="ReleaseDate" className="form-control" autoComplete="off"
                                                         value={this.state.ReleaseDate} onChange={this.onChange} />
-                                                    <span class="text-danger">{this.state.Errors.ReleaseDate}</span>
+                                                    <span className="text-danger">{this.state.Errors.ReleaseDate}</span>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="control-label">Expiry Date</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="date" name="ExpiryDate" class="form-control" autocomplete="off"
+                                                <div className="form-group">
+                                                    <label className="control-label">Expiry Date</label>
+                                                    <span className="text-danger" style={Required}>*</span>
+                                                    <input type="date" name="ExpiryDate" className="form-control" autoComplete="off"
                                                         value={this.state.ExpiryDate} onChange={this.onChange} />
-                                                    <span class="text-danger">{this.state.Errors.ExpiryDate}</span>
+                                                    <span className="text-danger">{this.state.Errors.ExpiryDate}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-default" data-dismiss="modal" onClick={this.props.OnAddDrivingLicenceDialogRemove}
+                                    <div className="modal-footer">
+                                        <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
                                             ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                        <input type="submit" value="Add" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                                        <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                     </div>
                                 </form>
                             </section>

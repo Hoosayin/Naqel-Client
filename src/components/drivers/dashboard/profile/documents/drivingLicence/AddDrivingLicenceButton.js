@@ -15,25 +15,25 @@ class AddDrivingLicenceButton extends Component {
             <section>
                 <button
                     type="button"
-                    class="btn btn-primary"
+                    className="btn btn-primary"
                     style={{ minWidth: "152px" }}
                     data-toggle="modal"
                     data-target="#add-driving-licence-dialog"
                     onMouseDown={() => {
                         this.setState({
                             AddDrivingLicenceDialog: (<AddDrivingLicenceDialog
-                                OnAddDrivingLicenceDialogRemove={() => {
+                                OnCancel={() => {
                                     this.setState({
                                         AddDrivingLicenceDialog: null,
                                     });
                                 }}
-                                OnDrivingLicenceAdded={cancelButton => {
+                                OnOK={cancelButton => {
                                     cancelButton.click();
                                     this.props.OnDocumentsUpdated();
                                 }} />),
                         });
                     }}>
-                    <span class="fas fa-plus" aria-hidden="true"></span> Driving Licence
+                    <span className="fas fa-plus" aria-hidden="true"></span> Driving Licence
                 </button>
                 {this.state.AddDrivingLicenceDialog}
             </section>

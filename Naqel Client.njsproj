@@ -182,8 +182,6 @@
     <Content Include="src\App.js" />
     <Content Include="src\App.js.bak" />
     <Content Include="src\components\drivers\dashboard\DriversDashboard.js" />
-    <Content Include="src\components\drivers\dashboard\DashboardSideNav.js" />
-    <Content Include="src\components\drivers\dashboard\DashboardTabs.js" />
     <Content Include="src\components\drivers\dashboard\jobs\jobOffers\JobOffers.js" />
     <Content Include="src\components\drivers\dashboard\jobs\jobRequests\AddJobRequestDialog.js" />
     <Content Include="src\components\drivers\dashboard\jobs\jobRequests\EditJobRequestDialog.js" />
