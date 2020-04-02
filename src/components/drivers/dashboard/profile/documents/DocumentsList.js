@@ -40,7 +40,7 @@ class DocumentsList extends Component {
             };
 
             getData(request).then(response => {
-                if (response.Message === "Driving Licence found.") {
+                if (response.Message === "Driving licence found.") {
                     drivingLicence = response.DrivingLicence;
                 }
                 else {
