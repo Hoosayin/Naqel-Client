@@ -408,12 +408,14 @@ export const updatePermitLicence = async updatedPermitLicence => {
 
 // POST: addJobRequest
 export const addJobRequest = async newJobRequest => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addJobRequest...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/addJobRequest`, {
-        Token: newJobRequest.Token,
         LoadingPlace: newJobRequest.LoadingPlace,
         UnloadingPlace: newJobRequest.UnloadingPlace,
         TripType: newJobRequest.TripType,
         Price: newJobRequest.Price,
+    }, {
+        headers: { Authorization: `JWT ${newJobRequest.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -421,13 +423,15 @@ export const addJobRequest = async newJobRequest => {
 
 // POST: updateJobRequest
 export const updateJobRequest = async updatedJobRequest => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/updateJobRequest...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/updateJobRequest`, {
-        Token: updatedJobRequest.Token,
         JobRequestID: updatedJobRequest.JobRequestID,
         LoadingPlace: updatedJobRequest.LoadingPlace,
         UnloadingPlace: updatedJobRequest.UnloadingPlace,
         TripType: updatedJobRequest.TripType,
         Price: updatedJobRequest.Price,
+    }, {
+        headers: { Authorization: `JWT ${updatedJobRequest.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -435,9 +439,10 @@ export const updateJobRequest = async updatedJobRequest => {
 
 // POST: deleteJobRequest
 export const deleteJobRequest = async discardedJobRequest => {
-    return await axios.post(`${Strings.NAQEL_SERVER}drivers/deleteJobRequest`, {
-        Token: discardedJobRequest.Token,
-        JobRequestID: discardedJobRequest.JobRequestID
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteJobRequest...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteJobRequest`, {
+        headers: { Authorization: `JWT ${discardedJobRequest.Token}` },
+        data: { JobRequestID: discardedJobRequest.JobRequestID }
     }).then(response => {
         return response.data;
     });

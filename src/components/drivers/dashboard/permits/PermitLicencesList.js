@@ -35,7 +35,7 @@ class PermitLicencesList extends Component {
 
         await deletePermitLicence(discardedPermitLicence).then(response => {
             if (response.Message === "Permit Licence is deleted.") {
-                this.props.OnPermitLicencesUpdated();
+                this.onComponentUpdated();
             }
 
             this.setState({

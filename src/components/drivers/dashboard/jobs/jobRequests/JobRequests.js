@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import jwt_decode from "jwt-decode";
 import AddJobRequestDialog from "./AddJobRequestDialog.js";
 import JobRequestsList from "./JobRequestsList.js";
 
@@ -20,41 +19,27 @@ class JobRequests extends Component {
     }
 
     onJobRequestsUpdated = () => {
-        const jobRequests = jwt_decode(localStorage.userToken).JobRequests;
-
-        if (jobRequests) {
-            this.setState({
-                JobRequestsList: null
-            });
-            this.setState({
-                JobRequestsList: <JobRequestsList OnJobRequestsUpdated={this.onJobRequestsUpdated} />
-            });
-        }
-        else {
-            this.setState({
-                JobRequestsList: null
-            });
-        }
+        this.JobRequestsList.onComponentUpdated();
     }
 
     render() {
         return (
             <section>
-                <div class="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 col-md-push-12 text-center">
-                                <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
+                <div className="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12 col-md-push-12 text-center">
+                                <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
                                     alt="job_requests.png" src="./images/job_requests.png" data-source-index="2" />
                             </div>
-                            <div class="col-md-12 col-md-pull-12">
-                                <div class="type-h3">Job Requests</div>
-                                <div class="type-sh3">Manage Your Job Requests</div>
+                            <div className="col-md-12 col-md-pull-12">
+                                <div className="type-h3">Job Requests</div>
+                                <div className="type-sh3">Manage Your Job Requests</div>
                                 <p>Create new job requests for your current and/or near-by locations to get a chance to increase your revenue.</p>
-                                <div class="btn-group">
+                                <div className="btn-group">
                                     <button
                                         type="button"
-                                        class="btn btn-primary"
+                                        className="btn btn-primary"
                                         data-toggle="modal"
                                         data-target="#add-job-request-dialog"
                                         onMouseDown={() => {
@@ -78,7 +63,7 @@ class JobRequests extends Component {
                         </div>
                     </div>
                 </div>
-                {this.state.AddJobRequestDialog}
+                <JobRequestsList ref={jobRequestsList => this.JobRequestsList = jobRequestsList} />
                 {this.state.JobRequestsList}
             </section>
         );
