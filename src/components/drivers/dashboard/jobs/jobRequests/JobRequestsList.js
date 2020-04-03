@@ -18,7 +18,7 @@ class JobRequestsList extends Component {
         this.onDelete = this.onDelete.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onSearch = this.onSearch.bind(this);
-        this.getJobRequests = this.getJobRequests.bind(this);
+        this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
     onDelete = async index => {
@@ -45,7 +45,7 @@ class JobRequestsList extends Component {
     }
 
     componentDidMount() {
-        this.getJobRequests();
+        this.onComponentUpdated();
     }
 
     onComponentUpdated = () => {
@@ -55,7 +55,7 @@ class JobRequestsList extends Component {
                 Get: "JobRequests"
             };
 
-            await getData(request).then(response => {
+            getData(request).then(response => {
                 if (response.Message === "Job requests found.") {
                     this.setState({
                         AllJobRequests: response.JobRequests,

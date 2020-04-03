@@ -44,6 +44,7 @@ class DriversDashboard extends Component {
                         <FinancialAffairs />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="jobs">
+                        <Jobs />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="payments">
                         <Payments />
