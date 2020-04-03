@@ -24,8 +24,8 @@ class AddJobRequestDialog extends Component {
             Errors: {
                 LoadingPlace: "",
                 UnloadingPlace: "",
-                Price: "",
-            },
+                Price: ""
+            }
         };
 
         this.onChange = this.onChange.bind(this);
@@ -86,12 +86,12 @@ class AddJobRequestDialog extends Component {
         }
 
         const newJobRequest = {
-            Token: localStorage.getItem("userToken"),
+            Token: localStorage.Token,
             LoadingPlace: this.state.LoadingPlace,
             UnloadingPlace: this.state.UnloadingPlace,
             TripType: this.state.TripType,
-            Price: this.state.Price,
-        }
+            Price: this.state.Price
+        };
 
         console.log("Going to add Job Request.");
 
@@ -101,7 +101,6 @@ class AddJobRequestDialog extends Component {
 
         await addJobRequest(newJobRequest).then(response => {
             if (response.Message === "Job request is added.") {
-                localStorage.setItem("userToken", response.Token);
                 this.props.OnOK(this.cancelButton);
             }
 
@@ -113,75 +112,75 @@ class AddJobRequestDialog extends Component {
 
     render() {
         return (
-            <section class="text-left">
-                <div class="modal" id="add-job-request-dialog"
-                    tabindex="-1" role="dialog"
+            <section className="text-left">
+                <div className="modal" id="add-job-request-dialog"
+                    tabIndex="-1" role="dialog"
                     aria-labelledby="modal-sample-label" aria-hidden="true">
                     {this.state.Preloader}
-                    <div class="modal-dialog">
-                        <div class="modal-content">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
                             <section>
                                 <form noValidate onSubmit={this.onSubmit}>
-                                    <div class="modal-header">
+                                    <div className="modal-header">
                                         <img alt="add.png" src="./images/add.png" height="60" />
-                                        <div class="type-h3">Add Job Request</div>
+                                        <div className="type-h3">Add Job Request</div>
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Loading Place</label>
-                                                        <span class="text-danger" style={Required}>*</span>
-                                                        <input type="text" name="LoadingPlace" class="form-control" autoComplete="off"
+                                    <div className="modal-body">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="form-group">
+                                                    <div className="form-group">
+                                                        <label className="control-label">Loading Place</label>
+                                                        <span className="text-danger" style={Required}>*</span>
+                                                        <input type="text" name="LoadingPlace" className="form-control" autoComplete="off"
                                                             value={this.state.LoadingPlace} onChange={this.onChange} />
-                                                        <span class="text-danger">{this.state.Errors.LoadingPlace}</span>
+                                                        <span className="text-danger">{this.state.Errors.LoadingPlace}</span>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label">Unloading Place</label>
-                                                        <span class="text-danger" style={Required}>*</span>
-                                                        <input type="text" name="UnloadingPlace" class="form-control" autoComplete="off"
+                                                    <div className="form-group">
+                                                        <label className="control-label">Unloading Place</label>
+                                                        <span className="text-danger" style={Required}>*</span>
+                                                        <input type="text" name="UnloadingPlace" className="form-control" autoComplete="off"
                                                             value={this.state.UnloadingPlace} onChange={this.onChange} />
-                                                        <span class="text-danger">{this.state.Errors.UnloadingPlace}</span>
+                                                        <span className="text-danger">{this.state.Errors.UnloadingPlace}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Trip Type</label><br />
-                                                        <div class="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
-                                                            <button id="example-dropdown" class="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
+                                            <div className="col-md-12">
+                                                <div className="form-group">
+                                                    <div className="form-group">
+                                                        <label className="control-label">Trip Type</label><br />
+                                                        <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
+                                                            <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
                                                                 aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
                                                                 <span>{this.state.TripType}</span>
-                                                                <span class="caret"></span>
+                                                                <span className="caret"></span>
                                                             </button>
-                                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
+                                                            <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
                                                                 <li><a onClick={() => { this.setState({ TripType: "One Way" }); }}>One Way</a></li>
                                                                 <li><a onClick={() => { this.setState({ TripType: "Two Way" }); }}>Two Way</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label">Price (USD)</label>
-                                                        <span class="text-danger" style={Required}>*</span>
+                                                    <div className="form-group">
+                                                        <label className="control-label">Price (USD)</label>
+                                                        <span className="text-danger" style={Required}>*</span>
                                                         <input type="number" min="0.00" step="0.01" max="100.00" name="Price"
-                                                            class="form-control" autoComplete="off" value={this.state.Price} onChange={this.onChange} />
-                                                        <span class="text-danger">{this.state.Errors.Price}</span>
+                                                            className="form-control" autoComplete="off" value={this.state.Price} onChange={this.onChange} />
+                                                        <span className="text-danger">{this.state.Errors.Price}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-24">
+                                        <div className="row">
+                                            <div className="col-md-24">
                                                 <Map />
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
+                                    <div className="modal-footer">
+                                        <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
                                             ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                        <input type="submit" value="Add" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                                        <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                     </div>
                                 </form>
                             </section>

@@ -203,7 +203,7 @@ class JobOffersList extends Component {
                                                 <span className="fa fa-times-circle" style={{ fontWeight: "bold", color: "#D75A4A" }}></span>}
                                         </div>
                                         <div style={{ padding: "3px 0px 3px 0px" }}>
-                                            <span className="fas fa-calendar" style={{ color: "#606060" }}></span>
+                                            <span className="fas fa-clock" style={{ color: "#606060" }}></span>
                                             <span style={{ fontWeight: "bold", color: "#606060" }}>Created:</span> {`${(Math.floor(hoursSinceCreated))} Hour(s) Ago`}
                                         </div>
                                     </div>
