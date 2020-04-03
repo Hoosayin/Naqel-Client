@@ -55,8 +55,8 @@ class PermitLicencesList extends Component {
                 Get: "PermitLicences"
             };
 
-            await getData(request).then(response => {
-                if (response.Message === "Permit Licences found.") {
+            getData(request).then(response => {
+                if (response.Message === "Permit licences found.") {
                     this.setState({
                         AllPermitLicences: response.PermitLicences,
                         PermitLicences: response.PermitLicences
@@ -143,7 +143,7 @@ class PermitLicencesList extends Component {
                                     </div>
                                     <div className="col-md-6">
                                         <div style={{ padding: "3px 0px 3px 0px" }}>
-                                            <span className="fas fa-hastag" style={{ color: "#606060" }}></span>
+                                            <span className="fas fa-hashtag" style={{ color: "#606060" }}></span>
                                             <span style={{ fontWeight: "bold", color: "#606060" }}>Permit Number:</span> {value.PermitNumber}
                                         </div>
                                         <div style={{ padding: "3px 0px 3px 0px" }}>
