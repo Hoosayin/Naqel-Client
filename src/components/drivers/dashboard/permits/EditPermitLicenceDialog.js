@@ -93,7 +93,7 @@ class EditPermitLicenceDialog extends Component {
                     this.state.ValidExpiryDate &&
                     this.state.ValidPhotoURL &&
                     this.state.ValidCode &&
-                    this.state.ValidPlace,
+                    this.state.ValidPlace
             });
         });
     }
@@ -106,7 +106,7 @@ class EditPermitLicenceDialog extends Component {
         }
 
         const updatedPermitLicence = {
-            Token: localStorage.getItem("userToken"),
+            Token: localStorage.Token,
             PermitLicenceID: this.props.PermitLicence.PermitLicenceID,
             PermitNumber: this.state.PermitNumber,
             ExpiryDate: this.state.ExpiryDate,
@@ -123,7 +123,6 @@ class EditPermitLicenceDialog extends Component {
 
         await updatePermitLicence(updatedPermitLicence).then(response => {
             if (response.Message === "Permit Licence is updated.") {
-                localStorage.setItem("userToken", response.Token);
                 this.props.OnOK(this.cancelButton);
             }
 
@@ -134,92 +133,90 @@ class EditPermitLicenceDialog extends Component {
     }
 
     render() {
-        return (
-            <section class="text-left">
-                <div class="modal" id={`edit-permit-dialog${this.props.DialogID}`}
-                    tabindex="-1" role="dialog"
-                    aria-labelledby="modal-sample-label" aria-hidden="true">
-                    {this.state.Preloader}
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <section>
-                                <form noValidate onSubmit={this.onSubmit}>
-                                    <div class="modal-header">
-                                        <img alt="pencil.png" src="./images/pencil.png" height="60" />
-                                        <div class="type-h3">Add Permit Licence</div>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <ImageUploader
-                                                        Source={this.state.PhotoURL}
-                                                        Height="220px"
-                                                        Width="220px"
-                                                        OnImageUploaded={response => {
-                                                            if (response.message === "Image uploaded successfully.") {
-                                                                this.setState({
-                                                                    PhotoURL: response.imageUrl
-                                                                });
+        return <section className="text-left">
+            <div className="modal" id={`edit-permit-dialog${this.props.DialogID}`}
+                tabIndex="-1" role="dialog"
+                aria-labelledby="modal-sample-label" aria-hidden="true">
+                {this.state.Preloader}
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <section>
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <div className="modal-header">
+                                    <img alt="pencil.png" src="./images/pencil.png" height="60" />
+                                    <div className="type-h3">Add Permit Licence</div>
+                                </div>
+                                <div className="modal-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <ImageUploader
+                                                    Source={this.state.PhotoURL}
+                                                    Height="220px"
+                                                    Width="220px"
+                                                    OnImageUploaded={response => {
+                                                        if (response.message === "Image uploaded successfully.") {
+                                                            this.setState({
+                                                                PhotoURL: response.imageUrl
+                                                            });
 
-                                                                this.validateField("PhotoURL", this.state.PhotoURL);
-                                                            }
-                                                            else {
-                                                                this.validateField("PhotoURL", null);
-                                                            }
-                                                        }}
-                                                        OnInvalidImageSelected={() => {
+                                                            this.validateField("PhotoURL", this.state.PhotoURL);
+                                                        }
+                                                        else {
                                                             this.validateField("PhotoURL", null);
-                                                        }} />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="text-danger">{this.state.Errors.PhotoURL}</label>
-                                                </div>
+                                                        }
+                                                    }}
+                                                    OnInvalidImageSelected={() => {
+                                                        this.validateField("PhotoURL", null);
+                                                    }} />
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Permit Number</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="number" name="PermitNumber" class="form-control" autoComplete="off"
-                                                        value={this.state.PermitNumber} onChange={this.onChange} />
-                                                    <span class="text-danger">{this.state.Errors.PermitNumber}</span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="control-label">Expiry Date</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="date" name="ExpiryDate" class="form-control" autoComplete="off"
-                                                        value={this.state.ExpiryDate} onChange={this.onChange} />
-                                                    <span class="text-danger">{this.state.Errors.ExpiryDate}</span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="control-label">Permit Code</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="text" name="Code" class="form-control" autoComplete="off"
-                                                        value={this.state.Code} onChange={this.onChange} />
-                                                    <span class="text-danger">{this.state.Errors.Code}</span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="control-label">Permit Place</label>
-                                                    <span class="text-danger" style={Required}>*</span>
-                                                    <input type="text" name="Place" class="form-control" autoComplete="off"
-                                                        value={this.state.Place} onChange={this.onChange} />
-                                                    <span class="text-danger">{this.state.Errors.Place}</span>
-                                                </div>
+                                            <div className="form-group">
+                                                <label className="text-danger">{this.state.Errors.PhotoURL}</label>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <label className="control-label">Permit Number</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="number" name="PermitNumber" className="form-control" autoComplete="off"
+                                                    value={this.state.PermitNumber} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.PermitNumber}</span>
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="control-label">Expiry Date</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="date" name="ExpiryDate" className="form-control" autoComplete="off"
+                                                    value={this.state.ExpiryDate} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.ExpiryDate}</span>
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="control-label">Permit Code</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="text" name="Code" className="form-control" autoComplete="off"
+                                                    value={this.state.Code} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.Code}</span>
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="control-label">Permit Place</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="text" name="Place" className="form-control" autoComplete="off"
+                                                    value={this.state.Place} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.Place}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
-                                            ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                        <input type="submit" value="Update" class="btn btn-primary" disabled={!this.state.ValidForm} />
-                                    </div>
-                                </form>
-                            </section>
-                        </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
+                                        ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
+                                    <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                </div>
+                            </form>
+                        </section>
                     </div>
                 </div>
-            </section>
-        );
+            </div>
+        </section>;
     }
 };
 

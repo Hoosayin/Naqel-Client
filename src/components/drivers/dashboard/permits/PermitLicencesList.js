@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import jwt_decode from "jwt-decode";
-import { deletePermitLicence } from "../../DriverFunctions.js";
+import { getData, deletePermitLicence } from "../../DriverFunctions.js";
 import EditPermitLicenceDialog from "./EditPermitLicenceDialog.js";
 import Preloader from "../../../../controls/Preloader.js";
 
@@ -9,6 +8,7 @@ class PermitLicencesList extends Component {
         super(props);
 
         this.state = {
+            AllPermitLicences: [],
             PermitLicences: [],
             EditPermitLicenceDialogs: [],
             SearchString: "",
@@ -18,7 +18,7 @@ class PermitLicencesList extends Component {
         this.onDelete = this.onDelete.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onSearch = this.onSearch.bind(this);
-        this.getPermitLicences = this.getPermitLicences.bind(this);
+        this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
     onDelete = async index => {
@@ -27,43 +27,50 @@ class PermitLicencesList extends Component {
         });
 
         const discardedPermitLicence = {
-            Token: localStorage.getItem("userToken"),
+            Token: localStorage.Token,
             PermitLicenceID: this.state.PermitLicences[index].PermitLicenceID 
         };
 
         console.log(`Going to delete PermitLicences[${index}]`);
 
-        await deletePermitLicence(discardedPermitLicence)
-            .then(response => {
-                if (response.Message === "Permit Licence is deleted.") {
-                    localStorage.setItem("userToken", response.Token);
-                    this.props.OnPermitLicencesUpdated();
-                }
+        await deletePermitLicence(discardedPermitLicence).then(response => {
+            if (response.Message === "Permit Licence is deleted.") {
+                this.props.OnPermitLicencesUpdated();
+            }
 
-                this.setState({
-                    Preloader: null
-                });
+            this.setState({
+                Preloader: null
             });
+        });
     }
 
     componentDidMount() {
-        this.getPermitLicences();
+        this.onComponentUpdated();
     }
 
-    getPermitLicences = () => {
-        if (localStorage.userToken) {
-            const permitLicences = jwt_decode(localStorage.userToken).PermitLicences;
+    onComponentUpdated = () => {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "PermitLicences"
+            };
 
-            this.setState({
-                PermitLicences: permitLicences
+            await getData(request).then(response => {
+                if (response.Message === "Permit Licences found.") {
+                    this.setState({
+                        AllPermitLicences: response.PermitLicences,
+                        PermitLicences: response.PermitLicences
+                    });
+                }
+                else {
+                    this.setState({
+                        AllPermitLicences: [],
+                        PermitLicences: []
+                    });
+                }
             });
         }
-        else {
-            this.setState({
-                PermitLicences: []
-            });
-        }
-    }
+    };
 
     onChange = event => {
         const name = event.target.name;
@@ -76,15 +83,17 @@ class PermitLicencesList extends Component {
         event.preventDefault();
 
         if (this.state.SearchString === "") {
-            this.getPermitLicences();
-            return;
+            this.setState({
+                PermitLicences: this.state.AllPermitLicences
+            });
         }
 
-        const filteredPermitLicences = [];
+        const allPermitLicences = this.state.AllPermitLicences;
+        let filteredPermitLicences = [];
 
-        for (var i = 0; i < this.state.PermitLicences.length; i++) {
-            if (this.state.PermitLicences[i].Place === this.state.SearchString) {
-                filteredPermitLicences[i] = this.state.PermitLicences[i];
+        for (var i = 0; i < allPermitLicences.length; i++) {
+            if (allPermitLicences[i].Place.includes(this.state.SearchString)) {
+                filteredPermitLicences[i] = allPermitLicences[i];
             }
         }
 
@@ -97,75 +106,79 @@ class PermitLicencesList extends Component {
         return (
             <section>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                <div class="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Permit Licences</div>
-                <nav class="navbar navbar-default">
-                    <div class="navbar-global theme-default" style={{ backgroundColor: "#E5E5E5;" }}>
+                <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Permit Licences</div>
+                <nav className="navbar navbar-default">
+                    <div className="navbar-global theme-default" style={{ backgroundColor: "#E5E5E5;" }}>
                         <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
-                            <form noValidate onSubmit={this.onSearch} class="navbar-form navbar-right" role="search">
-                                <div class="putbox" style={{ margin: "0px" }}>
-                                    <div class="form-group">
-                                        <input type="search" name="SearchString" class="form-control" placeholder="Search by Permit Place"
+                            <form noValidate onSubmit={this.onSearch} className="navbar-form navbar-right" role="search">
+                                <div className="putbox" style={{ margin: "0px" }}>
+                                    <div className="form-group">
+                                        <input type="search" name="SearchString" className="form-control" placeholder="Search by Permit Place"
                                             style={{ maxWidth: "500px", width: "100%" }} autoComplete="off"
                                             value={this.state.SearchString} onChange={this.onChange} />
                                     </div>
-                                    <button type="submit" class="btn btn-default form-control" style={{ width: "34px" }}></button>
+                                    <button type="submit" className="btn btn-default form-control" style={{ width: "34px" }}></button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </nav>
-                <ol class="list-items" style={{ margin: "0px" }}>
+                <ol className="list-items" style={{ margin: "0px" }}>
                     {this.state.PermitLicences.map((value, index) => {
-                        return <li class="list-items-row">
+                        return <li key={index} className="list-items-row">
                             <div data-toggle="collapse" aria-expanded="false" data-target={`#${value.PermitLicenceID}`}>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <i class="glyph glyph-add"></i>
-                                        <i class="glyph glyph-remove"></i>
+                                <div className="row">
+                                    <div className="col-md-2">
+                                        <i className="glyph glyph-add"></i>
+                                        <i className="glyph glyph-remove"></i>
                                         <strong>{index + 1}</strong>
                                     </div>
-                                    <div class="col-md-4">
-                                        <img class="img-responsive visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
+                                    <div className="col-md-4">
+                                        <img className="img-responsive visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
                                             src={value.PhotoURL} alt="permit.png" data-source-index="2" style={{
                                                 overflow: "hidden",
                                                 border: "5px solid #3A3A3C",
                                                 margin: "5px"
                                             }} />
                                     </div>
-                                    <div class="col-md-6">
-                                        <div>
-                                            <span style={{ fontWeight: "bold", color: "#404040" }}>Permit Number:</span> {value.PermitNumber}
+                                    <div className="col-md-6">
+                                        <div style={{ padding: "3px 0px 3px 0px" }}>
+                                            <span className="fas fa-hastag" style={{ color: "#606060" }}></span>
+                                            <span style={{ fontWeight: "bold", color: "#606060" }}>Permit Number:</span> {value.PermitNumber}
                                         </div>
-                                        <div>
-                                            <span style={{ fontWeight: "bold", color: "#404040" }}>Expiry Date:</span> {value.ExpiryDate}
+                                        <div style={{ padding: "3px 0px 3px 0px" }}>
+                                            <span className="fas fa-calendar" style={{ color: "#606060" }}></span>
+                                            <span style={{ fontWeight: "bold", color: "#606060" }}>Expiry Date:</span> {value.ExpiryDate}
                                         </div>
-                                        <div>
-                                            <span style={{ fontWeight: "bold", color: "#404040" }}>Permit Code:</span> {value.Code}
+                                        <div style={{ padding: "3px 0px 3px 0px" }}>
+                                            <span className="fas fa-asterisk" style={{ color: "#606060" }}></span>
+                                            <span style={{ fontWeight: "bold", color: "#606060" }}>Permit Code:</span> {value.Code}
                                         </div>
-                                        <div>
-                                            <span style={{ fontWeight: "bold", color: "#404040" }}>Permit Place:</span> {value.Place}
+                                        <div style={{ padding: "3px 0px 3px 0px" }}>
+                                            <span className="fas fa-map-marker-alt" style={{ color: "#606060" }}></span>
+                                            <span style={{ fontWeight: "bold", color: "#606060" }}>Permit Place:</span> {value.Place}
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div className="col-md-6">
                                         
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="collapse" id={value.PermitLicenceID}>
-                                <div class="row">
-                                    <div class="col-md-18 col-md-offset-2">
-                                        <img class="img-responsive visible-xs-inline-block visible-sm-inline-block"
+                            <div className="collapse" id={value.PermitLicenceID}>
+                                <div className="row">
+                                    <div className="col-md-18 col-md-offset-2">
+                                        <img className="img-responsive visible-xs-inline-block visible-sm-inline-block"
                                             src={value.PhotoURL} alt="permit.png" data-source-index="2" style={{
                                                 overflow: "hidden",
                                                 border: "5px solid #3A3A3C",
                                                 margin: "5px"
                                             }} />
                                     </div>
-                                    <div class="col-md-4 text-right">
+                                    <div className="col-md-4 text-right">
                                         <button
                                             type="button"
-                                            class="btn btn-primary"
+                                            className="btn btn-primary"
                                             data-toggle="modal"
                                             data-target={`#edit-permit-dialog${index}`}
                                             onMouseDown={() => {
@@ -185,7 +198,7 @@ class PermitLicencesList extends Component {
                                                     }}
                                                     OnOK={cancelButton => {
                                                         cancelButton.click();
-                                                        this.props.OnPermitLicencesUpdated();
+                                                        this.onComponentUpdated();
                                                     }} />;
 
                                                 this.setState({
@@ -194,7 +207,7 @@ class PermitLicencesList extends Component {
                                             }}>
                                             Edit
                                             </button>
-                                        <button type="button" class="btn btn-danger" onClick={() => { this.onDelete(index); }}>Delete</button>
+                                        <button type="button" className="btn btn-danger" onClick={() => { this.onDelete(index); }}>Delete</button>
                                     </div>
                                 </div>
                             </div>
