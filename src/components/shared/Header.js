@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import jwt_decode from "jwt-decode";
 import { Link, withRouter } from "react-router-dom";
 import Strings from "../../res/strings"
 
@@ -7,10 +8,14 @@ class Header extends Component {
         super(props);
 
         this.state = {
-            Username: "User"
+            DriverLoggedIn: false
         };
 
         this.logOut = this.logOut.bind(this);
+    }
+
+    componentDidMount() {
+        
     }
 
     logOut = event => {
@@ -27,27 +32,29 @@ class Header extends Component {
     }
 
     render() {
-        const loginRegisterLinks = (
-            <ul className="nav navbar-nav navbar-right">
-                <li>
-                    <Link to="/register">Register</Link>
-                </li>
-                <li>
-                    <Link to="/login">Login</Link>
-                </li>            
-            </ul>
-        );
+        let token;
 
-        const userLinks = (
-            <ul className="nav navbar-nav navbar-right">
-                <li>
-                    <Link to={localStorage.userToken ? "/drivers" : "/traders"}>Dashboard</Link>
-                </li>
-                <li>
-                    <Link to="" onClick={this.logOut.bind(this)}>Logout</Link>
-                </li>
-            </ul>
-        );
+        if (localStorage.Token) {
+            token = jwt_decode(localStorage.Token);
+        }
+
+        const loginRegisterLinks = <ul className="nav navbar-nav navbar-right">
+            <li>
+                <Link to="/register">Register</Link>
+            </li>
+            <li>
+                <Link to="/login">Login</Link>
+            </li>
+        </ul>;
+
+        const userLinks = <ul className="nav navbar-nav navbar-right">
+            <li>
+                <Link to={(token && token.DriverID) ? "/drivers" : "/traders"}>Dashboard</Link>
+            </li>
+            <li>
+                <Link to="" onClick={this.logOut.bind(this)}>Logout</Link>
+            </li>
+        </ul>;
 
         return (
             <header>
@@ -63,7 +70,7 @@ class Header extends Component {
                             </div>
                             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                                 <ul className="nav navbar-nav"></ul>
-                                {(localStorage.userToken || localStorage.Token) ? userLinks : loginRegisterLinks}
+                                {localStorage.Token ? userLinks : loginRegisterLinks}
                             </div>
                         </div>
                     </div>

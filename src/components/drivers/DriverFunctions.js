@@ -364,13 +364,15 @@ export const deleteIdentityCard = async discardedIdentityCard => {
 
 // POST: addPermitLicence
 export const addPermitLicence = async newPermitLicence => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addPermitLicence...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/addPermitLicence`, {
-        Token: newPermitLicence.Token,
         PermitNumber: newPermitLicence.PermitNumber,
         ExpiryDate: newPermitLicence.ExpiryDate,
         PhotoURL: newPermitLicence.PhotoURL,
         Code: newPermitLicence.Code,
         Place: newPermitLicence.Place
+    }, {
+        headers: { Authorization: `JWT ${newPermitLicence.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -378,9 +380,10 @@ export const addPermitLicence = async newPermitLicence => {
 
 // POST: deletePermitLicence
 export const deletePermitLicence = async discardedPermitLicence => {
-    return await axios.post(`${Strings.NAQEL_SERVER}drivers/deletePermitLicence`, {
-        Token: discardedPermitLicence.Token,
-        PermitLicenceID: discardedPermitLicence.PermitLicenceID
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deletePermitLicence...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deletePermitLicence`, {
+        headers: { Authorization: `JWT ${discardedPermitLicence.Token}` },
+        data: { PermitLicenceID: discardedPermitLicence.PermitLicenceID }
     }).then(response => {
         return response.data;
     });
@@ -388,14 +391,16 @@ export const deletePermitLicence = async discardedPermitLicence => {
 
 // POST: updatePermitLicence
 export const updatePermitLicence = async updatedPermitLicence => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/updatePermitLicence...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/updatePermitLicence`, {
-        Token: updatedPermitLicence.Token,
         PermitLicenceID: updatedPermitLicence.PermitLicenceID,
         PermitNumber: updatedPermitLicence.PermitNumber,
         ExpiryDate: updatedPermitLicence.ExpiryDate,
         PhotoURL: updatedPermitLicence.PhotoURL,
         Code: updatedPermitLicence.Code,
         Place: updatedPermitLicence.Place
+    }, {
+        headers: { Authorization: `JWT ${updatedPermitLicence.Token}` }
     }).then(response => {
         return response.data;
     });
