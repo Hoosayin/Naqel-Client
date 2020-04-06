@@ -125,7 +125,7 @@ class JobRequestsList extends Component {
             </nav>
             <ol className="list-items" style={{ margin: "0px" }}>
                 {this.state.JobRequests.map((value, index) => {
-                    return <li className="list-items-row">
+                    return <li key={index} className="list-items-row">
                         <div data-toggle="collapse" aria-expanded="false" data-target={`#${value.JobRequestID}`}>
                             <div className="row">
                                 <div className="col-md-2">

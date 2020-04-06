@@ -58,7 +58,7 @@ class Profile extends Component {
             <section>
                 <div className="jumbotron theme-default">
                     <div className="container">
-                        <div className="row">
+                        <div className="row row-sm">
                             <div className="col-md-6">
                                 <div className="form-group" style={{ marginBottom: "5px", }}>
                                     <ProfilePhoto />

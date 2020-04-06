@@ -41,30 +41,20 @@ class JobRequests extends Component {
                                         type="button"
                                         className="btn btn-primary"
                                         data-toggle="modal"
-                                        data-target="#add-job-request-dialog"
-                                        onMouseDown={() => {
-                                            this.setState({
-                                                AddJobRequestDialog: (<AddJobRequestDialog
-                                                    OnCancel={() => {
-                                                        this.setState({
-                                                            AddJobRequestDialog: null,
-                                                        });
-                                                    }}
-                                                    OnOK={cancelButton => {
-                                                        cancelButton.click();
-                                                        this.onJobRequestsUpdated();
-                                                    }} />),
-                                            });
-                                        }}>
-                                        New Job Request
-                                        </button>
+                                        data-target="#add-job-request-dialog">New Job Request</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <JobRequestsList ref={jobRequestsList => this.JobRequestsList = jobRequestsList} />
-                {this.state.JobRequestsList}
+                {this.state.AddJobRequestDialog}
+                <AddJobRequestDialog
+                    OnCancel={() => {}}
+                    OnOK={cancelButton => {
+                        cancelButton.click();
+                        this.onJobRequestsUpdated();
+                    }} />
             </section>
         );
     }

@@ -43,7 +43,6 @@ class Jobs extends Component {
                         </div>
                     </div>
                 </div>
-
                 <div className="tab-content">
                     <div role="tabpanel" className="tab-pane active" id="job-requests">
                         <JobRequests />
