@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import JobRequestsList from "./JobRequestsList";
+import JobRequestPostsList from "./JobRequestPostsList";
 
 class JobOffers extends Component {
    render() {
        return <section>
-           <JobRequestsList />
+           <JobRequestPostsList />
        </section>;
     }
 };

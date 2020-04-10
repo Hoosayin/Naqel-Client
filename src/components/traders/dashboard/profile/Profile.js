@@ -18,22 +18,16 @@ class Profile extends Component {
             Nationality: "",
             DateOfBirth: ""
         };
-
-        this.onRefresh = this.onRefresh.bind(this);
     }
 
-    componentDidMount() {
-        this.onRefresh();
-    }
-
-    onRefresh = () => {
+    async componentDidMount() {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
                 Get: "Trader"
             };
 
-            getData(request).then(response => {
+            await getData(request).then(response => {
                 if (response.Message === "Trader found.") {
                     let trader = response.Trader;
 
@@ -51,7 +45,7 @@ class Profile extends Component {
                 }
             });
         }
-    };
+    }
 
     render() {
         return (

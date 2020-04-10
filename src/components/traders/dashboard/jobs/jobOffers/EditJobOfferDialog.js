@@ -66,7 +66,7 @@ class EditJobOfferDialog extends Component {
         let ValidUnloadingPlace = this.state.ValidUnloadingPlace;
         let ValidLoadingDate = this.state.ValidLoadingDate;
         let ValidLoadingTime = this.state.ValidLoadingTime;
-        let ValidAcceptedDelay = this.state.AcceptedDelay;
+        let ValidAcceptedDelay = this.state.ValidAcceptedDelay;
         let ValidPrice = this.state.ValidPrice;
 
         switch (field) {
@@ -187,7 +187,8 @@ class EditJobOfferDialog extends Component {
 
         await updateJobOffer(updatedJobOffer).then(response => {
             if (response.Message === "Job offer is updated.") {
-                this.props.OnOK(this.cancelButton);
+                this.cancelButton.click();
+                this.props.OnOK();
             }
 
             this.setState({
@@ -197,148 +198,146 @@ class EditJobOfferDialog extends Component {
     }
     
     render() {
-        return (
-            <section className="text-left">
-                <div className="modal" id={`edit-job-offer-dialog-${this.props.DialogID}`}
-                    tabIndex="-1" role="dialog"
-                    aria-labelledby="modal-sample-label" aria-hidden="true">
-                    {this.state.Preloader}
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <section>
-                                <form noValidate onSubmit={this.onSubmit}>
-                                    <div className="modal-header">
-                                        <img alt="pencil.png" src="./images/pencil.png" height="60" />
-                                        <div className="type-h3">Edit Job Offer</div>
-                                    </div>
-                                    <div className="modal-body">
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                                        alt="job_offfers.png" src="./images/job_offers.png" data-source-index="2" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <label className="control-label">Loading Place</label>
-                                                    <span className="text-danger" style={Required}>*</span>
-                                                    <input type="text" name="LoadingPlace" className="form-control" autoComplete="off"
-                                                        value={this.state.LoadingPlace} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.LoadingPlace}</span>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="control-label">Unloading Place</label>
-                                                    <span className="text-danger" style={Required}>*</span>
-                                                    <input type="text" name="UnloadingPlace" className="form-control" autoComplete="off"
-                                                        value={this.state.UnloadingPlace} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.UnloadingPlace}</span>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="control-label">Trip Type</label><br />
-                                                    <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
-                                                        <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
-                                                            aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                                            <span>{this.state.TripType}</span>
-                                                            <span className="caret"></span>
-                                                        </button>
-                                                        <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                                            <li><a onClick={() => { this.setState({ TripType: "One Way" }); }}>One Way</a></li>
-                                                            <li><a onClick={() => { this.setState({ TripType: "Two Way" }); }}>Two Way</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+        return <section className="text-left">
+            <div className="modal" id={`edit-job-offer-dialog-${this.props.DialogID}`}
+                tabIndex="-1" role="dialog"
+                aria-labelledby="modal-sample-label" aria-hidden="true">
+                {this.state.Preloader}
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <section>
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <div className="modal-header">
+                                    <img alt="pencil.png" src="./images/pencil.png" height="60" />
+                                    <div className="type-h3">Edit Job Offer</div>
+                                </div>
+                                <div className="modal-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
+                                                    alt="job_offfers.png" src="./images/job_offers.png" data-source-index="2" />
                                             </div>
                                         </div>
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <label className="control-label">Cargo Type</label>
-                                                    <span className="text-danger" style={Required}>*</span>
-                                                    <input type="text" name="CargoType" className="form-control" autoComplete="off"
-                                                        value={this.state.CargoType} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.CargoType}</span>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="control-label">Cargo Weight (lbs)</label>
-                                                    <span className="text-danger" style={Required}>*</span>
-                                                    <input type="number" name="CargoWeight" className="form-control" autoComplete="off"
-                                                        value={this.state.CargoWeight} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.CargoWeight}</span>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="control-label">Loading Date</label>
-                                                    <span className="text-danger" style={Required}>*</span>
-                                                    <input type="date" name="LoadingDate" className="form-control" autoComplete="off"
-                                                        value={this.state.LoadingDate} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.LoadingDate}</span>
-                                                </div>
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <label className="control-label">Loading Place</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="text" name="LoadingPlace" className="form-control" autoComplete="off"
+                                                    value={this.state.LoadingPlace} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.LoadingPlace}</span>
                                             </div>
-                                            <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <label className="control-label">Loading Time</label>
-                                                    <span className="text-danger" style={Required}>*</span>
-                                                    <input type="time" name="LoadingTime" className="form-control" autoComplete="off"
-                                                        value={this.state.LoadingTime} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.LoadingTime}</span>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="control-label">Accepted Delay (Hours)</label>
-                                                    <span className="text-danger" style={Required}>*</span>
-                                                    <input type="number" name="AcceptedDelay" className="form-control" autoComplete="off"
-                                                        value={this.state.AcceptedDelay} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.AcceptedDelay}</span>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="control-label">Price (USD)</label>
-                                                    <span className="text-danger" style={Required}>*</span>
-                                                    <input type="number" min="0.00" step="0.01" max="100.00" name="Price"
-                                                        className="form-control" autoComplete="off" value={this.state.Price} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.Price}</span>
-                                                </div>
+                                            <div className="form-group">
+                                                <label className="control-label">Unloading Place</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="text" name="UnloadingPlace" className="form-control" autoComplete="off"
+                                                    value={this.state.UnloadingPlace} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.UnloadingPlace}</span>
                                             </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <button type="button" data-toggle="button" className={(this.state.JobOfferType === "Auctionable") ? "btn btn-toggle-switch active" : "btn btn-toggle-switch"}
-                                                        autocomplete="off" aria-pressed={(this.state.JobOfferType === "Auctionable") ? "true" : "false"}
-                                                        onClick={() => {
-                                                            this.state.JobOfferType = (this.state.JobOfferType === "Fixed-Price") ?
-                                                                "Auctionable" : "Fixed-Price";
-                                                            this.validateField("", "");
-                                                        }}>
-                                                        <span className="stateLabel stateLabel-on">Auctionable Job Offer</span>
-                                                        <span className="stateLabel stateLabel-off">Fixed-Price Job Offer</span>
+                                            <div className="form-group">
+                                                <label className="control-label">Trip Type</label><br />
+                                                <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
+                                                    <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
+                                                        aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
+                                                        <span>{this.state.TripType}</span>
+                                                        <span className="caret"></span>
                                                     </button>
-                                                </div>
-                                                <div className="form-group">
-                                                    <div className="checkbox">
-                                                        <label className="control-label">
-                                                            <input type="checkbox" name="EntryExit" defaultChecked={(this.state.EntryExit === 1) ? "checked" : ""}
-                                                                value={this.state.EntryExit} onChange={() => {
-                                                                    this.state.EntryExit = (this.state.EntryExit === 1) ? 0 : 1;
-                                                                    this.validateField("", "");
-                                                                }}></input>
-                                                            <span>Entry/Exit</span>
-                                                        </label>
-                                                    </div>
+                                                    <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
+                                                        <li><a onClick={() => { this.setState({ TripType: "One Way" }); }}>One Way</a></li>
+                                                        <li><a onClick={() => { this.setState({ TripType: "Two Way" }); }}>Two Way</a></li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="modal-footer">
-                                        <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
-                                            ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                        <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <label className="control-label">Cargo Type</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="text" name="CargoType" className="form-control" autoComplete="off"
+                                                    value={this.state.CargoType} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.CargoType}</span>
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="control-label">Cargo Weight (lbs)</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="number" name="CargoWeight" className="form-control" autoComplete="off"
+                                                    value={this.state.CargoWeight} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.CargoWeight}</span>
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="control-label">Loading Date</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="date" name="LoadingDate" className="form-control" autoComplete="off"
+                                                    value={this.state.LoadingDate} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.LoadingDate}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <label className="control-label">Loading Time</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="time" name="LoadingTime" className="form-control" autoComplete="off"
+                                                    value={this.state.LoadingTime} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.LoadingTime}</span>
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="control-label">Accepted Delay (Hours)</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="number" name="AcceptedDelay" className="form-control" autoComplete="off"
+                                                    value={this.state.AcceptedDelay} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.AcceptedDelay}</span>
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="control-label">Price (USD)</label>
+                                                <span className="text-danger" style={Required}>*</span>
+                                                <input type="number" min="0.00" step="0.01" max="100.00" name="Price"
+                                                    className="form-control" autoComplete="off" value={this.state.Price} onChange={this.onChange} />
+                                                <span className="text-danger">{this.state.Errors.Price}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </form>
-                            </section>
-                        </div>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <button type="button" data-toggle="button" className={(this.state.JobOfferType === "Auctionable") ? "btn btn-toggle-switch active" : "btn btn-toggle-switch"}
+                                                    autocomplete="off" aria-pressed={(this.state.JobOfferType === "Auctionable") ? "true" : "false"}
+                                                    onClick={() => {
+                                                        this.state.JobOfferType = (this.state.JobOfferType === "Fixed-Price") ?
+                                                            "Auctionable" : "Fixed-Price";
+                                                        this.validateField("", "");
+                                                    }}>
+                                                    <span className="stateLabel stateLabel-on">Auctionable Job Offer</span>
+                                                    <span className="stateLabel stateLabel-off">Fixed-Price Job Offer</span>
+                                                </button>
+                                            </div>
+                                            <div className="form-group">
+                                                <div className="checkbox">
+                                                    <label className="control-label">
+                                                        <input type="checkbox" name="EntryExit" defaultChecked={(this.state.EntryExit === 1) ? "checked" : ""}
+                                                            value={this.state.EntryExit} onChange={() => {
+                                                                this.state.EntryExit = (this.state.EntryExit === 1) ? 0 : 1;
+                                                                this.validateField("", "");
+                                                            }}></input>
+                                                        <span>Entry/Exit</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button className="btn btn-default" data-dismiss="modal"
+                                        ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
+                                    <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                </div>
+                            </form>
+                        </section>
                     </div>
                 </div>
-            </section>
-        );
+            </div>
+        </section>;
     }
 };
 

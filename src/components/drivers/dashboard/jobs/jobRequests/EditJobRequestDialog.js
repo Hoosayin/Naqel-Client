@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Required } from "../../../../../styles/MiscellaneousStyles.js";
 import Preloader from "../../../../../controls/Preloader.js";
-import Map from "../../../../../controls/Map.js";
 import { updateJobRequest } from "../../../DriverFunctions.js";
 
 class EditJobRequestDialog extends Component {
@@ -85,6 +84,10 @@ class EditJobRequestDialog extends Component {
             return;
         }
 
+        if (!this.props.CanEdit()) {
+            return;
+        }
+
         const updatedJobRequest = {
             Token: localStorage.Token,
             JobRequestID: this.props.JobRequest.JobRequestID,
@@ -102,7 +105,8 @@ class EditJobRequestDialog extends Component {
 
         await updateJobRequest(updatedJobRequest).then(response => {
             if (response.Message === "Job request is updated.") {
-                this.props.OnOK(this.cancelButton);
+                this.cancelButton.click();
+                this.props.OnOK();
             }
 
             this.setState({
@@ -157,8 +161,14 @@ class EditJobRequestDialog extends Component {
                                                                 <span className="caret"></span>
                                                             </button>
                                                             <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                                                <li><a onClick={() => { this.setState({ TripType: "One Way" }); }}>One Way</a></li>
-                                                                <li><a onClick={() => { this.setState({ TripType: "Two Way" }); }}>Two Way</a></li>
+                                                                <li><a onClick={() => {
+                                                                    this.setState({ TripType: "One Way" });
+                                                                    this.validateField("", "");
+                                                                }}>One Way</a></li>
+                                                                <li><a onClick={() => {
+                                                                    this.setState({ TripType: "Two Way" });
+                                                                    this.validateField("", "");
+                                                                }}>Two Way</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -172,14 +182,9 @@ class EditJobRequestDialog extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row">
-                                            <div className="col-md-24">
-                                                <Map />
-                                            </div>
-                                        </div>
                                     </div>
                                     <div className="modal-footer">
-                                        <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
+                                        <button className="btn btn-default" data-dismiss="modal"
                                             ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
                                         <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                     </div>

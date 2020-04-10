@@ -16,14 +16,14 @@ class ProfilePhoto extends Component {
         this.onImageUpload = this.onImageUpload.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
                 Get: "ProfilePhoto"
             };
 
-            getData(request).then(response => {
+            await getData(request).then(response => {
                 if (response.Message === "Profile photo found.") {
                     let profilePhoto = response.ProfilePhoto;
 

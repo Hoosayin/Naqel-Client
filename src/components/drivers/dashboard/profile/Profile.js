@@ -23,14 +23,14 @@ class Profile extends Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
                 Get: "Driver"
             };
 
-            getData(request).then(response => {
+            await getData(request).then(response => {
                 if (response.Message === "Driver found.") {
                     let driver = response.Driver;
 

@@ -273,3 +273,21 @@ export const deleteJobOffer = async discardedJobOffer => {
         return response.data;
     });
 };
+
+// POST: addATraderRequest
+export const addTraderRequest = async newTraderReqeust => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}traders/addTraderRequest...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/addTraderRequest`, {
+        JobRequestID: newTraderReqeust.JobRequestID,
+        CargoType: newTraderReqeust.CargoType,
+        CargoWeight: newTraderReqeust.CargoWeight,
+        LoadingDate: newTraderReqeust.LoadingDate,
+        LoadingTime: newTraderReqeust.LoadingTime,
+        EntryExit: newTraderReqeust.EntryExit,
+        AcceptedDelay: newTraderReqeust.AcceptedDelay
+    }, {
+        headers: { Authorization: `JWT ${newTraderReqeust.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};

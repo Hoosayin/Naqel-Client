@@ -24,14 +24,14 @@ class DocumentsDialog extends Component {
                 <div className="type-h5" style={{ color: "#008575", paddingTop: "0px" }}>Identity Card</div>
                 <div className="row">
                     <div className="col-md-24">
-                        <div class="entity-list">
-                            <div class="entity-list-item">
-                                <div class="item-icon">
-                                    <span class="fas fa-hashtag"></span>
+                        <div className="entity-list">
+                            <div className="entity-list-item">
+                                <div className="item-icon">
+                                    <span className="fas fa-hashtag"></span>
                                 </div>
-                                <div class="item-content-primary">
-                                    <div class="content-text-primary">ID Number</div>
-                                    <div class="content-text-secondary">{identityCard.IDNumber}</div>
+                                <div className="item-content-primary">
+                                    <div className="content-text-primary">ID Number</div>
+                                    <div className="content-text-secondary">{identityCard.IDNumber}</div>
                                 </div>
                             </div>
                         </div>
@@ -55,25 +55,25 @@ class DocumentsDialog extends Component {
                 <div className="type-h5" style={{ color: "#008575", paddingTop: "0px" }}>Commercial Register Certificate</div>
                 <div className="row">
                     <div className="col-md-24">
-                        <div class="entity-list">
-                            <div class="entity-list-item">
-                                <div class="item-icon">
-                                    <span class="fas fa-hashtag"></span>
+                        <div className="entity-list">
+                            <div className="entity-list-item">
+                                <div className="item-icon">
+                                    <span className="fas fa-hashtag"></span>
                                 </div>
-                                <div class="item-content-primary">
-                                    <div class="content-text-primary">Certificate Number</div>
-                                    <div class="content-text-secondary">{commercialRegisterCertificate.Number}</div>
+                                <div className="item-content-primary">
+                                    <div className="content-text-primary">Certificate Number</div>
+                                    <div className="content-text-secondary">{commercialRegisterCertificate.Number}</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="entity-list">
-                            <div class="entity-list-item">
-                                <div class="item-icon">
-                                    <span class="fas fa-cog"></span>
+                        <div className="entity-list">
+                            <div className="entity-list-item">
+                                <div className="item-icon">
+                                    <span className="fas fa-cog"></span>
                                 </div>
-                                <div class="item-content-primary">
-                                    <div class="content-text-primary">Certificate Type</div>
-                                    <div class="content-text-secondary">{commercialRegisterCertificate.Type}</div>
+                                <div className="item-content-primary">
+                                    <div className="content-text-primary">Certificate Type</div>
+                                    <div className="content-text-secondary">{commercialRegisterCertificate.Type}</div>
                                 </div>
                             </div>
                         </div>

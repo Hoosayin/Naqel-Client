@@ -71,7 +71,7 @@ class AddJobOfferDialog extends Component {
         let ValidUnloadingPlace = this.state.ValidUnloadingPlace;
         let ValidLoadingDate = this.state.ValidLoadingDate;
         let ValidLoadingTime = this.state.ValidLoadingTime;
-        let ValidAcceptedDelay = this.state.AcceptedDelay;
+        let ValidAcceptedDelay = this.state.ValidAcceptedDelay;
         let ValidPrice = this.state.ValidPrice;
 
         switch (field) {
@@ -193,7 +193,8 @@ class AddJobOfferDialog extends Component {
 
         await addJobOffer(newJobOffer).then(response => {
             if (response.Message === "Job offer is added.") {
-                this.props.OnOK(this.cancelButton);
+                this.cancelButton.click();
+                this.props.OnOK();
             }
 
             this.setState({
@@ -332,7 +333,7 @@ class AddJobOfferDialog extends Component {
                                         </div>
                                     </div>
                                     <div className="modal-footer">
-                                        <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
+                                        <button className="btn btn-default" data-dismiss="modal"
                                             ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
                                         <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                     </div>

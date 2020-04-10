@@ -7,8 +7,8 @@ import Register from "./components/register/Register";
 import EmailConfirmation from "./components/register/EmailConfirmation";
 import AccountSetup from "./components/register/AccountSetup";
 import Congratulations from "./components/register/Congratulations";
-import DriversDashboard from "./components/drivers/dashboard/DriversDashboard.js"
-import TradersDashboard from "./components/traders/dashboard/TradersDashboard.js"
+import DriversDashboard from "./components/drivers/dashboard/DriversDashboard"
+import TradersDashboard from "./components/traders/dashboard/TradersDashboard"
 import BackToTop from "./controls/BackToTop";
 import Footer from "./components/shared/Footer";
 

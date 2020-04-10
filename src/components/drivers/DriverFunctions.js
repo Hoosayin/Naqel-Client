@@ -51,9 +51,9 @@ export const loginDriver = async driver => {
 };
 
 // GET: GetData
-export const getData = request => {
+export const getData = async request => {
     console.log(`Sending GET request to ${Strings.NAQEL_SERVER}drivers/get${request.Get}...`);
-    return axios.get(`${Strings.NAQEL_SERVER}drivers/get${request.Get}`, {
+    return await axios.get(`${Strings.NAQEL_SERVER}drivers/get${request.Get}`, {
         headers: { Authorization: `JWT ${request.Token}` }
     }).then(response => {
         return response.data;
@@ -443,6 +443,19 @@ export const deleteJobRequest = async discardedJobRequest => {
     return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteJobRequest`, {
         headers: { Authorization: `JWT ${discardedJobRequest.Token}` },
         data: { JobRequestID: discardedJobRequest.JobRequestID }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addDriverRequest
+export const addDriverRequest = async newDriverRequest => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addDriverRequest...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/addDriverRequest`, {
+        JobOfferID: newDriverRequest.JobOfferID,
+        Price: newDriverRequest.Price
+    }, {
+        headers: { Authorization: `JWT ${newDriverRequest.Token}` }
     }).then(response => {
         return response.data;
     });

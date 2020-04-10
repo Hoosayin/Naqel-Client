@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Required } from "../../../../../styles/MiscellaneousStyles.js";
 import Preloader from "../../../../../controls/Preloader.js";
 import { addJobRequest } from "../../../DriverFunctions.js";
-import Map from "../../../../../controls/Map.js";
 
 class AddJobRequestDialog extends Component {
     constructor(props) {
@@ -101,7 +100,8 @@ class AddJobRequestDialog extends Component {
 
         await addJobRequest(newJobRequest).then(response => {
             if (response.Message === "Job request is added.") {
-                this.props.OnOK(this.cancelButton);
+                this.cancelButton.click();
+                this.props.OnOK();
             }
 
             this.setState({
@@ -171,14 +171,9 @@ class AddJobRequestDialog extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row">
-                                            <div className="col-md-24">
-                                                <Map />
-                                            </div>
-                                        </div>
                                     </div>
                                     <div className="modal-footer">
-                                        <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
+                                        <button className="btn btn-default" data-dismiss="modal"
                                             ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
                                         <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                     </div>

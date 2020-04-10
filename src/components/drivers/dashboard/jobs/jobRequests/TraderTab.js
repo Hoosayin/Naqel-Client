@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import UUID from "uuid-v4";
-import DocumentsDialog from "./DocumentsDialog";
 
 class TraderTab extends Component {
     constructor(props) {
@@ -11,8 +9,6 @@ class TraderTab extends Component {
         const trader = this.props.Trader;
         const profilePhoto = this.props.ProfilePhoto ?
             this.props.ProfilePhoto : "./images/defaultProfilePhoto.png";
-
-        const dialogID = UUID().substring(0, 7).toUpperCase();
 
         return <section>
             <div className="jumbotron theme-default">
@@ -94,21 +90,12 @@ class TraderTab extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="entity-list">
-                                        <div className="entity-list-item">
-                                            <button type="button" className="btn btn-default"
-                                                style={{ minWidth: "152px" }} data-toggle="modal"
-                                                disabled={!this.props.Documents}
-                                                data-target={`#documents-dialog-${dialogID}`}>Documents</button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <DocumentsDialog Documents={this.props.Documents} DialogID={dialogID} />
         </section>;
     }
 };
