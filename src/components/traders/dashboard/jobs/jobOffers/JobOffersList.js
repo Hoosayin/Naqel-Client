@@ -93,17 +93,16 @@ class JobOffersList extends Component {
     render() {
         const jobOfferPackages = this.state.JobOfferPackages;
         return <section>
-            <div className="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12 col-md-push-12 text-center">
-                            <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                alt="job_offers.png" src="./images/job_offers.png" data-source-index="2" />
-                        </div>
-                        <div className="col-md-12 col-md-pull-12">
-                            <div className="type-h3">Job Offers</div>
-                            <div className="type-sh3">Manage Your Job Offers</div>
-                            <p>Hi There! Want to transport your freight somewhere? Why not create a new job offer now!!</p>
+            <div class="page-header" style={{
+                backgroundImage: "url(/images/poly_back.jpg)",
+                backgroundSize: "cover",
+                backgroundColor: "#215761"
+            }}>
+                <div class="container" style={{ paddingBottom: "10px", marginBottom: "12px" }}>
+                    <div class="row">
+                        <div class="col-xs-18">
+                            <div className="type-h3 color-light"><span className="fas fa-hand-holding-usd"></span>   Job Offers</div>
+                            <p className="color-light">Hi There! Want to transport your freight somewhere? Why not create a new job offer now!</p>
                             <div className="btn-group">
                                 <button
                                     type="button"

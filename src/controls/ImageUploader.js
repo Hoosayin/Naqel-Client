@@ -77,6 +77,17 @@ class ImageUploader extends Component {
             <div>
                 <input type="file" onChange={this.onImageUpload} style={{ display: "none", }} ref={fileInput => this.fileInput = fileInput} />
                 <figure className="media">
+                    <div className="media-img media-img-has-play ratio-1-1">
+                        <a href="#" onClick={() => this.fileInput.click()}>
+                            <img src={this.props.Source} alt="ProfilePhoto.png"
+                                style={{
+                                    border: "5px solid #3A3A3C"
+                                }} />
+                            <i className="glyph glyph-edit"></i>
+                        </a>
+                    </div>
+                </figure>
+                {/*<figure className="media">
                     <div className="media-img media-img-has-play ratio-movie" style={{
                         width: this.props.Width,
                         height: this.props.Height,
@@ -89,7 +100,7 @@ class ImageUploader extends Component {
                             <i className="glyph glyph-edit"></i>
                         </a>
                     </div>
-                </figure>
+                </figure>*/}
                 {this.state.UploadProgress}
             </div>
                 

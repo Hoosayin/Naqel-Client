@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AddPermitLicenceDialog from "./AddPermitLicenceDialog.js";
-import PermitLicencesList from "./PermitLicencesList.js"
+import PermitLicencesList from "./PermitLicencesList.js";
+import PageHeading from "../../../../controls/PageHeading";
 
 class Permits extends Component {
     constructor(props) {
@@ -24,17 +25,17 @@ class Permits extends Component {
     render() {
         return (
             <section>
-                <div className="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-12 col-md-push-12 text-center">
-                                <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                    alt="permit.png" src="./images/permit.png" data-source-index="2" />
-                            </div>
-                            <div className="col-md-12 col-md-pull-12">
-                                <div className="type-h3">Permit Licences</div>
-                                <div className="type-sh3">Manage your Permits</div>
-                                <p>If you are a non-Saudi driver, then you must have at least one permit licence.</p>
+                <PageHeading Heading="PERMITS" />
+                <div class="page-header" style={{
+                    backgroundImage: "url(/images/teal.jpg)",
+                    backgroundSize: "cover",
+                    backgroundColor: "#215761"
+                }}>
+                    <div class="container" style={{ paddingBottom: "10px", marginBottom: "12px" }}>
+                        <div class="row">
+                            <div class="col-xs-18">
+                                <div className="type-h3 color-light"><span className="fas fa-id-badge"></span>   Permit Licences</div>
+                                <p className="color-light">If you are a non-Saudi driver, then you must have at least one permit licence.</p>
                                 <div className="btn-group">
                                     <button
                                         type="button"
@@ -54,8 +55,7 @@ class Permits extends Component {
                                                         this.onPermitLicencesUpdated();
                                                     }} />),
                                             });
-                                        }}>
-                                        New Permit Licence</button>
+                                        }}>New Permit Licence</button>
                                 </div>
                             </div>
                         </div>

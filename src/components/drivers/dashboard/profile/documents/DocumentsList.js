@@ -123,7 +123,7 @@ class DocumentsList extends Component {
                         </div>
                     </div>
                 </div>
-                <ol className="list-items" style={{ margin: "0px" }}>
+                <ol className="list-items" style={{ marginTop: "0px" }}>
                     {this.state.DrivingLicenceListItem}
                     {this.state.EntryExitCardListItem}
                     {this.state.IdentityCardListItem}

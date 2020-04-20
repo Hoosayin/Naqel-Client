@@ -121,9 +121,10 @@ class EditPermitLicenceDialog extends Component {
             Preloader: <Preloader />
         });
 
-        await updatePermitLicence(updatedPermitLicence).then(response => {
+        await updatePermitLicence(updatedPermitLicence).then(async response => {
             if (response.Message === "Permit Licence is updated.") {
-                this.props.OnOK(this.cancelButton);
+                this.cancelButton.click();
+                await this.props.OnOK();
             }
 
             this.setState({
@@ -207,7 +208,7 @@ class EditPermitLicenceDialog extends Component {
                                     </div>
                                 </div>
                                 <div className="modal-footer">
-                                    <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
+                                    <button className="btn btn-default" data-dismiss="modal"
                                         ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
                                     <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                 </div>

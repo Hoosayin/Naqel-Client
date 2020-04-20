@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import JobRequests from "./jobRequests/JobRequests.js"; 
 import JobOffers from "./jobOffers/JobOffers.js";
-import OnGoingJobs from "./onGoingJobs/OnGoingJobs.js";
+import OnGoingJob from "./onGoingJob/OnGoingJob.js";
+import PageHeading from "../../../../controls/PageHeading";
 
 class Jobs extends Component {
     render() {
         return (
-            <section>                 
+            <section>
+                <PageHeading Heading="JOBS" />
                 <ul className="nav nav-tabs theme-alt" role="tablist" style={{
                     padding: "10px",
                     backgroundColor: "#3A3A3C",
@@ -25,7 +27,7 @@ class Jobs extends Component {
                         <JobOffers />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="on-going-jobs">
-                        <OnGoingJobs />
+                        <OnGoingJob />
                     </div>
                 </div>
             </section>

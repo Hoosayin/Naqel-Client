@@ -211,20 +211,13 @@ class JobOfferPackageItem extends Component {
                 CanEdit={() => { return (driverRequestPackages.length === 0) ? true : false }}
                 OnOK={() => { this.props.OnJobOfferUpdated(); }} />
 
-            <div data-toggle="collapse" aria-expanded="false" data-target={`#job-offer-package-${index}`} style={{ backgroundColor: "#DFDFDF" }}>
+            <div data-toggle="collapse" aria-expanded="false" data-target={`#job-offer-package-${index}`}>
                 <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>
-                    <span style={{
-                        backgroundColor: "#D75A4A",
-                        color: "#FEFEFE",
-                        textAlign: "center",
-                        fontWeight: "bold",
-                        fontSize: "x-small",
-                        padding: "5px",
-                        borderRadius: "50%",
-                        width: "20px",
-                        height: "20px",
-                        display: "inline-block"
-                    }}>{driverRequestPackages.length}</span> {(jobOffer.JobOfferType === "Fixed-Price") ? "Driver Requests" : "Driver Bids"} <i className="fas fa-ellipsis-v"></i></div>
+                    <span class="badge badge-danger" style={{ backgroundColor: "#D75A4A" }}>{driverRequestPackages.length}</span>
+                    {(jobOffer.JobOfferType === "Fixed-Price") ? "   Driver Requests" : "   Driver Bids"} <i className="fas fa-ellipsis-v"></i>
+                    <i class="glyph glyph-add"></i>
+                    <i class="glyph glyph-remove"></i>
+                </div>
             </div>
 
             <div className="collapse" id={`job-offer-package-${index}`}>

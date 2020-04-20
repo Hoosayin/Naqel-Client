@@ -55,6 +55,7 @@ export const loginTrader = async trader => {
 export const getData = async request => {
     console.log(`Sending GET request to ${Strings.NAQEL_SERVER}traders/get${request.Get}...`);
     return await axios.get(`${Strings.NAQEL_SERVER}traders/get${request.Get}`, {
+        params: request.Params,
         headers: { Authorization: `JWT ${request.Token}` }
     }).then(response => {
         return response.data;
@@ -108,7 +109,7 @@ export const validateEmail = async email => {
     });
 };
 
-// POSTL SendCode
+// POST: SendCode
 export const sendCode = async email => {
     return await axios.post(`${Strings.NAQEL_SERVER}users/sendCode`, {
         Email: email
@@ -266,9 +267,8 @@ export const updateJobOffer = async updatedJobOffer => {
 export const deleteJobOffer = async discardedJobOffer => {
     console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}traders/deleteJobOffer...`);
     return await axios.delete(`${Strings.NAQEL_SERVER}traders/deleteJobOffer`, {
-        JobOfferID: discardedJobOffer.JobOfferID
-    }, {
-        headers: { Authorization: `JWT ${discardedJobOffer.Token}` }
+        headers: { Authorization: `JWT ${discardedJobOffer.Token}` },
+        data: { JobOfferID: discardedJobOffer.JobOfferID }
     }).then(response => {
         return response.data;
     });
@@ -287,6 +287,17 @@ export const addTraderRequest = async newTraderReqeust => {
         AcceptedDelay: newTraderReqeust.AcceptedDelay
     }, {
         headers: { Authorization: `JWT ${newTraderReqeust.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: deleteTraderRequest
+export const deleteTraderRequest = async discardedTraderRequest => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}traders/deleteTraderRequest...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}traders/deleteTraderRequest`, {
+        headers: { Authorization: `JWT ${discardedTraderRequest.Token}` },
+        data: { JobRequestID: discardedTraderRequest.JobRequestID }
     }).then(response => {
         return response.data;
     });

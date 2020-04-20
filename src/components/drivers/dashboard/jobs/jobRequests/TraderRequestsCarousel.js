@@ -8,6 +8,7 @@ class TraderRequestsCarousel extends Component {
 
     render() {
         const traderRequestPackages = this.props.TraderRequestPackages;
+
         return <section>
             <div id="myCarousel" className="carousel slide" data-ride="false" data-interval="20000" >
                 <div style={{ backgroundColor: "#008575", textAlign: "center" }}>
@@ -28,7 +29,10 @@ class TraderRequestsCarousel extends Component {
                 <div className="carousel-inner">
                     {traderRequestPackages.map((traderRequestPackage, index) => {
                         return <div key={index} className={(index === 0) ? "item active" : "item"}>
-                            <TraderRequest TraderRequestPackage={traderRequestPackage} Index={0} />
+                            <TraderRequest Index={0}
+                                DriverOnJob={this.props.DriverOnJob}
+                                TraderRequestPackage={traderRequestPackage}
+                                OnJobStarted={() => { this.props.OnJobRequestUpdated(); }} />
                         </div>;
                     })}
                 </div>               

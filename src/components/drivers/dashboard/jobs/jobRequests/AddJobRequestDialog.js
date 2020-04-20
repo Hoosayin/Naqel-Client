@@ -70,7 +70,7 @@ class AddJobRequestDialog extends Component {
             ValidPrice: ValidPrice
         }, () => {
                 this.setState({
-                    ValidForm: this.state.LoadingPlace &&
+                    ValidForm: this.state.ValidLoadingPlace &&
                         this.state.ValidUnloadingPlace &&
                         this.state.ValidPrice
                 });

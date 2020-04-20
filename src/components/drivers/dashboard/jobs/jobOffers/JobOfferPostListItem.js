@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { addDriverRequest } from "../../../DriverFunctions";
+import { addDriverRequest, deleteDriverRequest } from "../../../DriverFunctions";
 import TraderTab from "./TraderTab";
 import JobOfferTab from "./JobOfferTab";
 import BidJobOfferDialog from "./BidJobOfferDialog";
@@ -14,7 +14,31 @@ class JobOfferPostsList extends Component {
         };
 
         this.onSendRequest = this.onSendRequest.bind(this);
+        this.onCancelRequest = this.onCancelRequest.bind(this);
     }
+
+    onCancelRequest = async jobOffer => {
+        const discardedDriverRequest = {
+            Token: localStorage.Token,
+            JobOfferID: jobOffer.JobOfferID
+        };
+
+        console.log("Going to delete driver request...");
+
+        this.setState({
+            Preloader: <Preloader />
+        });
+
+        await deleteDriverRequest(discardedDriverRequest).then(response => {
+            if (response.Message === "Driver request is deleted.") {
+                this.props.OnRequestUpdated(jobOffer, false);
+            }
+
+            this.setState({
+                Preloader: null
+            });
+        });
+    };
 
     onSendRequest = async jobOffer => {
         if (this.props.JobOfferPost.RequestSent) {
@@ -35,7 +59,7 @@ class JobOfferPostsList extends Component {
 
         await addDriverRequest(newDriverRequest).then(response => {
             if (response.Message === "Driver request is added.") {
-                this.props.OnRequestSent(jobOffer);
+                this.props.OnRequestUpdated(jobOffer, true);
             }
 
             this.setState({
@@ -55,6 +79,26 @@ class JobOfferPostsList extends Component {
             IdentityCard: this.props.JobOfferPost.IdentityCard,
             CommercialRegisterCertificate: this.props.JobOfferPost.CommercialRegisterCertificate
         };
+
+        let RequestButton;
+
+        if (requestSent) {
+            RequestButton = <button className="btn btn-secondary"
+                onClick={async () => { 
+                    await this.onCancelRequest(jobOffer); }}>{(jobOffer.JobOfferType === "Fixed-Price") ?
+                    "Cancel Request" :
+                    "Cancel Bid"}
+            </button>;
+        }
+        else {
+            RequestButton = (jobOffer.JobOfferType === "Fixed-Price") ?
+                <button className="btn btn-primary"
+                    onClick={async () => { await this.onSendRequest(jobOffer); }}>Send Request</button> :
+                <button className="btn btn-primary"
+                    data-toggle="modal"
+                    disabled={requestSent}
+                    data-target={`#bid-job-offer-dialog-${index}`}>Bid</button>;
+        }
 
         return <section>
             <li className="list-items-row" style={{ borderTop: "2px solid #EAEAEA" }}>
@@ -111,18 +155,7 @@ class JobOfferPostsList extends Component {
                                 Documents={documents} />
                         </div>
                         <div style={{ backgroundColor: "#EFEFEF", textAlign: "right", padding: "10px" }}>
-                            {(jobOffer.JobOfferType === "Fixed-Price") ?
-                                <button className="btn btn-primary"
-                                    disabled={requestSent}
-                                    onClick={async () => { await this.onSendRequest(jobOffer); }}>
-                                    {requestSent ? "Request Sent" : "Send Request"}
-                                </button> :
-                                <button className="btn btn-primary"
-                                    data-toggle="modal"
-                                    disabled={requestSent}
-                                    data-target={`#bid-job-offer-dialog-${index}`}>
-                                    {requestSent ? "Already Bade" : "Bid"}
-                                </button>}
+                            {RequestButton}
                         </div>
                     </div>
                 </div>
@@ -130,7 +163,7 @@ class JobOfferPostsList extends Component {
                     DialogID={index}
                     JobOffer={jobOffer}
                     IsRequestSent={() => { return requestSent ? true : false; }}
-                    OnOK={() => { this.props.OnRequestSent(jobOffer); }} />
+                    OnOK={() => { this.props.OnRequestUpdated(jobOffer, true); }} />
             </li>
             {this.state.Preloader}
         </section>;

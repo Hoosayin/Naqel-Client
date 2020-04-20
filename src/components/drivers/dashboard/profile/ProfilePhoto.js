@@ -106,16 +106,12 @@ class ProfilePhoto extends Component {
         return <section>
             <input type="file" onChange={this.onImageUpload} style={{ display: "none", }} ref={fileInput => this.fileInput = fileInput} />
             <figure className="media">
-                <div className="media-img media-img-has-play ratio-movie" style={{
-                    width: "200px",
-                    height: "200px",
-                    border: "0px",
-                    padding: "0px",
-                    border: "5px solid #3A3A3C"
-                }}>
+                <div className="media-img media-img-has-play ratio-1-1">
                     <a href="#" onClick={() => this.fileInput.click()}>
-                        <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                            src={this.state.PhotoURL} alt="profile_photo.png" />
+                        <img style={{
+                            border: "5px solid #3A3A3C"
+                        }}
+                            src={this.state.PhotoURL} alt="ProfilePhoto.png" />
                         <i className="glyph glyph-edit"></i>
                     </a>
                 </div>

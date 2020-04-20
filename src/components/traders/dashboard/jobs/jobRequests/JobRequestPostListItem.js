@@ -1,12 +1,43 @@
 import React, { Component } from "react";
+import Preloader from "../../../../../controls/Preloader";
 import DriverTab from "./DriverTab";
 import TruckTab from "./TruckTab";
 import JobRequestTab from "./JobRequestTab";
 import SendTraderRequestDialog from "./SendTraderRequestDialog";
+import { deleteTraderRequest } from "../../../TraderFunctions";
 
 class JobRequestPostListItem extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            Preloader: null
+        };
+
+        this.onCancelRequest = this.onCancelRequest.bind(this);
+    }
+
+    onCancelRequest = async jobRequest => {
+        this.setState({
+            Preloader: <Preloader />
+        });
+
+        const discardedTraderRequest = {
+            Token: localStorage.Token,
+            JobRequestID: jobRequest.JobRequestID
+        };
+
+        console.log(`Going to delete Trader request...`);
+
+        await deleteTraderRequest(discardedTraderRequest).then(response => {
+            if (response.Message === "Trader request is deleted.") {
+                this.props.OnRequestUpdated(jobRequest, false);
+            }
+
+            this.setState({
+                Preloader: null
+            });
+        });
     }
 
     render() {
@@ -78,17 +109,18 @@ class JobRequestPostListItem extends Component {
                         </div>
                     </div>
                     <div style={{ backgroundColor: "#EFEFEF", textAlign: "right", padding: "10px" }}>
-                        <button className="btn btn-primary" disabled={requestSent}
-                            data-toggle="modal"
-                            data-target={`#send-trader-reqeust-dialog-${index}`}>{requestSent ? "Request Sent" : "Send Request"}</button>
+                        {requestSent ? <button className="btn btn-secondary" onClick={async () => { await this.onCancelRequest(jobRequest); }}>Cancel Request</button> :
+                            <button className="btn btn-primary" data-toggle="modal"
+                                data-target={`#send-trader-reqeust-dialog-${index}`}>Send Request</button>}
                     </div>
                 </div>
                 <SendTraderRequestDialog
                     DialogID={index}
                     JobRequest={jobRequest}
                     IsRequestSent={() => { return requestSent; }}
-                    OnOK={() => { this.props.OnRequestSent(jobRequest); }} />
+                    OnOK={() => { this.props.OnRequestUpdated(jobRequest, true); }} />
             </li>
+            {this.state.Preloader}
         </section>;     
     }
 };

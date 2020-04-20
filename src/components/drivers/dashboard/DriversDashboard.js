@@ -13,7 +13,7 @@ class DriversDashboard extends Component {
         super(props);
 
         this.state = {
-            SideNavWidth: 0
+            Left: -400
         };
 
         this.onCloseNavigation = this.onCloseNavigation.bind(this);
@@ -21,7 +21,7 @@ class DriversDashboard extends Component {
 
     onCloseNavigation = () => {
         this.setState({
-            SideNavWidth: 0
+            Left: -400
         });
     }
 
@@ -30,10 +30,37 @@ class DriversDashboard extends Component {
             return <Redirect to={"/login"} />;
         }
         else {
-            return <section>               
-                <div className="sidenav" style={{ width: `${this.state.SideNavWidth}px` }}>
-                    <a href="javascript:void(0)" className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
-                    <ul className="nav nav-tabs theme-alt" role="tablist" style={{ marginLeft: "0px" }}>
+            return <section>  
+                
+                <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
+                    <a className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
+
+                    <div class="entity-list" role="tablist">
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Profile</a>                           
+                        </div>
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Trucks</a>
+                        </div>
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#permits" aria-controls="permits" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Permits</a>
+                        </div>
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#financialAffairs" aria-controls="financialAffairs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Financial Affairs</a>
+                        </div>
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
+                        </div>
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Payments</a>
+                        </div>
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Settings</a>
+                        </div>
+                    </div>
+
+                    {/*
+                     <ul className="nav nav-tabs theme-alt" role="tablist" style={{ marginLeft: "0px" }}>
                         <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation" className="active">
                             <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
                         </li>
@@ -56,6 +83,9 @@ class DriversDashboard extends Component {
                             <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
                         </li>
                     </ul>
+                     */}
+
+                    
                 </div>
                 <div className="tab-content">
                     <div role="tabpanel" className="tab-pane active" id="profile">
@@ -82,7 +112,7 @@ class DriversDashboard extends Component {
                 </div>
                 <div className="side-nav-btn" onClick={() => {
                     this.setState({
-                        SideNavWidth: 250
+                        Left: 0
                     });
                 }}><div className="fas fa-bars" style={{ fontSize: "x-large" }}></div>
                 </div>

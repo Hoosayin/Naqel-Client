@@ -54,6 +54,7 @@ export const loginDriver = async driver => {
 export const getData = async request => {
     console.log(`Sending GET request to ${Strings.NAQEL_SERVER}drivers/get${request.Get}...`);
     return await axios.get(`${Strings.NAQEL_SERVER}drivers/get${request.Get}`, {
+        params: request.Params,
         headers: { Authorization: `JWT ${request.Token}` }
     }).then(response => {
         return response.data;
@@ -378,7 +379,7 @@ export const addPermitLicence = async newPermitLicence => {
     });
 };
 
-// POST: deletePermitLicence
+// DELETE: deletePermitLicence
 export const deletePermitLicence = async discardedPermitLicence => {
     console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deletePermitLicence...`);
     return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deletePermitLicence`, {
@@ -456,6 +457,55 @@ export const addDriverRequest = async newDriverRequest => {
         Price: newDriverRequest.Price
     }, {
         headers: { Authorization: `JWT ${newDriverRequest.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: deleteDriverRequest
+export const deleteDriverRequest = async discardedDriverRequest => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteDriverRequest...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteDriverRequest`, {
+        headers: { Authorization: `JWT ${discardedDriverRequest.Token}` },
+        data: { JobOfferID: discardedDriverRequest.JobOfferID }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addOnGoingJob
+export const addOnGoingJob = async newOnGoingJob => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addOnGoingJob...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/addOnGoingJob`, {
+        TraderRequestID: newOnGoingJob.TraderRequestID
+    }, {
+        headers: { Authorization: `JWT ${newOnGoingJob.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addObjectionReason
+export const addObjectionReason = async newObjectionReason => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addObjectionReason...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/addObjectionReason`, {
+        Reason: newObjectionReason.Reason
+    }, {
+        headers: { Authorization: `JWT ${newObjectionReason.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addJobObjection
+export const addJobObjection = async newJobObjection => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addJobObjection...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/addJobObjection`, {
+        OnGoingJobID: newJobObjection.OnGoingJobID,
+        Reason: newJobObjection.Reason,
+        Comment: newJobObjection.Comment
+    }, {
+        headers: { Authorization: `JWT ${newJobObjection.Token}` }
     }).then(response => {
         return response.data;
     });

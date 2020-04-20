@@ -94,17 +94,16 @@ class JobRequestsList extends Component {
         const jobRequestPackages = this.state.JobRequestPackages;
 
         return <section>
-            <div className="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12 col-md-push-12 text-center">
-                            <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                alt="job_requests.png" src="./images/job_requests.png" data-source-index="2" />
-                        </div>
-                        <div className="col-md-12 col-md-pull-12">
-                            <div className="type-h3">Job Requests</div>
-                            <div className="type-sh3">Manage Your Job Requests</div>
-                            <p>Create new job requests for your current and/or near-by locations to get a chance to increase your revenue.</p>
+            <div class="page-header" style={{
+                backgroundImage: "url(/images/poly_back.jpg)",
+                backgroundSize: "cover",
+                backgroundColor: "#215761"
+            }}>
+                <div class="container" style={{paddingBottom: "10px", marginBottom: "12px"}}>
+                    <div class="row">
+                        <div class="col-xs-18">
+                            <div className="type-h3 color-light"><span className="fas fa-briefcase"></span>   Job Requests</div>
+                            <p className="color-light">Create new job requests for your current and/or near-by locations to get a chance to increase your revenue.</p>
                             <div className="btn-group">
                                 <button
                                     type="button"

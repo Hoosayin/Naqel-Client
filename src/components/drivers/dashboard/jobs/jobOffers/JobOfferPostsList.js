@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import ProgressBar from "../../../../../controls/ProgressBar";
 import { getData } from "../../../DriverFunctions";
-import TraderTab from "./TraderTab";
-import JobOfferTab from "./JobOfferTab";
 import JobOfferPostListItem from "./JobOfferPostListItem";
 
 class JobOfferPostsList extends Component {
@@ -53,7 +51,7 @@ class JobOfferPostsList extends Component {
     render() {
         if (this.state.Searching) {
             return <section>
-                <div className="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
+                <div className="jumbotron theme-alt" style={{ backgroundColor: "#202020" }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
@@ -73,7 +71,7 @@ class JobOfferPostsList extends Component {
         }
         else if (this.state.JobOfferPosts.length === 0) {
             return <section>
-                <div className="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
+                <div className="jumbotron theme-alt" style={{ backgroundColor: "#202020" }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
@@ -100,12 +98,12 @@ class JobOfferPostsList extends Component {
                             key={index}
                             Index={index}
                             JobOfferPost={jobOfferPost}
-                            OnRequestSent={jobOffer => {
+                            OnRequestUpdated={(jobOffer, requestSent) => {
                                 let jobOfferPosts = this.state.JobOfferPosts;
 
                                 for (let jobOfferPost of jobOfferPosts) {
                                     if (jobOfferPost.JobOffer.JobOfferID === jobOffer.JobOfferID) {
-                                        jobOfferPost.RequestSent = true;
+                                        jobOfferPost.RequestSent = requestSent;
                                         break;
                                     }
                                 }

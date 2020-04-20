@@ -53,7 +53,7 @@ class JobRequestPostsList extends Component {
     render() {
         if (this.state.Searching) {
             return <section>
-                <div className="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
+                <div className="jumbotron theme-alt" style={{ backgroundColor: "#202020" }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
@@ -63,7 +63,7 @@ class JobRequestPostsList extends Component {
                             <div className="col-md-12 col-md-pull-12">
                                 <div className="type-h3">Job Requests</div>
                                 <p>Job requests from Drivers are dispalyed here.</p>
-                                <div className="type-sh3" style={{ color: "#008575" }}>Searhcing</div>
+                                <div class="type-sh3" style={{ color: "#008575" }}>Searhcing</div>
                                 <ProgressBar />
                             </div>
                         </div>
@@ -73,7 +73,7 @@ class JobRequestPostsList extends Component {
         }
         else if (this.state.JobRequestPosts.length === 0) {
             return <section>
-                <div className="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
+                <div className="jumbotron theme-alt" style={{ backgroundColor: "#202020" }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
@@ -104,12 +104,12 @@ class JobRequestPostsList extends Component {
                     {this.state.JobRequestPosts.map((jobRequestPost, index) => {
                         return <JobRequestPostListItem key={index} Index={index}
                             JobRequestPost={jobRequestPost}
-                            OnRequestSent={jobRequest => {
+                            OnRequestUpdated={(jobRequest, requestSent) => {
                                 let jobRequestPosts = this.state.JobRequestPosts;
 
                                 for (let jobRequestPost of jobRequestPosts) {
                                     if (jobRequestPost.JobRequest.JobRequestID === jobRequest.JobRequestID) {
-                                        jobRequestPost.RequestSent = true;
+                                        jobRequestPost.RequestSent = requestSent;
                                         break;
                                     }
                                 }
@@ -117,7 +117,6 @@ class JobRequestPostsList extends Component {
                                 this.setState({
                                     JobRequestPosts: jobRequestPosts
                                 });
-
                             }} />;
                     })} 
                 </ol>

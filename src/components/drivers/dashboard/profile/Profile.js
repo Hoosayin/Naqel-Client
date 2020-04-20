@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ProfilePhoto from "./ProfilePhoto";
 import DocumentsList from "./documents/DocumentsList.js";
 import { getData } from "../../DriverFunctions.js";
+import PageHeading from "../../../../controls/PageHeading";
 
 class Profile extends Component {
     constructor() {
@@ -17,6 +18,7 @@ class Profile extends Component {
             Gender: "",
             Nationality: "",
             DateOfBirth: "",
+            Active: null,
 
             WarningAlert: null,
             Errors: {}
@@ -45,6 +47,7 @@ class Profile extends Component {
                         Address: driver.Address,
                         PhoneNumber: driver.PhoneNumber,
                         Nationality: driver.Nationality,
+                        Active: driver.Active
                     });
                 }
                 else {
@@ -59,6 +62,7 @@ class Profile extends Component {
                         Gender: "",
                         Nationality: "",
                         DateOfBirth: "",
+                        Active: null
                     });
                 }
             });
@@ -67,134 +71,133 @@ class Profile extends Component {
 
     render() {
         return <section>
+            <PageHeading Heading="PROFILE" />
             <div className="jumbotron theme-default">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-6">
-                            <div className="form-group" style={{ marginBottom: "5px", }}>
-                                <ProfilePhoto />
-                            </div>
+                            <ProfilePhoto />
                         </div>
                         <div className="col-md-18">
                             <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
                                 {this.state.FirstName + " " + this.state.LastName}
                             </div>
                             <div className="type-sh3">
-                                <span className="fas fa-car" style={{ color: "#606060" }}></span>   Driver
+                                <span className="fas fa-briefcase" style={{ color: "#606060" }}></span>   Driver
+                            </div>
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="entity-list">
+                                        <div className="entity-list-item">
+                                            <div className="item-icon">
+                                                <span className="fas fa-globe-asia"></span>
+                                            </div>
+                                            <div className="item-content-primary">
+                                                <div className="content-text-primary">Active</div>
+                                                <div className="content-text-secondary">{(this.state.Active === 1) ?
+                                                    <span className="fa fa-check-circle" style={{ color: "#25AE88" }}></span> :
+                                                    <span className="fa fa-times-circle" style={{ color: "#D75A4A" }}></span>}</div>
+                                            </div>
+                                        </div>
                                     </div>
-                            <div>
-                                <ol className="list-items theme-alt">
-                                    <li className="list-items-row">
-                                        <div className="row">
-                                            <div className="col-md-2">
-                                                <strong><span className="fas fa-at" style={{ color: "#008575" }}></span></strong>
+                                    <div className="entity-list">
+                                        <div className="entity-list-item">
+                                            <div className="item-icon">
+                                                <span className="fas fa-phone"></span>
                                             </div>
-                                            <div className="col-md-6">
-                                                <a style={{ textDecoration: "none", }}>Username:</a>
-                                            </div>
-                                            <div className="col-md-6">
-                                                {this.state.Username}
+                                            <div className="item-content-primary">
+                                                <div className="content-text-primary">Phone Number</div>
+                                                <div className="content-text-secondary">{this.state.PhoneNumber}</div>
                                             </div>
                                         </div>
-                                    </li>
-                                    <li className="list-items-row">
-                                        <div className="row">
-                                            <div className="col-md-2">
-                                                <strong><span className="fas fa-envelope" style={{ color: "#008575", }}></span></strong>
+                                    </div>
+                                </div>
+                                <div className="col-md-12">
+                                    <div className="entity-list">
+                                        <div className="entity-list-item">
+                                            <div className="item-icon">
+                                                <span className="fas fa-at"></span>
                                             </div>
-                                            <div className="col-md-6">
-                                                <a style={{ textDecoration: "none", }}>Email:</a>
-                                            </div>
-                                            <div className="col-md-6">
-                                                {this.state.Email}
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li className="list-items-row">
-                                        <div className="row">
-                                            <div className="col-md-2">
-                                                <strong><span className="fas fa-phone" style={{ color: "#008575" }}></span></strong>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <a style={{ textDecoration: "none", }}>Phone Number:</a>
-                                            </div>
-                                            <div className="col-md-6">
-                                                {this.state.PhoneNumber}
+                                            <div className="item-content-primary">
+                                                <div className="content-text-primary">Username</div>
+                                                <div className="content-text-secondary">{this.state.Username}</div>
                                             </div>
                                         </div>
-                                    </li>
-                                </ol>
+                                    </div>
+                                    <div className="entity-list">
+                                        <div className="entity-list-item">
+                                            <div className="item-icon">
+                                                <span className="fas fa-envelope"></span>
+                                            </div>
+                                            <div className="item-content-primary">
+                                                <div className="content-text-primary">Email</div>
+                                                <div className="content-text-secondary">{this.state.Email}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="jumbotron theme-alt" style={{ backgroundColor: "#00221E" }}>
+            <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333" }}>
                 <div className="container">
                     <div className="row">
-                        <div className="col">
-                            <div className="type-h3" style={{ paddingTop: "10px", }}>
-                                Details
-                                    </div>
-                            <ol className="list-items theme-alt">
-                                <li className="list-items-row">
-                                    <div className="row">
-                                        <div className="col-md-2">
-                                            <strong><span className="fas fa-birthday-cake" style={{ color: "#008575", }}></span></strong>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <a style={{ textDecoration: "none", }}>Date of Birth:</a>
-                                        </div>
-                                        <div className="col-md-4">
-                                            {this.state.DateOfBirth}
+                        <div className="col-md-24">
+                            <div className="type-h3" style={{ paddingTop: "0px" }}>Details</div>
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="entity-list theme-alt">
+                                        <div className="entity-list-item">
+                                            <div className="item-icon" style={{ backgroundColor: "transparent" }}>
+                                                <span className="fas fa-birthday-cake color-default"></span>
+                                            </div>
+                                            <div className="item-content-primary">
+                                                <div className="content-text-primary">Birthday</div>
+                                                <div className="content-text-secondary">{this.state.DateOfBirth}</div>
+                                            </div>
                                         </div>
                                     </div>
-                                </li>
-                                <li className="list-items-row">
-                                    <div className="row">
-                                        <div className="col-md-2">
-                                            {this.state.Gender === "Male" &&
-                                                <strong><span className="fas fa-male" style={{ color: "#008575", }}></span></strong>
-                                            }
-                                            {this.state.Gender === "Female" &&
-                                                <strong><span className="fas fa-female" style={{ color: "#008575", }}></span></strong>
-                                            }
-                                        </div>
-                                        <div className="col-md-4">
-                                            <a style={{ textDecoration: "none", }}>Gender:</a>
-                                        </div>
-                                        <div className="col-md-4">
-                                            {this.state.Gender}
+                                    <div className="entity-list theme-alt">
+                                        <div className="entity-list-item">
+                                            <div className="item-icon" style={{ backgroundColor: "transparent" }}>
+                                                <span className={(this.state.Gender === "Male") ? "fas fa-male color-default" : "fas fa-female color-default"}></span>
+                                            </div>
+                                            <div className="item-content-primary">
+                                                <div className="content-text-primary">Gender</div>
+                                                <div className="content-text-secondary">{this.state.Gender}</div>
+                                            </div>
                                         </div>
                                     </div>
-                                </li>
-                                <li className="list-items-row">
-                                    <div className="row">
-                                        <div className="col-md-2">
-                                            <strong><span className="fas fa-flag" style={{ color: "#008575" }}></span></strong>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <a style={{ textDecoration: "none", }}>Nationality:</a>
-                                        </div>
-                                        <div className="col-md-4">
-                                            {this.state.Nationality}
-                                        </div>
-                                    </div>
-                                </li>
-                                <li className="list-items-row">
-                                    <div className="row">
-                                        <div className="col-md-2">
-                                            <strong><span className="fas fa-map-marker" style={{ color: "#008575" }}></span></strong>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <a style={{ textDecoration: "none", }}>Address:</a>
-                                        </div>
-                                        <div className="col-md-4">
-                                            {this.state.Address}
+                                </div>
+                                <div className="col-md-12">
+                                    <div className="entity-list theme-alt">
+                                        <div className="entity-list-item">
+                                            <div className="item-icon" style={{ backgroundColor: "transparent" }}>
+                                                <span className="fas fa-flag color-default"></span>
+                                            </div>
+                                            <div className="item-content-primary">
+                                                <div className="content-text-primary">Nationality</div>
+                                                <div className="content-text-secondary">{this.state.Nationality}</div>
+                                            </div>
                                         </div>
                                     </div>
-                                </li>
-                            </ol>
+                                    <div className="entity-list theme-alt">
+                                        <div className="entity-list-item">
+                                            <div className="item-icon" style={{ backgroundColor: "transparent" }}>
+                                                <span className="fas fa-map-marker-alt color-default"></span>
+                                            </div>
+                                            <div className="item-content-primary">
+                                                <div className="content-text-primary">Address</div>
+                                                <div className="content-text-secondary">{this.state.Address}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -10,13 +10,12 @@ class TraderRequestTab extends Component {
         const index = this.props.Index;
 
         return <section>
-            <div className="jumbotron theme-default">
+            <div className="jumbotron">
                 <div className="container">
                     <div className="col-md-24">
-                        <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>{`Request # ${index + 1}.`}</div>
-                        {(index === 0) ? <div className="type-sh3" style={{ color: "#FFBF15" }}>
-                            <span className="fas fa-certificate" style={{ color: "#FFBF15" }}></span>   LATEST
-                        </div> : null}
+                        <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>{`Request # ${index + 1}.`}
+                            {(index === 0) ? <span class="badge back-color-golden">NEW</span> : null}
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col-md-8">

@@ -10,7 +10,7 @@ class TradersDashboard extends Component {
         super(props);
 
         this.state = {
-            SideNavWidth: 0
+            Left: -400
         };
 
         this.onCloseNavigation = this.onCloseNavigation.bind(this);
@@ -18,7 +18,7 @@ class TradersDashboard extends Component {
 
     onCloseNavigation = () => {
         this.setState({
-            SideNavWidth: 0
+            Left: -400
         });
     }
 
@@ -28,22 +28,23 @@ class TradersDashboard extends Component {
         }
         else {
             return <section>
-                <div className="sidenav" style={{ width: `${this.state.SideNavWidth}px` }}>
+                <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
                     <a href="javascript:void(0)" className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
-                    <ul className="nav nav-tabs theme-alt" role="tablist" style={{ marginLeft: "0px" }}>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation" className="active">
-                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
-                        </li>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation">
-                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a>
-                        </li>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation">
-                            <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">Payments</a>
-                        </li>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation">
-                            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
-                        </li>
-                    </ul>
+
+                    <div class="entity-list" role="tablist">
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Profile</a>
+                        </div>
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
+                        </div>
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Payments</a>
+                        </div>
+                        <div class="entity-list-item" role="presentation">
+                            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Settings</a>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="tab-content">
@@ -54,7 +55,6 @@ class TradersDashboard extends Component {
                         <Jobs />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="payments">
-                        Payments
                         </div>
                     <div role="tabpanel" className="tab-pane" id="settings">
                         <Settings />
@@ -62,7 +62,7 @@ class TradersDashboard extends Component {
                 </div>
                 <div className="side-nav-btn" onClick={() => {
                     this.setState({
-                        SideNavWidth: 250
+                        Left: 0
                     });
                 }}><div className="fas fa-bars" style={{ fontSize: "x-large" }}></div>
                 </div>

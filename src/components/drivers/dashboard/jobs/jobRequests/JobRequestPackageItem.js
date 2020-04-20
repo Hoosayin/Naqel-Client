@@ -36,6 +36,7 @@ class JobRequestPackageItem extends Component {
 
     render() {
         const jobRequest = this.props.JobRequestPackage.JobRequest;
+        const driverOnJob = this.props.JobRequestPackage.DriverOnJob;
         const traderRequestPackages = this.props.JobRequestPackage.TraderRequestPackages;
         const index = this.props.Index;
 
@@ -141,20 +142,13 @@ class JobRequestPackageItem extends Component {
                 CanEdit={() => { return (traderRequestPackages.length === 0) ? true : false }}
                 OnOK={() => { this.props.OnJobRequestUpdated(); }} />
 
-            <div data-toggle="collapse" aria-expanded="false" data-target={`#job-request-package-${index}`} style={{ backgroundColor: "#DFDFDF" }}>
+            <div data-toggle="collapse" aria-expanded="false" data-target={`#job-request-package-${index}`}>
                 <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>
-                    <span style={{
-                        backgroundColor: "#D75A4A",
-                        color: "#FEFEFE",
-                        textAlign: "center",
-                        fontWeight: "bold",
-                        fontSize: "x-small",
-                        padding: "5px",
-                        borderRadius: "50%",
-                        width: "20px",
-                        height: "20px",
-                        display: "inline-block"
-                    }}>{traderRequestPackages.length}</span> Trader Requests <i className="fas fa-ellipsis-v"></i></div>
+                    <span class="badge badge-danger" style={{ backgroundColor: "#D75A4A" }}>{traderRequestPackages.length}</span>
+                    {"   Trader Requests"} <i className="fas fa-ellipsis-v"></i>
+                    <i class="glyph glyph-add"></i>
+                    <i class="glyph glyph-remove"></i>
+                </div>
             </div>
 
             <div className="collapse" id={`job-request-package-${index}`}>
@@ -166,7 +160,8 @@ class JobRequestPackageItem extends Component {
                             </div>
                         </div>
                     </div>
-                </div> : <TraderRequestsCarousel TraderRequestPackages={traderRequestPackages} />}
+                </div> : <TraderRequestsCarousel DriverOnJob={driverOnJob} TraderRequestPackages={traderRequestPackages}
+                    OnJobRequestUpdated={() => { this.props.OnJobRequestUpdated(); }} />}
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
             </div>
 

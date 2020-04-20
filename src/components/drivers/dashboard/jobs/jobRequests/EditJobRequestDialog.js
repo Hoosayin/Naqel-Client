@@ -119,7 +119,7 @@ class EditJobRequestDialog extends Component {
         return (
             <section className="text-left">
                 <div className="modal" id={`edit-job-request-dialog-${this.props.DialogID}`}
-                    tabindex="-1" role="dialog"
+                    tabIndex="-1" role="dialog"
                     aria-labelledby="modal-sample-label" aria-hidden="true">
                     {this.state.Preloader}
                     <div className="modal-dialog">

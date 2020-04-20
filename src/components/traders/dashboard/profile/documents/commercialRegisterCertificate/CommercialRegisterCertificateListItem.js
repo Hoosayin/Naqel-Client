@@ -79,70 +79,93 @@ class CommercialRegisterCertificateListItem extends Component {
 
     render() {
         return (
-            <li className="list-items-row">
+            <li className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
                 <div data-toggle="collapse" aria-expanded="false" data-target={`#commercial-register-certificate-${this.state.ID}`}>
-                    <div className="row">
-                        <div className="col-md-2">
-                            <i className="glyph glyph-add"></i>
-                            <i className="glyph glyph-remove"></i>
-                            <strong>{this.props.Index}</strong>
-                        </div>
-                        <div className="col-md-4">
-                            <img className="img-responsive visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                src={this.state.PhotoURL} alt="identity_card.png" data-source-index="2" style={{
-                                    overflow: "hidden",
-                                    border: "5px solid #3A3A3C",
-                                    margin: "5px"
-                                }} />
-                        </div>
-                        <div className="col-md-6">
-                            <div>
-                                <span style={{ fontWeight: "bold", color: "#008575" }}>COMMERCIAL REGISTER CERTIFICATE</span>
+                    <div className="entity-list">
+                        <div className="entity-list-item">
+                            <div className="item-icon" style={{ borderRadius: "50%" }}>
+                                <span className="glyph glyph-add"></span>
+                                <span className="glyph glyph-remove"></span>
                             </div>
-                            <div>
-                                <span style={{ fontWeight: "bold", color: "#404040" }}>Certificate Number:</span> {this.state.Number}
-                            </div>
-                            <div>
-                                <span style={{ fontWeight: "bold", color: "#404040" }}>Certificate Type:</span> {this.state.Type}
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">
+                                    <span style={{ fontWeight: "bold", color: "#008575" }}>{`${this.props.Index}.`}</span>
+                                </div>
+                                <div className="content-text-secondary">
+                                    <span style={{ fontWeight: "bold", color: "#008575" }}>COMMERCIAL REGISTER CERTIFICATE</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="collapse" id={`commercial-register-certificate-${this.state.ID}`}>
-                    <div className="row">
-                        <div className="col-md-18 col-md-offset-2">
-                            <img className="img-responsive visible-xs-inline-block visible-sm-inline-block"
-                                src={this.state.PhotoURL} alt="trailer.png" data-source-index="2" style={{
-                                    overflow: "hidden",
-                                    border: "5px solid #3A3A3C",
-                                    margin: "5px"
-                                }} />
+                    <div className="jumbotron theme-default">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
+                                        src={this.state.PhotoURL} alt="profile_photo.png" data-source-index="2" style={{
+                                            overflow: "hidden",
+                                            border: "5px solid #3A3A3C",
+                                            margin: "5px"
+                                        }} />
+                                </div>
+                                <div className="col-md-18">
+                                    <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
+                                        Commercial Register Certificate
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="entity-list">
+                                                <div className="entity-list-item">
+                                                    <div className="item-icon">
+                                                        <span className="fas fa-hashtag"></span>
+                                                    </div>
+                                                    <div className="item-content-primary">
+                                                        <div className="content-text-primary">Certificate Number</div>
+                                                        <div className="content-text-secondary">{this.state.Number}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="entity-list">
+                                                <div className="entity-list-item">
+                                                    <div className="item-icon">
+                                                        <span className="fas fa-cog"></span>
+                                                    </div>
+                                                    <div className="item-content-primary">
+                                                        <div className="content-text-primary">Certificate Type</div>
+                                                        <div className="content-text-secondary">{this.state.Type}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="col-md-4 text-right">
-                            <button
-                                type="button"
-                                className="btn btn-primary"
-                                data-toggle="modal"
-                                data-target="#edit-commercial-register-certificate-dialog"
-                                onMouseDown={() => {
-                                    this.setState({
-                                        EditCommercialRegisterCertificateDialog: <EditCommercialRegisterCertificateDialog
-                                            OnCancel={() => {
-                                                this.setState({
-                                                    EditCommercialRegisterCertificateDialog: null
-                                                });
-                                            }}
-                                            OnOK={cancelButton => {
-                                                cancelButton.click();
-                                                this.onRefresh();
-                                            }} />
-                                    });
-                                }}>
-                                Edit
-                                </button>
-                            <button type="button" className="btn btn-danger" onClick={() => { this.onDelete(); }}>Delete</button>
-                        </div>
+                    </div>
+                    <div style={{ backgroundColor: "#E5E5E5", textAlign: "right", padding: "10px" }}>
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            data-toggle="modal"
+                            data-target="#edit-commercial-register-certificate-dialog"
+                            onMouseDown={() => {
+                                this.setState({
+                                    EditCommercialRegisterCertificateDialog: <EditCommercialRegisterCertificateDialog
+                                        OnCancel={() => {
+                                            this.setState({
+                                                EditCommercialRegisterCertificateDialog: null
+                                            });
+                                        }}
+                                        OnOK={cancelButton => {
+                                            cancelButton.click();
+                                            this.onRefresh();
+                                        }} />
+                                });
+                            }}>Edit</button>
+                        <button type="button" className="btn btn-danger" onClick={() => { this.onDelete(); }}>Delete</button>
                     </div>
                 </div>               
                 {this.state.Preloader}

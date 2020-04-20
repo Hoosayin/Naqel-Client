@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { getData, deletePermitLicence } from "../../DriverFunctions.js";
-import EditPermitLicenceDialog from "./EditPermitLicenceDialog.js";
-import Preloader from "../../../../controls/Preloader.js";
+import { getData } from "../../DriverFunctions.js";
+import PermitLicenceListItem from "./PermitLicencesListItem";
+import ProgressBar from "../../../../controls/ProgressBar";
 
 class PermitLicencesList extends Component {
     constructor(props) {
@@ -10,62 +10,43 @@ class PermitLicencesList extends Component {
         this.state = {
             AllPermitLicences: [],
             PermitLicences: [],
-            EditPermitLicenceDialogs: [],
             SearchString: "",
-            Preloader: null,
+            Searching: null,
         };
 
-        this.onDelete = this.onDelete.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onSearch = this.onSearch.bind(this);
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
-    onDelete = async index => {
-        this.setState({
-            Preloader: <Preloader />
-        });
-
-        const discardedPermitLicence = {
-            Token: localStorage.Token,
-            PermitLicenceID: this.state.PermitLicences[index].PermitLicenceID 
-        };
-
-        console.log(`Going to delete PermitLicences[${index}]`);
-
-        await deletePermitLicence(discardedPermitLicence).then(response => {
-            if (response.Message === "Permit Licence is deleted.") {
-                this.onComponentUpdated();
-            }
-
-            this.setState({
-                Preloader: null
-            });
-        });
+    async componentDidMount() {
+        await this.onComponentUpdated();
     }
 
-    componentDidMount() {
-        this.onComponentUpdated();
-    }
-
-    onComponentUpdated = () => {
+    onComponentUpdated = async () => {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
                 Get: "PermitLicences"
             };
 
-            getData(request).then(response => {
+            this.setState({
+                Searching: true,
+            });
+
+            await getData(request).then(response => {
                 if (response.Message === "Permit licences found.") {
                     this.setState({
                         AllPermitLicences: response.PermitLicences,
-                        PermitLicences: response.PermitLicences
+                        PermitLicences: response.PermitLicences,
+                        Searching: false
                     });
                 }
                 else {
                     this.setState({
                         AllPermitLicences: [],
-                        PermitLicences: []
+                        PermitLicences: [],
+                        Searching: false
                     });
                 }
             });
@@ -103,11 +84,13 @@ class PermitLicencesList extends Component {
     }
 
     render() {
+        const permitLicences = this.state.PermitLicences;
+
         return (
             <section>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
                 <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Permit Licences</div>
-                <nav className="navbar navbar-default">
+                <nav className="navbar navbar-default" style={{ backgroundColor: "#F5F5F5" }}>
                     <div className="navbar-global theme-default" style={{ backgroundColor: "#E5E5E5;" }}>
                         <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
                             <form noValidate onSubmit={this.onSearch} className="navbar-form navbar-right" role="search">
@@ -123,98 +106,29 @@ class PermitLicencesList extends Component {
                         </div>
                     </div>
                 </nav>
-                <ol className="list-items" style={{ margin: "0px" }}>
-                    {this.state.PermitLicences.map((value, index) => {
-                        return <li key={index} className="list-items-row">
-                            <div data-toggle="collapse" aria-expanded="false" data-target={`#${value.PermitLicenceID}`}>
-                                <div className="row">
-                                    <div className="col-md-2">
-                                        <i className="glyph glyph-add"></i>
-                                        <i className="glyph glyph-remove"></i>
-                                        <strong>{index + 1}</strong>
+                {(permitLicences.length === 0) ?
+                    <div className="jumbotron theme-default">
+                        <div className="container">
+                            <div className="row">
+                                {this.state.Searching ? <div className="col-md-24 text-center">
+                                    <div>
+                                        <div className="type-h3" style={{ color: "#008575" }}>Searching</div>
+                                        <ProgressBar />
                                     </div>
-                                    <div className="col-md-4">
-                                        <img className="img-responsive visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                            src={value.PhotoURL} alt="permit.png" data-source-index="2" style={{
-                                                overflow: "hidden",
-                                                border: "5px solid #3A3A3C",
-                                                margin: "5px"
-                                            }} />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div style={{ padding: "3px 0px 3px 0px" }}>
-                                            <span className="fas fa-hashtag" style={{ color: "#606060" }}></span>
-                                            <span style={{ fontWeight: "bold", color: "#606060" }}>Permit Number:</span> {value.PermitNumber}
-                                        </div>
-                                        <div style={{ padding: "3px 0px 3px 0px" }}>
-                                            <span className="fas fa-calendar" style={{ color: "#606060" }}></span>
-                                            <span style={{ fontWeight: "bold", color: "#606060" }}>Expiry Date:</span> {value.ExpiryDate}
-                                        </div>
-                                        <div style={{ padding: "3px 0px 3px 0px" }}>
-                                            <span className="fas fa-asterisk" style={{ color: "#606060" }}></span>
-                                            <span style={{ fontWeight: "bold", color: "#606060" }}>Permit Code:</span> {value.Code}
-                                        </div>
-                                        <div style={{ padding: "3px 0px 3px 0px" }}>
-                                            <span className="fas fa-map-marker-alt" style={{ color: "#606060" }}></span>
-                                            <span style={{ fontWeight: "bold", color: "#606060" }}>Permit Place:</span> {value.Place}
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        
-                                    </div>
-                                </div>
+                                </div> : <div className="col-md-24 text-center">
+                                        <h3><span className="fas fa-exclamation-triangle" style={{ color: "#FFBF15" }}></span> No licences found.</h3>
+                                    </div>}
                             </div>
-
-                            <div className="collapse" id={value.PermitLicenceID}>
-                                <div className="row">
-                                    <div className="col-md-18 col-md-offset-2">
-                                        <img className="img-responsive visible-xs-inline-block visible-sm-inline-block"
-                                            src={value.PhotoURL} alt="permit.png" data-source-index="2" style={{
-                                                overflow: "hidden",
-                                                border: "5px solid #3A3A3C",
-                                                margin: "5px"
-                                            }} />
-                                    </div>
-                                    <div className="col-md-4 text-right">
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary"
-                                            data-toggle="modal"
-                                            data-target={`#edit-permit-dialog${index}`}
-                                            onMouseDown={() => {
-                                                let editPermitLicenceDialogs = this.state.EditPermitLicenceDialogs;
-
-                                                editPermitLicenceDialogs[index] = <EditPermitLicenceDialog
-                                                    DialogID={index}
-                                                    PermitLicence={value}
-                                                    OnCancel={() => {
-                                                        let editPermitLicenceDialogs = this.state.EditPermitLicenceDialogs;
-                                                        editPermitLicenceDialogs[index] = null;
-
-                                                        this.setState({
-                                                            EditPermitLicenceDialogs: editPermitLicenceDialogs,
-                                                        });
-
-                                                    }}
-                                                    OnOK={cancelButton => {
-                                                        cancelButton.click();
-                                                        this.onComponentUpdated();
-                                                    }} />;
-
-                                                this.setState({
-                                                    EditPermitLicenceDialogs: editPermitLicenceDialogs,
-                                                });
-                                            }}>
-                                            Edit
-                                            </button>
-                                        <button type="button" className="btn btn-danger" onClick={() => { this.onDelete(index); }}>Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                            {this.state.EditPermitLicenceDialogs[index]}
-                        </li>
-                    })}
-                </ol>
+                        </div>
+                    </div> : <ol className="list-items" style={{ margin: "0px" }}>
+                        {this.state.PermitLicences.map((permitLicence, index) => {
+                            return <li key={index} className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
+                                <PermitLicenceListItem Index={index}
+                                    PermitLicence={permitLicence}
+                                    OnPermitLicenceUpdated={async () => { await this.onComponentUpdated() }} />
+                            </li>
+                        })}
+                    </ol>}
                 {this.state.Preloader}
             </section>         
         );

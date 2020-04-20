@@ -19,8 +19,8 @@
     z-index: 10;
     width: 60px;
     height: 60px;
-    right: 30px;
-    bottom: 30px;
+    left: 30px;
+    top: 70px;
     background-color: #25AAE1;
     color: #FFFFFF;
     border-radius: 50%;
