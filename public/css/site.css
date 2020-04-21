@@ -10,6 +10,11 @@
     color: #D75A4A;
 }
 
+.back-color-default {
+    background-color: #008575;
+}
+
+
 .back-color-danger {
     background-color: #D75A4A;
 }

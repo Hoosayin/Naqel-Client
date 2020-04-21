@@ -17,7 +17,7 @@ class Jobs extends Component {
                 }}>
                     <li role="presentation" className="active"><a href="#job-requests" aria-controls="job-requests" role="tab" data-toggle="tab">Job Requests</a></li>
                     <li role="presentation"><a href="#job-offers" aria-controls="job-offers" role="tab" data-toggle="tab">Job Offers</a></li>
-                    <li role="presentation"><a href="#on-going-jobs" aria-controls="on-going-jobs" role="tab" data-toggle="tab">On-Going Jobs</a></li>
+                    <li role="presentation"><a href="#on-going-job" aria-controls="on-going-job" role="tab" data-toggle="tab">On-Going Job</a></li>
                 </ul>
                 <div className="tab-content">
                     <div role="tabpanel" className="tab-pane active" id="job-requests">
@@ -26,7 +26,7 @@ class Jobs extends Component {
                     <div role="tabpanel" className="tab-pane" id="job-offers">
                         <JobOffers />
                     </div>
-                    <div role="tabpanel" className="tab-pane" id="on-going-jobs">
+                    <div role="tabpanel" className="tab-pane" id="on-going-job">
                         <OnGoingJob />
                     </div>
                 </div>

@@ -8,6 +8,7 @@ class JobContainer extends Component {
     render() {
         const onGoingJob = this.props.OnGoingJob;
         const view = this.props.View;
+        const hasObjections = this.props.HasObjections;
 
         let loadingDate = new Date(onGoingJob.LoadingDate);
         loadingDate.setHours((parseInt(onGoingJob.LoadingTime.substring(0, 2))));
@@ -36,25 +37,29 @@ class JobContainer extends Component {
                 <div class="container">
                     <div class="row">
                         <div class="col-md-24 text-center">
-                            <h3><span className="fas fa-clock"></span>   {remainingTime}</h3>
-                            <div class="type-sh3">
-                                <span className="fas fa-tag"></span>{(view === "Driver") ?
-                                    `   $${onGoingJob.Price} AMOUNT IS ON YOUR WAY` :
-                                    `   YOU PAID $${onGoingJob.Price}`}</div>
-                            <div class="col-md-12 col-md-offset-6">
-                                <div class="type-p3">{(onGoingJob.AcceptedDelay > 0) ?
-                                    <span>
-                                        <span className="fas fa-leaf"></span>
-                                        <span>{(view === "Driver") ?
-                                            ` You have a relaxation of ${onGoingJob.AcceptedDelay} Hours.` :
-                                            ` Driver has a relaxation of ${onGoingJob.AcceptedDelay} Hours.`}
-                                        </span>
-                                    </span> :
-                                    <span>{(view === "Driver") ?
-                                        "You must reach on time to load the cargo." :
-                                        "Hoping for the driver to be on time."}</span>}
-                                </div>
-                            </div>
+                            {hasObjections ?
+                                <h3><span className="fas fa-error"></span>   {"This Job is Terminated."}</h3> :
+                                <section>
+                                    <h3><span className="fas fa-clock"></span>   {remainingTime}</h3>
+                                    <div class="type-sh3">
+                                        <span className="fas fa-tag"></span>{(view === "Driver") ?
+                                            `   $${onGoingJob.Price} AMOUNT IS ON YOUR WAY` :
+                                            `   YOU PAID $${onGoingJob.Price}`}</div>
+                                    <div class="col-md-12 col-md-offset-6">
+                                        <div class="type-p3">{(onGoingJob.AcceptedDelay > 0) ?
+                                            <span>
+                                                <span className="fas fa-leaf"></span>
+                                                <span>{(view === "Driver") ?
+                                                    ` You have a relaxation of ${onGoingJob.AcceptedDelay} Hours.` :
+                                                    ` Driver has a relaxation of ${onGoingJob.AcceptedDelay} Hours.`}
+                                                </span>
+                                            </span> :
+                                            <span>{(view === "Driver") ?
+                                                "You must reach on time to load the cargo." :
+                                                "Hoping for the driver to be on time."}</span>}
+                                        </div>
+                                    </div>
+                                </section>}
                         </div>
                     </div>
                 </div>

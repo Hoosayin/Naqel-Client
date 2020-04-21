@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 import { getData } from "../../../DriverFunctions";
 import ProgressBar from "../../../../../controls/ProgressBar";
-import TraderTab from "./TraderTab";
+import TraderContainer from "../../../../../containers/trader/TraderContainer";
 import MapTab from "./MapTab";
-import ObjectionsTab from "./objectionsTab/ObjectionsTab";
+import Objections from "./objectionsTab/Objections";
 import JobContainer from "./../../../../../containers/onGoingJob/JobContainer";
+import OnGoingJobOptions from "./OnGoingJobOptions";
+import Alert from "../../../../../controls/Alert";
 
 class OnGoingJob extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            OnGoingJobPackage: null,
+            OnGoingJob: null,
+            HasObjections: false,
             Loading: false
         };
 
@@ -26,7 +29,7 @@ class OnGoingJob extends Component {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
-                Get: "OnGoingJobPackage"
+                Get: "OnGoingJob"
             };
 
             this.setState({
@@ -34,16 +37,18 @@ class OnGoingJob extends Component {
             });
 
             await getData(request).then(response => {
-                if (response.Message === "On-going job package found.") {
+                if (response.Message === "On-going job found.") {
                     console.log(response);
                     this.setState({
-                        OnGoingJobPackage: response.OnGoingJobPackage,
+                        OnGoingJob: response.OnGoingJob,
+                        HasObjections: response.HasObjections,
                         Loading: false
                     });
                 }
                 else {
                     this.setState({
-                        OnGoingJobPackage: null,
+                        OnGoingJob: null,
+                        HasObjections: false,
                         Loading: false
                     });
                 }
@@ -52,7 +57,7 @@ class OnGoingJob extends Component {
     };
 
     render() {
-        if (this.state.Loading || !this.state.OnGoingJobPackage) {
+        if (this.state.Loading || !this.state.OnGoingJob) {
             return <div className="jumbotron theme-alt" style={{ backgroundColor: "#202020" }}>
                 <div className="container">
                     <div className="row">
@@ -74,11 +79,8 @@ class OnGoingJob extends Component {
             </div>;
         }
         else {
-            const onGoingJobPackage = this.state.OnGoingJobPackage;
-            const documents = {
-                IdentityCard: onGoingJobPackage.IdentityCard,
-                CommercialRegisterCertificate: onGoingJobPackage.CommercialRegisterCertificate
-            };
+            const onGoingJob = this.state.OnGoingJob;
+            const hasObjections = this.state.HasObjections;
 
             return <section>
                 <ul className="nav nav-tabs tabs-light" role="tablist">
@@ -95,22 +97,28 @@ class OnGoingJob extends Component {
                         <a href="#objections-tab" aria-controls="objections-tab" role="tab" data-toggle="tab">Objections</a>
                     </li>
                 </ul>
+
+                {hasObjections ?
+                    <Alert Type="danger"
+                        Message="This job has objections, and it cannot be completed now. For more information, please tap on Objections tab." /> :
+                    null}
+
                 <div className="tab-content">
                     <div role="tabpanel" className="tab-pane active" id="job-tab">
-                        <JobContainer OnGoingJob={onGoingJobPackage.OnGoingJob} View="Driver" />
+                        <JobContainer OnGoingJob={onGoingJob} HasObjections={hasObjections} View="Driver" />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="trader-tab">
-                        <TraderTab Trader={onGoingJobPackage.Trader}
-                            ProfilePhoto={onGoingJobPackage.ProfilePhoto}
-                            Documents={documents} />
+                        <TraderContainer TraderID={onGoingJob.TraderID} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="map-tab">
                         <MapTab />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="objections-tab">
-                        <ObjectionsTab OnGoingJobID={onGoingJobPackage.OnGoingJob.OnGoingJobID} />
+                        <Objections OnGoingJobID={onGoingJob.OnGoingJobID} OnObjectionAdded={this.onComponentUpdated} />
                     </div>
                 </div>
+                <OnGoingJobOptions CompletedByDriver={onGoingJob.CompletedByDriver}
+                    CompletedByTrader={onGoingJob.CompletedByTrader} />
             </section>;
         }
     }

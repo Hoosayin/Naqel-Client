@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import AddObjectionDialog from "./AddObjectionDialog";
 import { getData } from "../../../../DriverFunctions";
-import ProgressBar from "../../../../../../controls/ProgressBar";
-import JobObjectionPackageItem from "./JobObjectionPackageItem";
+import SearchingContainer from "../../../../../../containers/searching/SearchingContainer";
+import JobObjectionContainer from "../../../../../../containers/onGoingJob/JobObjectionContainer";
 
-class ObjectionsTab extends Component {
+class Objections extends Component {
     constructor(props) {
         super(props);
 
@@ -69,27 +69,15 @@ class ObjectionsTab extends Component {
                 </div>
             </div>
             <AddObjectionDialog OnGoingJobID={this.props.OnGoingJobID}
-                OnOK={async () => { await this.onComponentUpdated() }} />
+                OnOK={this.onComponentUpdated} />
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
             <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Job Objections</div>
             {(jobObjectionPackages.length === 0) ?
-                <div className="jumbotron theme-default">
-                    <div className="container">
-                        <div className="row">
-                            {this.state.Searching ? <div className="col-md-24 text-center">
-                                <div>
-                                    <div className="type-h3" style={{ color: "#008575" }}>Searching</div>
-                                    <ProgressBar />
-                                </div>
-                            </div> : <div className="col-md-24 text-center">
-                                    <h3><span className="fas fa-exclamation-triangle" style={{ color: "#FFBF15" }}></span> No job objections found.</h3>
-                                </div>}
-                        </div>
-                    </div>
-                </div> : <ol className="list-items" style={{ margin: "0px" }}>
+                <SearchingContainer Searching={this.state.Searching}
+                    SearchingFor="job objctions" /> : <ol className="list-items" style={{ margin: "0px" }}>
                     {jobObjectionPackages.map((jobObjectionPackage, index) => {
                         return <li key={index} className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
-                            <JobObjectionPackageItem Index={index}
+                            <JobObjectionContainer Index={index}
                                 JobObjectionPackage={jobObjectionPackage} />
                         </li>;
                     })}
@@ -98,4 +86,4 @@ class ObjectionsTab extends Component {
     }
 };
 
-export default ObjectionsTab;
+export default Objections;

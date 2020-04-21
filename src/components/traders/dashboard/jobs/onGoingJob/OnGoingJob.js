@@ -3,7 +3,10 @@ import { getData } from "../../../TraderFunctions";
 import ProgressBar from "../../../../../controls/ProgressBar";
 import JobContainer from "../../../../../containers/onGoingJob/JobContainer";
 import DriverContainer from "../../../../../containers/driver/DriverContainer";
+import TruckContainer from "../../../../../containers/truck/TruckContainer";
 import MapTab from "./MapTab";
+import Objections from "./objections/Objections";
+import Alert from "../../../../../controls/Alert";
 
 class OnGoingJob extends Component {
     constructor(props) {
@@ -11,6 +14,7 @@ class OnGoingJob extends Component {
 
         this.state = {
             OnGoingJob: null,
+            HasObjections: false,
             Loading: false
         };
 
@@ -33,15 +37,20 @@ class OnGoingJob extends Component {
             });
 
             await getData(request).then(response => {
+                console.log("ON-GOING JOB RESPONSE");
+                console.log(response);
+
                 if (response.Message === "On-going job found.") {
                     this.setState({
                         OnGoingJob: response.OnGoingJob,
+                        HasObjections: response.HasObjections,
                         Loading: false
                     });
                 }
                 else {
                     this.setState({
                         OnGoingJob: null,
+                        HasObjections: false,
                         Loading: false
                     });
                 }
@@ -73,6 +82,7 @@ class OnGoingJob extends Component {
         }
         else {
             const onGoingJob = this.state.OnGoingJob;
+            const hasObjections = this.state.HasObjections;
 
             return <section>
                 <ul className="nav nav-tabs tabs-light" role="tablist">
@@ -83,23 +93,36 @@ class OnGoingJob extends Component {
                         <a href="#driver-tab" aria-controls="driver-tab" role="tab" data-toggle="tab">Driver</a>
                     </li>
                     <li role="presentation">
+                        <a href="#truck-tab" aria-controls="truck-tab" role="tab" data-toggle="tab">Truck</a>
+                    </li>
+                    <li role="presentation">
                         <a href="#map-tab" aria-controls="map-tab" role="tab" data-toggle="tab">Map</a>
                     </li>
                     <li role="presentation">
                         <a href="#objections-tab" aria-controls="objections-tab" role="tab" data-toggle="tab">Objections</a>
                     </li>
                 </ul>
+
+                {hasObjections ?
+                    <Alert Type="danger"
+                        Message="This job has objections, and it cannot be completed now. For more information, please tap on Objections tab." /> :
+                    null}
                 <div className="tab-content">
+
                     <div role="tabpanel" className="tab-pane active" id="job-tab">
-                        <JobContainer OnGoingJob={onGoingJob} View="Trader" />
+                        <JobContainer OnGoingJob={onGoingJob} HasObjections={hasObjections} View="Trader" />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="driver-tab">
                         <DriverContainer DriverID={onGoingJob.DriverID} />
+                    </div>
+                    <div role="tabpanel" className="tab-pane" id="truck-tab">
+                        <TruckContainer DriverID={onGoingJob.DriverID} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="map-tab">
                         <MapTab />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="objections-tab">
+                        <Objections OnGoingJobID={onGoingJob.OnGoingJobID} />
                     </div>
                 </div>
             </section>;

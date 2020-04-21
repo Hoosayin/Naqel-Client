@@ -6,26 +6,23 @@ class Alert extends Component {
     }
 
     render() {
-        if (this.props.Message) {
-            return <div className="alert alert-info alert-dismissible fade in" role="alert" style={{ marginBottom: "0px" }}>
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this.props.OnClose}>
-                    <span aria-hidden="true"><i className="fas fa-times"></i></span>
-                </button>
+        const message = this.props.Message;
+        const type = this.props.Type;
 
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-20">
+        return <div class="alert-stack">
+            <div class={`alert alert-${type} alert-dismissible fade in`} role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-24">
                             <p>{this.props.Message}</p>
-                        </div>
-                        <div className="col-md-4">
                         </div>
                     </div>
                 </div>
-            </div>;
-        } else {
-            return null;
-        }
-        
+            </div>
+        </div>;
     }
 };
 

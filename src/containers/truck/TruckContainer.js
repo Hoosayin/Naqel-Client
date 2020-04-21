@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import UUID from "uuid-v4";
 import SearchingContainer from "../searching/SearchingContainer";
-import DocumentsDialog from "./documents/DocumentsDialog";
+import TrailersDialog from "./TrailersDialog";
 import { getData } from "../../components/traders/TraderFunctions";
 
-class DriverContainer extends Component {
+class TruckContainer extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            DriverProfile: null,
+            TruckProfile: null,
             Searching: false
-        };
+        }
 
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
@@ -29,22 +29,22 @@ class DriverContainer extends Component {
 
             let request = {
                 Token: localStorage.Token,
-                Get: "DriverProfile",
+                Get: "TruckProfile",
                 Params: {
                     DriverID: this.props.DriverID
                 }
             };
 
             await getData(request).then(response => {
-                if (response.Message === "Driver profile found.") {
+                if (response.Message === "Truck profile found.") {
                     this.setState({
-                        DriverProfile: response.DriverProfile,
+                        TruckProfile: response.TruckProfile,
                         Searching: false
                     });
                 }
                 else {
                     this.setState({
-                        DriverProfile: null,
+                        TruckProfile: null,
                         Searching: false
                     });
                 }
@@ -53,18 +53,13 @@ class DriverContainer extends Component {
     };
 
     render() {
-        if (this.state.Searching || !this.state.DriverProfile) {
+        if (this.state.Searching || !this.state.TruckProfile) {
             return <SearchingContainer Searching={this.state.Searching}
-                SearchingFor="driver" />;
+                SearchingFor="truck" />;
         }
         else {
-            const driverProfile = this.state.DriverProfile;
-            const driver = driverProfile.Driver;
-            const onJob = driverProfile.OnJob;
-            const profilePhoto = driverProfile.ProfilePhoto ?
-                driverProfile.ProfilePhoto :
-                "./images/defaultProfilePhoto.png";
-
+            const truckProfile = this.state.TruckProfile;
+            const truck = truckProfile.Truck;
             const dialogID = UUID().substring(0, 7).toUpperCase();
 
             return <section>
@@ -73,7 +68,7 @@ class DriverContainer extends Component {
                         <div className="row">
                             <div className="col-md-6">
                                 <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                    src={profilePhoto} alt="profile_photo.png" data-source-index="2" style={{
+                                    src={truck.PhotoURL} alt="profile_photo.png" data-source-index="2" style={{
                                         overflow: "hidden",
                                         border: "5px solid #3A3A3C",
                                         margin: "5px"
@@ -81,46 +76,32 @@ class DriverContainer extends Component {
                             </div>
                             <div className="col-md-18">
                                 <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
-                                    {`${driver.FirstName} ${driver.LastName} `}
-                                    {onJob ? <span class="badge back-color-golden">ON JOB</span> : null}
+                                    {`${truck.Brand} ${truck.Model}`}
                                 </div>
                                 <div className="type-sh3">
-                                    <span className="fas fa-car" style={{ color: "#606060" }}></span>   Driver
-                            </div>
+                                    <span className="fas fa-truck" style={{ color: "#606060" }}></span>   {truck.Type}
+                                </div>
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <div className="entity-list">
-                                            <div className="entity-list-item">
-                                                <div className="item-icon">
-                                                    <span className="fas fa-globe-asia"></span>
+                                        <div class="entity-list">
+                                            <div class="entity-list-item">
+                                                <div class="item-icon">
+                                                    <span class="fas fa-list-ol"></span>
                                                 </div>
-                                                <div className="item-content-primary">
-                                                    <div className="content-text-primary">Active</div>
-                                                    <div className="content-text-secondary">{(driver.Active === 1) ?
-                                                        <span className="fa fa-check-circle" style={{ color: "#25AE88" }}></span> :
-                                                        <span className="fa fa-times-circle" style={{ color: "#D75A4A" }}></span>}</div>
+                                                <div class="item-content-primary">
+                                                    <div class="content-text-primary">Plate Number</div>
+                                                    <div class="content-text-secondary">{truck.PlateNumber}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="entity-list">
                                             <div class="entity-list-item">
                                                 <div class="item-icon">
-                                                    <span class={(driver.Gender === "Male") ? "fas fa-male" : "fas fa-female"}></span>
+                                                    <span class="fas fa-user"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Gender</div>
-                                                    <div class="content-text-secondary">{driver.Gender}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="entity-list">
-                                            <div class="entity-list-item">
-                                                <div class="item-icon">
-                                                    <span class="fas fa-birthday-cake"></span>
-                                                </div>
-                                                <div class="item-content-primary">
-                                                    <div class="content-text-primary">Birthday</div>
-                                                    <div class="content-text-secondary">{driver.DateOfBirth}</div>
+                                                    <div class="content-text-primary">Owner</div>
+                                                    <div class="content-text-secondary">{truck.Owner}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -129,33 +110,22 @@ class DriverContainer extends Component {
                                         <div class="entity-list">
                                             <div class="entity-list-item">
                                                 <div class="item-icon">
-                                                    <span class="fas fa-envelope"></span>
+                                                    <span class="fas fa-calendar-day"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Email</div>
-                                                    <div class="content-text-secondary">{driver.Email}</div>
+                                                    <div class="content-text-primary">Production Year</div>
+                                                    <div class="content-text-secondary">{truck.ProductionYear}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="entity-list">
                                             <div class="entity-list-item">
                                                 <div class="item-icon">
-                                                    <span class="fas fa-phone"></span>
+                                                    <span class="fas fa-weight"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Phone Number</div>
-                                                    <div class="content-text-secondary">{driver.PhoneNumber}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="entity-list">
-                                            <div class="entity-list-item">
-                                                <div class="item-icon">
-                                                    <span class="fas fa-flag"></span>
-                                                </div>
-                                                <div class="item-content-primary">
-                                                    <div class="content-text-primary">Nationality</div>
-                                                    <div class="content-text-secondary">{driver.Nationality}</div>
+                                                    <div class="content-text-primary">Maximum Weight</div>
+                                                    <div class="content-text-secondary">{`${truck.MaximumWeight} GVW`}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -163,16 +133,15 @@ class DriverContainer extends Component {
                                 </div>
                                 <button type="button" className="btn btn-default"
                                     style={{ minWidth: "152px" }} data-toggle="modal"
-                                    data-target={`#documents-dialog-${dialogID}`}>Documents</button>
+                                    data-target={`#trailers-dialog-${dialogID}`}>Trailers</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <DocumentsDialog DialogID={dialogID}
-                    DriverID={this.props.DriverID} />
+                <TrailersDialog Trailers={truckProfile.Trailers} DialogID={dialogID} />
             </section>;
-        } 
+        }
     }
 };
 
-export default DriverContainer;
+export default TruckContainer;

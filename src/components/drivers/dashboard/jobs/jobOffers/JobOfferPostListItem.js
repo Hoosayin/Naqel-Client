@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { addDriverRequest, deleteDriverRequest } from "../../../DriverFunctions";
-import TraderTab from "./TraderTab";
-import JobOfferTab from "./JobOfferTab";
+import TraderContainer from "../../../../../containers/trader/TraderContainer";
+import JobOfferContainer from "../../../../../containers/jobOffer/JobOfferContainer";
 import BidJobOfferDialog from "./BidJobOfferDialog";
 import Preloader from "../../../../../controls/Preloader";
 
@@ -72,13 +72,7 @@ class JobOfferPostsList extends Component {
         const index = this.props.Index;
         const jobOffer = this.props.JobOfferPost.JobOffer;
         const trader = this.props.JobOfferPost.Trader;
-        const profilePhoto = this.props.JobOfferPost.ProfilePhoto;
         const requestSent = this.props.JobOfferPost.RequestSent;
-
-        const documents = {
-            IdentityCard: this.props.JobOfferPost.IdentityCard,
-            CommercialRegisterCertificate: this.props.JobOfferPost.CommercialRegisterCertificate
-        };
 
         let RequestButton;
 
@@ -101,34 +95,34 @@ class JobOfferPostsList extends Component {
         }
 
         return <section>
-            <li className="list-items-row" style={{ borderTop: "2px solid #EAEAEA" }}>
-                <div data-toggle="collapse" aria-expanded="false" data-target={`#job-offer-post-${index}`}>
-                    <div className="entity-list">
-                        <div className="entity-list-item">
-                            <div className="item-icon">
-                                <img src={profilePhoto ? profilePhoto : "./images/defaultProfilePhoto.png"} alt="defaultProfilePhoto.png" />
-                            </div>
-                            <div className="item-content-secondary">
-                                <div className="content-text-primary">{jobOffer.LoadingPlace}
+            <li className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
+                <div className="jumbotron p-xxxs">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-24">
+                                <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
+                                    {`${index + 1}. Job Offer By ${trader.FirstName} ${trader.LastName}`}
+                                    {requestSent ? <span class="badge back-color-default m-l-xxs">{(jobOffer.JobOfferType === "Fixed-Price") ?
+                                        "REQUEST SENT" : "ALREADY BADE"}</span> : null}
                                 </div>
-                                <div className="content-text-secondary">{jobOffer.UnloadingPlace}
+                                <div className="type-sh4">
+                                    <span className="fas fa-clock" style={{ color: "#606060" }}></span>   {`Posted on ${new Date(jobOffer.TimeCreated).toDateString()}.`}
                                 </div>
-                            </div>
-                            <div className="item-content-primary">
-                                {requestSent ?
-                                    <div className="content-text-primary">{trader.FirstName} {trader.LastName}
-                                        <span className="fas fa-paper-plane" style={{ color: "#008575", fontSize: "x-small" }}></span>
-                                        <span style={{ color: "#008575", fontSize: "x-small" }}>{(jobOffer.JobOfferType === "Fixed-Price") ?
-                                            "REQUEST SENT" : "ALREADY BADE"}</span>
-                                    </div> :
-                                    <div className="content-text-primary">{trader.FirstName} {trader.LastName}</div>}
-                                <div className="content-text-secondary">
-                                    <div>
-                                        <span className="fas fa-globe-asia" style={{ color: "#707070" }}></span> . {new Date(jobOffer.TimeCreated).toDateString()}
-                                    </div>                                   
+                                <div class="type-sh3">
+                                    {`From ${jobOffer.LoadingPlace} to ${jobOffer.UnloadingPlace} at $${jobOffer.Price}.`}
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div style={{ backgroundColor: "#E5E5E5", textAlign: "right", padding: "10px" }}>
+                    {RequestButton}
+                </div>
+                <div data-toggle="collapse" aria-expanded="false" data-target={`#job-offer-post-${index}`}>
+                    <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>
+                        {"   More Details"} <i className="fas fa-ellipsis-v"></i>
+                        <i class="glyph glyph-add"></i>
+                        <i class="glyph glyph-remove"></i>
                     </div>
                 </div>
                 <div className="collapse" id={`job-offer-post-${index}`}>
@@ -143,19 +137,15 @@ class JobOfferPostsList extends Component {
                             <a href={`#job-offer-${index}`} aria-controls={`job-offer-${index}`} role="tab" data-toggle="tab">Job Offer</a>
                         </li>
                         <li role="presentation">
-                            <a href={`#trader-${index}`} aria-controls={`trader-${index}`} role="tab" data-toggle="tab">{trader.Type}</a>
+                            <a href={`#trader-${index}`} aria-controls={`trader-${index}`} role="tab" data-toggle="tab">Trader</a>
                         </li>
                     </ul>
                     <div className="tab-content">
                         <div role="tabpanel" className="tab-pane active" id={`job-offer-${index}`}>
-                            <JobOfferTab JobOffer={jobOffer} />
+                            <JobOfferContainer JobOffer={jobOffer} />
                         </div>
                         <div role="tabpanel" className="tab-pane" id={`trader-${index}`}>
-                            <TraderTab Trader={trader} ProfilePhoto={profilePhoto}
-                                Documents={documents} />
-                        </div>
-                        <div style={{ backgroundColor: "#EFEFEF", textAlign: "right", padding: "10px" }}>
-                            {RequestButton}
+                            <TraderContainer TraderID={jobOffer.TraderID} />
                         </div>
                     </div>
                 </div>

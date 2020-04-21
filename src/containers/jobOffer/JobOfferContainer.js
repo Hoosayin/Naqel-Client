@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 
-class JobRequestTab extends Component {
+class JobOfferContainer extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+        const index = this.props.Index;
         const jobOffer = this.props.JobOffer;
         const createdHoursAgo = Math.abs(new Date() - new Date(jobOffer.TimeCreated)) / 36e5;
 
@@ -13,7 +14,9 @@ class JobRequestTab extends Component {
            <div className="jumbotron theme-default">
                <div className="container">
                    <div className="col-md-24">
-                       <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>{`${jobOffer.JobOfferType} Job Offer`}</div>
+                       <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>{(index ?
+                           `${index + 1}. ${jobOffer.JobOfferType} Job Offer` :
+                           `${jobOffer.JobOfferType} Job Offer`)}</div>
                        <div className="type-sh3">
                            <span className="fas fa-tag" style={{ color: "#606060" }}></span>   {`$${jobOffer.Price}`}
                        </div>
@@ -168,4 +171,4 @@ class JobRequestTab extends Component {
     }
 };
 
-export default JobRequestTab;
+export default JobOfferContainer;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReasonsList from "./ReasonsList";
 import Preloader from "../../../../../../controls/Preloader";
-import { addJobObjection } from "../../../../DriverFunctions";
+import { addJobObjection } from "../../../../TraderFunctions";
 
 class AddObjectionDialog extends Component {
     constructor(props) {
@@ -125,7 +125,7 @@ class AddObjectionDialog extends Component {
                                     <label>Comment</label>
                                     <textarea rows="4" class="form-control" style={{ maxWidth: "100%" }} name="Comment"
                                         value={this.state.Comment} onChange={this.onChange}></textarea>
-                                    <span>{this.state.Errors.Comment}</span>
+                                    <span className="text-danger">{this.state.Errors.Comment}</span>
                                 </div>
                                 <div style={{ textAlign: "right" }}>
                                     <input type="submit" value="Add Objection" className="btn btn-primary" style={{ margin: "0px" }} disabled={!this.state.ValidForm} />

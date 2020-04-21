@@ -31,7 +31,6 @@ class DriversDashboard extends Component {
         }
         else {
             return <section>  
-                
                 <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
                     <a className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
 
@@ -58,34 +57,6 @@ class DriversDashboard extends Component {
                             <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Settings</a>
                         </div>
                     </div>
-
-                    {/*
-                     <ul className="nav nav-tabs theme-alt" role="tablist" style={{ marginLeft: "0px" }}>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation" className="active">
-                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
-                        </li>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation">
-                            <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">Trucks</a>
-                        </li>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation">
-                            <a href="#permits" aria-controls="permits" role="tab" data-toggle="tab">Permits</a>
-                        </li>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation">
-                            <a href="#financialAffairs" aria-controls="financialAffairs" role="tab" data-toggle="tab">Financial Affairs</a>
-                        </li>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation">
-                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a>
-                        </li>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation">
-                            <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">Payments</a>
-                        </li>
-                        <li style={{ float: "none" }} onClick={this.onCloseNavigation} role="presentation">
-                            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
-                        </li>
-                    </ul>
-                     */}
-
-                    
                 </div>
                 <div className="tab-content">
                     <div role="tabpanel" className="tab-pane active" id="profile">

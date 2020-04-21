@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-import { getData } from "../../../components/traders/TraderFunctions";
-import SearchingContainer from "../../searching/SearchingContainer"; 
-import DrivingLicenceContainer from "./DrivingLicenceContainer";
-import EntryExitCardContianer from "./EntryExitCardContainer";
 import IdentityCardContainer from "./IdentityCardContainer";
+import CommercialRegisterCertificateContainer from "./CommercialRegisterCertificateContainer";
+import SearchingContainer from "../../searching/SearchingContainer";
+import { getData } from "../../../components/drivers/DriverFunctions";
 
 class DocumentsDialog extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            DriverDocuments: null,
+            TraderDocuments: null,
             Searching: false,
         };
 
@@ -30,22 +29,22 @@ class DocumentsDialog extends Component {
 
             let request = {
                 Token: localStorage.Token,
-                Get: "DriverDocuments",
+                Get: "TraderDocuments",
                 Params: {
-                    DriverID: this.props.DriverID
+                    TraderID: this.props.TraderID
                 }
             };
 
             await getData(request).then(response => {
-                if (response.Message === "Driver documents found.") {
+                if (response.Message === "Trader documents found.") {
                     this.setState({
-                        DriverDocuments: response.DriverDocuments,
+                        TraderDocuments: response.TraderDocuments,
                         Searching: false
                     });
                 }
                 else {
                     this.setState({
-                        DriverDocuments: null,
+                        TraderDocuments: null,
                         Searching: false
                     });
                 }
@@ -54,7 +53,7 @@ class DocumentsDialog extends Component {
     };
 
     render() {
-        const driverDocuments = this.state.DriverDocuments;
+        const traderDocuments = this.state.TraderDocuments;
 
         return <section>
             <div className="modal modal-center-vertical" id={`documents-dialog-${this.props.DialogID}`}
@@ -71,13 +70,12 @@ class DocumentsDialog extends Component {
                             <div className="type-h2" style={{ color: "#008575", paddingTop: "0px" }}>Documents</div>
                         </div>
                         <div className="modal-body">
-                            {(this.state.Searching || !driverDocuments) ?
+                            {(this.state.Searching || !traderDocuments) ?
                                 <SearchingContainer Searching={this.state.Searching}
                                     SearchingFor="documents" /> :
                                 <ol className="list-items" style={{ margin: "0px" }}>
-                                    <IdentityCardContainer IdentityCard={driverDocuments.IdentityCard} />
-                                    <DrivingLicenceContainer DrivingLicence={driverDocuments.DrivingLicence} />
-                                    <EntryExitCardContianer EntryExitCard={driverDocuments.EntryExitCard} />
+                                    <IdentityCardContainer IdentityCard={traderDocuments.IdentityCard} />
+                                    <CommercialRegisterCertificateContainer CommercialRegisterCertificate={traderDocuments.CommercialRegisterCertificate} />
                                 </ol>}
                         </div>
                     </div>

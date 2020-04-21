@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Alert from "../../../../../controls/Alert";
 import ProgressBar from "../../../../../controls/ProgressBar";
 import { getData } from "../../../TraderFunctions";
 import JobRequestPostListItem from "./JobRequestPostListItem";
@@ -92,12 +91,6 @@ class JobRequestPostsList extends Component {
         }
         else {
             return <section>
-                <Alert Message={this.state.Message}
-                    onClose={() => {
-                    this.setState({
-                        Message: null
-                    });
-                }} />
            <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Job Requests</div>
                 <ol className="list-items" style={{ marginTop: "0px" }}>

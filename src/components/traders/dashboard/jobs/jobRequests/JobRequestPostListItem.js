@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Preloader from "../../../../../controls/Preloader";
-import DriverTab from "./DriverTab";
-import TruckTab from "./TruckTab";
-import JobRequestTab from "./JobRequestTab";
+import DriverContainer from "../../../../../containers/driver/DriverContainer";
+import TruckContainer from "../../../../../containers/truck/TruckContainer";
+import JobRequestContainer from "../../../../../containers/jobReqeust/JobRequestContainer";
 import SendTraderRequestDialog from "./SendTraderRequestDialog";
 import { deleteTraderRequest } from "../../../TraderFunctions";
 
@@ -44,45 +44,38 @@ class JobRequestPostListItem extends Component {
         const index = this.props.Index;
         const jobRequest = this.props.JobRequestPost.JobRequest;
         const driver = this.props.JobRequestPost.Driver;
-        const driverProfilePhoto = this.props.JobRequestPost.DriverProfilePhoto;
-        const truck = this.props.JobRequestPost.Truck;
-        const trailers = this.props.JobRequestPost.Trailers;
         const requestSent = this.props.JobRequestPost.RequestSent;
 
-        const documents = {
-            IdentityCard: this.props.JobRequestPost.IdentityCard,
-            DrivingLicence: this.props.JobRequestPost.DrivingLicence,
-            EntryExitCard: this.props.JobRequestPost.EntryExitCard
-        };
-
         return <section>
-            <li className="list-items-row" style={{ borderTop: "2px solid #EAEAEA" }}>
-                <div data-toggle="collapse" aria-expanded="false" data-target={`#job-request-post-${index}`}>
-                    <div className="entity-list">
-                        <div className="entity-list-item">
-                            <div className="item-icon">
-                                <img src={driverProfilePhoto ? driverProfilePhoto : "./images/defaultProfilePhoto.png"} alt="defaultProfilePhoto.png" />
-                            </div>
-                            <div className="item-content-secondary">
-                                <div className="content-text-primary">{jobRequest.LoadingPlace}
+            <li className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
+                <div className="jumbotron p-xxxs">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-24">
+                                <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
+                                    {`${index + 1}. Job Request By ${driver.FirstName} ${driver.LastName}`}
+                                    {requestSent ? <span class="badge back-color-default m-l-xxs">REQUEST SENT</span>: null}
                                 </div>
-                                <div className="content-text-secondary">{jobRequest.UnloadingPlace}
+                                <div className="type-sh4">
+                                    <span className="fas fa-clock" style={{ color: "#606060" }}></span>   {`Posted on ${new Date(jobRequest.TimeCreated).toDateString()}.`}
                                 </div>
-                            </div>
-                            <div className="item-content-primary">
-                                {requestSent ? 
-                                    <div className="content-text-primary">{driver.FirstName} {driver.LastName}
-                                        <span className="fas fa-paper-plane" style={{ color: "#008575", fontSize: "x-small" }}></span>
-                                        <span style={{ color: "#008575", fontSize: "x-small" }}>REQUEST SENT</span>
-                                    </div> :
-                                    <div className="content-text-primary">{driver.FirstName} {driver.LastName}</div>}
-                                <div className="content-text-secondary">
-                                    <div>
-                                        <span className="fas fa-globe-asia" style={{ color: "#707070" }}></span> . {new Date(jobRequest.TimeCreated).toDateString()}
-                                    </div>
+                                <div class="type-sh3">
+                                    {`From ${jobRequest.LoadingPlace} to ${jobRequest.UnloadingPlace} at $${jobRequest.Price}.`}
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div style={{ backgroundColor: "#E5E5E5", textAlign: "right", padding: "10px" }}>
+                    {requestSent ? <button className="btn btn-secondary" onClick={async () => { await this.onCancelRequest(jobRequest); }}>Cancel Request</button> :
+                        <button className="btn btn-primary" data-toggle="modal"
+                            data-target={`#send-trader-reqeust-dialog-${index}`}>Send Request</button>}
+                </div>
+                <div data-toggle="collapse" aria-expanded="false" data-target={`#job-request-post-${index}`}>
+                    <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>
+                        {"   More Details"} <i className="fas fa-ellipsis-v"></i>
+                        <i class="glyph glyph-add"></i>
+                        <i class="glyph glyph-remove"></i>
                     </div>
                 </div>
                 <div className="collapse" id={`job-request-post-${index}`}>
@@ -99,19 +92,14 @@ class JobRequestPostListItem extends Component {
                     </ul>
                     <div className="tab-content">
                         <div role="tabpanel" className="tab-pane active" id={`job-request-${index}`}>
-                            <JobRequestTab JobRequest={jobRequest} />
+                            <JobRequestContainer JobRequest={jobRequest} />
                         </div>
                         <div role="tabpanel" className="tab-pane" id={`driver-${index}`}>
-                            <DriverTab Driver={driver} DriverProfilePhoto={driverProfilePhoto} Documents={documents} />
+                            <DriverContainer DriverID={jobRequest.DriverID} />
                         </div>
                         <div role="tabpanel" className="tab-pane" id={`truck-${index}`}>
-                            <TruckTab Truck={truck} Trailers={trailers} />
+                            <TruckContainer DriverID={jobRequest.DriverID} />
                         </div>
-                    </div>
-                    <div style={{ backgroundColor: "#EFEFEF", textAlign: "right", padding: "10px" }}>
-                        {requestSent ? <button className="btn btn-secondary" onClick={async () => { await this.onCancelRequest(jobRequest); }}>Cancel Request</button> :
-                            <button className="btn btn-primary" data-toggle="modal"
-                                data-target={`#send-trader-reqeust-dialog-${index}`}>Send Request</button>}
                     </div>
                 </div>
                 <SendTraderRequestDialog

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class JobObjectionPackageItem extends Component {
+class JobObjectionContainer extends Component {
     constructor(props) {
         super(props);
     }
@@ -59,4 +59,4 @@ class JobObjectionPackageItem extends Component {
     }
 };
 
-export default JobObjectionPackageItem;
+export default JobObjectionContainer;

@@ -302,3 +302,29 @@ export const deleteTraderRequest = async discardedTraderRequest => {
         return response.data;
     });
 };
+
+// POST: addObjectionReason
+export const addObjectionReason = async newObjectionReason => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}traders/addObjectionReason...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/addObjectionReason`, {
+        Reason: newObjectionReason.Reason
+    }, {
+        headers: { Authorization: `JWT ${newObjectionReason.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addJobObjection
+export const addJobObjection = async newJobObjection => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}traders/addJobObjection...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/addJobObjection`, {
+        OnGoingJobID: newJobObjection.OnGoingJobID,
+        Reason: newJobObjection.Reason,
+        Comment: newJobObjection.Comment
+    }, {
+        headers: { Authorization: `JWT ${newJobObjection.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
