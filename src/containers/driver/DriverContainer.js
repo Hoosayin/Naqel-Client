@@ -52,6 +52,10 @@ class DriverContainer extends Component {
         }
     };
 
+    reload = () => {
+        
+    }
+
     render() {
         if (this.state.Searching || !this.state.DriverProfile) {
             return <SearchingContainer Searching={this.state.Searching}

@@ -102,6 +102,7 @@ class AddObjectionDialog extends Component {
             <div className="modal modal-center-vertical" id="add-objection-dialog"
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
+                {this.state.Preloader}
                 <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
                     <div className="modal-content">
                         <div className="modal-header">

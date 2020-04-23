@@ -1872,6 +1872,9 @@
     <Content Include="src\App.js" />
     <Content Include="src\App.js.bak" />
     <Content Include="src\components\drivers\dashboard\DriversDashboard.js" />
+    <Content Include="src\components\drivers\dashboard\jobs\completedJobs\CompletedJobPackageListItem.js" />
+    <Content Include="src\components\drivers\dashboard\jobs\completedJobs\CompletedJobs.js" />
+    <Content Include="src\components\drivers\dashboard\jobs\completedJobs\CompletedJobsList.js" />
     <Content Include="src\components\drivers\dashboard\jobs\jobOffers\JobOfferPostListItem.js" />
     <Content Include="src\components\drivers\dashboard\jobs\jobOffers\BidJobOfferDialog.js" />
     <Content Include="src\components\drivers\dashboard\jobs\jobRequests\AddJobRequestDialog.js" />
@@ -1884,6 +1887,8 @@
     <Content Include="src\components\drivers\dashboard\jobs\jobRequests\TraderRequestTab.js" />
     <Content Include="src\components\drivers\dashboard\jobs\jobRequests\TraderTab.js" />
     <Content Include="src\components\drivers\dashboard\jobs\Jobs.js" />
+    <Content Include="src\components\drivers\dashboard\jobs\onGoingJob\FinishJobDialog.js" />
+    <Content Include="src\components\drivers\dashboard\jobs\onGoingJob\Job.js" />
     <Content Include="src\components\drivers\dashboard\jobs\onGoingJob\MapTab.js" />
     <Content Include="src\components\drivers\dashboard\jobs\onGoingJob\objectionsTab\ReasonsList.js" />
     <Content Include="src\components\drivers\dashboard\jobs\onGoingJob\objectionsTab\AddObjectionDialog.js" />
@@ -1924,6 +1929,10 @@
     <Content Include="src\components\drivers\dashboard\trucks\Truck.js" />
     <Content Include="src\components\drivers\dashboard\trucks\TruckSettings.js" />
     <Content Include="src\components\drivers\DriverFunctions.js" />
+    <Content Include="src\components\traders\dashboard\jobs\completedJobs\ReviewDialog.js" />
+    <Content Include="src\components\traders\dashboard\jobs\completedJobs\CompletedJobs.js" />
+    <Content Include="src\components\traders\dashboard\jobs\completedJobs\CompletedJobsList.js" />
+    <Content Include="src\components\traders\dashboard\jobs\completedJobs\CompletedJobPackageListItem.js" />
     <Content Include="src\components\traders\dashboard\jobs\jobOffers\AddJobOfferDialog.js" />
     <Content Include="src\components\traders\dashboard\jobs\jobOffers\DocumentsDialog.js" />
     <Content Include="src\components\traders\dashboard\jobs\jobOffers\DriverTab.js" />
@@ -1942,11 +1951,14 @@
     <Content Include="src\components\traders\dashboard\jobs\jobRequests\JobRequests.js" />
     <Content Include="src\components\traders\dashboard\jobs\jobRequests\JobRequestPostsList.js" />
     <Content Include="src\components\traders\dashboard\jobs\Jobs.js" />
+    <Content Include="src\components\traders\dashboard\jobs\onGoingJob\ApproveJobDialog.js" />
+    <Content Include="src\components\traders\dashboard\jobs\onGoingJob\Job.js" />
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\MapTab.js" />
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\objections\AddObjectionDialog.js" />
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\objections\Objections.js" />
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\objections\ReasonsList.js" />
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\OnGoingJob.js" />
+    <Content Include="src\components\traders\dashboard\jobs\onGoingJob\OnGoingJobOptions.js" />
     <Content Include="src\components\traders\dashboard\payments\Payments.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\DocumentsList.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\commercialRegisterCertificate\AddCommercialRegisterCertificateButton.js" />
@@ -1967,6 +1979,7 @@
     <Content Include="src\components\traders\dashboard\TradersDashboard.js" />
     <Content Include="src\components\traders\TraderFunctions.js" />
     <Content Include="src\components\register\AccountSetup.js" />
+    <Content Include="src\containers\completedJob\CompletedJobContainer.js" />
     <Content Include="src\containers\driver\documents\EntryExitCardContainer.js" />
     <Content Include="src\containers\driver\documents\DrivingLicenceContainer.js" />
     <Content Include="src\containers\driver\documents\IdentityCardContainer.js" />
@@ -1986,6 +1999,8 @@
     <Content Include="src\containers\truck\TruckContainer.js" />
     <Content Include="src\controls\BackToTop.js" />
     <Content Include="src\controls\ImageUploader.js" />
+    <Content Include="src\controls\Rating.js" />
+    <Content Include="src\controls\InteractiveRating.js" />
     <Content Include="src\controls\Map.js" />
     <Content Include="src\controls\Alert.js" />
     <Content Include="src\controls\PageHeading.js" />
@@ -2046,6 +2061,7 @@
     <Folder Include="src\components\drivers\dashboard\" />
     <Folder Include="src\components\drivers\dashboard\financial_affairs\" />
     <Folder Include="src\components\drivers\dashboard\jobs\" />
+    <Folder Include="src\components\drivers\dashboard\jobs\completedJobs\" />
     <Folder Include="src\components\drivers\dashboard\jobs\jobOffers\" />
     <Folder Include="src\components\drivers\dashboard\jobs\jobRequests\" />
     <Folder Include="src\components\drivers\dashboard\jobs\onGoingJob\" />
@@ -2065,6 +2081,7 @@
     <Folder Include="src\components\traders\dashboard\jobs\" />
     <Folder Include="src\components\traders\dashboard\jobs\jobOffers\" />
     <Folder Include="src\components\traders\dashboard\jobs\jobRequests\" />
+    <Folder Include="src\components\traders\dashboard\jobs\completedJobs\" />
     <Folder Include="src\components\traders\dashboard\jobs\onGoingJob\" />
     <Folder Include="src\components\traders\dashboard\jobs\onGoingJob\objections\" />
     <Folder Include="src\components\traders\dashboard\payments\" />
@@ -2083,6 +2100,7 @@
     <Folder Include="src\containers\driver\documents\" />
     <Folder Include="src\containers\jobReqeust\" />
     <Folder Include="src\containers\jobOffer\" />
+    <Folder Include="src\containers\completedJob\" />
     <Folder Include="src\containers\trader\" />
     <Folder Include="src\containers\trader\documents\" />
     <Folder Include="src\containers\truck\" />

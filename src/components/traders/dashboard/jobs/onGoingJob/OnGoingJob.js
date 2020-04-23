@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { getData } from "../../../TraderFunctions";
 import ProgressBar from "../../../../../controls/ProgressBar";
-import JobContainer from "../../../../../containers/onGoingJob/JobContainer";
+import Job from "./Job";
 import DriverContainer from "../../../../../containers/driver/DriverContainer";
 import TruckContainer from "../../../../../containers/truck/TruckContainer";
 import MapTab from "./MapTab";
 import Objections from "./objections/Objections";
 import Alert from "../../../../../controls/Alert";
+import OnGoingJobOptions from "./OnGoingJobOptions";
 
 class OnGoingJob extends Component {
     constructor(props) {
@@ -23,6 +24,33 @@ class OnGoingJob extends Component {
 
     async componentDidMount() {
         await this.onComponentUpdated();
+
+        this.interval = setInterval(async () => {
+            if (localStorage.Token) {
+                let request = {
+                    Token: localStorage.Token,
+                    Get: "OnGoingJob"
+                };
+
+                await getData(request).then(response => {
+                    if (response.Message === "On-going job found.") {
+                        console.log(response);
+                        this.setState({
+                            OnGoingJob: response.OnGoingJob,
+                            HasObjections: response.HasObjection,
+                            Loading: false,
+                        });
+                    }
+                    else {
+                        this.setState({
+                            OnGoingJob: null,
+                            HasObjections: false,
+                            Loading: false
+                        });
+                    }
+                });
+            }
+        }, 15000);
     }
 
     onComponentUpdated = async () => {
@@ -37,9 +65,6 @@ class OnGoingJob extends Component {
             });
 
             await getData(request).then(response => {
-                console.log("ON-GOING JOB RESPONSE");
-                console.log(response);
-
                 if (response.Message === "On-going job found.") {
                     this.setState({
                         OnGoingJob: response.OnGoingJob,
@@ -48,6 +73,8 @@ class OnGoingJob extends Component {
                     });
                 }
                 else {
+                    clearInterval(this.interval);
+
                     this.setState({
                         OnGoingJob: null,
                         HasObjections: false,
@@ -57,6 +84,10 @@ class OnGoingJob extends Component {
             });
         }
     };
+
+    UNSAFE_componentWillMount() {
+        clearInterval(this.interval);
+    }
 
     render() {
         if (this.state.Loading || !this.state.OnGoingJob) {
@@ -98,9 +129,11 @@ class OnGoingJob extends Component {
                     <li role="presentation">
                         <a href="#map-tab" aria-controls="map-tab" role="tab" data-toggle="tab">Map</a>
                     </li>
-                    <li role="presentation">
-                        <a href="#objections-tab" aria-controls="objections-tab" role="tab" data-toggle="tab">Objections</a>
-                    </li>
+                    {onGoingJob.CompletedByDriver ?
+                        null :
+                        <li role="presentation">
+                            <a href="#objections-tab" aria-controls="objections-tab" role="tab" data-toggle="tab">Objections</a>
+                        </li>}
                 </ul>
 
                 {hasObjections ?
@@ -110,7 +143,7 @@ class OnGoingJob extends Component {
                 <div className="tab-content">
 
                     <div role="tabpanel" className="tab-pane active" id="job-tab">
-                        <JobContainer OnGoingJob={onGoingJob} HasObjections={hasObjections} View="Trader" />
+                        <Job OnGoingJob={onGoingJob} HasObjections={hasObjections} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="driver-tab">
                         <DriverContainer DriverID={onGoingJob.DriverID} />
@@ -121,10 +154,16 @@ class OnGoingJob extends Component {
                     <div role="tabpanel" className="tab-pane" id="map-tab">
                         <MapTab />
                     </div>
-                    <div role="tabpanel" className="tab-pane" id="objections-tab">
-                        <Objections OnGoingJobID={onGoingJob.OnGoingJobID} />
-                    </div>
+                    {onGoingJob.CompletedByDriver ? 
+                        null :
+                        <div role="tabpanel" className="tab-pane" id="objections-tab">
+                            <Objections OnGoingJobID={onGoingJob.OnGoingJobID} />
+                        </div>}
                 </div>
+                <OnGoingJobOptions HasObjections={hasObjections}
+                    CompletedByDriver={onGoingJob.CompletedByDriver}
+                    CompletedByTrader={onGoingJob.CompletedByTrader}
+                    OnJobApproved={this.onComponentUpdated} />
             </section>;
         }
     }

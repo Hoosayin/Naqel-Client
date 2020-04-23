@@ -29,7 +29,7 @@ class TradersDashboard extends Component {
         else {
             return <section>
                 <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
-                    <a href="javascript:void(0)" className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
+                    <a className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
 
                     <div class="entity-list" role="tablist">
                         <div class="entity-list-item" role="presentation">

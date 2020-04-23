@@ -328,3 +328,27 @@ export const addJobObjection = async newJobObjection => {
         return response.data;
     });
 };
+
+// POST: approveJob
+export const approveJob = async approvedJob => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}traders/approveJob...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/approveJob`, {}, {
+        headers: { Authorization: `JWT ${approvedJob.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addDriverReview
+export const addDriverReview = async newDriverReview => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}traders/addDriverReview...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/addDriverReview`, {
+        CompletedJobID: newDriverReview.CompletedJobID,
+        Rating: newDriverReview.Rating,
+        Review: newDriverReview.Review
+    }, {
+        headers: { Authorization: `JWT ${newDriverReview.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};

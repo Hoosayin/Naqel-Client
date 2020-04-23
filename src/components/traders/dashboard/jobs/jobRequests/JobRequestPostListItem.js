@@ -48,28 +48,31 @@ class JobRequestPostListItem extends Component {
 
         return <section>
             <li className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
-                <div className="jumbotron p-xxxs">
+                <div className="jumbotron p-xxxs" style={{ backgroundColor: "#F2F2F2" }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-24">
-                                <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
+                                <div className="type-h5" style={{ color: "#008575", paddingTop: "0px" }}>
                                     {`${index + 1}. Job Request By ${driver.FirstName} ${driver.LastName}`}
                                     {requestSent ? <span class="badge back-color-default m-l-xxs">REQUEST SENT</span>: null}
                                 </div>
-                                <div className="type-sh4">
-                                    <span className="fas fa-clock" style={{ color: "#606060" }}></span>   {`Posted on ${new Date(jobRequest.TimeCreated).toDateString()}.`}
+                                <div className="type-sh6">
+                                    <span className="fas fa-clock m-r-xxxs" style={{ color: "#606060" }}></span>{`Posted on ${new Date(jobRequest.TimeCreated).toDateString()}.`}
                                 </div>
-                                <div class="type-sh3">
-                                    {`From ${jobRequest.LoadingPlace} to ${jobRequest.UnloadingPlace} at $${jobRequest.Price}.`}
+                                <div class="type-sh6">
+                                    <span className="fas fa-map-marker-alt m-r-xxxs" style={{ color: "#606060" }}></span>{`From ${jobRequest.LoadingPlace} to ${jobRequest.UnloadingPlace} at $${jobRequest.Price}.`}
                                 </div>
+                                {requestSent ?
+                                    <button className="btn btn-secondary"
+                                        onClick={async () => {
+                                            await this.onCancelRequest(jobRequest);
+                                        }}>Cancel Request</button> :
+                                    <button className="btn btn-primary"
+                                        data-toggle="modal"
+                                        data-target={`#send-trader-reqeust-dialog-${index}`}>Send Request</button>}
                             </div>
                         </div>
                     </div>
-                </div>
-                <div style={{ backgroundColor: "#E5E5E5", textAlign: "right", padding: "10px" }}>
-                    {requestSent ? <button className="btn btn-secondary" onClick={async () => { await this.onCancelRequest(jobRequest); }}>Cancel Request</button> :
-                        <button className="btn btn-primary" data-toggle="modal"
-                            data-target={`#send-trader-reqeust-dialog-${index}`}>Send Request</button>}
                 </div>
                 <div data-toggle="collapse" aria-expanded="false" data-target={`#job-request-post-${index}`}>
                     <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>
