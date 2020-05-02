@@ -12,9 +12,15 @@ class TraderContainer extends Component {
             TraderProfile: null,
             Searching: false
         };
+
+        this.refresh = this.refresh.bind(this);
+        this.onComponentUpdated = this.refresh.bind(this);
     }
 
     async componentDidMount() {
+        if (this.props.Refresh) {
+            this.props.Refresh(this.refresh);
+        }
         await this.onComponentUpdated();
     }
 
@@ -44,6 +50,31 @@ class TraderContainer extends Component {
                     this.setState({
                         TraderProfile: null,
                         Searching: false
+                    });
+                }
+            });
+        }
+    };
+
+    refresh = async () => {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "TraderProfile",
+                Params: {
+                    TraderID: this.props.TraderID
+                }
+            };
+
+            await getData(request).then(response => {
+                if (response.Message === "Trader profile found.") {
+                    this.setState({
+                        TraderProfile: response.TraderProfile
+                    });
+                }
+                else {
+                    this.setState({
+                        TraderProfile: null
                     });
                 }
             });
@@ -159,15 +190,19 @@ class TraderContainer extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" className="btn btn-default"
-                                    style={{ minWidth: "152px" }} data-toggle="modal"
-                                    data-target={`#documents-dialog-${dialogID}`}>Documents</button>
+                                {this.props.TabView ? 
+                                    null :
+                                    <button type="button" className="btn btn-default"
+                                        style={{ minWidth: "152px" }} data-toggle="modal"
+                                        data-target={`#documents-dialog-${dialogID}`}>Documents</button>}
                             </div>
                         </div>
                     </div>
                 </div>
-                <DocumentsDialog DialogID={dialogID}
-                    TraderID={this.props.TraderID} />
+                {this.props.TabView ?
+                    null : 
+                    <DocumentsDialog DialogID={dialogID}
+                        TraderID={this.props.TraderID} />}
             </section>;
         }
     }

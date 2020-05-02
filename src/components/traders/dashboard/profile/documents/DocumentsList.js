@@ -86,15 +86,10 @@ class DocumentsList extends Component {
         return (
             <section>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Documents</div>
-                <div style={{ padding: "10px", backgroundColor: "#E5E5E5" }}>
-                    <div className="row">
-                        <div className="col-md-18 col-md-offset-2"></div>
-                        <div className="col-md-4 text-right">
-                            {this.state.AddIdentityCardButton}
-                            {this.state.AddCommercialRegisterCertificateButton}
-                        </div>
-                    </div>
+                <div className="h3 back-color-gray m-n p-xxs">Documents</div>
+                <div className= "text-right back-color-gray p-xxs">
+                    {this.state.AddIdentityCardButton}
+                    {this.state.AddCommercialRegisterCertificateButton}
                 </div>
                 <ol className="list-items" style={{ margin: "0px" }}>
                     {this.state.IdentityCardListItem}

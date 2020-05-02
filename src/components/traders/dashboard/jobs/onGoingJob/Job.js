@@ -27,7 +27,7 @@ class Job extends Component {
             JumbotronContent = <h3><span className="fas fa-exclamation p-r-xxxs"></span>This Job is Terminated.</h3>;
         }
         else {
-            let dateDifference = Math.abs(new Date() - loadingDate);
+            let dateDifference = loadingDate - new Date();
             const days = Math.floor(dateDifference / 86400000);
             const hours = Math.floor((dateDifference % 86400000) / 3600000);
             const minutes = Math.round(((dateDifference % 86400000) % 3600000) / 60000);
@@ -36,9 +36,9 @@ class Job extends Component {
             let hourString = (hours > 0) ? `${hours} Hours ` : "";
             let minuteString = (minutes > 0) ? `${minutes} Minutes ` : "";
 
-            let remainingTime = `${dayString}${hourString}${minuteString}Left for Your Driver to Arrive`;
+            let remainingTime = `${dayString}${hourString}${minuteString} Left for Your Driver to Arrive`;
 
-            if (days === 0 && hours === 0 && minutes === 0) {
+            if (dateDifference < 0) {
                 remainingTime = "Loading Time has Passed";
             }
 

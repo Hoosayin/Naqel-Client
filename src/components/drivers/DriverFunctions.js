@@ -520,3 +520,16 @@ export const finishJob = async finishedJob => {
         return response.data;
     });
 };
+
+// POST: toggleSelectTraderRequest
+export const toggleSelectTraderRequest = async toggleSelectedTraderRequest => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/toggleSelectTraderRequest...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/toggleSelectTraderRequest`, {
+        TraderRequestID: toggleSelectedTraderRequest.TraderRequestID,
+        Selected: toggleSelectedTraderRequest.Selected
+    }, {
+        headers: { Authorization: `JWT ${toggleSelectedTraderRequest.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};

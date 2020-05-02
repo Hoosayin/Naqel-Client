@@ -121,10 +121,12 @@ class OnGoingJob extends Component {
                         <a href="#job-tab" aria-controls="job-tab" role="tab" data-toggle="tab">Job</a>
                     </li>
                     <li role="presentation">
-                        <a href="#driver-tab" aria-controls="driver-tab" role="tab" data-toggle="tab">Driver</a>
+                        <a href="#driver-tab" aria-controls="driver-tab" role="tab" data-toggle="tab"
+                            onClick={async () => { await this.RefreshDriverContainer(); }}>Driver</a>
                     </li>
                     <li role="presentation">
-                        <a href="#truck-tab" aria-controls="truck-tab" role="tab" data-toggle="tab">Truck</a>
+                        <a href="#truck-tab" aria-controls="truck-tab" role="tab" data-toggle="tab"
+                            onClick={async () => { await this.RefreshTruckContainer(); }}>Truck</a>
                     </li>
                     <li role="presentation">
                         <a href="#map-tab" aria-controls="map-tab" role="tab" data-toggle="tab">Map</a>
@@ -146,10 +148,10 @@ class OnGoingJob extends Component {
                         <Job OnGoingJob={onGoingJob} HasObjections={hasObjections} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="driver-tab">
-                        <DriverContainer DriverID={onGoingJob.DriverID} />
+                        <DriverContainer Refresh={refresh => { this.RefreshDriverContainer = refresh; }} DriverID={onGoingJob.DriverID} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="truck-tab">
-                        <TruckContainer DriverID={onGoingJob.DriverID} />
+                        <TruckContainer Refresh={refresh => { this.RefreshTruckContainer = refresh; }} DriverID={onGoingJob.DriverID} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="map-tab">
                         <MapTab />

@@ -56,7 +56,6 @@ class FinishJobDialog extends Component {
                         <div className="modal-body">
                             <div class="jumbotron">
                                 <div class="container">
-                                    {/**/}
                                     <div class="row">
                                         {completedByDriver ? 
                                             <div class="col-md-24">

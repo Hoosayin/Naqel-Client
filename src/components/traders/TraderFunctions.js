@@ -352,3 +352,27 @@ export const addDriverReview = async newDriverReview => {
         return response.data;
     });
 };
+
+// POST: addOnGoingJobFromJobOffer
+export const addOnGoingJobFromJobOffer = async newOnGoingJob => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}traders/addOnGoingJobFromJobOffer...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/addOnGoingJobFromJobOffer`, {
+        DriverRequestID: newOnGoingJob.DriverRequestID,
+    }, {
+        headers: { Authorization: `JWT ${newOnGoingJob.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addOnGoingJobFromJobRequest
+export const addOnGoingJobFromJobRequest = async newOnGoingJob => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}traders/addOnGoingJobFromJobRequest...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/addOnGoingJobFromJobRequest`, {
+        TraderRequestID: newOnGoingJob.TraderRequestID,
+    }, {
+        headers: { Authorization: `JWT ${newOnGoingJob.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};

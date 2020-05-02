@@ -16,14 +16,17 @@ class Jobs extends Component {
                     width: "100%",
                     margin: "0px",
                 }}>
-                    <li role="presentation" className="active"><a href="#job-requests" aria-controls="job-requests" role="tab" data-toggle="tab">Job Requests</a></li>
+                    <li role="presentation" className="active">
+                        <a href="#job-requests" aria-controls="job-requests" role="tab" data-toggle="tab"
+                            onClick={async () => { await this.RefreshJobRequests(); }}>Job Requests</a>
+                    </li>
                     <li role="presentation"><a href="#job-offers" aria-controls="job-offers" role="tab" data-toggle="tab">Job Offers</a></li>
                     <li role="presentation"><a href="#on-going-job" aria-controls="on-going-job" role="tab" data-toggle="tab">On-Going Job</a></li>
                     <li role="presentation"><a href="#completed-jobs" aria-controls="completed-jobs" role="tab" data-toggle="tab">Completed Jobs</a></li>
                 </ul>
                 <div className="tab-content">
                     <div role="tabpanel" className="tab-pane active" id="job-requests">
-                        <JobRequests />
+                        <JobRequests Refresh={refresh => { this.RefreshJobRequests = refresh; }} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="job-offers">
                         <JobOffers />

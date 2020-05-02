@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ProfilePhoto from "./ProfilePhoto";
 import DocumentsList from "./documents/DocumentsList.js";
+import Rating from "../../../../controls/Rating";
 import { getData } from "../../DriverFunctions.js";
 import PageHeading from "../../../../controls/PageHeading";
 
@@ -19,6 +20,7 @@ class Profile extends Component {
             Nationality: "",
             DateOfBirth: "",
             Active: null,
+            RatingAndReviews: {},
 
             WarningAlert: null,
             Errors: {}
@@ -47,7 +49,8 @@ class Profile extends Component {
                         Address: driver.Address,
                         PhoneNumber: driver.PhoneNumber,
                         Nationality: driver.Nationality,
-                        Active: driver.Active
+                        Active: driver.Active,
+                        RatingAndReviews: response.RatingAndReviews
                     });
                 }
                 else {
@@ -62,7 +65,8 @@ class Profile extends Component {
                         Gender: "",
                         Nationality: "",
                         DateOfBirth: "",
-                        Active: null
+                        Active: null,
+                        RatingAndReviews: {}
                     });
                 }
             });
@@ -70,6 +74,8 @@ class Profile extends Component {
     }
 
     render() {
+        const ratingAndReviews = this.state.RatingAndReviews;
+
         return <section>
             <PageHeading Heading="PROFILE" />
             <div className="jumbotron theme-default">
@@ -83,8 +89,15 @@ class Profile extends Component {
                                 {this.state.FirstName + " " + this.state.LastName}
                             </div>
                             <div className="type-sh3">
-                                <span className="fas fa-briefcase" style={{ color: "#606060" }}></span>   Driver
+                                <span className="fas fa-briefcase m-r-xxxs" style={{ color: "#606060" }}></span>Driver
                             </div>
+                            <div className="type-sh3">
+                                <span><Rating Rating={ratingAndReviews.Rating}
+                                    Color="" Size="rating-small"
+                                    Label={ratingAndReviews.Reviews > 0 ?
+                                        `(${ratingAndReviews.Reviews} Review(s))` : `No Reviews`} /></span>
+                            </div>
+                            
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="entity-list">

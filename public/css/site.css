@@ -31,6 +31,14 @@
     background-color: #E5E5E5;
 }
 
+.color-none {
+    color: transparent;
+}
+
+.back-color-none {
+    background: transparent;
+}
+
 .tabs-light {
     padding: 10px;
     background-color: #EFEFEF;

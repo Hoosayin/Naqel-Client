@@ -88,13 +88,18 @@ class BidJobOfferDialog extends Component {
 
         await addDriverRequest(newDriverRequest).then(response => {
             if (response.Message === "Driver request is added.") {
-                this.cancelButton.click();
-                this.props.OnOK();
-            }
+                this.setState({
+                    Preloader: null
+                });
 
-            this.setState({
-                Preloader: null
-            });
+                this.cancelButton.click();
+                this.props.OnOK(response.DriverRequest);
+            }
+            else {
+                this.setState({
+                    Preloader: null
+                });
+            }
         });
     }
 

@@ -13,14 +13,16 @@ class TruckContainer extends Component {
             Searching: false
         }
 
+        this.refresh = this.refresh.bind(this);
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
     async componentDidMount() {
+        this.props.Refresh(this.refresh);
         await this.onComponentUpdated();
     }
 
-    onComponentUpdated = async () => {
+   onComponentUpdated = async () => {
         if (localStorage.Token) {
 
             this.setState({
@@ -37,6 +39,11 @@ class TruckContainer extends Component {
 
             await getData(request).then(response => {
                 if (response.Message === "Truck profile found.") {
+
+                    if (this.props.OnTrailersFound) {
+                        this.props.OnTrailersFound(response.TruckProfile.Trailers);
+                    }
+
                     this.setState({
                         TruckProfile: response.TruckProfile,
                         Searching: false
@@ -46,6 +53,37 @@ class TruckContainer extends Component {
                     this.setState({
                         TruckProfile: null,
                         Searching: false
+                    });
+                }
+            });
+        }
+    };
+
+    refresh = async () => {
+        if (localStorage.Token) {
+
+            let request = {
+                Token: localStorage.Token,
+                Get: "TruckProfile",
+                Params: {
+                    DriverID: this.props.DriverID
+                }
+            };
+
+            await getData(request).then(response => {
+                if (response.Message === "Truck profile found.") {
+
+                    if (this.props.OnTrailersFound) {
+                        this.props.OnTrailersFound(response.TruckProfile.Trailers);
+                    }
+
+                    this.setState({
+                        TruckProfile: response.TruckProfile
+                    });
+                }
+                else {
+                    this.setState({
+                        TruckProfile: null
                     });
                 }
             });
@@ -131,14 +169,18 @@ class TruckContainer extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" className="btn btn-default"
-                                    style={{ minWidth: "152px" }} data-toggle="modal"
-                                    data-target={`#trailers-dialog-${dialogID}`}>Trailers</button>
+                                {this.props.TabView ?
+                                    null :
+                                    <button type="button" className="btn btn-default"
+                                        style={{ minWidth: "152px" }} data-toggle="modal"
+                                        data-target={`#trailers-dialog-${dialogID}`}>Trailers</button>}
                             </div>
                         </div>
                     </div>
                 </div>
-                <TrailersDialog Trailers={truckProfile.Trailers} DialogID={dialogID} />
+                {this.props.TabView ?
+                    null :
+                    <TrailersDialog Trailers={truckProfile.Trailers} DialogID={dialogID} />}
             </section>;
         }
     }

@@ -68,7 +68,8 @@ class CompletedJobPackageListItem extends Component {
                 CompletedJobID={completedJob.CompletedJobID}
                 OnOK={this.props.OnReviewAdded}/>
 
-            <div data-toggle="collapse" aria-expanded="false" data-target={`#completed-job-${index}`}>
+            <div data-toggle="collapse" aria-expanded="false" data-target={`#completed-job-${index}`}
+                onClick={async () => { await this.RefreshDriverContainer(); }}>
                 <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>Driver Details
                     <i className="fas fa-ellipsis-v"></i>
                     <i class="glyph glyph-add"></i>
@@ -77,7 +78,7 @@ class CompletedJobPackageListItem extends Component {
             </div>
 
             <div className="collapse" id={`completed-job-${index}`}>
-                <DriverContainer DriverID={completedJob.DriverID} />
+                <DriverContainer Refresh={refresh => { this.RefreshDriverContainer = refresh; }} DriverID={completedJob.DriverID} />
             </div>
         </li>;
     }

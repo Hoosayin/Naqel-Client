@@ -148,13 +148,19 @@ class SendTraderRequestDialog extends Component {
 
         await addTraderRequest(newTraderRequest).then(response => {
             if (response.Message === "Trader request is added.") {
-                this.cancelButton.click();
-                this.props.OnOK();
-            }
 
-            this.setState({
-                Preloader: null
-            });
+                this.setState({
+                    Preloader: null
+                });
+
+                this.cancelButton.click();
+                this.props.OnOK(response.TraderRequest);
+            }
+            else {
+                this.setState({
+                    Preloader: null
+                });
+            }
         });
     }
 

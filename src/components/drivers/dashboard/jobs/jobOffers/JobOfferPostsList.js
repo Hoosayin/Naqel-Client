@@ -98,12 +98,12 @@ class JobOfferPostsList extends Component {
                             key={index}
                             Index={index}
                             JobOfferPost={jobOfferPost}
-                            OnRequestUpdated={(jobOffer, requestSent) => {
+                            OnRequestUpdated={(jobOffer, driverRequest) => {
                                 let jobOfferPosts = this.state.JobOfferPosts;
 
                                 for (let jobOfferPost of jobOfferPosts) {
                                     if (jobOfferPost.JobOffer.JobOfferID === jobOffer.JobOfferID) {
-                                        jobOfferPost.RequestSent = requestSent;
+                                        jobOfferPost.DriverRequest = driverRequest;
                                         break;
                                     }
                                 }

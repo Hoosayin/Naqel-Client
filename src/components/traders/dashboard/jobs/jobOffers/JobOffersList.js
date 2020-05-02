@@ -11,6 +11,7 @@ class JobOffersList extends Component {
         this.state = {
             AllJobOfferPackages: [],
             JobOfferPackages: [],
+            TraderOnJob: false,
             SearchString: "",
             Searching: null,
         };
@@ -40,6 +41,7 @@ class JobOffersList extends Component {
                     this.setState({
                         AllJobOfferPackages: response.JobOfferPackages,
                         JobOfferPackages: response.JobOfferPackages,
+                        TraderOnJob: response.TraderOnJob,
                         Searching: false
                     });
                 }
@@ -47,6 +49,7 @@ class JobOffersList extends Component {
                     this.setState({
                         AllJobOfferPackages: [],
                         JobOfferPackages: [],
+                        TraderOnJob: false,
                         Searching: false
                     });
                 }
@@ -118,6 +121,17 @@ class JobOffersList extends Component {
                 OnOK={() => {
                     this.onComponentUpdated();
                 }} />
+            {this.state.TraderOnJob ?
+                <div class="alert alert-danger m-n">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-24">
+                                <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>While you are engaged in an On-Going Job, you cannot assign more jobs to drivers. View details in <span className="color-default">On-Going Job</span> tab.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> :
+                null}
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
             <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Your Job Offers</div>
             <nav className="navbar navbar-default" style={{ backgroundColor: "#F5F5F5" }}>
@@ -155,7 +169,8 @@ class JobOffersList extends Component {
                         return <li key={index} className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
                             <JobOfferPackageItem Index={index}
                                 JobOfferPackage={jobOfferPackage}
-                                OnJobOfferUpdated={this.onComponentUpdated} />
+                                OnJobOfferUpdated={this.onComponentUpdated}
+                                TraderOnJob={this.state.TraderOnJob} />
                         </li>;
                     })}
                 </ol>}

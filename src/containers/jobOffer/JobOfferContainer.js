@@ -14,7 +14,7 @@ class JobOfferContainer extends Component {
            <div className="jumbotron theme-default">
                <div className="container">
                    <div className="col-md-24">
-                       <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>{(index ?
+                       <div className="type-h3 color-default p-t-n">{(index ?
                            `${index + 1}. ${jobOffer.JobOfferType} Job Offer` :
                            `${jobOffer.JobOfferType} Job Offer`)}</div>
                        <div className="type-sh3">

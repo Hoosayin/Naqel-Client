@@ -63,11 +63,11 @@ class Profile extends Component {
                                 <ProfilePhoto />
                             </div>
                             <div className="col-md-18">
-                                <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
-                                    {this.state.FirstName + " " + this.state.LastName}
+                                <div className="type-h3 color-default p-t-n">
+                                    {`${this.state.FirstName} ${this.state.LastName}`}
                                 </div>
                                 <div className="type-sh3">
-                                    <span className="fas fa-briefcase" style={{ color: "#606060" }}></span>   {this.state.Type}
+                                    <span className="fas fa-briefcase m-r-xxxs" style={{ color: "#606060" }}></span>{this.state.Type}
                                 </div>
                                 <div className="row">
                                     <div className="col-md-12">

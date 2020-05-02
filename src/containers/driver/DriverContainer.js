@@ -13,10 +13,12 @@ class DriverContainer extends Component {
             Searching: false
         };
 
+        this.refresh = this.refresh.bind(this);
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
     async componentDidMount() {
+        this.props.Refresh(this.refresh);
         await this.onComponentUpdated();
     }
 
@@ -52,9 +54,31 @@ class DriverContainer extends Component {
         }
     };
 
-    reload = () => {
-        
-    }
+    refresh = async () => {
+        if (localStorage.Token) {
+
+            let request = {
+                Token: localStorage.Token,
+                Get: "DriverProfile",
+                Params: {
+                    DriverID: this.props.DriverID
+                }
+            };
+
+            await getData(request).then(response => {
+                if (response.Message === "Driver profile found.") {
+                    this.setState({
+                        DriverProfile: response.DriverProfile
+                    });
+                }
+                else {
+                    this.setState({
+                        DriverProfile: null
+                    });
+                }
+            });
+        }
+    };
 
     render() {
         if (this.state.Searching || !this.state.DriverProfile) {
@@ -165,15 +189,19 @@ class DriverContainer extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" className="btn btn-default"
-                                    style={{ minWidth: "152px" }} data-toggle="modal"
-                                    data-target={`#documents-dialog-${dialogID}`}>Documents</button>
+                                {this.props.TabView ?
+                                    null : 
+                                    <button type="button" className="btn btn-default"
+                                        style={{ minWidth: "152px" }} data-toggle="modal"
+                                        data-target={`#documents-dialog-${dialogID}`}>Documents</button>}
                             </div>
                         </div>
                     </div>
                 </div>
-                <DocumentsDialog DialogID={dialogID}
-                    DriverID={this.props.DriverID} />
+                {this.props.TabView ?
+                    null :
+                    <DocumentsDialog DialogID={dialogID}
+                        DriverID={this.props.DriverID} />}
             </section>;
         } 
     }
