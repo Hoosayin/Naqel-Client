@@ -17,7 +17,7 @@ class DriverRequestRow extends Component {
         const driver = driverRequestPackage.Driver;
         const driverOnJob = driverRequestPackage.DriverOnJob;
         const traderOnJob = driverRequestPackage.TraderOnJob;
-        const canAssign = (!driverOnJob && !traderOnJob);
+        const canAssign = !(driverOnJob || traderOnJob);
 
         const profileIndex = UUID();
         const truckIndex = UUID();

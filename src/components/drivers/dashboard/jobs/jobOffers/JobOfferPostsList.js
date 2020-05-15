@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ProgressBar from "../../../../../controls/ProgressBar";
 import { getData } from "../../../DriverFunctions";
 import JobOfferPostListItem from "./JobOfferPostListItem";
+import ProgressRing from "../../../../../controls/ProgressRing";
 
 class JobOfferPostsList extends Component {
     constructor(props) {
@@ -11,12 +12,15 @@ class JobOfferPostsList extends Component {
             JobOfferPosts: [],
             Preloader: null,
             Searching: false,
+            Refreshing: false
         };
 
+        this.refresh = this.refresh.bind(this);
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
     componentDidMount() {
+        this.props.Refresh(this.refresh);
         this.onComponentUpdated();
     }
 
@@ -42,6 +46,34 @@ class JobOfferPostsList extends Component {
                     this.setState({
                         JobOfferPosts: [],
                         Searching: false
+                    });
+                }
+            });
+        }
+    };
+
+    refresh = () => {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "JobOfferPosts"
+            };
+
+            this.setState({
+                Refreshing: true
+            });
+
+            getData(request).then(response => {
+                if (response.Message === "Job offer posts found.") {
+                    this.setState({
+                        JobOfferPosts: response.JobOfferPosts,
+                        Refreshing: false
+                    });
+                }
+                else {
+                    this.setState({
+                        JobOfferPosts: [],
+                        Refreshing: false
                     });
                 }
             });
@@ -91,7 +123,9 @@ class JobOfferPostsList extends Component {
         else {
             return <section>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Job Offers</div>
+                <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Job Offers
+                    {this.state.Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
+                </div>
                 <ol className="list-items" style={{ marginTop: "0px" }}>
                     {this.state.JobOfferPosts.map((jobOfferPost, index) => {
                         return <JobOfferPostListItem

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UUID from "uuid-v4";
+import Rating from "../../controls/Rating";
 import SearchingContainer from "../searching/SearchingContainer";
 import DocumentsDialog from "./documents/DocumentsDialog";
 import { getData } from "../../components/traders/TraderFunctions";
@@ -88,6 +89,7 @@ class DriverContainer extends Component {
         else {
             const driverProfile = this.state.DriverProfile;
             const driver = driverProfile.Driver;
+            const ratingAndReviews = driverProfile.RatingAndReviews
             const onJob = driverProfile.OnJob;
             const profilePhoto = driverProfile.ProfilePhoto ?
                 driverProfile.ProfilePhoto :
@@ -112,9 +114,13 @@ class DriverContainer extends Component {
                                     {`${driver.FirstName} ${driver.LastName} `}
                                     {onJob ? <span class="badge back-color-golden">ON JOB</span> : null}
                                 </div>
+                                <div className="type-sh3"><span className="fas fa-car m-r-xxs" style={{ color: "#606060" }}></span>Driver</div>
                                 <div className="type-sh3">
-                                    <span className="fas fa-car" style={{ color: "#606060" }}></span>   Driver
-                            </div>
+                                    <span><Rating Rating={ratingAndReviews.Reviews > 0 ? ratingAndReviews.Rating : 0}
+                                        Color="" Size="rating-small"
+                                        Label={ratingAndReviews.Reviews > 0 ?
+                                            `(${ratingAndReviews.Reviews} Review(s))` : `No Reviews`} /></span>
+                                </div>
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="entity-list">

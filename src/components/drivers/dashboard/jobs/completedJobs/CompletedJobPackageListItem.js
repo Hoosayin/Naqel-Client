@@ -17,43 +17,39 @@ class CompletedJobPackageListItem extends Component {
             <CompletedJobContainer Index={index} CompletedJob={completedJob} />
 
             {driverReview ?
-                <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333" }}>
-                    <div className="container">
-                        <div className="col-md-24">
-                            <div className="type-h3 color-default p-t-n">Trader's Review</div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-24">
-                                <div className="entity-list theme-alt">
-                                    <div className="entity-list-item">
-                                        <div className="item-icon">
-                                            <span className="fas fa-star"></span>
-                                        </div>
-                                        <div className="item-content-primary">
-                                            <div className="content-text-primary">Rating</div>
-                                            <div className="content-text-secondary"><Rating Rating={driverReview.Rating} Color="color-alt" Size="rating-small" /></div>
-                                        </div>
+                <div class="alert alert-info m-n" style={{ backgroundColor: "#E5E5E5", borderTop: "2px solid #CCCCCC" }}>
+                    <div class="row">
+                        <div class="col-md-24">
+                            <div className="entity-list">
+                                <div className="entity-list-item">
+                                    <div className="item-icon">
+                                        <span className="fas fa-star"></span>
                                     </div>
-                                    <div className="entity-list-item">
-                                        <div className="item-icon">
-                                            <span className="fas fa-pencil-alt"></span>
-                                        </div>
-                                        <div className="item-content-primary">
-                                            <div className="content-text-primary">Review</div>
-                                            <div className="content-text-secondary">{driverReview.Review}</div>
-                                        </div>
+                                    <div className="item-content-primary">
+                                        <div className="content-text-primary">Rating</div>
+                                        <div className="content-text-secondary"><Rating Rating={driverReview.Rating} Color="" Size="rating-small" /></div>
+                                        <div className="content-text-primary">Review</div>
+                                        <div className="content-text-secondary">{driverReview.Review}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div> :
-                <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333" }}>
-                    <div className="container">
-                        <div className="col-md-24">
-                            <div className="type-h3 color-default p-t-n">
-                                <span className="fas fa-star m-r-xxs"></span>No Rating Found</div>
-                            <div className="type-sh3">Your rating and review appears here.</div>
+                <div class="alert alert-info m-n" style={{ backgroundColor: "#E5E5E5", borderTop: "2px solid #CCCCCC" }}>
+                    <div class="row">
+                        <div class="col-md-24">
+                            <div className="entity-list">
+                                <div className="entity-list-item">
+                                    <div className="item-icon">
+                                        <span className="fas fa-star"></span>
+                                    </div>
+                                    <div className="item-content-primary">
+                                        <div className="content-text-primary">No Rating Found</div>
+                                        <div className="content-text-secondary">Your rating and review appears here.</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>}

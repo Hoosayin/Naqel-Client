@@ -108,7 +108,7 @@ class ReviewDialog extends Component {
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
                 {this.state.ShowPreloader ? <Preloader /> : null}
-                <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
                     <div className="modal-content">
                         <div className="modal-header">
                             <div className="text-right">
@@ -137,7 +137,7 @@ class ReviewDialog extends Component {
                                 </div>
                                 <div class="form-group">
                                     <label>Review</label>
-                                    <textarea rows="6" class="form-control" name="Review" style={{  }}
+                                    <textarea rows="6" class="form-control" name="Review" style={{ maxWidth: "100%" }}
                                         value={this.state.Review} onChange={this.onChange}></textarea>
                                     <span className={(this.state.Errors.Review === "Too long..." ||
                                         this.state.Errors.Review === "Review is required") ? "text-danger" : "text-accent"}>{this.state.Errors.Review}</span>

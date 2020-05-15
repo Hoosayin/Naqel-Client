@@ -3,6 +3,7 @@ import { getData } from "../../../DriverFunctions";
 import JobRequestPackageItem from "./JobRequestPackageItem";
 import AddJobRequestDialog from "./AddJobRequestDialog";
 import ProgressBar from "../../../../../controls/ProgressBar";
+import ProgressRing from "../../../../../controls/ProgressRing";
 
 class JobRequestsList extends Component {
     constructor(props) {
@@ -12,15 +13,18 @@ class JobRequestsList extends Component {
             AllJobRequestPackages: [],
             JobRequestPackages: [],
             SearchString: "",
-            Searching: null
+            Searching: false,
+            Refreshing: false
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSearch = this.onSearch.bind(this);
+        this.refresh = this.refresh.bind(this);
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
     async componentDidMount() {
+        this.props.Refresh(this.refresh);
         await this.onComponentUpdated();
     }
 
@@ -38,8 +42,8 @@ class JobRequestsList extends Component {
             await getData(request).then(response => {
                 if (response.Message === "Job request packages found.") {
                     this.setState({
-                        AllJobRequestPackages: response.JobRequestPackages,
-                        JobRequestPackages: response.JobRequestPackages,
+                        AllJobRequestPackages: response.JobRequests,
+                        JobRequestPackages: response.JobRequests,
                         Searching: false
                     });
                 }
@@ -48,6 +52,36 @@ class JobRequestsList extends Component {
                         AllJobRequestPackages: [],
                         JobRequestPackages: [],
                         Searching: false
+                    });
+                }
+            });
+        }
+    };
+
+    refresh = async () => {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "JobRequestPackages"
+            };
+
+            this.setState({
+                Refreshing: true
+            });
+
+            await getData(request).then(response => {
+                if (response.Message === "Job request packages found.") {
+                    this.setState({
+                        AllJobRequestPackages: response.JobRequests,
+                        JobRequestPackages: response.JobRequests,
+                        Refreshing: false
+                    });
+                }
+                else {
+                    this.setState({
+                        AllJobRequestPackages: [],
+                        JobRequestPackages: [],
+                        Refreshing: false
                     });
                 }
             });
@@ -102,7 +136,7 @@ class JobRequestsList extends Component {
                 <div class="container" style={{paddingBottom: "10px", marginBottom: "12px"}}>
                     <div class="row">
                         <div class="col-xs-18">
-                            <div className="type-h3 color-light"><span className="fas fa-briefcase"></span>   Job Requests</div>
+                            <div className="type-h3 color-light"><span className="fas fa-briefcase m-r-xxs"></span>Job Requests</div>
                             <p className="color-light">Create new job requests for your current and/or near-by locations to get a chance to increase your revenue.</p>
                             <div className="btn-group">
                                 <button
@@ -120,7 +154,9 @@ class JobRequestsList extends Component {
                     this.onComponentUpdated();
                 }} />
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Your Job Requests</div>
+            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Your Job Requests
+                    {this.state.Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
+            </div>
             <nav className="navbar navbar-default" style={{ backgroundColor: "#F5F5F5" }}>
                 <div className="navbar-global theme-default" style={{ backgroundColor: "#E5E5E5;" }}>
                     <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
@@ -155,8 +191,8 @@ class JobRequestsList extends Component {
                     {this.state.JobRequestPackages.map((jobRequestPackage, index) => {
                         return <li key={index} className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
                             <JobRequestPackageItem Index={index}
-                                JobRequestPackage={jobRequestPackage} 
-                                OnJobRequestUpdated={this.onComponentUpdated} />
+                                JobRequestPackage={jobRequestPackage}
+                                OnJobRequestUpdated={this.refresh} />
                         </li>;
                     })}
                 </ol>}

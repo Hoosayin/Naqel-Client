@@ -3,6 +3,7 @@ import { getData } from "../../../TraderFunctions";
 import JobOfferPackageItem from "./JobOfferPackageItem";
 import AddJobOfferDialog from "./AddJobOfferDialog";
 import ProgressBar from "../../../../../controls/ProgressBar";
+import ProgressRing from "../../../../../controls/ProgressRing";
 
 class JobOffersList extends Component {
     constructor(props) {
@@ -14,18 +15,21 @@ class JobOffersList extends Component {
             TraderOnJob: false,
             SearchString: "",
             Searching: null,
+            Refreshing: false,
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSearch = this.onSearch.bind(this);
+        this.refresh = this.refresh.bind(this);
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
-    componentDidMount() {
-        this.onComponentUpdated();
+    async componentDidMount() {
+        this.props.Refresh(this.refresh);
+        await this.onComponentUpdated();
     }
 
-    onComponentUpdated = () => {
+    onComponentUpdated = async () => {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
@@ -36,7 +40,7 @@ class JobOffersList extends Component {
                 Searching: true
             });
 
-            getData(request).then(response => {
+            await getData(request).then(response => {
                 if (response.Message === "Job offer packages found.") {
                     this.setState({
                         AllJobOfferPackages: response.JobOfferPackages,
@@ -51,6 +55,38 @@ class JobOffersList extends Component {
                         JobOfferPackages: [],
                         TraderOnJob: false,
                         Searching: false
+                    });
+                }
+            });
+        }
+    };
+
+    refresh = async () => {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "JobOfferPackages"
+            };
+
+            this.setState({
+                Refreshing: true
+            });
+
+            await getData(request).then(response => {
+                if (response.Message === "Job offer packages found.") {
+                    this.setState({
+                        AllJobOfferPackages: response.JobOfferPackages,
+                        JobOfferPackages: response.JobOfferPackages,
+                        TraderOnJob: response.TraderOnJob,
+                        Refreshing: false
+                    });
+                }
+                else {
+                    this.setState({
+                        AllJobOfferPackages: [],
+                        JobOfferPackages: [],
+                        TraderOnJob: false,
+                        Refreshing: false
                     });
                 }
             });
@@ -96,6 +132,17 @@ class JobOffersList extends Component {
     render() {
         const jobOfferPackages = this.state.JobOfferPackages;
         return <section>
+            {this.state.TraderOnJob ?
+                <div class="alert alert-danger m-n">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-24">
+                                <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>While you are engaged in an On-Going Job, you cannot assign more jobs to drivers. View details in <span className="color-default">On-Going Job</span> tab.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> :
+                null}
             <div class="page-header" style={{
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",
@@ -121,19 +168,10 @@ class JobOffersList extends Component {
                 OnOK={() => {
                     this.onComponentUpdated();
                 }} />
-            {this.state.TraderOnJob ?
-                <div class="alert alert-danger m-n">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-24">
-                                <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>While you are engaged in an On-Going Job, you cannot assign more jobs to drivers. View details in <span className="color-default">On-Going Job</span> tab.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div> :
-                null}
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Your Job Offers</div>
+            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Your Job Offers
+                    {this.state.Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
+            </div>
             <nav className="navbar navbar-default" style={{ backgroundColor: "#F5F5F5" }}>
                 <div className="navbar-global theme-default" style={{ backgroundColor: "#E5E5E5;" }}>
                     <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>

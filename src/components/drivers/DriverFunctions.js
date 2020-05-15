@@ -203,6 +203,16 @@ export const updateTruck = async updatedTruck => {
     });
 };
 
+// DELETE: deleteTruck
+export const deleteTruck = async discardedTruck => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteTruck...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteTruck`, {
+        headers: { Authorization: `JWT ${discardedTruck.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
 // POST: AddTrailer
 export const addTrailer = async newTrailer => {
     console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addTrailer...`);
@@ -529,6 +539,16 @@ export const toggleSelectTraderRequest = async toggleSelectedTraderRequest => {
         Selected: toggleSelectedTraderRequest.Selected
     }, {
         headers: { Authorization: `JWT ${toggleSelectedTraderRequest.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: deleteOnGoingJob
+export const deleteOnGoingJob = async discardedOnGoingJob => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteOnGoingJob...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteOnGoingJob`, {
+        headers: { Authorization: `JWT ${discardedOnGoingJob.Token}` }
     }).then(response => {
         return response.data;
     });

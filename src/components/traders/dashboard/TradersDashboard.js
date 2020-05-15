@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import Profile from "./profile/Profile";
 import Jobs from "./jobs/Jobs";
 import Payments from "./payments/Payments";
@@ -55,11 +55,13 @@ class TradersDashboard extends Component {
                         <Jobs />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="payments">
-                        </div>
+                        <Payments />
+                    </div>
                     <div role="tabpanel" className="tab-pane" id="settings">
                         <Settings />
                     </div>
                 </div>
+
                 <div className="side-nav-btn" onClick={() => {
                     this.setState({
                         Left: 0

@@ -13,10 +13,12 @@ class Objections extends Component {
             Searching: false,
         };
 
+        this.refresh = this.refresh.bind(this);
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
     async componentDidMount() {
+        this.props.Refresh(this.refresh);
         await this.onComponentUpdated();
     }
 
@@ -29,6 +31,10 @@ class Objections extends Component {
                     OnGoingJobID: this.props.OnGoingJobID
                 }
             };
+
+            this.setState({
+                Searching: true
+            });
 
             await getData(request).then(response => {
                 if (response.Message === "Job objection packages found.") {
@@ -47,6 +53,31 @@ class Objections extends Component {
         }
     };
 
+    refresh = async () => {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "JobObjectionPackages",
+                Params: {
+                    OnGoingJobID: this.props.OnGoingJobID
+                }
+            };
+
+            await getData(request).then(response => {
+                if (response.Message === "Job objection packages found.") {
+                    this.setState({
+                        JobObjectionPackages: response.JobObjectionPackages
+                    });
+                }
+                else {
+                    this.setState({
+                        JobObjectionPackages: []
+                    });
+                }
+            });
+        }
+    };
+
     render() {
         const jobObjectionPackages = this.state.JobObjectionPackages;
 
@@ -55,7 +86,7 @@ class Objections extends Component {
                 <div class="container" style={{ paddingBottom: "10px", marginBottom: "12px" }}>
                     <div class="row">
                         <div class="col-xs-18">
-                            <div className="type-h3 color-light"><span className="fas fa-thumbs-down"></span>   Job Objections</div>
+                            <div className="type-h3 color-light"><span className="fas fa-thumbs-down m-r-xxs"></span>Job Objections</div>
                             <p className="color-light">Objections on this job, either by you or your driver, will terminate the job.</p>
                             <div className="btn-group">
                                 <button

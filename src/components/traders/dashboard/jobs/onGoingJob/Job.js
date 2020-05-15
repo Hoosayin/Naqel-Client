@@ -45,12 +45,12 @@ class Job extends Component {
             JumbotronContent = <section>
                 <h3><span className="fas fa-clock"></span>   {remainingTime}</h3>
                 <div class="type-sh3">
-                    <span className="fas fa-tag"></span>{`   YOU PAID $${onGoingJob.Price}`}</div>
+                    <span className="fas fa-tag m-r-xxs"></span>{`This Job Costs You $${onGoingJob.Price}.`}</div>
                 <div class="col-md-12 col-md-offset-6">
                     <div class="type-p3">{(onGoingJob.AcceptedDelay > 0) ?
                         <span>
-                            <span className="fas fa-leaf"></span>
-                            <span>{` Driver has a relaxation of ${onGoingJob.AcceptedDelay} Hours.`}</span>
+                            <span className="fas fa-leaf m-r-xxxs"></span>
+                            <span>{`The Driver has a relaxation of ${onGoingJob.AcceptedDelay} Hours.`}</span>
                         </span> :
                         <span>{"Hoping for the driver to be on time."}</span>}
                     </div>

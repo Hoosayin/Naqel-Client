@@ -31,8 +31,6 @@ class JobContainer extends Component {
                                         <div className="content-text-secondary">{onGoingJob.LoadingPlace}</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="entity-list">
                                 <div className="entity-list-item">
                                     <div className="item-icon">
                                         <span className="fas fa-map-marker-alt"></span>
@@ -42,8 +40,6 @@ class JobContainer extends Component {
                                         <div className="content-text-secondary">{onGoingJob.UnloadingPlace}</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="entity-list">
                                 <div className="entity-list-item">
                                     <div className="item-icon">
                                         <span className="fas fa-map-signs"></span>
@@ -53,8 +49,6 @@ class JobContainer extends Component {
                                         <div className="content-text-secondary">{onGoingJob.TripType}</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="entity-list">
                                 <div className="entity-list-item">
                                     <div className="item-icon">
                                         <span className="fas fa-clock"></span>
@@ -77,8 +71,6 @@ class JobContainer extends Component {
                                         <div className="content-text-secondary">{onGoingJob.CargoType}</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="entity-list">
                                 <div className="entity-list-item">
                                     <div className="item-icon">
                                         <span className="fas fa-weight"></span>
@@ -88,8 +80,6 @@ class JobContainer extends Component {
                                         <div className="content-text-secondary">{`${onGoingJob.CargoWeight} lbs.`}</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="entity-list">
                                 <div className="entity-list-item">
                                     <div className="item-icon">
                                         <span className="fas fa-calendar"></span>
@@ -99,8 +89,6 @@ class JobContainer extends Component {
                                         <div className="content-text-secondary">{loadingDate.toDateString()}</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="entity-list">
                                 <div className="entity-list-item">
                                     <div className="item-icon">
                                         <span className="fas fa-clock"></span>
@@ -125,8 +113,6 @@ class JobContainer extends Component {
                                             <span className="fa fa-times-circle" style={{ color: "#D75A4A" }}></span>}</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="entity-list">
                                 <div className="entity-list-item">
                                     <div className="item-icon">
                                         <span className="fas fa-calendar"></span>
@@ -136,8 +122,6 @@ class JobContainer extends Component {
                                         <div className="content-text-secondary">{new Date(onGoingJob.Created).toDateString()}</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="entity-list">
                                 <div className="entity-list-item">
                                     <div className="item-icon">
                                         <span className="fas fa-clock"></span>
@@ -145,6 +129,15 @@ class JobContainer extends Component {
                                     <div className="item-content-primary">
                                         <div className="content-text-primary">Started at</div>
                                         <div className="content-text-secondary">{new Date(onGoingJob.Created).toTimeString()}</div>
+                                    </div>
+                                </div>
+                                <div className="entity-list-item">
+                                    <div className="item-icon">
+                                        <span className="fas fa-hashtag"></span>
+                                    </div>
+                                    <div className="item-content-primary">
+                                        <div className="content-text-primary">Job Number</div>
+                                        <div className="content-text-secondary">{onGoingJob.JobNumber}</div>
                                     </div>
                                 </div>
                             </div>

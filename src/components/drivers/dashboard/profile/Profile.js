@@ -92,7 +92,7 @@ class Profile extends Component {
                                 <span className="fas fa-briefcase m-r-xxxs" style={{ color: "#606060" }}></span>Driver
                             </div>
                             <div className="type-sh3">
-                                <span><Rating Rating={ratingAndReviews.Rating}
+                                <span><Rating Rating={ratingAndReviews.Reviews > 0 ? ratingAndReviews.Rating : 0}
                                     Color="" Size="rating-small"
                                     Label={ratingAndReviews.Reviews > 0 ?
                                         `(${ratingAndReviews.Reviews} Review(s))` : `No Reviews`} /></span>

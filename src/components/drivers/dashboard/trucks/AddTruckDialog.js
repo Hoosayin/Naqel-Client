@@ -28,7 +28,7 @@ class AddTruckDialog extends Component {
             ValidPhotoURL: false,
 
             ValidForm: false,
-            Preloader: null,
+            ShowPreloader: false,
 
             Errors: {
                 PlateNumber: "",
@@ -163,17 +163,23 @@ class AddTruckDialog extends Component {
         }
 
         this.setState({
-            Preloader: <Preloader />
+            ShowPreloader: true 
         });
 
         await addTruck(newTruck).then(response => {
             if (response.Message === "Truck is added.") {
+                this.cancelButton.click();
                 this.props.OnOK();
-            }
 
-            this.setState({
-                Preloader: null
-            });
+                this.setState({
+                    ShowPreloader: false
+                });
+            }
+            else {
+                this.setState({
+                    ShowPreloader: false
+                });
+            }
         });
     }
 
@@ -182,7 +188,7 @@ class AddTruckDialog extends Component {
             <div className="modal" id="add-truck-dialog"
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
-                {this.state.Preloader}
+                {this.state.ShowPreloader ? <Preloader /> : null}
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <p>
@@ -273,8 +279,9 @@ class AddTruckDialog extends Component {
                                     </div>
                                 </div>
                                 <div className="modal-footer">
-                                    <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}>Cancel</button>
-                                    <input type="submit" value="Add" className="btn btn-primary"  disabled={!this.state.ValidForm} />
+                                    <button className="btn btn-default" data-dismiss="modal"
+                                        ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
+                                    <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                 </div>
                             </form>
                         </p>

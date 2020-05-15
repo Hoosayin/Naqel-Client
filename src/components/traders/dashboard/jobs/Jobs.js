@@ -20,22 +20,31 @@ class Jobs extends Component {
                         <a href="#job-requests" aria-controls="job-requests" role="tab" data-toggle="tab"
                             onClick={async () => { await this.RefreshJobRequests(); }}>Job Requests</a>
                     </li>
-                    <li role="presentation"><a href="#job-offers" aria-controls="job-offers" role="tab" data-toggle="tab">Job Offers</a></li>
-                    <li role="presentation"><a href="#on-going-job" aria-controls="on-going-job" role="tab" data-toggle="tab">On-Going Job</a></li>
-                    <li role="presentation"><a href="#completed-jobs" aria-controls="completed-jobs" role="tab" data-toggle="tab">Completed Jobs</a></li>
+                    <li role="presentation">
+                        <a href="#job-offers" aria-controls="job-offers" role="tab" data-toggle="tab"
+                            onClick={async () => { await this.RefreshJobOffers(); }}>Job Offers</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#on-going-job" aria-controls="on-going-job" role="tab" data-toggle="tab"
+                            onClick={async () => { await this.RefreshOnGoingJob(); }}>On-Going Job</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#completed-jobs" aria-controls="completed-jobs" role="tab" data-toggle="tab"
+                            onClick={async () => { await this.RefreshCompletedJobs(); }}>Completed Jobs</a>
+                    </li>
                 </ul>
                 <div className="tab-content">
                     <div role="tabpanel" className="tab-pane active" id="job-requests">
                         <JobRequests Refresh={refresh => { this.RefreshJobRequests = refresh; }} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="job-offers">
-                        <JobOffers />
+                        <JobOffers Refresh={refresh => { this.RefreshJobOffers = refresh; }} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="on-going-job">
-                        <OnGoingJob />
+                        <OnGoingJob Refresh={refresh => { this.RefreshOnGoingJob = refresh; }} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="completed-jobs">
-                        <CompletedJobs />
+                        <CompletedJobs Refresh={refresh => { this.RefreshCompletedJobs = refresh; }} />
                     </div>
                 </div>
             </section>

@@ -26,12 +26,18 @@ class FinishJobDialog extends Component {
 
         await finishJob(finishedJob).then(response => {
             if (response.Message === "Job is finished.") {
+                this.setState({
+                    Progress: false
+                });
+
+                this.cancelButton.click();
                 this.props.OnOK();
             }
-
-            this.setState({
-                Progress: false
-            });
+            else {
+                this.setState({
+                    Progress: false
+                });
+            }
         });
     }
 
@@ -46,7 +52,9 @@ class FinishJobDialog extends Component {
                     <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
                         <div className="modal-header">
                             <div className="text-right">
-                                <button className="btn btn-primary" style={{ minWidth: "0px" }} data-dismiss="modal">
+                                <button className="btn btn-primary"
+                                    ref={cancelButton => this.cancelButton = cancelButton}
+                                    style={{ minWidth: "0px" }} data-dismiss="modal">
                                     <span className="fas fa-times"></span>
                                 </button>
                             </div>
@@ -60,7 +68,7 @@ class FinishJobDialog extends Component {
                                         {completedByDriver ? 
                                             <div class="col-md-24">
                                                 <img alt="confetti.png" src="./images/confetti.png" height="100" />
-                                                <div class="type-h3">Congratulations! You Have Completed Your Job</div>
+                                                <div class="type-h3">Congratulations! You Have Finished Your Job</div>
                                                 <div class="type-sh3">The Trader's Approval is Pending at the Moment</div>
                                                 <p><span class="color-default">Important Note:</span> You can view this job in <span class="color-default">Completed Jobs</span> tab, once the trader approves job completion.</p>
                                             </div> : 

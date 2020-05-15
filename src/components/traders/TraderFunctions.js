@@ -376,3 +376,28 @@ export const addOnGoingJobFromJobRequest = async newOnGoingJob => {
         return response.data;
     });
 };
+
+// POST: addDriverReviewFromOnGoingJob
+export const addDriverReviewFromOnGoingJob = async newDriverReview => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}traders/addDriverReviewFromOnGoingJob...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/addDriverReviewFromOnGoingJob`, {
+        OnGoingJobID: newDriverReview.OnGoingJobID,
+        Rating: newDriverReview.Rating,
+        Review: newDriverReview.Review
+    }, {
+        headers: { Authorization: `JWT ${newDriverReview.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: deleteOnGoingJob
+export const deleteOnGoingJob = async discardedOnGoingJob => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}traders/deleteOnGoingJob...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}traders/deleteOnGoingJob`, {
+        headers: { Authorization: `JWT ${discardedOnGoingJob.Token}` },
+        data: { OnGoingJobID: discardedOnGoingJob.OnGoingJobID }
+    }).then(response => {
+        return response.data;
+    });
+};

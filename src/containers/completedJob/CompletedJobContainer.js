@@ -21,6 +21,9 @@ class CompletedJobContainer extends Component {
                         <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
                             {`${index + 1}.`}
                         </div>
+                        <div className="type-sh3">
+                            <span className="fas fa-tag m-r-xxs" style={{ color: "#606060" }}></span>{`$${completedJob.Price}`}
+                        </div>
                         <div className="type-h4" style={{ color: "#008575", paddingTop: "0px" }}>
                             <span className="fas fa-check m-r-xxxs"></span>
                             {`Cargo Items were Delivered at ${completedJob.UnloadingPlace} from ${completedJob.LoadingPlace}.`}
@@ -29,6 +32,15 @@ class CompletedJobContainer extends Component {
                     <div className="row">
                         <div className="col-md-8">
                             <div className="entity-list">
+                                <div className="entity-list-item">
+                                    <div className="item-icon">
+                                        <span className="fas fa-hashtag"></span>
+                                    </div>
+                                    <div className="item-content-primary">
+                                        <div className="content-text-primary">Job Number</div>
+                                        <div className="content-text-secondary">{completedJob.JobNumber}</div>
+                                    </div>
+                                </div>
                                 <div className="entity-list-item">
                                     <div className="item-icon">
                                         <span className="fas fa-map-signs"></span>

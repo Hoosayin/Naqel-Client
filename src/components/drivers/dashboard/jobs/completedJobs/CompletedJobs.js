@@ -4,7 +4,7 @@ import CompletedJobsList from "./CompletedJobsList";
 class CompletedJobs extends Component {
    render() {
        return <section>
-           <CompletedJobsList />
+           <CompletedJobsList Refresh={this.props.Refresh} />
        </section>;
     }
 };

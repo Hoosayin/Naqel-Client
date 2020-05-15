@@ -83,7 +83,9 @@ class JobRequestPostListItem extends Component {
                                         <div className="item-content-primary">
                                             <div className="content-text-primary">Posted By</div>
                                             <div className="content-text-secondary">{`${driver.FirstName} ${driver.LastName}`}
-                                                <span class="badge back-color-danger m-l-xxs">ON JOB</span>
+                                                {driverOnJob ?
+                                                    <span class="badge back-color-danger m-l-xxs">ON JOB</span> :
+                                                    null}
                                             </div>
                                         </div>
                                     </div>
@@ -132,10 +134,12 @@ class JobRequestPostListItem extends Component {
                                         <button className="btn btn-primary"
                                             data-toggle="modal"
                                             data-target={`#trader-request-dialog-${index}`}>View Request</button>
-                                        <button className="btn btn-primary"
-                                            disabled={!canAssign}
-                                            data-toggle="modal"
-                                            data-target={`#assign-from-request-dialog-${assignJobIndex}`}>Assign Job</button>
+                                        {traderRequest && traderRequest.Selected ?
+                                            <button className="btn btn-primary"
+                                                disabled={!canAssign}
+                                                data-toggle="modal"
+                                                data-target={`#assign-from-request-dialog-${assignJobIndex}`}>Assign Job</button> :
+                                            null}
                                     </section> :
                                     <button className="btn btn-primary"
                                         data-toggle="modal"

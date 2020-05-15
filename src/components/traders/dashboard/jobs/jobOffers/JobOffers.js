@@ -4,7 +4,7 @@ import JobOffersList from "./JobOffersList.js";
 class JobOffers extends Component {
     render() {
         return <section>
-            <JobOffersList />
+            <JobOffersList Refresh={this.props.Refresh} />
         </section>;
     }
 };

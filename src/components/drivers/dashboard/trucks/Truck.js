@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ImageUploader from "../../../../controls/ImageUploader";
-import { getData, updateTruckPhoto } from "../../DriverFunctions";
+import { getData, updateTruckPhoto, deleteTruck } from "../../DriverFunctions";
 import TruckSettings from "./TruckSettings";
 import AddTruckDialog from "./AddTruckDialog";
 import Trailers from "./trailers/Trailers";
@@ -11,21 +11,11 @@ class Truck extends Component {
     constructor() {
         super();
         this.state = {
-            PlateNumber: "",
-            Owner: "",
-            ProductionYear: "",
-            Brand: "",
-            Model: "",
-            Type: "",
-            MaximumWeight: "",
-            PhotoURL: "./images/default_image.png",
-            TruckFound: false,
-            AddTruckDialog: null,
-            AddTrailer: null,
-            TrailersList: null,
-            Preloader: null
+            Truck: null,
+            ShowPreloader: false
         };
 
+        this.onDelete = this.onDelete.bind(this);
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
@@ -46,32 +36,14 @@ class Truck extends Component {
 
             getData(request).then(response => {
                 if (response.Message === "Truck found.") {
-                    let truck = response.Truck;
-
                     this.setState({
-                        PlateNumber: truck.PlateNumber,
-                        Owner: truck.Owner,
-                        ProductionYear: truck.ProductionYear,
-                        Brand: truck.Brand,
-                        Model: truck.Model,
-                        Type: truck.Type,
-                        MaximumWeight: truck.MaximumWeight,
-                        PhotoURL: truck.PhotoURL,
-                        TruckFound: true,
+                        Truck: response.Truck,
                         Preloader: null
                     });
                 }
                 else {
                     this.setState({
-                        PlateNumber: "",
-                        Owner: "",
-                        ProductionYear: "",
-                        Brand: "",
-                        Model: "",
-                        Type: "",
-                        MaximumWeight: "",
-                        PhotoURL: "./images/default_image.png",
-                        TruckFound: false,
+                        Truck: null,
                         Preloader: null
                     });
                 }
@@ -79,16 +51,46 @@ class Truck extends Component {
         }
     };
 
+    onDelete = async () => {
+        this.setState({
+            ShowPreloader: true
+        });
+
+        const discardedTruck = {
+            Token: localStorage.Token
+        };
+
+        console.log(`Going to delete truck...`);
+
+        await deleteTruck(discardedTruck).then(async response => {
+            if (response.Message === "Truck is deleted.") {
+                this.setState({
+                    ShowPreloader: false
+                });
+
+                await this.onComponentUpdated();
+            }
+            else {
+                this.setState({
+                    ShowPreloader: false
+                });
+            }
+        });
+    }
+
     render() {
+        const truck = this.state.Truck;
+        const showPreloader = this.state.ShowPreloader;
+
         return <section>
             <PageHeading Heading="TRUCKS" />
-            {this.state.TruckFound ? 
+            {truck ? 
                 <section>
                     <div className="jumbotron theme-default">
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-6">
-                                    <ImageUploader Source={this.state.PhotoURL}
+                                    <ImageUploader Source={truck.PhotoURL}
                                         Height="200px" Width="200px"
                                         OnImageUploaded={async response => {
                                             if (response.message === "Image uploaded successfully.") {
@@ -112,11 +114,11 @@ class Truck extends Component {
                                         ImageCategory="Truck" />
                                 </div>
                                 <div className="col-md-18">
-                                    <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
-                                        {`${this.state.Brand} ${this.state.Model}`}
+                                    <div className="type-h3 color-default p-t-n">
+                                        {`${truck.Brand} ${truck.Model}`}
                                     </div>
                                     <div className="type-sh3">
-                                        <span className="fas fa-truck" style={{ color: "#606060" }}></span>   {this.state.Type}
+                                        <span className="fas fa-truck m-r-xxs" style={{ color: "#606060" }}></span>{truck.Type}
                                     </div>
                                     <div className="row">
                                         <div className="col-md-12">
@@ -127,18 +129,16 @@ class Truck extends Component {
                                                     </div>
                                                     <div className="item-content-primary">
                                                         <div className="content-text-primary">Plate Number</div>
-                                                        <div className="content-text-secondary">{this.state.PlateNumber}</div>
+                                                        <div className="content-text-secondary">{truck.PlateNumber}</div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="entity-list">
                                                 <div className="entity-list-item">
                                                     <div className="item-icon">
                                                         <span className="fas fa-calendar-day"></span>
                                                     </div>
                                                     <div className="item-content-primary">
                                                         <div className="content-text-primary">Production Year</div>
-                                                        <div className="content-text-secondary">{this.state.ProductionYear}</div>
+                                                        <div className="content-text-secondary">{truck.ProductionYear}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -151,7 +151,7 @@ class Truck extends Component {
                                                     </div>
                                                     <div className="item-content-primary">
                                                         <div className="content-text-primary">Maximum Weight</div>
-                                                        <div className="content-text-secondary">{`${this.state.MaximumWeight} GVW`}</div>
+                                                        <div className="content-text-secondary">{`${truck.MaximumWeight} GVW`}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,7 +159,7 @@ class Truck extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-md-24">
-                                            <button type="button" className="btn btn-danger">Delete Truck</button>
+                                            <button type="button" className="btn btn-danger" onClick={this.onDelete}>Delete Truck</button>
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +168,7 @@ class Truck extends Component {
                     </div>
                     <TruckSettings OnTruckSettingsUpdated={this.onComponentUpdated} />
                     <Trailers />
-                    {this.state.Preloader}
+                    {showPreloader ? <Preloader /> : null}
                 </section> :
                 <section>
                     <div className="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
@@ -183,34 +183,16 @@ class Truck extends Component {
                                     <div className="type-sh3">You have not added any truck yet.</div>
                                     <p>Adding your truck will let the Traders or Brokers see details about your it. Valid and complete details of your truck make more chances for you to receive job requests.</p>
                                     <div className="btn-group">
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary"
-                                            style={{ minWidth: "152px" }}
+                                        <button className="btn btn-primary"
                                             data-toggle="modal"
-                                            data-target="#add-truck-dialog"
-                                            onMouseDown={() => {
-                                                this.setState({
-                                                    AddTruckDialog: <AddTruckDialog
-                                                        OnCancel={() => {
-                                                            this.setState({
-                                                                AddTruckDialog: null,
-                                                            });
-                                                        }}
-                                                        OnOK={cancelButton => {
-                                                            cancelButton.click();
-                                                            this.onComponentUpdated();
-                                                        }} />
-                                                });
-                                            }}>
-                                            <span className="fas fa-plus" aria-hidden="true"></span>Add Now</button>
+                                            data-target="#add-truck-dialog">Add Now</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {this.state.AddTruckDialog}
-                    {this.state.Preloader}
+                    <AddTruckDialog OnOK={this.onComponentUpdated} />
+                    {showPreloader ? <Preloader /> : null}
                 </section>}
         </section>;
     }

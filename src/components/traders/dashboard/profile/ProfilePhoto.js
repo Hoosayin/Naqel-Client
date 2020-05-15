@@ -110,9 +110,7 @@ class ProfilePhoto extends Component {
                 <figure className="media">
                     <div className="media-img media-img-has-play ratio-1-1">
                         <a href="#" onClick={() => this.fileInput.click()}>
-                            <img style={{
-                                border: "5px solid #3A3A3C"
-                            }}
+                            <img style={{border: "5px solid #3A3A3C"}}
                                 src={this.state.PhotoURL} alt="ProfilePhoto.png" />
                             <i className="glyph glyph-edit"></i>
                         </a>

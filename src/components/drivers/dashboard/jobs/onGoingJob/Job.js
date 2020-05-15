@@ -27,7 +27,7 @@ class Job extends Component {
             JumbotronContent = <h3><span className="fas fa-exclamation p-r-xxxs"></span>This Job is Terminated.</h3>;
         }
         else {
-            let dateDifference = Math.abs(new Date() - loadingDate);
+            let dateDifference = loadingDate - new Date();
             const days = Math.floor(dateDifference / 86400000);
             const hours = Math.floor((dateDifference % 86400000) / 3600000);
             const minutes = Math.round(((dateDifference % 86400000) % 3600000) / 60000);
@@ -38,14 +38,14 @@ class Job extends Component {
 
             let remainingTime = `${dayString}${hourString}${minuteString}Left To Load Cargo`;
 
-            if (days === 0 && hours === 0 && minutes === 0) {
+            if (dateDifference < 0) {
                 remainingTime = "Loading Time has Passed";
             }
 
             JumbotronContent = <section>
                 <h3><span className="fas fa-clock"></span>   {remainingTime}</h3>
                 <div class="type-sh3">
-                    <span className="fas fa-tag"></span>{`   $${onGoingJob.Price} AMOUNT IS ON YOUR WAY`}</div>
+                    <span className="fas fa-tag m-r-xxs"></span>{`$${onGoingJob.Price} AMOUNT IS ON YOUR WAY`}</div>
                 <div class="col-md-12 col-md-offset-6">
                     <div class="type-p3">{(onGoingJob.AcceptedDelay > 0) ?
                         <span>

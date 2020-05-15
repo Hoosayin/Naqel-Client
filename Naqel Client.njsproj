@@ -1870,7 +1870,6 @@
     <Content Include="public\lib\jquery\LICENSE.txt" />
     <Content Include="README.md" />
     <Content Include="src\App.js" />
-    <Content Include="src\App.js.bak" />
     <Content Include="src\components\drivers\dashboard\DriversDashboard.js" />
     <Content Include="src\components\drivers\dashboard\jobs\completedJobs\CompletedJobPackageListItem.js" />
     <Content Include="src\components\drivers\dashboard\jobs\completedJobs\CompletedJobs.js" />
@@ -1944,6 +1943,7 @@
     <Content Include="src\components\traders\dashboard\jobs\jobOffers\JobOffersList.js" />
     <Content Include="src\components\traders\dashboard\jobs\jobOffers\AssignJobDialog.js" />
     <Content Include="src\components\traders\dashboard\jobs\jobOffers\TruckDialog.js" />
+    <Content Include="src\components\traders\dashboard\jobs\jobRequests\AssignJobDialog.js" />
     <Content Include="src\components\traders\dashboard\jobs\jobRequests\SendTraderRequestDialog.js" />
     <Content Include="src\components\traders\dashboard\jobs\jobRequests\JobRequestPostListItem.js" />
     <Content Include="src\components\traders\dashboard\jobs\jobRequests\JobRequests.js" />
@@ -1958,6 +1958,9 @@
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\objections\ReasonsList.js" />
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\OnGoingJob.js" />
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\OnGoingJobOptions.js" />
+    <Content Include="src\components\traders\dashboard\jobs\onGoingJob\ReviewDialog.js" />
+    <Content Include="src\components\traders\dashboard\payments\BillsList.js" />
+    <Content Include="src\components\traders\dashboard\payments\BillListItem.js" />
     <Content Include="src\components\traders\dashboard\payments\Payments.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\DocumentsList.js" />
     <Content Include="src\components\traders\dashboard\profile\documents\commercialRegisterCertificate\AddCommercialRegisterCertificateButton.js" />
@@ -1978,6 +1981,7 @@
     <Content Include="src\components\traders\dashboard\TradersDashboard.js" />
     <Content Include="src\components\traders\TraderFunctions.js" />
     <Content Include="src\components\register\AccountSetup.js" />
+    <Content Include="src\containers\bill\BillContainer.js" />
     <Content Include="src\containers\completedJob\CompletedJobContainer.js" />
     <Content Include="src\containers\driver\documents\DocumentsContainer.js" />
     <Content Include="src\containers\driver\documents\EntryExitCardContainer.js" />
@@ -2105,6 +2109,7 @@
     <Folder Include="src\containers\jobReqeust\" />
     <Folder Include="src\containers\jobOffer\" />
     <Folder Include="src\containers\completedJob\" />
+    <Folder Include="src\containers\bill\" />
     <Folder Include="src\containers\traderRequest\" />
     <Folder Include="src\containers\trader\" />
     <Folder Include="src\containers\trader\documents\" />

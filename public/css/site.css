@@ -39,6 +39,10 @@
     background: transparent;
 }
 
+.back-color-alt {
+    background-color: #333333;
+}
+
 .tabs-light {
     padding: 10px;
     background-color: #EFEFEF;

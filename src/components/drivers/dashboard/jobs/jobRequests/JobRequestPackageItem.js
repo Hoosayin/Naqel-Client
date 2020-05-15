@@ -37,7 +37,7 @@ class JobRequestPackageItem extends Component {
     }
 
     render() {
-        const jobRequest = this.props.JobRequestPackage.JobRequest;
+        const jobRequest = this.props.JobRequestPackage;
         const index = this.props.Index;
 
         return <section>

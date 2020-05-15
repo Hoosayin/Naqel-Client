@@ -13,10 +13,12 @@ class Objections extends Component {
             Searching: false,
         };
 
+        this.refresh = this.refresh.bind(this);
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
     async componentDidMount() {
+        this.props.Refresh(this.refresh);
         await this.onComponentUpdated();
     }
 
@@ -30,6 +32,10 @@ class Objections extends Component {
                 }
             };
 
+            this.setState({
+                Searching: true
+            });
+
             await getData(request).then(response => {
                 if (response.Message === "Job objection packages found.") {
                     this.setState({
@@ -41,6 +47,31 @@ class Objections extends Component {
                     this.setState({
                         JobObjectionPackages: [],
                         Searching: false
+                    });
+                }
+            });
+        }
+    };
+
+    refresh = async () => {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "JobObjectionPackages",
+                Params: {
+                    OnGoingJobID: this.props.OnGoingJobID
+                }
+            };
+
+            await getData(request).then(response => {
+                if (response.Message === "Job objection packages found.") {
+                    this.setState({
+                        JobObjectionPackages: response.JobObjectionPackages
+                    });
+                }
+                else {
+                    this.setState({
+                        JobObjectionPackages: []
                     });
                 }
             });

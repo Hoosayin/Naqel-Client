@@ -10,6 +10,11 @@ class JobOfferContainer extends Component {
         const jobOffer = this.props.JobOffer;
         const createdHoursAgo = Math.abs(new Date() - new Date(jobOffer.TimeCreated)) / 36e5;
 
+        let loadingDate = new Date(jobOffer.LoadingDate);
+        loadingDate.setHours((parseInt(jobOffer.LoadingTime.substring(0, 2))));
+        loadingDate.setMinutes(parseInt(jobOffer.LoadingTime.substring(3, 5)));
+        loadingDate.setSeconds(parseInt(jobOffer.LoadingTime.substring(6)));
+
        return <section>
            <div className="jumbotron theme-default">
                <div className="container">
@@ -98,7 +103,7 @@ class JobOfferContainer extends Component {
                                    </div>
                                    <div className="item-content-primary">
                                        <div className="content-text-primary">Loading Date</div>
-                                       <div className="content-text-secondary">{new Date(jobOffer.LoadingDate).toDateString()}</div>
+                                       <div className="content-text-secondary">{loadingDate.toDateString()}</div>
                                    </div>
                                </div>
                            </div>
@@ -109,7 +114,7 @@ class JobOfferContainer extends Component {
                                    </div>
                                    <div className="item-content-primary">
                                        <div className="content-text-primary">Loading Time</div>
-                                       <div className="content-text-secondary">{jobOffer.LoadingTime}</div>
+                                       <div className="content-text-secondary">{loadingDate.toTimeString()}</div>
                                    </div>
                                </div>
                            </div>
