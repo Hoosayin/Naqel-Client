@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TraderPayProofContainer from "../../../../containers/traderPayProof/TraderPayProofContainer";
+import PayProofContainer from "../../../../containers/payProof/PayProofContainer";
 import Preloader from "../../../../controls/Preloader";
 import { deleteTraderPayProof } from "../../TraderFunctions";
 
@@ -63,7 +63,7 @@ class PayProofDetails extends Component {
                         </div>
                     </div>
                 </div>}
-            <TraderPayProofContainer PayProof={payProof} />
+            <PayProofContainer PayProof={payProof} />
             {payProof.Approved ? 
                 null : 
                 <div className="text-right back-color-gray p-xxs">

@@ -62,7 +62,7 @@ class BillContainer extends Component {
                                         <div className="content-text-primary">Generated On</div>
                                         <div className="content-text-secondary">{new Date(bill.Created).toDateString()}</div>
                                         <div className="content-text-primary">Generated At</div>
-                                        <div className="content-text-secondary">{new Date(bill.Created).toTimeString()}</div>
+                                        <div className="content-text-secondary">{new Date(bill.Created).toLocaleTimeString()}</div>
                                     </div>
                                 </div>
                             </div>

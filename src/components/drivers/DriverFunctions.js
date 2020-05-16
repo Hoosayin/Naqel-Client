@@ -565,3 +565,26 @@ export const approveTraderPayProof = async approvedTraderPayProof => {
         return response.data;
     });
 };
+
+// POST: addDriverPayProof
+export const addDriverPayProof = newDriverPayProof => {
+    return axios.post(`${Strings.NAQEL_SERVER}drivers/addDriverPayProof`, {
+        DriverBillID: newDriverPayProof.DriverBillID,
+        PhotoURL: newDriverPayProof.PhotoURL
+    }, {
+        headers: { Authorization: `JWT ${newDriverPayProof.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: deleteDriverPayProof
+export const deleteDriverPayProof = async discardedDriverPayProof => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}traders/deleteDriverPayProof...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteDriverPayProof`, {
+        headers: { Authorization: `JWT ${discardedDriverPayProof.Token}` },
+        data: { DriverPayProofID: discardedDriverPayProof.DriverPayProofID }
+    }).then(response => {
+        return response.data;
+    });
+};

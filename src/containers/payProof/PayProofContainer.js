@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class TraderPayProofContainer extends Component {
+class PayProofContainer extends Component {
     constructor(props) {
         super(props);
     }
@@ -59,4 +59,4 @@ class TraderPayProofContainer extends Component {
     }
 };
 
-export default TraderPayProofContainer;
+export default PayProofContainer;

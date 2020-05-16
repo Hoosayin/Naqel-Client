@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import PayProofContainer from "../../../../../../containers/payProof/PayProofContainer";
-import Preloader from "../../../../../../controls/Preloader";
-import { approveTraderPayProof } from "../../../../DriverFunctions";
+import PayProofContainer from "../../../../containers/payProof/PayProofContainer";
+import Preloader from "../../../../controls/Preloader";
+import { deleteDriverPayProof } from "../../DriverFunctions";
 
 class PayProofDetails extends Component {
     constructor(props) {
@@ -11,10 +11,10 @@ class PayProofDetails extends Component {
             ShowPreloader: false
         };
 
-        this.onApprovePayment = this.onApprovePayment.bind(this);
+        this.onDelete = this.onDelete.bind(this);
     }
 
-    onApprovePayment = async () => {
+    onDelete = async () => {
         if (this.props.PayProof.Approved) {
             return;
         }
@@ -23,20 +23,20 @@ class PayProofDetails extends Component {
             ShowPreloader: true
         });
 
-        let approvedTraderPayProof = {
+        let discardedDriverPayProof = {
             Token: localStorage.Token,
-            TraderPayProofID: this.props.PayProof.TraderPayProofID
+            DriverPayProofID: this.props.PayProof.DriverPayProofID
         };
 
-        console.log(`Going to approve Trader pay proof.`);
+        console.log(`Going to delete driver pay proof.`);
 
-        await approveTraderPayProof(approvedTraderPayProof).then(response => {
-            if (response.Message === "Trader pay proof is approved.") {
+        await deleteDriverPayProof(discardedDriverPayProof).then(response => {
+            if (response.Message === "Driver pay proof is deleted.") {
                 this.setState({
                     ShowPreloader: false
                 });
 
-                this.props.OnPayProofApproved();
+                this.props.OnPayProofDeleted();
             }
             else {
                 this.setState({
@@ -53,21 +53,20 @@ class PayProofDetails extends Component {
         return <section>
             {payProof.Approved ?
                 null :
-                <div class="alert alert-info m-n p-n">
+                <div class="alert alert-danger m-n p-n">
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-24">
-                                <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>PENDING APPROVAL: The trader has updated this pay proof. Tap on the <span className="color-default">Approve</span> button, if you have received the payment.
-                                    Afterwards, you will have to pay our job dues from your <span className="color-default">Payments</span> section.</p>
+                                <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>PENDING APPROVAL: Naqel team will approve this proof.</p>
                             </div>
                         </div>
                     </div>
                 </div>}
             <PayProofContainer PayProof={payProof} />
-            {payProof.Approved ?
+            {payProof.Approved ? 
                 null : 
                 <div className="text-right back-color-gray p-xxs">
-                    <button className="btn btn-primary m-n" onClick={this.onApprovePayment}>Approve Payment</button>
+                    <button className="btn btn-danger m-n" onClick={this.onDelete}>Delete</button>
                 </div>}
             {showPreloader ? <Preloader /> : null}
         </section>;

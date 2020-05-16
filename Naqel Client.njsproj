@@ -1900,7 +1900,14 @@
     <Content Include="src\components\drivers\dashboard\jobs\onGoingJob\objectionsTab\Objections.js" />
     <Content Include="src\components\drivers\dashboard\jobs\onGoingJob\OnGoingJob.js" />
     <Content Include="src\components\drivers\dashboard\jobs\onGoingJob\OnGoingJobOptions.js" />
+    <Content Include="src\components\drivers\dashboard\payments\AddPayProofDialog.js" />
+    <Content Include="src\components\drivers\dashboard\payments\Bill.js" />
+    <Content Include="src\components\drivers\dashboard\payments\BillListItem.js" />
+    <Content Include="src\components\drivers\dashboard\payments\BillsList.js" />
+    <Content Include="src\components\drivers\dashboard\payments\PaymentDetails.js" />
     <Content Include="src\components\drivers\dashboard\payments\Payments.js" />
+    <Content Include="src\components\drivers\dashboard\payments\PayProofDetails.js" />
+    <Content Include="src\components\drivers\dashboard\payments\PrintBillDialog.js" />
     <Content Include="src\components\drivers\dashboard\permits\AddPermitLicenceDialog.js" />
     <Content Include="src\components\drivers\dashboard\permits\EditPermitLicenceDialog.js" />
     <Content Include="src\components\drivers\dashboard\permits\PermitLicencesList.js" />
@@ -2006,7 +2013,7 @@
     <Content Include="src\containers\onGoingJob\JobContainer.js" />
     <Content Include="src\containers\onGoingJob\JobObjectionContainer.js" />
     <Content Include="src\containers\searching\SearchingContainer.js" />
-    <Content Include="src\containers\traderPayProof\TraderPayProofContainer.js" />
+    <Content Include="src\containers\payProof\PayProofContainer.js" />
     <Content Include="src\containers\traderRequest\TraderRequestContainer.js" />
     <Content Include="src\containers\trader\documents\DocumentsContainer.js" />
     <Content Include="src\containers\trader\documents\DocumentsDialog.js" />
@@ -2122,7 +2129,7 @@
     <Folder Include="src\containers\jobOffer\" />
     <Folder Include="src\containers\completedJob\" />
     <Folder Include="src\containers\bill\" />
-    <Folder Include="src\containers\traderPayProof\" />
+    <Folder Include="src\containers\payProof\" />
     <Folder Include="src\containers\traderRequest\" />
     <Folder Include="src\containers\trader\" />
     <Folder Include="src\containers\trader\documents\" />
