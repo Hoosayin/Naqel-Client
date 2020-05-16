@@ -401,3 +401,26 @@ export const deleteOnGoingJob = async discardedOnGoingJob => {
         return response.data;
     });
 };
+
+// POST: addTraderPayProof
+export const addTraderPayProof = newTraderPayProof => {
+    return axios.post(`${Strings.NAQEL_SERVER}traders/addTraderPayProof`, {
+        TraderBillID: newTraderPayProof.TraderBillID,
+        PhotoURL: newTraderPayProof.PhotoURL
+    }, {
+        headers: { Authorization: `JWT ${newTraderPayProof.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: deleteTraderPayProof
+export const deleteTraderPayProof = async discardedTraderPayProof => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}traders/deleteTraderPayProof...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}traders/deleteTraderPayProof`, {
+        headers: { Authorization: `JWT ${discardedTraderPayProof.Token}` },
+        data: { TraderPayProofID: discardedTraderPayProof.TraderPayProofID }
+    }).then(response => {
+        return response.data;
+    });
+};

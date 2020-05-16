@@ -57,7 +57,7 @@ class JobRequestPackageItem extends Component {
                 CanEdit={() => { return this.state.NumberOfRequests === 0 ? true : false }}
                 OnOK={() => { this.props.OnJobRequestUpdated(); }} />
 
-            <div data-toggle="collapse" aria-expanded="false" data-target={`#job-request-package-${index}`}
+            <div className="back-color-gray" data-toggle="collapse" aria-expanded="false" data-target={`#job-request-package-${index}`}
                 onMouseDown={async () => { await this.RefreshTraderRequestsTable(); }}>
                 <div className="type-h4 text-right color-default p-xxxs">
                     <span class="badge back-color-danger m-r-xxs">{this.state.NumberOfRequests}</span>Trader Requests

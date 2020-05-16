@@ -58,11 +58,11 @@ class JobOfferPackageItem extends Component {
                 CanEdit={() => { return (this.state.NumberOfRequests === 0) ? true : false }}
                 OnOK={() => { this.props.OnJobOfferUpdated(); }} />
 
-            <div data-toggle="collapse" aria-expanded="false"
+            <div className="back-color-gray" data-toggle="collapse" aria-expanded="false"
                 data-target={`#job-offer-package-${index}`}
                 onMouseDown={async () => { await this.RefreshDriverRequestsTable(); }}>
 
-                <div className="type-h4 text-right color-default p-xxs">
+                <div className="type-h4 text-right color-default p-xxxs">
                     <span class="badge back-color-danger m-r-xxxs">{this.state.NumberOfRequests}</span>
                     {(jobOffer.JobOfferType === "Fixed-Price") ? "Driver Requests" : "Driver Bids"}
                     <i className="fas fa-ellipsis-v"></i>

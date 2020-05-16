@@ -168,7 +168,22 @@ class CompletedJobsList extends Component {
                 <ol className="list-items" style={{ margin: "0px" }}>
                     {completedJobPackages.map((completedJobPackage, index) => {
                         return <CompletedJobPackageListItem key={index}
-                            Index={index} CompletedJobPackage={completedJobPackage} />;
+                            Index={index}
+                            CompletedJobPackage={completedJobPackage}
+                            OnPayProofApproved={completedJobPackage => {
+                                let completedJobPackages = this.state.CompletedJobPackages;
+
+                                for (let completedJobPackageItem of completedJobPackages) {
+                                    if (completedJobPackageItem === completedJobPackage) {
+                                        completedJobPackageItem.BillPaid = true;
+                                        break;
+                                    }
+                                }
+
+                                this.setState({
+                                    CompletedJobPackages: completedJobPackages
+                                });
+                            }} />;
                     })}
                 </ol>}
         </section>;

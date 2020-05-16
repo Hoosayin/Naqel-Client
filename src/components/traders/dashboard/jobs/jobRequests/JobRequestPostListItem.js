@@ -163,7 +163,7 @@ class JobRequestPostListItem extends Component {
                     null}
 
                 <div className="back-color-gray" data-toggle="collapse" aria-expanded="false" data-target={`#job-request-post-${index}`}>
-                    <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>
+                    <div className="type-h4 color-default text-right p-xxxs">
                         {"   More Details"} <i className="fas fa-ellipsis-v"></i>
                         <i class="glyph glyph-add"></i>
                         <i class="glyph glyph-remove"></i>

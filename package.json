@@ -20,6 +20,7 @@
     "react-google-maps": "^9.4.5",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
+    "react-to-print": "^2.7.0",
     "uuid-v4": "^0.1.0"
   },
   "scripts": {

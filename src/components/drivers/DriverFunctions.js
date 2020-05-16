@@ -553,3 +553,15 @@ export const deleteOnGoingJob = async discardedOnGoingJob => {
         return response.data;
     });
 };
+
+// POST: approveTraderPayProof
+export const approveTraderPayProof = async approvedTraderPayProof => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/approveTraderPayProof...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/approveTraderPayProof`, {
+        TraderPayProofID: approvedTraderPayProof.TraderPayProofID
+    }, {
+        headers: { Authorization: `JWT ${approvedTraderPayProof.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};

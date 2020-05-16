@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import Profile from "./profile/Profile";
 import Truck from "./trucks/Truck";
 import Permits from "./permits/Permits";
-import FinancialAffairs from "./financial_affairs/FinancialAffairs";
+import Earnings from "./earnings/Earnings";
 import Jobs from "./jobs/Jobs";
 import Payments from "./payments/Payments";
 import Settings from "./settings/Settings";
@@ -45,10 +45,13 @@ class DriversDashboard extends Component {
                             <a href="#permits" aria-controls="permits" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Permits</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
-                            <a href="#financialAffairs" aria-controls="financialAffairs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Financial Affairs</a>
+                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
-                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
+                            <a href="#earnings" aria-controls="earnings" role="tab" data-toggle="tab" onClick={async () => {
+                                this.onCloseNavigation();
+                                await this.RefreshEarnings();
+                            }}>Earnings</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
                             <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Payments</a>
@@ -68,8 +71,8 @@ class DriversDashboard extends Component {
                     <div role="tabpanel" className="tab-pane" id="permits">
                         <Permits />
                     </div>
-                    <div role="tabpanel" className="tab-pane" id="financialAffairs">
-                        <FinancialAffairs />
+                    <div role="tabpanel" className="tab-pane" id="earnings">
+                        <Earnings Refresh={refresh => { this.RefreshEarnings = refresh; }} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="jobs">
                         <Jobs />

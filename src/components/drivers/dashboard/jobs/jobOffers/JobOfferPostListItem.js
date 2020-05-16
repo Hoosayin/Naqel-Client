@@ -179,7 +179,7 @@ class JobOfferPostsList extends Component {
                 </div>
 
                 <div className="back-color-gray" data-toggle="collapse" aria-expanded="false" data-target={`#job-offer-post-${index}`}>
-                    <div className="type-h4 text-right color-default p-xxs">
+                    <div className="type-h4 text-right color-default p-xxxs">
                         {"   More Details"} <i className="fas fa-ellipsis-v"></i>
                         <i class="glyph glyph-add"></i>
                         <i class="glyph glyph-remove"></i>
