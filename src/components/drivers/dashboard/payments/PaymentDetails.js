@@ -86,10 +86,7 @@ class PaymentDetails extends Component {
                 SearchingFor="payment details" />;
         }
         else {
-            const jobNumber = this.props.JobNumber;
-
             return <PayProofDetails PayProof={paymentDetails.PayProof}
-                JobNumber={jobNumber}
                 OnPayProofDeleted={this.props.OnPayProofDeleted} />;
         }
     }

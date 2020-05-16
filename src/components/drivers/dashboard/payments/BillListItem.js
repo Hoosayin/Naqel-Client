@@ -44,7 +44,6 @@ class BillListItem extends Component {
             <div className="collapse" id={`bill-${index}`}>
                 <PaymentDetails Refresh={refresh => { this.RefreshPaymentDetails = refresh; }}
                     DriverBillID={bill.DriverBillID}
-                    JobNumber={bill.JobNumber}
                     OnPayProofDeleted={async () => {
                         this.props.OnPayProofUpdated(bill, false);
                         await this.RefreshPaymentDetails();
