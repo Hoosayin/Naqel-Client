@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { ElementsConsumer } from '@stripe/react-stripe-js'
 import BillContainer from "../../../../containers/bill/BillContainer";
 import PrintBillDialog from "./PrintBillDialog";
 import AddPayProofDialog from "./AddPayProofDialog";
 import PaymentDetails from "./PaymentDetails";
+import PayOnlineDialog from "./PayOnlineDialog";
 
 class BillListItem extends Component {
     constructor(props) {
@@ -23,10 +25,12 @@ class BillListItem extends Component {
 
                 {bill.HasPayProof ?
                     null :
-                    <button className="btn btn-primary">Pay Online</button>}
+                    <button className="btn btn-primary"
+                        data-toggle="modal"
+                        data-target={`#pay-online-dialog-${index}`}>Pay Online</button>}
 
                 {bill.HasPayProof ?
-                    null : 
+                    null :
                     <button className="btn btn-primary"
                         data-toggle="modal"
                         data-target={`#add-pay-proof-dialog-${index}`}>Upload Pay Proof</button>}
@@ -59,6 +63,13 @@ class BillListItem extends Component {
                     this.props.OnPayProofUpdated(bill, true);
                     await this.RefreshPaymentDetails();
                 }} />
+            <ElementsConsumer>
+                {({ elements, stripe }) => (
+                    <PayOnlineDialog Index={index}
+                        Bill={bill}
+                        Elements={elements}
+                        Stripe={stripe} />)}
+            </ElementsConsumer>
         </li>;
     }
 };

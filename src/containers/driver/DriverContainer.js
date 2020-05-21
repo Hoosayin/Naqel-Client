@@ -3,7 +3,7 @@ import UUID from "uuid-v4";
 import Rating from "../../controls/Rating";
 import SearchingContainer from "../searching/SearchingContainer";
 import DocumentsDialog from "./documents/DocumentsDialog";
-import { getData } from "../../components/traders/TraderFunctions";
+import { getPublicData } from "../../components/shared/UserFunctions";
 
 class DriverContainer extends Component {
     constructor(props) {
@@ -31,14 +31,13 @@ class DriverContainer extends Component {
             });
 
             let request = {
-                Token: localStorage.Token,
                 Get: "DriverProfile",
                 Params: {
                     DriverID: this.props.DriverID
                 }
             };
 
-            await getData(request).then(response => {
+            await getPublicData(request).then(response => {
                 if (response.Message === "Driver profile found.") {
                     this.setState({
                         DriverProfile: response.DriverProfile,
@@ -59,14 +58,13 @@ class DriverContainer extends Component {
         if (localStorage.Token) {
 
             let request = {
-                Token: localStorage.Token,
                 Get: "DriverProfile",
                 Params: {
                     DriverID: this.props.DriverID
                 }
             };
 
-            await getData(request).then(response => {
+            await getPublicData(request).then(response => {
                 if (response.Message === "Driver profile found.") {
                     this.setState({
                         DriverProfile: response.DriverProfile

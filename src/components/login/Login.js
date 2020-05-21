@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { loginDriver } from "../drivers/DriverFunctions";
 import { loginTrader } from "../traders/TraderFunctions";
+import { loginAdministrator } from "../administrators/AdministratorFunctions";
 import Preloader from "../../controls/Preloader";
 
 import {
@@ -26,6 +27,7 @@ class Login extends Component {
             ValidForm: false,
             LoggedInAsDriver: false,
             LoggedInAsTrader: false,
+            LoggedInAsAdministrator: false,
             LoginError: null,
 
             Errors: {
@@ -118,6 +120,27 @@ class Login extends Component {
                 }
             });
         }
+        else if (this.state.SignInAs === "Administrator") {
+            await loginAdministrator(user).then(response => {
+                if (response.Message === "Login successful.") {
+                    localStorage.setItem("Token", response.Token);
+
+                    this.setState({
+                        LoggedInAsAdministrator: true,
+                        Preloader: null
+                    });
+                }
+                else {
+                    this.setState({
+                        LoginError: <div>
+                            <label className="control-label text-danger">{response.Message}</label>
+                            <br />
+                        </div>,
+                        Preloader: null,
+                    });
+                }
+            });
+        }
         else {
             console.log("Logging in as Trader or Broker...");
 
@@ -149,6 +172,9 @@ class Login extends Component {
         }
         else if (this.state.LoggedInAsTrader) {
             return <Redirect to={"/traders"} />;
+        }
+        else if (this.state.LoggedInAsAdministrator) {
+            return <Redirect to={"/administrators"} />;
         }
         else {
             return <div>
@@ -183,6 +209,7 @@ class Login extends Component {
                                             <li><Link onClick={e => { this.state.SignInAs = "Driver" }} onChange={this.onChange}>Driver</Link></li>
                                             <li><Link onClick={e => { this.state.SignInAs = "Trader" }} onChange={this.onChange}>Trader</Link></li>
                                             <li><Link onClick={e => { this.state.SignInAs = "Broker" }} onChange={this.onChange}>Broker</Link></li>
+                                            <li><Link onClick={e => { this.state.SignInAs = "Administrator" }} onChange={this.onChange}>Administrator</Link></li>
                                         </ul>
                                     </div>
                                 </div>

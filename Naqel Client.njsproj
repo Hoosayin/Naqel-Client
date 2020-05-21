@@ -1870,6 +1870,20 @@
     <Content Include="public\lib\jquery\LICENSE.txt" />
     <Content Include="README.md" />
     <Content Include="src\App.js" />
+    <Content Include="src\components\administrators\AdministratorFunctions.js" />
+    <Content Include="src\components\administrators\dashboard\AdministratorsDashboard.js" />
+    <Content Include="src\components\administrators\dashboard\Drivers\UnblockAccountDialog.js" />
+    <Content Include="src\components\administrators\dashboard\Drivers\DriverListItem.js" />
+    <Content Include="src\components\administrators\dashboard\Drivers\Drivers.js" />
+    <Content Include="src\components\administrators\dashboard\Drivers\DriversList.js" />
+    <Content Include="src\components\administrators\dashboard\Drivers\BlockAccountDialog.js" />
+    <Content Include="src\components\administrators\dashboard\profile\Profile.js" />
+    <Content Include="src\components\administrators\dashboard\profile\ProfilePhoto.js" />
+    <Content Include="src\components\administrators\dashboard\profile\settings\CodeConfirmationDialog.js" />
+    <Content Include="src\components\administrators\dashboard\profile\settings\GeneralSettings.js" />
+    <Content Include="src\components\administrators\dashboard\profile\settings\PasswordSettings.js" />
+    <Content Include="src\components\administrators\dashboard\profile\settings\Settings.js" />
+    <Content Include="src\components\administrators\dashboard\profile\settings\UsernameAndEmailSettings.js" />
     <Content Include="src\components\drivers\dashboard\DriversDashboard.js" />
     <Content Include="src\components\drivers\dashboard\earnings\EarningListItem.js" />
     <Content Include="src\components\drivers\dashboard\earnings\EarningsList.js" />
@@ -1941,6 +1955,8 @@
     <Content Include="src\components\drivers\dashboard\trucks\Truck.js" />
     <Content Include="src\components\drivers\dashboard\trucks\TruckSettings.js" />
     <Content Include="src\components\drivers\DriverFunctions.js" />
+    <Content Include="src\components\register\SetupAdministratorAccount.js" />
+    <Content Include="src\components\shared\UserFunctions.js" />
     <Content Include="src\components\traders\dashboard\jobs\completedJobs\ReviewDialog.js" />
     <Content Include="src\components\traders\dashboard\jobs\completedJobs\CompletedJobs.js" />
     <Content Include="src\components\traders\dashboard\jobs\completedJobs\CompletedJobsList.js" />
@@ -1974,6 +1990,7 @@
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\ReviewDialog.js" />
     <Content Include="src\components\traders\dashboard\payments\Bill.js" />
     <Content Include="src\components\traders\dashboard\payments\AddPayProofDialog.js" />
+    <Content Include="src\components\traders\dashboard\payments\PayOnlineDialog.js" />
     <Content Include="src\components\traders\dashboard\payments\PayProofDetails.js" />
     <Content Include="src\components\traders\dashboard\payments\PaymentDetails.js" />
     <Content Include="src\components\traders\dashboard\payments\PrintBillDialog.js" />
@@ -2083,6 +2100,10 @@
     <Folder Include="public\lib\jquery\dist\" />
     <Folder Include="src\" />
     <Folder Include="src\components\" />
+    <Folder Include="src\components\administrators\dashboard\" />
+    <Folder Include="src\components\administrators\dashboard\Drivers\" />
+    <Folder Include="src\components\administrators\dashboard\profile\" />
+    <Folder Include="src\components\administrators\dashboard\profile\settings\" />
     <Folder Include="src\components\drivers\" />
     <Folder Include="src\components\drivers\dashboard\" />
     <Folder Include="src\components\drivers\dashboard\" />
@@ -2104,6 +2125,7 @@
     <Folder Include="src\components\drivers\dashboard\settings\" />
     <Folder Include="src\components\drivers\dashboard\trucks\" />
     <Folder Include="src\components\drivers\dashboard\trucks\trailers\" />
+    <Folder Include="src\components\administrators\" />
     <Folder Include="src\components\traders\" />
     <Folder Include="src\components\traders\dashboard\" />
     <Folder Include="src\components\traders\dashboard\jobs\" />

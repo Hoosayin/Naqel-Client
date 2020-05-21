@@ -43,9 +43,8 @@ class PayProofContainer extends Component {
                                             </div>
                                             <div className="item-content-primary">
                                                 <div className="content-text-primary">Uploaded On</div>
-                                                <div className="content-text-secondary">{new Date(payProof.Created).toDateString()}</div>
-                                                <div className="content-text-primary">At</div>
-                                                <div className="content-text-secondary">{new Date(payProof.Created).toTimeString()}</div>
+                                                <div className="content-text-secondary">{`DATE: ${new Date(payProof.Created).toDateString()}`}</div>
+                                                <div className="content-text-secondary">{`TIME: ${new Date(payProof.Created).toLocaleTimeString()}`}</div>
                                             </div>
                                         </div>
                                     </div>

@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Profile from "./profile/Profile";
-import Truck from "./trucks/Truck";
-import Permits from "./permits/Permits";
-import Earnings from "./earnings/Earnings";
-import Jobs from "./jobs/Jobs";
-import Payments from "./payments/Payments";
-import Settings from "./settings/Settings";
+import Drivers from "./Drivers/Drivers";
 
-class DriversDashboard extends Component {
+class AdministratorsDashboard extends Component {
     constructor(props) {
         super(props);
 
@@ -30,34 +25,33 @@ class DriversDashboard extends Component {
             return <Redirect to={"/login"} />;
         }
         else {
-            return <section>  
+            return <section>
                 <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
                     <a className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
 
                     <div class="entity-list" role="tablist">
                         <div class="entity-list-item" role="presentation">
-                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Profile</a>                           
+                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Profile</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
-                            <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Trucks</a>
+                            <a href="#drivers" aria-controls="drivers" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Drivers</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
-                            <a href="#permits" aria-controls="permits" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Permits</a>
+                            <a href="#traders" aria-controls="traders" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Traders</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
-                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
+                            <a href="#objectionable-jobs" aria-controls="objectionable-jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Objectionable Jobs</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
-                            <a href="#earnings" aria-controls="earnings" role="tab" data-toggle="tab" onClick={async () => {
+                            <a href="#requests" aria-controls="request" role="tab" data-toggle="tab" onClick={() => {
                                 this.onCloseNavigation();
-                                await this.RefreshEarnings();
-                            }}>Earnings</a>
+                            }}>Requests</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
-                            <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Payments</a>
+                            <a href="#fee-rates" aria-controls="fee-rates" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Fee Rates</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
-                            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Settings</a>
+                            <a href="#financial-accounts" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Financial Accounts</a>
                         </div>
                     </div>
                 </div>
@@ -66,26 +60,21 @@ class DriversDashboard extends Component {
                     <div role="tabpanel" className="tab-pane active" id="profile">
                         <Profile />
                     </div>
-                    <div role="tabpanel" className="tab-pane" id="trucks">
-                        <Truck />
+                    <div role="tabpanel" className="tab-pane" id="drivers">
+                        <Drivers />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="permits">
-                        <Permits />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="earnings">
-                        <Earnings Refresh={refresh => { this.RefreshEarnings = refresh; }} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="jobs">
-                        <Jobs />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="payments">
-                        <Payments />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="settings">
-                        <Settings />
                     </div>
                 </div>
-                
+
                 <div className="side-nav-btn" onClick={() => {
                     this.setState({
                         Left: 0
@@ -97,4 +86,4 @@ class DriversDashboard extends Component {
     }
 }
 
-export default DriversDashboard;
+export default AdministratorsDashboard;

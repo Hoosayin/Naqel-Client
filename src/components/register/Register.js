@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { registerDriver } from "../drivers/DriverFunctions";
-import { registerTrader } from "../traders/TraderFunctions"
+import { registerTrader } from "../traders/TraderFunctions";
+import { registerAdministrator } from "../administrators/AdministratorFunctions";
 import Strings from "../../res/strings";
 import { Required } from "../../styles/MiscellaneousStyles";
 
@@ -145,6 +146,20 @@ class Register extends Component {
                 }
             });
         }
+        else {
+            await registerAdministrator(newCredentials).then(response => {
+                if (response.Message === "Token received.") {
+                    localStorage.setItem("newCredentialsToken", response.Token);
+                    this.props.history.push("/emailConfirmation");
+                }
+                else {
+                    this.setState({
+                        NullError: false,
+                        UsernameOrEmailTaken: true,
+                    });
+                }
+            });
+        }
     }
 
     render() {
@@ -196,6 +211,7 @@ class Register extends Component {
                                             <li><Link onClick={e => { this.state.RegisterAs = "Driver" }} onChange={this.onChange}>Driver</Link></li>
                                             <li><Link onClick={e => { this.state.RegisterAs = "Trader" }} onChange={this.onChange}>Trader</Link></li>
                                             <li><Link onClick={e => { this.state.RegisterAs = "Broker" }} onChange={this.onChange}>Broker</Link></li>
+                                            <li><Link onClick={e => { this.state.RegisterAs = "Administrator" }} onChange={this.onChange}>Administrator</Link></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -240,7 +256,7 @@ class Register extends Component {
 
                 <div class="modal" id="terms" tabindex="-1" role="dialog" aria-labelledby="modal-sample-label" aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content animated fadeIn">
+                        <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="modal-sample-label">Terms of Use</h4>
                             </div>

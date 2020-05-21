@@ -62,6 +62,16 @@ export const getData = async request => {
     });
 };
 
+// GET: GetPublicData
+export const getPublicData = async request => {
+    console.log(`Sending GET request to ${Strings.NAQEL_SERVER}users/get${request.Get}...`);
+    return await axios.get(`${Strings.NAQEL_SERVER}users/get${request.Get}`, {
+        params: request.Params
+    }).then(response => {
+        return response.data;
+    });
+};
+
 // POST: UploadDriverProfilePhoto
 export const uploadTraderProfilePhoto = async traderProfilePhoto => {
     return await axios.post(`${Strings.NAQEL_SERVER}traders/uploadTraderProfilePhoto`, {
@@ -420,6 +430,17 @@ export const deleteTraderPayProof = async discardedTraderPayProof => {
     return await axios.delete(`${Strings.NAQEL_SERVER}traders/deleteTraderPayProof`, {
         headers: { Authorization: `JWT ${discardedTraderPayProof.Token}` },
         data: { TraderPayProofID: discardedTraderPayProof.TraderPayProofID }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: getClientSecret
+export const getClientSecret = newClientSecret => {
+    return axios.post(`${Strings.NAQEL_SERVER}traders/getClientSecret`, {
+        Amount: newClientSecret.Amount
+    }, {
+        headers: { Authorization: `JWT ${newClientSecret.Token}` }
     }).then(response => {
         return response.data;
     });

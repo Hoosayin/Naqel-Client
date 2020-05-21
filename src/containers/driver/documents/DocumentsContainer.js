@@ -1,5 +1,6 @@
+/// <reference path=".js" />
 import React, { Component } from "react";
-import { getData } from "../../../components/traders/TraderFunctions";
+import { getPublicData } from "../../../components/shared/UserFunctions";
 import SearchingContainer from "../../searching/SearchingContainer"; 
 import DrivingLicenceContainer from "./DrivingLicenceContainer";
 import EntryExitCardContianer from "./EntryExitCardContainer";
@@ -31,14 +32,13 @@ class DocumentsContainer extends Component {
             });
 
             let request = {
-                Token: localStorage.Token,
                 Get: "DriverDocuments",
                 Params: {
                     DriverID: this.props.DriverID
                 }
             };
 
-            await getData(request).then(response => {
+            await getPublicData(request).then(response => {
                 if (response.Message === "Driver documents found.") {
                     this.setState({
                         DriverDocuments: response.DriverDocuments,
@@ -59,14 +59,13 @@ class DocumentsContainer extends Component {
         if (localStorage.Token) {
 
             let request = {
-                Token: localStorage.Token,
                 Get: "DriverDocuments",
                 Params: {
                     DriverID: this.props.DriverID
                 }
             };
 
-            await getData(request).then(response => {
+            await getPublicData(request).then(response => {
                 if (response.Message === "Driver documents found.") {
                     this.setState({
                         DriverDocuments: response.DriverDocuments

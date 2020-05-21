@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import UUID from "uuid-v4";
 import SearchingContainer from "../searching/SearchingContainer";
 import TrailersDialog from "./TrailersDialog";
-import { getData } from "../../components/traders/TraderFunctions";
+import { getPublicData } from "../../components/shared/UserFunctions";
 
 class TruckContainer extends Component {
     constructor(props) {
@@ -30,14 +30,13 @@ class TruckContainer extends Component {
             });
 
             let request = {
-                Token: localStorage.Token,
                 Get: "TruckProfile",
                 Params: {
                     DriverID: this.props.DriverID
                 }
             };
 
-            await getData(request).then(response => {
+            await getPublicData(request).then(response => {
                 if (response.Message === "Truck profile found.") {
 
                     if (this.props.OnTrailersFound) {
@@ -63,14 +62,13 @@ class TruckContainer extends Component {
         if (localStorage.Token) {
 
             let request = {
-                Token: localStorage.Token,
                 Get: "TruckProfile",
                 Params: {
                     DriverID: this.props.DriverID
                 }
             };
 
-            await getData(request).then(response => {
+            await getPublicData(request).then(response => {
                 if (response.Message === "Truck profile found.") {
 
                     if (this.props.OnTrailersFound) {
