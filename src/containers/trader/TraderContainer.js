@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import UUID from "uuid-v4";
 import SearchingContainer from "../searching/SearchingContainer";
 import DocumentsDialog from "./documents/DocumentsDialog";
-import { getData } from "../../components/drivers/DriverFunctions";
+import { getPublicData } from "../../components/shared/UserFunctions";
 
 class TraderContainer extends Component {
     constructor(props) {
@@ -32,14 +32,13 @@ class TraderContainer extends Component {
             });
 
             let request = {
-                Token: localStorage.Token,
                 Get: "TraderProfile",
                 Params: {
                     TraderID: this.props.TraderID
                 }
             };
 
-            await getData(request).then(response => {
+            await getPublicData(request).then(response => {
                 if (response.Message === "Trader profile found.") {
                     this.setState({
                         TraderProfile: response.TraderProfile,
@@ -59,14 +58,13 @@ class TraderContainer extends Component {
     refresh = async () => {
         if (localStorage.Token) {
             let request = {
-                Token: localStorage.Token,
                 Get: "TraderProfile",
                 Params: {
                     TraderID: this.props.TraderID
                 }
             };
 
-            await getData(request).then(response => {
+            await getPublicData(request).then(response => {
                 if (response.Message === "Trader profile found.") {
                     this.setState({
                         TraderProfile: response.TraderProfile

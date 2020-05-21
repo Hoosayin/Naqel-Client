@@ -1,5 +1,6 @@
 import axios from "axios";
 import Strings from "../../res/strings";
+import TraderObjectionReasons from "./dashboard/jobs/objectionReasons/traderObjectionReasons/TraderObjectionReasons";
 
 // POST: Register
 export const registerAdministrator = async newCredentials => {
@@ -181,6 +182,100 @@ export const unblockDriverAccount = async unblockedDriver => {
         DriverID: unblockedDriver.DriverID,
     }, {
         headers: { Authorization: `JWT ${unblockedDriver.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: SetRefundRate
+export const setRefundRate = async traderRefundRate => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/setRefundRate...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/setRefundRate`, {
+        TraderID: traderRefundRate.TraderID,
+        RefundRate: traderRefundRate.RefundRate
+    }, {
+        headers: { Authorization: `JWT ${traderRefundRate.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: AddTraderObjectionReason
+export const addTraderObjectionReason = async newTraderObjectionReason => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/addTraderObjectionReason...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/addTraderObjectionReason`, {
+        Reason: newTraderObjectionReason.Reason
+    }, {
+        headers: { Authorization: `JWT ${newTraderObjectionReason.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: DeleteTraderObjectionReason
+export const deleteTraderObjectionReason = async discardedTraderObjectionReason => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}administrators/deleteTraderObjectionReason...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}administrators/deleteTraderObjectionReason`, {
+        headers: { Authorization: `JWT ${discardedTraderObjectionReason.Token}` },
+        data: { DriverObjectionReasonID: discardedTraderObjectionReason.DriverObjectionReasonID }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: verifyTraderObjectionReason
+export const verifyTraderObjectionReason = async verifiedTraderObjectionReason => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/verifyTraderObjectionReason...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/verifyTraderObjectionReason`, {
+        DriverObjectionReasonID: verifiedTraderObjectionReason.DriverObjectionReasonID
+    }, {
+        headers: { Authorization: `JWT ${verifiedTraderObjectionReason.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: AddDriverObjectionReason
+export const addDriverObjectionReason = async newDriverObjectionReason => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/addDriverObjectionReason...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/addDriverObjectionReason`, {
+        Reason: newDriverObjectionReason.Reason
+    }, {
+        headers: { Authorization: `JWT ${newDriverObjectionReason.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: DeleteDriverObjectionReason
+export const deleteDriverObjectionReason = async discardedDriverObjectionReason => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}administrators/deleteDriverObjectionReason...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}administrators/deleteDriverObjectionReason`, {
+        headers: { Authorization: `JWT ${discardedDriverObjectionReason.Token}` },
+        data: { DriverObjectionReasonID: discardedDriverObjectionReason.DriverObjectionReasonID }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: verifyDriverObjectionReason
+export const verifyDriverObjectionReason = async verifiedDriverObjectionReason => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/verifyDriverObjectionReason...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/verifyDriverObjectionReason`, {
+        DriverObjectionReasonID: verifiedDriverObjectionReason.DriverObjectionReasonID
+    }, {
+        headers: { Authorization: `JWT ${verifiedDriverObjectionReason.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: DiscardObjectionableJob
+export const discardObjectionableJob = async discardedObjectionableJob => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}administrators/discardObjectionableJob...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}administrators/discardObjectionableJob`, {
+        headers: { Authorization: `JWT ${discardedObjectionableJob.Token}` },
+        data: { OnGoingJobID: discardedObjectionableJob.OnGoingJobID }
     }).then(response => {
         return response.data;
     });

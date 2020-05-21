@@ -1,61 +1,30 @@
 import React, { Component } from "react";
 import FinishJobDialog from "./FinishJobDialog";
-import Preloader from "../../../../../controls/Preloader";
-import { deleteOnGoingJob } from "../../../DriverFunctions";
 
 class OnGoingJobOptions extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            ShowPreloader: false
-        };
     }
-
-    onDiscard = async () => {
-        this.setState({
-            ShowPreloader: true
-        });
-
-        const discardedOnGoingJob = {
-            Token: localStorage.Token
-        }
-
-        console.log("Going to discard the job...");
-
-        await deleteOnGoingJob(discardedOnGoingJob).then(async response => {
-            if (response.Message === "On-going job deleted.") {
-                this.setState({
-                    ShowPreloader: false
-                });
-
-                await this.props.OnJobRemoved();
-            }
-            else {
-                this.setState({
-                    ShowPreloader: false
-                });
-            }
-        });
-    };
 
     render() {
         const hasObjections = this.props.HasObjections;
         const completedByDriver = this.props.CompletedByDriver;
         const completedByTrader = this.props.CompletedByTrader;
-        const showPreloader = this.state.ShowPreloader;
 
         return hasObjections ?
             <section>
-                {showPreloader ? <Preloader /> : null}
                 <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333" }}>
                     <div className="container">
-                        <div className="col-md-24">
-                            <div className="type-h3 color-default p-t-n">Discard the Job?</div>
-                            <div className="type-sh4">This action cannot be undone! All job details will be removed. Are you sure you want to discard the job?</div>
-                        </div>
-                        <div className="text-right">
-                            <button className="btn btn-danger" onClick={this.onDiscard}>Discard</button>
+                        <div className="entity-list theme-alt">
+                            <div className="entity-list-item">
+                                <div className="item-icon">
+                                    <span className="fas fa-exclamation-circle"></span>
+                                </div>
+                                <div className="item-content-primary">
+                                    <div className="content-text-primary">Objectionable Job</div>
+                                    <div className="content-text-secondary">Since your job has got objections, Naqel team will review them, and consequently take any suitable actions!</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

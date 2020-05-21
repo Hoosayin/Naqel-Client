@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import IdentityCardContainer from "./IdentityCardContainer";
 import CommercialRegisterCertificateContainer from "./CommercialRegisterCertificateContainer";
 import SearchingContainer from "../../searching/SearchingContainer";
-import { getData } from "../../../components/drivers/DriverFunctions";
+import { getPublicData } from "../../../components/shared/UserFunctions";
 
 class DocumentsDialog extends Component {
     constructor(props) {
@@ -28,14 +28,13 @@ class DocumentsDialog extends Component {
             });
 
             let request = {
-                Token: localStorage.Token,
                 Get: "TraderDocuments",
                 Params: {
                     TraderID: this.props.TraderID
                 }
             };
 
-            await getData(request).then(response => {
+            await getPublicData(request).then(response => {
                 if (response.Message === "Trader documents found.") {
                     this.setState({
                         TraderDocuments: response.TraderDocuments,

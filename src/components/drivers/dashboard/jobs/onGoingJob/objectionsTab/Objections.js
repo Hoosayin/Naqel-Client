@@ -9,7 +9,7 @@ class Objections extends Component {
         super(props);
 
         this.state = {
-            JobObjectionPackages: [],
+            JobObjections: [],
             Searching: false,
         };
 
@@ -26,7 +26,7 @@ class Objections extends Component {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
-                Get: "JobObjectionPackages",
+                Get: "JobObjections",
                 Params: {
                     OnGoingJobID: this.props.OnGoingJobID
                 }
@@ -37,15 +37,15 @@ class Objections extends Component {
             });
 
             await getData(request).then(response => {
-                if (response.Message === "Job objection packages found.") {
+                if (response.Message === "Job objections found.") {
                     this.setState({
-                        JobObjectionPackages: response.JobObjectionPackages,
+                        JobObjections: response.JobObjections,
                         Searching: false
                     });
                 }
                 else {
                     this.setState({
-                        JobObjectionPackages: [],
+                        JobObjections: [],
                         Searching: false
                     });
                 }
@@ -57,7 +57,7 @@ class Objections extends Component {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
-                Get: "JobObjectionPackages",
+                Get: "JobObjections",
                 Params: {
                     OnGoingJobID: this.props.OnGoingJobID
                 }
@@ -66,12 +66,12 @@ class Objections extends Component {
             await getData(request).then(response => {
                 if (response.Message === "Job objection packages found.") {
                     this.setState({
-                        JobObjectionPackages: response.JobObjectionPackages
+                        JobObjections: response.JobObjections
                     });
                 }
                 else {
                     this.setState({
-                        JobObjectionPackages: []
+                        JobObjections: []
                     });
                 }
             });
@@ -79,7 +79,7 @@ class Objections extends Component {
     };
 
     render() {
-        const jobObjectionPackages = this.state.JobObjectionPackages;
+        const jobObjections = this.state.JobObjections;
 
         return <section>
             <div class="page-header back-color-gradient">
@@ -103,13 +103,13 @@ class Objections extends Component {
                 OnOK={this.onComponentUpdated} />
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
             <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Job Objections</div>
-            {(jobObjectionPackages.length === 0) ?
+            {(jobObjections.length === 0) ?
                 <SearchingContainer Searching={this.state.Searching}
                     SearchingFor="job objctions" /> : <ol className="list-items" style={{ margin: "0px" }}>
-                    {jobObjectionPackages.map((jobObjectionPackage, index) => {
+                    {jobObjections.map((jobObjection, index) => {
                         return <li key={index} className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
                             <JobObjectionContainer Index={index}
-                                JobObjectionPackage={jobObjectionPackage} />
+                                JobObjection={jobObjection} />
                         </li>;
                     })}
                 </ol>}

@@ -114,7 +114,7 @@ class OnGoingJob extends Component {
                         <div class="container">
                             <div class="row">
                                 <div class="col-xs-24">
-                                    <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>This job has objections, and it cannot be finished now. You can still discard it. For more information, please tap on <span className="color-default">Objections</span> tab.</p>
+                                    <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>This job has objections, and it cannot be finished now. Actions are pending by Naqel. For more information, please tap on <span className="color-default">Objections</span> tab.</p>
                                 </div>
                             </div>
                         </div>

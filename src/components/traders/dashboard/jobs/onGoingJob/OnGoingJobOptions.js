@@ -2,48 +2,15 @@
 import React, { Component } from "react";
 import ApproveJobDialog from "./ApproveJobDialog";
 import ReviewDialog from "./ReviewDialog";
-import Preloader from "../../../../../controls/Preloader";
-import { deleteOnGoingJob } from "../../../TraderFunctions";
 
 class OnGoingJobOptions extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            DriverRated: this.props.DriverRated,
-            ShowPreloader: false
+            DriverRated: this.props.DriverRated
         };
-
-        this.onDiscard = this.onDiscard.bind(this);
     }
-
-    onDiscard = async () => {
-        this.setState({
-            ShowPreloader: true
-        });
-
-        const discardedOnGoingJob = {
-            Token: localStorage.Token,
-            OnGoingJobID: this.props.OnGoingJobID
-        }
-
-        console.log("Going to discard the job...");
-
-        await deleteOnGoingJob(discardedOnGoingJob).then(async response => {
-            if (response.Message === "On-going job deleted.") {
-                this.setState({
-                    ShowPreloader: false
-                });
-
-                await this.props.OnJobRemoved();
-            }
-            else {
-                this.setState({
-                    ShowPreloader: false
-                });
-            }
-        });
-    };
 
     render() {
         const hasObjections = this.props.HasObjections;
@@ -57,24 +24,33 @@ class OnGoingJobOptions extends Component {
 
         return hasObjections ?
             <section>
-                {showPreloader ? <Preloader /> : null}
                 <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333" }}>
                     <div className="container">
-                        <div className="col-md-24">
-                            <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>Discard the Job?
-                                {driverRated ? <span class="badge back-color-danger m-l-xxs">DRIVER IS RATED</span> : null}</div>
-                            <div className="type-sh4">{driverRated ?
-                                "This cannot be undone! All job details will be removed. Are you sure you want to discard the job?" :
-                                "This cannot be undone! All job details will be removed. If you have found the driver to be problematic, you can leave a review. Are you sure you want to discard the job?"}</div>
+                        <div className="entity-list theme-alt">
+                            <div className="entity-list-item">
+                                <div className="item-icon">
+                                    <span className="fas fa-exclamation-circle"></span>
+                                </div>
+                                <div className="item-content-primary">
+                                    <div className="content-text-primary">Objectionable Job</div>
+                                    <div className="content-text-secondary">
+                                        {driverRated ?
+                                            "Since your job has got objections, Naqel team will review them, and consequently take any suitable actions!" :
+                                            "Since your job has got objections, Naqel team will review them, and consequently take any suitable actions! If you have found the driver to be problematic, you can leave a review."}
+                                    </div>
+                                    <div className="content-text-secondary">
+                                        {driverRated ? <span class="badge back-color-danger">DRIVER IS RATED</span> : null}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="text-right">
-                            {driverRated ? 
-                                null :
+
+                        {driverRated ? null :
+                            <div className="text-right">
                                 <button className="btn btn-secondary"
                                     data-toggle="modal"
-                                    data-target="#review-dialog-from-on-going-job">Rate Driver</button>}
-                            <button className="btn btn-danger" onClick={this.onDiscard}>Discard</button>
-                        </div>
+                                    data-target="#review-dialog-from-on-going-job">Rate Driver</button>
+                            </div>}
                     </div>
                 </div>
                 {driverRated ?

@@ -6,7 +6,7 @@ import BlockAccountDialog from "./BlockAccountDialog";
 import UnblockAccountDialog from "./UnblockAccountDialog";
 import { activateDriverAccount } from "../../AdministratorFunctions";
 
-class BillListItem extends Component {
+class DriverListItem extends Component {
     constructor(props) {
         super(props);
 
@@ -136,4 +136,4 @@ class BillListItem extends Component {
     }
 };
 
-export default BillListItem;
+export default DriverListItem;

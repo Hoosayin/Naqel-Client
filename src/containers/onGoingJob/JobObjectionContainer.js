@@ -6,50 +6,42 @@ class JobObjectionContainer extends Component {
     }
 
     render() {
-        const index = this.props.Index;
-        const jobObjectionPackage = this.props.JobObjectionPackage;
-        const jobObjection = jobObjectionPackage.JobObjection;
-        const firstName = jobObjectionPackage.FirstName;
-        const lastName = jobObjectionPackage.LastName;
+        const {
+            Index,
+            JobObjection
+        } = this.props;
 
-        let createdOn = new Date(jobObjection.Created);
+        let createdOn = new Date(JobObjection.Created);
+        let objectionBy = JobObjection.ObjectionBy;
 
         return <section>
             <div className="jumbotron theme-default">
                 <div className="container">
-                    <div className="row">
-                        <div className="col-md-24">
-                            <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
-                                {`${index + 1}. Objection By ${firstName} ${lastName}`}
+                    <div className="type-h5 color-default p-t-n">{`${Index + 1}.`}</div>
+                    <div className="entity-list">
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-user"></span>
                             </div>
-                            <div className="type-sh3">
-                                <span className="fas fa-clock" style={{ color: "#606060" }}></span>   {`Posted on ${createdOn.toDateString()}.`}
-                            </div>
-                            <div className="row">
-                                <div className="col-md-24">
-                                    <div className="entity-list">
-                                        <div className="entity-list-item">
-                                            <div className="item-icon">
-                                                <span className="fas fa-exclamation"></span>
-                                            </div>
-                                            <div className="item-content-primary">
-                                                <div className="content-text-primary">Reason</div>
-                                                <div className="content-text-secondary">{jobObjection.Reason}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="entity-list">
-                                        <div className="entity-list-item">
-                                            <div className="item-icon">
-                                                <span className="fas fa-comment"></span>
-                                            </div>
-                                            <div className="item-content-primary">
-                                                <div className="content-text-primary">Comment</div>
-                                                <div className="content-text-secondary">{jobObjection.Comment}</div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">
+                                    {objectionBy.Type === "Driver" ? 
+                                        <span className="fas fa-car m-r-xxxs"></span> : 
+                                        <span className="fas fa-briefcase m-r-xxxs"></span>}
+                                    {`${objectionBy.FirstName} ${objectionBy.LastName}`}
                                 </div>
+                                <div className="content-text-secondary">{objectionBy.Username}</div>
+                                <div className="content-text-secondary">{`Posted on ${createdOn.toDateString()}.`}</div>
+                            </div>
+                        </div>
+                        <div className="entity-list-item">
+                            <div className="item-icon">
+                                <span className="fas fa-thumbs-down"></span>
+                            </div>
+                            <div className="item-content-primary">
+                                <div className="content-text-primary">Objection</div>
+                                <div className="content-text-secondary">{`Reason: ${JobObjection.Reason}`}</div>
+                                <div className="content-text-secondary">{`Comment: ${JobObjection.Comment}`}</div>
                             </div>
                         </div>
                     </div>

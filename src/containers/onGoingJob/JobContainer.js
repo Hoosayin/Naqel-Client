@@ -6,6 +6,7 @@ class JobContainer extends Component {
     }
 
     render() {
+        const index = this.props.Index;
         const onGoingJob = this.props.OnGoingJob;
 
         let loadingDate = new Date(onGoingJob.LoadingDate);
@@ -17,7 +18,9 @@ class JobContainer extends Component {
             <div className="jumbotron theme-default">
                 <div className="container">
                     <div className="col-md-24">
-                        <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>Job Details</div>
+                        <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
+                            {(index !== null && (index >= 0)) ? `${index + 1}. Job Details` : `Job Details`}
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col-md-8">

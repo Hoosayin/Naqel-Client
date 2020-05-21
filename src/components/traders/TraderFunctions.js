@@ -401,17 +401,6 @@ export const addDriverReviewFromOnGoingJob = async newDriverReview => {
     });
 };
 
-// DELETE: deleteOnGoingJob
-export const deleteOnGoingJob = async discardedOnGoingJob => {
-    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}traders/deleteOnGoingJob...`);
-    return await axios.delete(`${Strings.NAQEL_SERVER}traders/deleteOnGoingJob`, {
-        headers: { Authorization: `JWT ${discardedOnGoingJob.Token}` },
-        data: { OnGoingJobID: discardedOnGoingJob.OnGoingJobID }
-    }).then(response => {
-        return response.data;
-    });
-};
-
 // POST: addTraderPayProof
 export const addTraderPayProof = newTraderPayProof => {
     return axios.post(`${Strings.NAQEL_SERVER}traders/addTraderPayProof`, {

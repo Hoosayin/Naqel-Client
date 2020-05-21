@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Profile from "./profile/Profile";
 import Drivers from "./Drivers/Drivers";
+import Traders from "./traders/Traders";
+import Jobs from "./jobs/Jobs";
 
 class AdministratorsDashboard extends Component {
     constructor(props) {
@@ -40,7 +42,7 @@ class AdministratorsDashboard extends Component {
                             <a href="#traders" aria-controls="traders" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Traders</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
-                            <a href="#objectionable-jobs" aria-controls="objectionable-jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Objectionable Jobs</a>
+                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
                             <a href="#requests" aria-controls="request" role="tab" data-toggle="tab" onClick={() => {
@@ -63,11 +65,13 @@ class AdministratorsDashboard extends Component {
                     <div role="tabpanel" className="tab-pane" id="drivers">
                         <Drivers />
                     </div>
-                    <div role="tabpanel" className="tab-pane" id="permits">
-                    </div>
-                    <div role="tabpanel" className="tab-pane" id="earnings">
+                    <div role="tabpanel" className="tab-pane" id="traders">
+                        <Traders />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="jobs">
+                        <Jobs />
+                    </div>
+                    <div role="tabpanel" className="tab-pane" id="earnings">
                     </div>
                     <div role="tabpanel" className="tab-pane" id="payments">
                     </div>

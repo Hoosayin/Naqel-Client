@@ -544,16 +544,6 @@ export const toggleSelectTraderRequest = async toggleSelectedTraderRequest => {
     });
 };
 
-// POST: deleteOnGoingJob
-export const deleteOnGoingJob = async discardedOnGoingJob => {
-    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteOnGoingJob...`);
-    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteOnGoingJob`, {
-        headers: { Authorization: `JWT ${discardedOnGoingJob.Token}` }
-    }).then(response => {
-        return response.data;
-    });
-};
-
 // POST: approveTraderPayProof
 export const approveTraderPayProof = async approvedTraderPayProof => {
     console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/approveTraderPayProof...`);
