@@ -4,6 +4,7 @@ import Profile from "./profile/Profile";
 import Drivers from "./Drivers/Drivers";
 import Traders from "./traders/Traders";
 import Jobs from "./jobs/Jobs";
+import Questions from "./questions/Questions";
 
 class AdministratorsDashboard extends Component {
     constructor(props) {
@@ -45,9 +46,7 @@ class AdministratorsDashboard extends Component {
                             <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
-                            <a href="#requests" aria-controls="request" role="tab" data-toggle="tab" onClick={() => {
-                                this.onCloseNavigation();
-                            }}>Requests</a>
+                            <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Questions</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
                             <a href="#fee-rates" aria-controls="fee-rates" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Fee Rates</a>
@@ -71,7 +70,8 @@ class AdministratorsDashboard extends Component {
                     <div role="tabpanel" className="tab-pane" id="jobs">
                         <Jobs />
                     </div>
-                    <div role="tabpanel" className="tab-pane" id="earnings">
+                    <div role="tabpanel" className="tab-pane" id="questions">
+                        <Questions />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="payments">
                     </div>

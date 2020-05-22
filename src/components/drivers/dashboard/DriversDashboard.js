@@ -6,6 +6,7 @@ import Permits from "./permits/Permits";
 import Earnings from "./earnings/Earnings";
 import Jobs from "./jobs/Jobs";
 import Payments from "./payments/Payments";
+import Questions from "./questions/Questions";
 import Settings from "./settings/Settings";
 
 class DriversDashboard extends Component {
@@ -57,6 +58,9 @@ class DriversDashboard extends Component {
                             <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Payments</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
+                            <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Questions</a>
+                        </div>
+                        <div class="entity-list-item" role="presentation">
                             <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Settings</a>
                         </div>
                     </div>
@@ -80,6 +84,9 @@ class DriversDashboard extends Component {
                     </div>
                     <div role="tabpanel" className="tab-pane" id="payments">
                         <Payments />
+                    </div>
+                    <div role="tabpanel" className="tab-pane" id="questions">
+                        <Questions />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="settings">
                         <Settings />

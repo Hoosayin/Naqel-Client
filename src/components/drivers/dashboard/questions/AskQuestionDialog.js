@@ -1,24 +1,21 @@
 import React, { Component } from "react";
 import Preloader from "../../../../controls/Preloader";
-import { blockDriverAccount } from "../../AdministratorFunctions";
+import { addQuestion } from "../../DriverFunctions";
 
-class BlockAccountDialog extends Component {
+class AskQuestionDialog extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            BlockDate: "",
-            Reason: "",
+            Question: "",
 
-            ValidBlockDate: false,
-            ValidReason: false,
+            ValidQuestion: false,
 
             ValidForm: false,
             ShowPreloader: false,
 
             Errors: {
-                BlockDate: "",
-                Reason: ""
+                Question: ""
             }
         };
 
@@ -37,24 +34,12 @@ class BlockAccountDialog extends Component {
 
     validateField(field, value) {
         let Errors = this.state.Errors;
-        let ValidBlockDate = this.state.ValidBlockDate;
-        let ValidReason = this.state.ValidReason;
+        let ValidQuestion = this.state.ValidQuestion;
 
         switch (field) {
-            case "BlockDate":
-                ValidBlockDate = (value !== "");
-                Errors.BlockDate = ValidBlockDate ? "" : "Date is required";
-
-                if (Errors.BlockDate !== "") {
-                    break;
-                }
-
-                ValidBlockDate = (new Date(value).getTime() >= new Date().getTime());
-                Errors.BlockDate = ValidBlockDate ? "" : "Date must be later than yesterday.";
-                break;
-            case "Reason":
-                ValidReason = (value !== "");
-                Errors.Reason = ValidReason ? "" : "Reason is required.";
+            case "Question":
+                ValidQuestion = (value !== "");
+                Errors.Question = ValidQuestion ? "" : "Question is required.";
                 break;
             default:
                 break;
@@ -62,12 +47,10 @@ class BlockAccountDialog extends Component {
 
         this.setState({
             Errors: Errors,
-            ValidBlockDate: ValidBlockDate,
-            ValidReason: ValidReason,
+            ValidQuestion: ValidQuestion,
         }, () => {
                 this.setState({
-                    ValidForm: this.state.ValidBlockDate &&
-                        this.state.ValidReason
+                    ValidForm: this.state.ValidQuestion
             });
         });
     }
@@ -83,43 +66,33 @@ class BlockAccountDialog extends Component {
             ShowPreloader: true
         });
 
-        const blockedDriver = {
+        const newQuestion = {
             Token: localStorage.Token,
-            DriverID: this.props.Driver.DriverID,
-            BlockDate: this.state.BlockDate,
-            Reason: this.state.Reason
+            Question: this.state.Question
         };
 
-        await blockDriverAccount(blockedDriver).then(async response => {
+        await addQuestion(newQuestion).then(async response => {
             this.setState({
                 ShowPreloader: false
             });
 
-            if (response.Message === "Driver account is blocked.") {
+            if (response.Message === "Question is added.") {
                 this.cancelButton.click();
                 this.props.OnOK();
             }
         });
-
-
     }
 
     render() {
         const {
-            BlockDate,
-            Reason,
+            Question,
             ShowPreloader,
             ValidForm,
             Errors
         } = this.state;
 
-        const {
-            Index,
-            Driver
-        } = this.props;
-
         return <section>
-            <div className="modal modal-center-vertical" id={`block-account-dialog-${Index}`}
+            <div className="modal modal-center-vertical" id={`ask-question-dialog`}
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
                 {ShowPreloader ? <Preloader /> : null}
@@ -140,28 +113,18 @@ class BlockAccountDialog extends Component {
                                     <div className="container">
                                         <div className="row">
                                             <div className="col-md-24">
-                                                <div className="type-h3 color-default p-t-n">Block Driver</div>
-                                                <div className="type-sh3 m-b-xxs">You are going to block
-                                                    <span className="color-default">{` ${Driver.FirstName} ${Driver.LastName}`}</span>.
-                                                    </div>
-                                                <div className="form-group">
-                                                    <label className="control-label">Block Till</label>
-                                                    <span className="text-danger m-l-xxxs">*</span>
-                                                    <input type="date" name="BlockDate" className="form-control" autoComplete="off"
-                                                        value={BlockDate} onChange={this.onChange} />
-                                                    <span className="text-danger">{Errors.BlockDate}</span>
-                                                </div>
+                                                <div className="type-h3 color-default p-t-n">Ask a New Question</div>
                                                 <div class="form-group">
-                                                    <label className="control-label">Reason</label>
+                                                    <label className="control-label">Question</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
-                                                    <textarea rows="6" class="form-control" name="Reason" style={{ maxWidth: "100%" }}
-                                                        value={Reason} onChange={this.onChange}></textarea>
-                                                    <span className="text-danger">{Errors.Reason}</span>
+                                                    <textarea rows="6" class="form-control" name="Question" style={{ maxWidth: "100%" }}
+                                                        value={Question} onChange={this.onChange}></textarea>
+                                                    <span className="text-danger">{Errors.Question}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Block Now" className="btn btn-danger" disabled={!ValidForm} />
+                                            <input type="submit" value="Post" className="btn btn-primary" disabled={!ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -174,4 +137,4 @@ class BlockAccountDialog extends Component {
     }
 };
 
-export default BlockAccountDialog;
+export default AskQuestionDialog;

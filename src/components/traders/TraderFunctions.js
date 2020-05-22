@@ -434,3 +434,25 @@ export const getClientSecret = newClientSecret => {
         return response.data;
     });
 };
+
+// POST: addQuestion
+export const addQuestion = newQuestion => {
+    return axios.post(`${Strings.NAQEL_SERVER}traders/addQuestion`, {
+        Question: newQuestion.Question
+    }, {
+        headers: { Authorization: `JWT ${newQuestion.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: deleteQuestion
+export const deleteQuestion = async discardedQuestion => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}traders/deleteQuestion...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}traders/deleteQuestion`, {
+        headers: { Authorization: `JWT ${discardedQuestion.Token}` },
+        data: { TraderQuestionID: discardedQuestion.TraderQuestionID }
+    }).then(response => {
+        return response.data;
+    });
+};

@@ -280,3 +280,79 @@ export const discardObjectionableJob = async discardedObjectionableJob => {
         return response.data;
     });
 };
+
+// POST: AddDriverAnswer
+export const addDriverAnswer = async driverAnswer => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/addDriverAnswer...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/addDriverAnswer`, {
+        DriverQuestionID: driverAnswer.DriverQuestionID,
+        Answer: driverAnswer.Answer
+    }, {
+        headers: { Authorization: `JWT ${driverAnswer.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: AddDriverQuestionClass
+export const addDriverQuestionClass = async newDriverQuestionClass => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/addDriverQuestionClass...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/addDriverQuestionClass`, {
+        Class: newDriverQuestionClass.Class
+    }, {
+        headers: { Authorization: `JWT ${newDriverQuestionClass.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ClassifyDriverQuestion
+export const classifyDriverQuestion = async classifiedDriverQuestion => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/classifyDriverQuestion...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/classifyDriverQuestion`, {
+        DriverQuestionID: classifiedDriverQuestion.DriverQuestionID,
+        Class: classifiedDriverQuestion.Class
+    }, {
+        headers: { Authorization: `JWT ${classifiedDriverQuestion.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: AddTraderAnswer
+export const addTraderAnswer = async traderAnswer => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/addTraderAnswer...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/addTraderAnswer`, {
+        TraderQuestionID: traderAnswer.TraderQuestionID,
+        Answer: traderAnswer.Answer
+    }, {
+        headers: { Authorization: `JWT ${traderAnswer.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: AddTraderQuestionClass
+export const addTraderQuestionClass = async newTraderQuestionClass => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/addTraderQuestionClass...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/addTraderQuestionClass`, {
+        Class: newTraderQuestionClass.Class
+    }, {
+        headers: { Authorization: `JWT ${newTraderQuestionClass.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ClassifyTraderQuestion
+export const classifyTraderQuestion = async classifiedTraderQuestion => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/classifyTraderQuestion...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/classifyTraderQuestion`, {
+        TraderQuestionID: classifiedTraderQuestion.TraderQuestionID,
+        Class: classifiedTraderQuestion.Class
+    }, {
+        headers: { Authorization: `JWT ${classifiedTraderQuestion.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};

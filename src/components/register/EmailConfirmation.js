@@ -51,7 +51,7 @@ class EmailConfirmation extends Component {
                     break;
                 }
 
-                ValidConfirmationCode = (value === "12345");
+                ValidConfirmationCode = (value === this.state.NewCredentials.Code);
                 Errors.ConfirmationCode = ValidConfirmationCode ? "" : "Invalid code.";
                 break;
             default:

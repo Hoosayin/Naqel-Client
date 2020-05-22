@@ -570,10 +570,32 @@ export const addDriverPayProof = newDriverPayProof => {
 
 // DELETE: deleteDriverPayProof
 export const deleteDriverPayProof = async discardedDriverPayProof => {
-    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}traders/deleteDriverPayProof...`);
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteDriverPayProof...`);
     return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteDriverPayProof`, {
         headers: { Authorization: `JWT ${discardedDriverPayProof.Token}` },
         data: { DriverPayProofID: discardedDriverPayProof.DriverPayProofID }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addQuestion
+export const addQuestion = newQuestion => {
+    return axios.post(`${Strings.NAQEL_SERVER}drivers/addQuestion`, {
+        Question: newQuestion.Question
+    }, {
+        headers: { Authorization: `JWT ${newQuestion.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: deleteQuestion
+export const deleteQuestion = async discardedQuestion => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}drivers/deleteQuestion...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}drivers/deleteQuestion`, {
+        headers: { Authorization: `JWT ${discardedQuestion.Token}` },
+        data: { DriverQuestionID: discardedQuestion.DriverQuestionID }
     }).then(response => {
         return response.data;
     });
