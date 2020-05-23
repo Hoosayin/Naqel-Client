@@ -5,6 +5,7 @@ import Drivers from "./Drivers/Drivers";
 import Traders from "./traders/Traders";
 import Jobs from "./jobs/Jobs";
 import Questions from "./questions/Questions";
+import FeeRates from "./feeRates/FeeRates";
 
 class AdministratorsDashboard extends Component {
     constructor(props) {
@@ -73,7 +74,8 @@ class AdministratorsDashboard extends Component {
                     <div role="tabpanel" className="tab-pane" id="questions">
                         <Questions />
                     </div>
-                    <div role="tabpanel" className="tab-pane" id="payments">
+                    <div role="tabpanel" className="tab-pane" id="fee-rates">
+                        <FeeRates />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="settings">
                     </div>

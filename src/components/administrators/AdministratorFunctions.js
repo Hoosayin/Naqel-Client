@@ -356,3 +356,113 @@ export const classifyTraderQuestion = async classifiedTraderQuestion => {
         return response.data;
     });
 };
+
+// POST: SetGlobalFeeRate
+export const setGlobalFeeRate = async feeRate => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/setGlobalFeeRate...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/setGlobalFeeRate`, {
+        FeeRate: feeRate.FeeRate
+    }, {
+        headers: { Authorization: `JWT ${feeRate.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: SetTemporaryFeeRate
+export const setTemporaryFeeRate = async temporaryFeeRateDate => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/setTemporaryFeeRate...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/setTemporaryFeeRate`, {
+        FeeRate: temporaryFeeRateDate.FeeRate,
+        Date: temporaryFeeRateDate.Date
+    }, {
+        headers: { Authorization: `JWT ${temporaryFeeRateDate.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ClearTemporaryFeeRate
+export const clearTemporaryFeeRate = async clearedtemporaryFeeRate => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/clearTemporaryFeeRate...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/clearTemporaryFeeRate`, {}, {
+        headers: { Authorization: `JWT ${clearedtemporaryFeeRate.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: AddPriceRange
+export const addPriceRange = async newPriceRange => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/addPriceRange...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/addPriceRange`, {
+        StartRange: newPriceRange.StartRange,
+        EndRange: newPriceRange.EndRange,
+        FeeRate: newPriceRange.FeeRate
+    }, {
+        headers: { Authorization: `JWT ${newPriceRange.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: UpdatePriceRange
+export const updatePriceRange = async updatedPriceRange => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/updatePriceRange...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/updatePriceRange`, {
+        PriceRangeID: updatedPriceRange.PriceRangeID,
+        FeeRate: updatedPriceRange.FeeRate
+    }, {
+        headers: { Authorization: `JWT ${updatedPriceRange.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: DeletePriceRange
+export const deletePriceRange = async discardedPriceRange => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}administrators/deletePriceRange...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}administrators/deletePriceRange`, {
+        headers: { Authorization: `JWT ${discardedPriceRange.Token}` },
+        data: { PriceRangeID: discardedPriceRange.PriceRangeID }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: AddTraderRate
+export const addTraderRate = async newTraderRate => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/addTraderRate...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/addTraderRate`, {
+        Username: newTraderRate.Username,
+        FeeRate: newTraderRate.FeeRate
+    }, {
+        headers: { Authorization: `JWT ${newTraderRate.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: UpdateTraderRate
+export const updateTraderRate = async updatedTraderRate => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/updateTraderRate...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/updateTraderRate`, {
+        TraderRateID: updatedTraderRate.TraderRateID,
+        FeeRate: updatedTraderRate.FeeRate
+    }, {
+        headers: { Authorization: `JWT ${updatedTraderRate.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: DeleteTraderRate
+export const deleteTraderRate = async discardedTraderRate => {
+    console.log(`Sending HTTP DELETE request to ${Strings.NAQEL_SERVER}administrators/deleteTraderRate...`);
+    return await axios.delete(`${Strings.NAQEL_SERVER}administrators/deleteTraderRate`, {
+        headers: { Authorization: `JWT ${discardedTraderRate.Token}` },
+        data: { TraderRateID: discardedTraderRate.TraderRateID }
+    }).then(response => {
+        return response.data;
+    });
+};
