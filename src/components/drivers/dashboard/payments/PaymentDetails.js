@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SearchingContainer from "../../../../containers/searching/SearchingContainer";
 import PayProofDetails from "./PayProofDetails";
+import PayDetailsContainer from "../../../../containers/payDetails/PayDetailsContainer";
 import { getData } from "../../DriverFunctions";
 
 class PaymentDetails extends Component {
@@ -78,16 +79,23 @@ class PaymentDetails extends Component {
     };
 
     render() {
-        const paymentDetails = this.state.PaymentDetails;
-        const searching = this.state.Searching;
+        const {
+            PaymentDetails,
+            Searching
+        } = this.state;
 
-        if (searching || !paymentDetails) {
-            return <SearchingContainer Searching={searching}
+        if (Searching || !PaymentDetails) {
+            return <SearchingContainer Searching={Searching}
                 SearchingFor="payment details" />;
         }
         else {
-            return <PayProofDetails PayProof={paymentDetails.PayProof}
-                OnPayProofDeleted={this.props.OnPayProofDeleted} />;
+            if (PaymentDetails.IsOnlinePayment) {
+                return <PayDetailsContainer PayDetails={PaymentDetails.PayDetails} />
+            }
+            else {
+                return <PayProofDetails PayProof={PaymentDetails.PayProof}
+                    OnPayProofDeleted={this.props.OnPayProofDeleted} />;
+            }
         }
     }
 };

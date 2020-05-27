@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SearchingContainer from "../../../../../../containers/searching/SearchingContainer";
 import PayProofDetails from "./PayProofDetails";
+import PayDetailsContainer from "../../../../../../containers/payDetails/PayDetailsContainer";
 import { getData } from "../../../../DriverFunctions";
 
 class PaymentDetails extends Component {
@@ -78,19 +79,26 @@ class PaymentDetails extends Component {
     };
 
     render() {
-        const traderPaymentDetails = this.state.TraderPaymentDetails;
-        const searching = this.state.Searching;
+        const {
+            TraderPaymentDetails,
+            Searching
+        } = this.state;
 
-        if (searching || !traderPaymentDetails) {
-            return <SearchingContainer Searching={searching}
+        if (Searching || !TraderPaymentDetails) {
+            return <SearchingContainer Searching={Searching}
                 SearchingFor="payment details" />;
         }
         else {
-            return <PayProofDetails PayProof={traderPaymentDetails.PayProof}
-                OnPayProofApproved={async () => {
-                    this.props.OnPayProofApproved();
-                    await this.refresh();
-                }} />;
+            if (TraderPaymentDetails.IsOnlinePayment) {
+                return <PayDetailsContainer PayDetails={TraderPaymentDetails.PayDetails} />
+            }
+            else {
+                return <PayProofDetails PayProof={TraderPaymentDetails.PayProof}
+                    OnPayProofApproved={async () => {
+                        this.props.OnPayProofApproved();
+                        await this.refresh();
+                    }} />;
+            }
         }
     }
 };

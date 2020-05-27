@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { CardElement } from "@stripe/react-stripe-js";
 import Preloader from "../../../../controls/Preloader";
-import { getClientSecret } from "../../TraderFunctions";
-import { addTraderPayDetails } from "../../TraderFunctions";
+import {
+    getClientSecret,
+    addDriverPayDetails,
+} from "../../DriverFunctions";
 
 class PayOnlineDialog extends Component {
     constructor(props) {
@@ -155,9 +157,9 @@ class PayOnlineDialog extends Component {
                         return;
                     }
 
-                    const newTraderPayDetails = {
+                    const newDriverPayDetails = {
                         Token: localStorage.Token,
-                        TraderBillID: this.props.Bill.TraderBillID,
+                        DriverBillID: this.props.Bill.DriverBillID,
                         OwnerName: this.state.Owner,
                         OwnerEmail: this.state.Email,
                         CardType: paymentMethodRequest.paymentMethod.card.brand
@@ -179,7 +181,7 @@ class PayOnlineDialog extends Component {
                         return;
                     }
 
-                    await addTraderPayDetails(newTraderPayDetails).then(response => {
+                    await addDriverPayDetails(newDriverPayDetails).then(response => {
                         this.setState({
                             ShowPreloader: false
                         });

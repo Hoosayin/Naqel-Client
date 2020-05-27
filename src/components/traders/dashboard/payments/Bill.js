@@ -86,7 +86,7 @@ class Bill extends Component {
                         <div className="type-t7 p-t-xxs">INVOICE</div>
                         <div className="p-t-xxs">
                             <div className="type-t9">INVOICE #</div>
-                            <div className="type-t9">{bill.TraderBillID}</div>
+                            <div className="type-t9">{bill.BillNumber}</div>
                             <div className="type-t9 p-t-xxxs">DATE OF ISSUE</div>
                             <div className="type-t9">{new Date(bill.Created).toDateString()}</div>
                             <div className="type-t9 p-t-xxxs">INVOICE TOTAL</div>

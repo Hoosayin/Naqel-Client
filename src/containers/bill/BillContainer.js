@@ -14,7 +14,7 @@ class BillContainer extends Component {
                 <div className="container">
                     <div className="col-md-24">
                         <div className="type-h5 color-default p-t-n">
-                            {`${index + 1}.`}
+                            {`${index + 1}. Bill Number: ${bill.BillNumber}`}
                             {index === 0 ? <span class="badge back-color-golden m-l-xxs">NEW</span> : null}
                         </div>
                     </div>

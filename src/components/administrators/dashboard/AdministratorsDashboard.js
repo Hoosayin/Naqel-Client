@@ -6,6 +6,7 @@ import Traders from "./traders/Traders";
 import Jobs from "./jobs/Jobs";
 import Questions from "./questions/Questions";
 import FeeRates from "./feeRates/FeeRates";
+import FinancialAccounts from "./financialAccounts/financialAccounts";
 
 class AdministratorsDashboard extends Component {
     constructor(props) {
@@ -77,7 +78,8 @@ class AdministratorsDashboard extends Component {
                     <div role="tabpanel" className="tab-pane" id="fee-rates">
                         <FeeRates />
                     </div>
-                    <div role="tabpanel" className="tab-pane" id="settings">
+                    <div role="tabpanel" className="tab-pane" id="financial-accounts">
+                        <FinancialAccounts />
                     </div>
                 </div>
 

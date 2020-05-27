@@ -30,7 +30,6 @@ class FinishJobDialog extends Component {
                     Progress: false
                 });
 
-                this.cancelButton.click();
                 this.props.OnOK();
             }
             else {

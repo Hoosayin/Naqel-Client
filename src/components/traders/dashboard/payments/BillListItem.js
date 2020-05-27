@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ElementsConsumer } from '@stripe/react-stripe-js'
+import { ElementsConsumer } from "@stripe/react-stripe-js";
 import BillContainer from "../../../../containers/bill/BillContainer";
 import PrintBillDialog from "./PrintBillDialog";
 import AddPayProofDialog from "./AddPayProofDialog";
@@ -23,13 +23,14 @@ class BillListItem extends Component {
                     data-toggle="modal"
                     data-target={`#print-bill-dialog-${index}`}>Print Bill</button>
 
-                {bill.HasPayProof ?
+                {bill.HasPayProof || bill.HasPayDetails ?
                     null :
                     <button className="btn btn-primary"
                         data-toggle="modal"
-                        data-target={`#pay-online-dialog-${index}`}>Pay Online</button>}
+                        data-target={`#pay-online-dialog-${index}`}
+                        onMouseDown={() => { this.ToggleCard(true); }}>Pay Online</button>}
 
-                {bill.HasPayProof ?
+                {bill.HasPayProof || bill.HasPayDetails ?
                     null :
                     <button className="btn btn-primary"
                         data-toggle="modal"
@@ -57,19 +58,30 @@ class BillListItem extends Component {
 
             <PrintBillDialog Index={index}
                 Bill={bill} />
-            <AddPayProofDialog Index={index}
-                TraderBillID={bill.TraderBillID}
-                OnOK={async () => {
-                    this.props.OnPayProofUpdated(bill, true);
-                    await this.RefreshPaymentDetails();
-                }} />
-            <ElementsConsumer>
-                {({ elements, stripe }) => (
-                    <PayOnlineDialog Index={index}
-                        Bill={bill}
-                        Elements={elements}
-                        Stripe={stripe} />)}
-            </ElementsConsumer>
+
+            {bill.HasPayProof || bill.HasPayDetails ? 
+                null : 
+                <AddPayProofDialog Index={index}
+                    TraderBillID={bill.TraderBillID}
+                    OnOK={async () => {
+                        this.props.OnPayProofUpdated(bill, true);
+                        await this.RefreshPaymentDetails();
+                    }} />}
+
+            {bill.HasPayDetails ? 
+                null :
+                <ElementsConsumer>
+                    {({ elements, stripe }) => (
+                        <PayOnlineDialog Index={index}
+                            Bill={bill}
+                            Elements={elements}
+                            Stripe={stripe}
+                            ToggleCard={toggleCard => { this.ToggleCard = toggleCard; }}
+                            OnOK={async () => {
+                                this.props.OnPayDetailsAdded(bill);
+                                await this.RefreshPaymentDetails();
+                            }} />)}
+                </ElementsConsumer>}
         </li>;
     }
 };

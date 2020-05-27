@@ -129,7 +129,28 @@ class BillsList extends Component {
                                 this.setState({
                                     Bills: bills
                                 });
-                            }} />;
+                            }}
+                            OnPayDetailsAdded={bill => {
+                                let bills = this.state.Bills;
+                                let numberOfPaidBills = this.state.NumberOfPaidBills;
+                                let numberOfUnpaidBills = this.state.NumberOfUnpaidBills;
+
+                                for (let billItem of bills) {
+                                    if (billItem === bill) {
+                                        billItem.Paid = true;
+                                        billItem.HasPayDetails = true;
+                                        numberOfPaidBills++;
+                                        numberOfUnpaidBills--;
+                                        break;
+                                    }
+                                }
+
+                                this.setState({
+                                    Bills: bills,
+                                    NumberOfPaidBills: numberOfPaidBills,
+                                    NumberOfUnpaidBills: numberOfUnpaidBills
+                                });
+                            }}/>;
                     })}
                 </ol>}
         </section>;

@@ -1,6 +1,5 @@
 import axios from "axios";
 import Strings from "../../res/strings";
-import TraderObjectionReasons from "./dashboard/jobs/objectionReasons/traderObjectionReasons/TraderObjectionReasons";
 
 // POST: Register
 export const registerAdministrator = async newCredentials => {
@@ -144,6 +143,25 @@ export const passwordSettings = async updatedAdministrator => {
         Password: updatedAdministrator.Password,
     }, {
         headers: { Authorization: `JWT ${updatedAdministrator.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: UpdateNaqelSettings
+export const updateNaqelSettings = async updatedNaqelSettings => {
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/updateNaqelSettings`, {
+        Street: updatedNaqelSettings.Street,
+        City: updatedNaqelSettings.City,
+        Country: updatedNaqelSettings.Country,
+        ZIPCode: updatedNaqelSettings.ZIPCode,
+        PhoneNumber: updatedNaqelSettings.PhoneNumber,
+        Website: updatedNaqelSettings.Website,
+        BusinessName: updatedNaqelSettings.BusinessName,
+        BankName: updatedNaqelSettings.BankName,
+        AccountNumber: updatedNaqelSettings.AccountNumber,
+    }, {
+        headers: { Authorization: `JWT ${updatedNaqelSettings.Token}` }
     }).then(response => {
         return response.data;
     });
@@ -462,6 +480,18 @@ export const deleteTraderRate = async discardedTraderRate => {
     return await axios.delete(`${Strings.NAQEL_SERVER}administrators/deleteTraderRate`, {
         headers: { Authorization: `JWT ${discardedTraderRate.Token}` },
         data: { TraderRateID: discardedTraderRate.TraderRateID }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ApproveDiverPayProof
+export const approveDriverPayProof = async approvedDriverPayProof => {
+    console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/approveDriverPayProof...`);
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/approveDriverPayProof`, {
+        DriverPayProofID: approvedDriverPayProof.DriverPayProofID
+    }, {
+        headers: { Authorization: `JWT ${approvedDriverPayProof.Token}` }
     }).then(response => {
         return response.data;
     });

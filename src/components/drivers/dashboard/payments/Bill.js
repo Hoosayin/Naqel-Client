@@ -49,7 +49,6 @@ class Bill extends Component {
     render() {
         const billData = this.state.BillData;
         const searching = this.state.Searching;
-        
 
         if (searching || !billData) {
             return <SearchingContainer Searching={searching}
@@ -57,6 +56,7 @@ class Bill extends Component {
         }
         else {
             const bill = this.props.Bill;
+            const naqelSettings = this.state.BillData.NaqelSettings;
 
             return <section>
                 <div className="jumbotron theme-default back-color-light">
@@ -64,15 +64,23 @@ class Bill extends Component {
                         <div className="type-t3" style={{ fontWeight: "600" }}><span className="fas fa-route m-r-xxxs"></span>NAQEL</div>
 
                         <div className="p-t-xxs">
-                            <div className="type-t9">123 Naqel Street</div>
-                            <div className="type-t9">Wah, Punjab, Pakistan.</div>
-                            <div className="type-t9">ZIP 47000</div>
+                            <div className="type-t9">{naqelSettings.Street}</div>
+                            <div className="type-t9">{`${naqelSettings.City}, ${naqelSettings.Country}.`}</div>
+                            <div className="type-t9">{`ZIP ${naqelSettings.ZIPCode}`}</div>
                         </div>
 
                         <div className="p-t-xxs">
-                            <div className="type-t9">+92 318 5037972</div>
-                            <div className="type-t9">naqel-transport-jobs.firebaseapp.com</div>
-                            <div className="type-t9">Naqel Transport Jobs</div>
+                            <div className="type-t9">{naqelSettings.PhoneNumber}</div>
+                            <div className="type-t9">{naqelSettings.Website}</div>
+                            <div className="type-t9">{naqelSettings.BusinessName}</div>
+                        </div>
+
+                        <div className="type-t7 p-t-xxs">BANK DETAILS</div>
+                        <div className="p-t-xxs">
+                            <div className="type-t9">BANK NAME</div>
+                            <div className="type-t9">{naqelSettings.BankName}</div>
+                            <div className="type-t9 p-t-xxxs">ACCOUNT #</div>
+                            <div className="type-t9">{naqelSettings.AccountNumber}</div>
                         </div>
 
                         <div className="type-t7 p-t-xxs">BILLED TO</div>

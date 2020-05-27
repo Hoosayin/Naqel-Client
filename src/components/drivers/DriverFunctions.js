@@ -600,3 +600,28 @@ export const deleteQuestion = async discardedQuestion => {
         return response.data;
     });
 };
+
+// POST: getClientSecret
+export const getClientSecret = newClientSecret => {
+    return axios.post(`${Strings.NAQEL_SERVER}drivers/getClientSecret`, {
+        Amount: newClientSecret.Amount
+    }, {
+        headers: { Authorization: `JWT ${newClientSecret.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: addDriverPayDetails
+export const addDriverPayDetails = newDriverPayDetails => {
+    return axios.post(`${Strings.NAQEL_SERVER}drivers/addDriverPayDetails`, {
+        DriverBillID: newDriverPayDetails.DriverBillID,
+        OwnerName: newDriverPayDetails.OwnerName,
+        OwnerEmail: newDriverPayDetails.OwnerEmail,
+        CardType: newDriverPayDetails.CardType
+    }, {
+        headers: { Authorization: `JWT ${newDriverPayDetails.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};

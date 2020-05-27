@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SearchingContainer from "../../../../containers/searching/SearchingContainer";
 import PayProofDetails from "./PayProofDetails";
+import PayDetailsContainer from "../../../../containers/payDetails/PayDetailsContainer";
 import { getData } from "../../TraderFunctions";
 
 class PaymentDetails extends Component {
@@ -36,6 +37,8 @@ class PaymentDetails extends Component {
             });
 
             await getData(request).then(response => {
+                console.log("PAYMENT");
+                console.log(response);
                 if (response.Message === "Payment details found.") {
                     this.setState({
                         PaymentDetails: response.PaymentDetails,
@@ -78,19 +81,28 @@ class PaymentDetails extends Component {
     };
 
     render() {
-        const paymentDetails = this.state.PaymentDetails;
-        const searching = this.state.Searching;
+        const {
+            PaymentDetails,
+            Searching
+        } = this.state;
 
-        if (searching || !paymentDetails) {
-            return <SearchingContainer Searching={searching}
+        if (Searching || !PaymentDetails) {
+            return <SearchingContainer Searching={Searching}
                 SearchingFor="payment details" />;
         }
         else {
-            const jobNumber = this.props.JobNumber;
+            if (PaymentDetails.IsOnlinePayment) {
+                return <PayDetailsContainer PayDetails={PaymentDetails.PayDetails} />
+            }
+            else {
+                const {
+                    JobNumber
+                } = this.props;
 
-            return <PayProofDetails PayProof={paymentDetails.PayProof}
-                JobNumber={jobNumber}
-                OnPayProofDeleted={this.props.OnPayProofDeleted} />;
+                return <PayProofDetails PayProof={PaymentDetails.PayProof}
+                    JobNumber={JobNumber}
+                    OnPayProofDeleted={this.props.OnPayProofDeleted} />;
+            }
         }
     }
 };

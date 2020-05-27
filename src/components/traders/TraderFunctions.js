@@ -456,3 +456,17 @@ export const deleteQuestion = async discardedQuestion => {
         return response.data;
     });
 };
+
+// POST: addTraderPayDetails
+export const addTraderPayDetails = newTraderPayDetails => {
+    return axios.post(`${Strings.NAQEL_SERVER}traders/addTraderPayDetails`, {
+        TraderBillID: newTraderPayDetails.TraderBillID,
+        OwnerName: newTraderPayDetails.OwnerName,
+        OwnerEmail: newTraderPayDetails.OwnerEmail,
+        CardType: newTraderPayDetails.CardType
+    }, {
+        headers: { Authorization: `JWT ${newTraderPayDetails.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
