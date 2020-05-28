@@ -67,7 +67,6 @@ class AdministratorsDashboard extends Component {
                         <Drivers />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="traders">
-                        <Traders />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="jobs">
                         <Jobs />

@@ -2103,6 +2103,7 @@
     <Content Include="src\components\traders\TraderFunctions.js" />
     <Content Include="src\components\register\AccountSetup.js" />
     <Content Include="src\containers\bill\BillContainer.js" />
+    <Content Include="src\containers\blockedUser\BlockedUserContainer.js" />
     <Content Include="src\containers\completedJob\CompletedJobContainer.js" />
     <Content Include="src\containers\payDetails\PayDetailsContainer.js" />
     <Content Include="src\containers\traderQuestion\TraderQuestionContainer.js" />
@@ -2261,6 +2262,7 @@
     <Folder Include="src\components\drivers\" />
     <Folder Include="src\components\shared\" />
     <Folder Include="src\components\register\" />
+    <Folder Include="src\containers\blockedUser\" />
     <Folder Include="src\containers\payDetails\" />
     <Folder Include="src\containers\traderQuestion\" />
     <Folder Include="src\containers\driverQuestion\" />

@@ -50,7 +50,7 @@ class UnblockAccountDialog extends Component {
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
                 {ShowPreloader ? <Preloader /> : null}
-                <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
+                <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
                     <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
                         <div className="modal-header">
                             <div className="text-right">
