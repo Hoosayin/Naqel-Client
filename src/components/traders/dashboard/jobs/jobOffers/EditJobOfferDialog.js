@@ -1,25 +1,36 @@
 import React, { Component } from "react";
-import { Required } from "../../../../../styles/MiscellaneousStyles.js";
 import Preloader from "../../../../../controls/Preloader.js";
+import PlaceInput from "../../../../../controls/PlaceInput";
 import { updateJobOffer } from "../../../TraderFunctions.js";
 
 class EditJobOfferDialog extends Component {
     constructor(props) {
         super(props);
 
+        const {
+            JobOffer
+        } = this.props;
+
         this.state = {
-            JobOfferID: this.props.JobOffer.JobOfferID,
-            LoadingPlace: this.props.JobOffer.LoadingPlace,
-            UnloadingPlace: this.props.JobOffer.UnloadingPlace,
-            TripType: this.props.JobOffer.TripType,
-            CargoType: this.props.JobOffer.CargoType,
-            CargoWeight: this.props.JobOffer.CargoWeight,
-            LoadingDate: this.props.JobOffer.LoadingDate,
-            LoadingTime: this.props.JobOffer.LoadingTime,
-            AcceptedDelay: this.props.JobOffer.AcceptedDelay,
-            Price: this.props.JobOffer.Price,
-            JobOfferType: this.props.JobOffer.JobOfferType,
-            EntryExit: this.props.JobOffer.EntryExit,
+            LoadingPlace: {
+                Address: JobOffer.LoadingPlace,
+                Lat: JobOffer.LoadingLat,
+                Lng: JobOffer.LoadingLng
+            },
+            UnloadingPlace: {
+                Address: JobOffer.UnloadingPlace,
+                Lat: JobOffer.UnloadingLat,
+                Lng: JobOffer.UnloadingLng
+            },
+            TripType: JobOffer.TripType,
+            CargoType: JobOffer.CargoType,
+            CargoWeight: JobOffer.CargoWeight,
+            LoadingDate: JobOffer.LoadingDate,
+            LoadingTime: JobOffer.LoadingTime,
+            AcceptedDelay: JobOffer.AcceptedDelay,
+            Price: JobOffer.Price,
+            JobOfferType: JobOffer.JobOfferType,
+            EntryExit: JobOffer.EntryExit,
 
             ValidCargoType: true,
             ValidCargoWeight: true,
@@ -31,7 +42,7 @@ class EditJobOfferDialog extends Component {
             ValidPrice: true,
 
             ValidForm: false,
-            Preloader: null,
+            ShowPreloader: null,
 
             Errors: {
                 CargoType: "",
@@ -59,15 +70,15 @@ class EditJobOfferDialog extends Component {
     }
 
     validateField(field, value) {
-        let Errors = this.state.Errors;
-        let ValidCargoType = this.state.ValidCargoType;
-        let ValidCargoWeight = this.state.ValidCargoWeight;
-        let ValidLoadingPlace = this.state.ValidLoadingPlace;
-        let ValidUnloadingPlace = this.state.ValidUnloadingPlace;
-        let ValidLoadingDate = this.state.ValidLoadingDate;
-        let ValidLoadingTime = this.state.ValidLoadingTime;
-        let ValidAcceptedDelay = this.state.ValidAcceptedDelay;
-        let ValidPrice = this.state.ValidPrice;
+        let {
+            Errors,
+            ValidCargoType,
+            ValidCargoWeight,
+            ValidLoadingDate,
+            ValidLoadingTime,
+            ValidAcceptedDelay,
+            ValidPrice
+        } = this.state;
 
         switch (field) {
             case "CargoType":
@@ -85,14 +96,6 @@ class EditJobOfferDialog extends Component {
                 ValidCargoWeight = (value >= 100);
                 Errors.CargoWeight = ValidCargoWeight ? "" : "Cargo weight must be greater than 100 lbs.";
                 break;
-            case "LoadingPlace":
-                ValidLoadingPlace = (value !== "");
-                Errors.LoadingPlace = ValidLoadingPlace ? "" : "Loading place is required.";
-                break;
-            case "UnloadingPlace":
-                ValidUnloadingPlace = (value !== "");
-                Errors.UnloadingPlace = ValidUnloadingPlace ? "" : "Unloading place is required.";
-                break;
             case "LoadingDate":
                 ValidLoadingDate = (value !== "");
                 Errors.LoadingDate = ValidLoadingDate ? "" : "Loading date is required.";
@@ -105,6 +108,8 @@ class EditJobOfferDialog extends Component {
                 Errors.LoadingDate = ValidLoadingDate ? "" : "Loading date must be later than yesterday.";
                 break;
             case "LoadingTime":
+                ValidLoadingTime = (value !== "");
+                Errors.LoadingTime = ValidLoadingTime ? "" : "Loading time is required.";
                 break;
             case "AcceptedDelay":
                 ValidAcceptedDelay = (value !== "");
@@ -136,22 +141,18 @@ class EditJobOfferDialog extends Component {
             Errors: Errors,
             ValidCargoType: ValidCargoType,
             ValidCargoWeight: ValidCargoWeight,
-            ValidLoadingPlace: ValidLoadingPlace,
-            ValidUnloadingPlace: ValidUnloadingPlace,
             ValidLoadingDate: ValidLoadingDate,
             ValidLoadingTime: ValidLoadingTime,
             ValidAcceptedDelay: ValidAcceptedDelay,
             ValidPrice: ValidPrice
         }, () => {
             this.setState({
-                ValidForm: this.state.ValidCargoType &&
-                    this.state.ValidCargoWeight &&
-                    this.state.ValidLoadingPlace &&
-                    this.state.ValidUnloadingPlace &&
-                    this.state.ValidLoadingDate &&
-                    this.state.ValidLoadingTime &&
-                    this.state.AcceptedDelay &&
-                    this.state.ValidPrice
+                ValidForm: ValidCargoType &&
+                    ValidCargoWeight &&
+                    ValidLoadingDate &&
+                    ValidLoadingTime &&
+                    ValidAcceptedDelay &&
+                    ValidPrice
             });
         });
     }
@@ -163,14 +164,50 @@ class EditJobOfferDialog extends Component {
             return;
         }
 
+        if (!this.state.LoadingPlace) {
+            let {
+                Errors
+            } = this.state;
+
+            Errors.LoadingPlace = "Loading place is required.";
+
+            this.setState({
+                Errors: Errors
+            });
+
+            return;
+        }
+
+        if (!this.state.UnloadingPlace) {
+            let {
+                Errors
+            } = this.state;
+
+            Errors.UnloadingPlace = "Unloading place is required.";
+
+            this.setState({
+                Errors: Errors
+            });
+
+            return;
+        }
+
+        this.setState({
+            ShowPreloader: true
+        });
+
         const updatedJobOffer = {
             Token: localStorage.Token,
-            JobOfferID: this.state.JobOfferID,
+            JobOfferID: this.props.JobOffer.JobOfferID,
             TripType: this.state.TripType,
             CargoType: this.state.CargoType,
             CargoWeight: this.state.CargoWeight,
-            LoadingPlace: this.state.LoadingPlace,
-            UnloadingPlace: this.state.UnloadingPlace,
+            LoadingPlace: this.state.LoadingPlace.Address,
+            LoadingLat: this.state.LoadingPlace.Lat,
+            LoadingLng: this.state.LoadingPlace.Lng,
+            UnloadingPlace: this.state.UnloadingPlace.Address,
+            UnloadingLat: this.state.UnloadingPlace.Lat,
+            UnloadingLng: this.state.UnloadingPlace.Lng,
             LoadingDate: this.state.LoadingDate,
             LoadingTime: this.state.LoadingTime,
             EntryExit: this.state.EntryExit,
@@ -179,161 +216,180 @@ class EditJobOfferDialog extends Component {
             JobOfferType: this.state.JobOfferType
         };
 
-        console.log("Going to update Job offer.");
-
-        this.setState({
-            Preloader: <Preloader />
-        });
-
         await updateJobOffer(updatedJobOffer).then(response => {
+            this.setState({
+                Preloader: false
+            });
+
             if (response.Message === "Job offer is updated.") {
                 this.cancelButton.click();
                 this.props.OnOK();
             }
-
-            this.setState({
-                Preloader: null
-            });
         });
     }
-    
+
     render() {
-        return <section className="text-left">
-            <div className="modal" id={`edit-job-offer-dialog-${this.props.DialogID}`}
+        let {
+            LoadingPlace,
+            UnloadingPlace,
+            TripType,
+            CargoType,
+            CargoWeight,
+            LoadingDate,
+            LoadingTime,
+            AcceptedDelay,
+            Price,
+            JobOfferType,
+            EntryExit,
+            ValidForm,
+            ShowPreloader,
+            Errors,
+        } = this.state;
+
+        const {
+            DialogID
+        } = this.props;
+
+        return <section>
+            <div className="modal modal-center-vertical" id={`edit-job-offer-dialog-${DialogID}`}
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
-                {this.state.Preloader}
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <section>
+                {ShowPreloader ? <Preloader /> : null}
+                <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
+                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                        <div className="modal-header">
+                            <div className="text-right">
+                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                    data-dismiss="modal"
+                                    ref={cancelButton => this.cancelButton = cancelButton}>
+                                    <span className="fas fa-times"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="modal-body">
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div className="modal-header">
-                                    <img alt="pencil.png" src="./images/pencil.png" height="60" />
-                                    <div className="type-h3">Edit Job Offer</div>
-                                </div>
-                                <div className="modal-body">
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                                    alt="job_offfers.png" src="./images/job_offers.png" data-source-index="2" />
+                                <div className="jumbotron theme-default">
+                                    <div className="container">
+                                        <div className="type-h3 color-default p-t-xxs">Edit Job Offer</div>
+                                        <div className="row p-t-xxs">
+                                            <div className="col-md-8">
+                                                <div className="form-group">
+                                                    <label className="control-label">Loading Place</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <PlaceInput Address={LoadingPlace.Address}
+                                                        OnPlaceSelected={place => {
+                                                            this.setState({
+                                                                LoadingPlace: place,
+                                                            });
+                                                        }} />
+                                                    <span className="text-danger">{Errors.LoadingPlace}</span>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Unloading Place</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <PlaceInput Address={UnloadingPlace.Address}
+                                                        OnPlaceSelected={place => {
+                                                            this.setState({
+                                                                UnloadingPlace: place,
+                                                            });
+                                                        }} />
+                                                    <span className="text-danger">{Errors.UnloadingPlace}</span>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-8">
+                                                <div className="form-group">
+                                                    <label className="control-label">Trip Type</label><br />
+                                                    <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
+                                                        <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
+                                                            aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
+                                                            <span>{TripType}</span>
+                                                            <span className="caret"></span>
+                                                        </button>
+                                                        <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
+                                                            <li><a onClick={() => { this.setState({ TripType: "One Way" }); }}>One Way</a></li>
+                                                            <li><a onClick={() => { this.setState({ TripType: "Two Way" }); }}>Two Way</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Cargo Type</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="text" name="CargoType" className="form-control" autoComplete="off"
+                                                        value={CargoType} onChange={this.onChange} />
+                                                    <span className="text-danger">{Errors.CargoType}</span>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Cargo Weight (lbs)</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="number" name="CargoWeight" className="form-control" autoComplete="off"
+                                                        value={CargoWeight} onChange={this.onChange} />
+                                                    <span className="text-danger">{Errors.CargoWeight}</span>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Loading Date</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="date" name="LoadingDate" className="form-control" autoComplete="off"
+                                                        value={LoadingDate} onChange={this.onChange} />
+                                                    <span className="text-danger">{Errors.LoadingDate}</span>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-8">
+                                                <div className="form-group">
+                                                    <label className="control-label">Loading Time</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="time" name="LoadingTime" className="form-control" autoComplete="off"
+                                                        value={LoadingTime} onChange={this.onChange} />
+                                                    <span className="text-danger">{Errors.LoadingTime}</span>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Accepted Delay (Hours)</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="number" name="AcceptedDelay" className="form-control" autoComplete="off"
+                                                        value={AcceptedDelay} onChange={this.onChange} />
+                                                    <span className="text-danger">{Errors.AcceptedDelay}</span>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Price (USD)</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="number" min="0.00" step="0.01" max="100.00" name="Price"
+                                                        className="form-control" autoComplete="off" value={Price} onChange={this.onChange} />
+                                                    <span className="text-danger">{Errors.Price}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <label className="control-label">Loading Place</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="text" name="LoadingPlace" className="form-control" autoComplete="off"
-                                                    value={this.state.LoadingPlace} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.LoadingPlace}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Unloading Place</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="text" name="UnloadingPlace" className="form-control" autoComplete="off"
-                                                    value={this.state.UnloadingPlace} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.UnloadingPlace}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Trip Type</label><br />
-                                                <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
-                                                    <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
-                                                        aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                                        <span>{this.state.TripType}</span>
-                                                        <span className="caret"></span>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="form-group">
+                                                    <button type="button" data-toggle="button" className="btn btn-toggle-switch"
+                                                        autocomplete="off" aria-pressed="false"
+                                                        onClick={() => {
+                                                            JobOfferType = (JobOfferType === "Fixed-Price") ?
+                                                                "Auctionable" : "Fixed-Price";
+                                                        }}>
+                                                        <span className="stateLabel stateLabel-on">Auctionable Job Offer</span>
+                                                        <span className="stateLabel stateLabel-off">Fixed-Price Job Offer</span>
                                                     </button>
-                                                    <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                                        <li><a onClick={() => { this.setState({ TripType: "One Way" }); }}>One Way</a></li>
-                                                        <li><a onClick={() => { this.setState({ TripType: "Two Way" }); }}>Two Way</a></li>
-                                                    </ul>
+                                                </div>
+                                                <div className="form-group">
+                                                    <div className="checkbox">
+                                                        <label className="control-label">
+                                                            <input type="checkbox" name="EntryExit"
+                                                                value={EntryExit} onChange={() => {
+                                                                    EntryExit = EntryExit ? 0 : 1;
+                                                                }}></input>
+                                                            <span>Entry/Exit</span>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <label className="control-label">Cargo Type</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="text" name="CargoType" className="form-control" autoComplete="off"
-                                                    value={this.state.CargoType} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.CargoType}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Cargo Weight (lbs)</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="number" name="CargoWeight" className="form-control" autoComplete="off"
-                                                    value={this.state.CargoWeight} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.CargoWeight}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Loading Date</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="date" name="LoadingDate" className="form-control" autoComplete="off"
-                                                    value={this.state.LoadingDate} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.LoadingDate}</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <label className="control-label">Loading Time</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="time" name="LoadingTime" className="form-control" autoComplete="off"
-                                                    value={this.state.LoadingTime} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.LoadingTime}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Accepted Delay (Hours)</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="number" name="AcceptedDelay" className="form-control" autoComplete="off"
-                                                    value={this.state.AcceptedDelay} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.AcceptedDelay}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Price (USD)</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="number" min="0.00" step="0.01" max="100.00" name="Price"
-                                                    className="form-control" autoComplete="off" value={this.state.Price} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.Price}</span>
-                                            </div>
+                                        <div className="text-right">
+                                            <input type="submit" value="Update" className="btn btn-primary" disabled={!ValidForm} />
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <button type="button" data-toggle="button" className={(this.state.JobOfferType === "Auctionable") ? "btn btn-toggle-switch active" : "btn btn-toggle-switch"}
-                                                    autocomplete="off" aria-pressed={(this.state.JobOfferType === "Auctionable") ? "true" : "false"}
-                                                    onClick={() => {
-                                                        this.state.JobOfferType = (this.state.JobOfferType === "Fixed-Price") ?
-                                                            "Auctionable" : "Fixed-Price";
-                                                        this.validateField("", "");
-                                                    }}>
-                                                    <span className="stateLabel stateLabel-on">Auctionable Job Offer</span>
-                                                    <span className="stateLabel stateLabel-off">Fixed-Price Job Offer</span>
-                                                </button>
-                                            </div>
-                                            <div className="form-group">
-                                                <div className="checkbox">
-                                                    <label className="control-label">
-                                                        <input type="checkbox" name="EntryExit" defaultChecked={(this.state.EntryExit === 1) ? "checked" : ""}
-                                                            value={this.state.EntryExit} onChange={() => {
-                                                                this.state.EntryExit = (this.state.EntryExit === 1) ? 0 : 1;
-                                                                this.validateField("", "");
-                                                            }}></input>
-                                                        <span>Entry/Exit</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <button className="btn btn-default" data-dismiss="modal"
-                                        ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                    <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                 </div>
                             </form>
-                        </section>
+                        </div>
                     </div>
                 </div>
             </div>

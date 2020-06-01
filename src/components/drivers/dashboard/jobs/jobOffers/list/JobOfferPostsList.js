@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import ProgressBar from "../../../../../controls/ProgressBar";
-import { getData } from "../../../DriverFunctions";
+import ProgressBar from "../../../../../../controls/ProgressBar";
+import { getData } from "../../../../DriverFunctions";
 import JobOfferPostListItem from "./JobOfferPostListItem";
-import ProgressRing from "../../../../../controls/ProgressRing";
+import ProgressRing from "../../../../../../controls/ProgressRing";
 
 class JobOfferPostsList extends Component {
     constructor(props) {
@@ -83,7 +83,7 @@ class JobOfferPostsList extends Component {
     render() {
         if (this.state.Searching) {
             return <section>
-                <div className="jumbotron theme-alt" style={{ backgroundColor: "#202020" }}>
+                <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
@@ -103,7 +103,7 @@ class JobOfferPostsList extends Component {
         }
         else if (this.state.JobOfferPosts.length === 0) {
             return <section>
-                <div className="jumbotron theme-alt" style={{ backgroundColor: "#202020" }}>
+                <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">

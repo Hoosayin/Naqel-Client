@@ -4,7 +4,7 @@ import ProgressBar from "../../../../../controls/ProgressBar";
 import Job from "./Job";
 import DriverContainer from "../../../../../containers/driver/DriverContainer";
 import TruckContainer from "../../../../../containers/truck/TruckContainer";
-import MapTab from "./MapTab";
+import OnGoingJobMap from "./OnGoingJobMap";
 import Objections from "./objections/Objections";
 import OnGoingJobOptions from "./OnGoingJobOptions";
 
@@ -86,7 +86,7 @@ class OnGoingJob extends Component {
 
     render() {
         if (this.state.Loading || !this.state.OnGoingJob) {
-            return <div className="jumbotron theme-alt" style={{ backgroundColor: "#202020" }}>
+            return <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12 col-md-push-12 text-center">
@@ -158,7 +158,7 @@ class OnGoingJob extends Component {
                         <TruckContainer Refresh={refresh => { this.RefreshTruckContainer = refresh; }} DriverID={onGoingJob.DriverID} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="map-tab">
-                        <MapTab />
+                        <OnGoingJobMap OnGoingJob={onGoingJob} />
                     </div>
                     {onGoingJob.CompletedByDriver ? 
                         null :

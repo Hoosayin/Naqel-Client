@@ -8,7 +8,7 @@ import Jobs from "./jobs/Jobs";
 import Payments from "./payments/Payments";
 import Questions from "./questions/Questions";
 import Settings from "./settings/Settings";
-import Preloader from "../../../controls/Preloader";
+import SearchingContainer from "../../../containers/searching/SearchingContainer";
 import BlockedUserContainer from "../../../containers/blockedUser/BlockedUserContainer";
 import { getData } from "../DriverFunctions";
 
@@ -19,7 +19,7 @@ class DriversDashboard extends Component {
         this.state = {
             Left: -400,
             DashboardData: null,
-            ShowPreloader: false
+            Searching: false
         };
 
         this.onCloseNavigation = this.onCloseNavigation.bind(this);
@@ -33,20 +33,20 @@ class DriversDashboard extends Component {
             };
 
             this.setState({
-                ShowPreloader: true
+                Searching: true
             });
 
             await getData(request).then(response => {
                 if (response.Message === "Dashboard data found.") {
                     this.setState({
                         DashboardData: response.DashboardData,
-                        ShowPreloader: false
+                        Searching: false
                     });
                 }
                 else {
                     this.setState({
                         DashboardData: null,
-                        ShowPreloader: false
+                        Searching: false
                     });
                 }
             });
@@ -66,11 +66,11 @@ class DriversDashboard extends Component {
         else {
             const {
                 DashboardData,
-                ShowPreloader
+                Searching
             } = this.state;
 
-            return (ShowPreloader || !DashboardData) ?
-                <Preloader /> : 
+            return (Searching || !DashboardData) ?
+                <SearchingContainer Searching={Searching} SearchingFor="driver" /> : 
                 <section>
                     {DashboardData.BlockedUser ?
                         <BlockedUserContainer BlockedUser={DashboardData.BlockedUser} /> :
@@ -134,20 +134,21 @@ class DriversDashboard extends Component {
                                     <Permits />
                                 </div>
                                 {DashboardData.IsActiveAccount ?
-                                    <section>
-                                        <div role="tabpanel" className="tab-pane" id="earnings">
-                                            <Earnings Refresh={refresh => { this.RefreshEarnings = refresh; }} />
-                                        </div>
-                                        <div role="tabpanel" className="tab-pane" id="jobs">
-                                            <Jobs />
-                                        </div>
-                                        <div role="tabpanel" className="tab-pane" id="payments">
-                                            <Payments />
-                                        </div>
-                                        <div role="tabpanel" className="tab-pane" id="questions">
-                                            <Questions />
-                                        </div>
-                                    </section> : null}
+                                    <div role="tabpanel" className="tab-pane" id="earnings">
+                                        <Earnings Refresh={refresh => { this.RefreshEarnings = refresh; }} />
+                                    </div> : null}
+                                {DashboardData.IsActiveAccount ?
+                                    <div role="tabpanel" className="tab-pane" id="jobs">
+                                        <Jobs />
+                                    </div> : null}
+                                {DashboardData.IsActiveAccount ?
+                                    <div role="tabpanel" className="tab-pane" id="payments">
+                                        <Payments />
+                                    </div> : null}
+                                {DashboardData.IsActiveAccount ?
+                                    <div role="tabpanel" className="tab-pane" id="questions">
+                                        <Questions />
+                                    </div> : null}
                                 <div role="tabpanel" className="tab-pane" id="settings">
                                     <Settings />
                                 </div>

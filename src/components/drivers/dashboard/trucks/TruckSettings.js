@@ -166,29 +166,58 @@ class TruckSettings extends Component {
             return;
         }
 
-        const updatedTruck = {
+        let request = {
             Token: localStorage.Token,
-            PlateNumber: this.state.PlateNumber,
-            Owner: this.state.Owner,
-            ProductionYear: this.state.ProductionYear,
-            Brand: this.state.Brand,
-            Model: this.state.Model,
-            Type: this.state.Type,
-            MaximumWeight: this.state.MaximumWeight
+            Get: "Owner",
+            Params: {
+                Owner: this.state.Owner
+            }
         };
 
-        this.setState({
-            Preloader: <Preloader />
-        });
-
-        await updateTruck(updatedTruck).then(response => {
-            if (response.Message === "Truck is updated.") {
+        await getData(request).then(async response => {
+            if (response.Message === "Owner found.") {
                 this.setState({
-                    Preloader: null,
-                    ValidForm: false
+                    Preloader: <Preloader />
                 });
 
-                this.props.OnTruckSettingsUpdated();
+                const updatedTruck = {
+                    Token: localStorage.Token,
+                    TransportCompanyResponsibleID: response.Owner.TransportCompanyResponsibleID,
+                    PlateNumber: this.state.PlateNumber,
+                    Owner: response.Owner.Username,
+                    ProductionYear: this.state.ProductionYear,
+                    Brand: this.state.Brand,
+                    Model: this.state.Model,
+                    Type: this.state.Type,
+                    MaximumWeight: this.state.MaximumWeight
+                }
+
+                await updateTruck(updatedTruck).then(response => {
+                    this.setState({
+                        Preloader: false
+                    });
+
+                    if (response.Message === "Truck is updated.") {
+                        this.setState({
+                            ValidForm: false
+                        });
+
+                        this.props.OnTruckSettingsUpdated();
+                    }
+                });
+            }
+            else {
+                let {
+                    Errors,
+                } = this.state;
+
+                Errors.Owner = "Owner not found."
+
+                this.setState({
+                    Errors: Errors,
+                    ValidOwner: false,
+                    ValidForm: false
+                });
             }
         });
     }
@@ -217,7 +246,7 @@ class TruckSettings extends Component {
                         </div>
                         <div className="entity-list-item">
                             <div className="item-icon">
-                                <span className="fas fa-user"></span>
+                                <span className="fas fa-copyright"></span>
                             </div>
                             <div className="item-content-secondary">
                                 <div className="form-group">

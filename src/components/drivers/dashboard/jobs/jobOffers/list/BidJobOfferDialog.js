@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Required } from "../../../../../styles/MiscellaneousStyles.js";
-import Preloader from "../../../../../controls/Preloader.js";
-import { addDriverRequest } from "../../../DriverFunctions";
+import { Required } from "../../../../../../styles/MiscellaneousStyles.js";
+import Preloader from "../../../../../../controls/Preloader.js";
+import { addDriverRequest } from "../../../../DriverFunctions";
 
 class BidJobOfferDialog extends Component {
     constructor(props) {

@@ -11,7 +11,7 @@ class SearchingContainer extends Component {
         const searchingFor = this.props.SearchingFor;
 
         return <section>
-            <div className="jumbotron theme-default">
+            <div className="jumbotron theme-default" style={{ width: "100%", height: "100vh" }}>
                 <div className="container">
                     <div className="row">
                         {searching ? <div className="col-md-24 text-center">

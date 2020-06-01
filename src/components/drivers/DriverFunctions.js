@@ -158,6 +158,7 @@ export const passwordSettings = async updatedDriver => {
 export const addTruck = async newTruck => {
     console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addTruck...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/addTruck`, {
+        TransportCompanyResponsibleID: newTruck.TransportCompanyResponsibleID,
         PlateNumber: newTruck.PlateNumber,
         Owner: newTruck.Owner,
         ProductionYear: newTruck.ProductionYear,
@@ -189,6 +190,7 @@ export const updateTruckPhoto = async updatedTruck => {
 export const updateTruck = async updatedTruck => {
     console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/updateTruck...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/updateTruck`, {
+        TransportCompanyResponsibleID: updatedTruck.TransportCompanyResponsibleID,
         PlateNumber: updatedTruck.PlateNumber,
         Owner: updatedTruck.Owner,
         ProductionYear: updatedTruck.ProductionYear,
@@ -422,7 +424,11 @@ export const addJobRequest = async newJobRequest => {
     console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}drivers/addJobRequest...`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/addJobRequest`, {
         LoadingPlace: newJobRequest.LoadingPlace,
+        LoadingLat: newJobRequest.LoadingLat,
+        LoadingLng: newJobRequest.LoadingLng,
         UnloadingPlace: newJobRequest.UnloadingPlace,
+        UnloadingLat: newJobRequest.UnloadingLat,
+        UnloadingLng: newJobRequest.UnloadingLng,
         TripType: newJobRequest.TripType,
         Price: newJobRequest.Price,
     }, {
@@ -438,7 +444,11 @@ export const updateJobRequest = async updatedJobRequest => {
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/updateJobRequest`, {
         JobRequestID: updatedJobRequest.JobRequestID,
         LoadingPlace: updatedJobRequest.LoadingPlace,
+        LoadingLat: updatedJobRequest.LoadingLat,
+        LoadingLng: updatedJobRequest.LoadingLng,
         UnloadingPlace: updatedJobRequest.UnloadingPlace,
+        UnloadingLat: updatedJobRequest.UnloadingLat,
+        UnloadingLng: updatedJobRequest.UnloadingLng,
         TripType: updatedJobRequest.TripType,
         Price: updatedJobRequest.Price,
     }, {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import ProgressBar from "../../../../../controls/ProgressBar";
-import ProgressRing from "../../../../../controls/ProgressRing";
-import { getData } from "../../../TraderFunctions";
+import ProgressBar from "../../../../../../controls/ProgressBar";
+import ProgressRing from "../../../../../../controls/ProgressRing";
+import { getData } from "../../../../TraderFunctions";
 import JobRequestPostListItem from "./JobRequestPostListItem";
 
 class JobRequestPostsList extends Component {
@@ -90,7 +90,7 @@ class JobRequestPostsList extends Component {
     render() {
         if (this.state.Searching) {
             return <section>
-                <div className="jumbotron theme-alt" style={{ backgroundColor: "#202020" }}>
+                <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
@@ -110,7 +110,7 @@ class JobRequestPostsList extends Component {
         }
         else if (this.state.JobRequestPosts.length === 0) {
             return <section>
-                <div className="jumbotron theme-alt" style={{ backgroundColor: "#202020" }}>
+                <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">

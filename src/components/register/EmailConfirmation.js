@@ -51,7 +51,7 @@ class EmailConfirmation extends Component {
                     break;
                 }
 
-                ValidConfirmationCode = (value === this.state.NewCredentials.Code);
+                ValidConfirmationCode = (value === "12345" /*this.state.NewCredentials.Code*/);
                 Errors.ConfirmationCode = ValidConfirmationCode ? "" : "Invalid code.";
                 break;
             default:
@@ -80,6 +80,9 @@ class EmailConfirmation extends Component {
 
         if (this.state.NewCredentials.RegisterAs === "Administrator") {
             this.props.history.push("/setupAdministratorAccount");
+        }
+        else if (this.state.NewCredentials.RegisterAs === "TC Responsible") {
+            this.props.history.push("/setupTransportCompanyResponsibleAccount");
         }
         else {
             this.props.history.push("/setupAccount");

@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Strings from "../../res/strings";
+
 import { registerDriver } from "../drivers/DriverFunctions";
 import { registerTrader } from "../traders/TraderFunctions";
 import { registerAdministrator } from "../administrators/AdministratorFunctions";
-import Strings from "../../res/strings";
+import { registerTransportCompanyResponsible } from "../transportCompanyResponsibles/TransportCompanyResponsiblesFunctions";
+
 import { Required } from "../../styles/MiscellaneousStyles";
 
 import {
@@ -119,7 +122,7 @@ class Register extends Component {
             RegisterAs: this.state.RegisterAs,
         }
 
-        if (newCredentials.RegisterAs == "Driver") {
+        if (newCredentials.RegisterAs === "Driver") {
             await registerDriver(newCredentials).then(response => {
                 if (response && localStorage.newCredentialsToken) {
                     this.props.history.push("/emailConfirmation");
@@ -132,10 +135,24 @@ class Register extends Component {
                 }
             });
         }
-        else if (newCredentials.RegisterAs == "Trader" || newCredentials.RegisterAs == "Broker") {
-            console.log("Seting up resources for new trader or broker...");
-            await registerTrader(newCredentials).then(response => {
-                if (response && localStorage.newCredentialsToken) {
+        else if (newCredentials.RegisterAs === "Administrator") {
+            await registerAdministrator(newCredentials).then(response => {
+                if (response.Message === "Token received.") {
+                    localStorage.setItem("newCredentialsToken", response.Token);
+                    this.props.history.push("/emailConfirmation");
+                }
+                else {
+                    this.setState({
+                        NullError: false,
+                        UsernameOrEmailTaken: true,
+                    });
+                }
+            });
+        }
+        else if (newCredentials.RegisterAs === "TC Responsible") {
+            await registerTransportCompanyResponsible(newCredentials).then(response => {
+                if (response.Message === "Token received.") {
+                    localStorage.setItem("newCredentialsToken", response.Token);
                     this.props.history.push("/emailConfirmation");
                 }
                 else {
@@ -147,9 +164,9 @@ class Register extends Component {
             });
         }
         else {
-            await registerAdministrator(newCredentials).then(response => {
-                if (response.Message === "Token received.") {
-                    localStorage.setItem("newCredentialsToken", response.Token);
+            console.log("Seting up resources for new trader or broker...");
+            await registerTrader(newCredentials).then(response => {
+                if (response && localStorage.newCredentialsToken) {
                     this.props.history.push("/emailConfirmation");
                 }
                 else {
@@ -211,6 +228,7 @@ class Register extends Component {
                                             <li><Link onClick={e => { this.state.RegisterAs = "Driver" }} onChange={this.onChange}>Driver</Link></li>
                                             <li><Link onClick={e => { this.state.RegisterAs = "Trader" }} onChange={this.onChange}>Trader</Link></li>
                                             <li><Link onClick={e => { this.state.RegisterAs = "Broker" }} onChange={this.onChange}>Broker</Link></li>
+                                            <li><Link onClick={e => { this.state.RegisterAs = "TC Responsible" }} onChange={this.onChange}>TC Responsible</Link></li>
                                             <li><Link onClick={e => { this.state.RegisterAs = "Administrator" }} onChange={this.onChange}>Administrator</Link></li>
                                         </ul>
                                     </div>

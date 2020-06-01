@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TraderRequestContainer from "../../../../../containers/traderRequest/TraderRequestContainer";
+import TraderRequestContainer from "../../../../../../containers/traderRequest/TraderRequestContainer";
 
 class TraderRequestDialog extends Component {
     constructor(props) {

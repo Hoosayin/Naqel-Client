@@ -1,41 +1,69 @@
-import React, { Component } from "react";
-import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
-import Geocode from "react-geocode";
-import Autocomplete from 'react-google-autocomplete';
-Geocode.setApiKey("AIzaSyC3YT8gMjGGdzQpHBNcayZYF4rvbGTL8IM");
-Geocode.enableDebug();
+import React, { useState } from "react";
+import { withGoogleMap, withScriptjs, GoogleMap, Marker, InfoWindow, DirectionsRenderer } from "react-google-maps";
+const Key = "AIzaSyD_U_2NzdPIL7TWb8ECBHWO1eROR2yrebI";
 
-class Map extends Component {
-    constructor(props) {
-        super(props);
+const Directions = () => {
+    const [Directions, SetDirections] = useState(null);
 
-        this.state = {
-            NoState: null
-        };
-    }
+    const directionsService = new window.google.maps.DirectionsService();
 
-    render() {
-        const AsyncMap = withScriptjs(
-            withGoogleMap(
-                props => (
-                    <GoogleMap
-                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3YT8gMjGGdzQpHBNcayZYF4rvbGTL8IM&libraries=places"
-                        defaultZoom={10}
-                        defaultCenter={{ lat: 33.784310, lng: 72.738780 }}>                   
-                    </GoogleMap>
-                )
-            )
-        );
-        return (
-            <div>
-                <AsyncMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3YT8gMjGGdzQpHBNcayZYF4rvbGTL8IM&libraries=places"
-                    loadingElement={ <div style={{ height: `100%` }} /> }
-                    containerElement={ <div style={{ height: "400px" }} /> }
-                    mapElement={ <div style={{ height: `100%` }} /> } />
-            </div>              
-        );
-    }
+    const origin = { lat: 33.784310, lng: 72.738780 };
+    const destination = { lat: 33.684422, lng: 73.047882 };
+
+    directionsService.route({
+        origin: origin,
+        destination: destination,
+        travelMode: window.google.maps.TravelMode.DRIVING
+    }, (result, status) => {
+        console.log("Hello");
+        console.log(result);
+        console.log(status);
+
+        if (status === window.google.maps.DirectionsStatus.OK) {
+            SetDirections(result);
+        } else {
+            console.error(`error fetching directions ${result}`);
+        }
+    });
+
+    return <DirectionsRenderer directions={Directions} />;
 };
 
-export default Map;
+const Map = () => {
+    const [SelectedJobOffer, SetSelectedPark] = useState(null);
+
+    return <GoogleMap
+        defaultZoom={10}
+        defaultCenter={{ lat: 33.784310, lng: 72.738780 }}>
+        <Marker key={1} position={{ lat: 33.784310, lng: 72.738780 }}
+            icon={{
+                url: "./images/sad.svg",
+                scaledSize: new window.google.maps.Size(30, 30)
+            }}
+            onClick={() => {
+                SetSelectedPark(true);
+            }} />
+
+        {SelectedJobOffer ? <InfoWindow position={{ lat: 33.784310, lng: 72.738780 }}
+            onCloseClick={() => {SetSelectedPark(null);
+            }}>
+            <div>Job Offer Details</div>
+        </InfoWindow> : null}
+
+        <Directions />
+    </GoogleMap>;
+}
+
+const MapWrapped = withScriptjs(withGoogleMap(Map));
+
+const MyGoogleMap = () => {
+    return <div style={{ width: "100%", height: "400px" }}>
+        <MapWrapped
+            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${Key}`}
+            loadingElement={<div style={{ height: `100%` }} />}
+            containerElement={<div style={{ height: `100%` }} />}
+            mapElement={<div style={{ height: `100%` }} />} />
+    </div>;
+}
+
+export default MyGoogleMap;

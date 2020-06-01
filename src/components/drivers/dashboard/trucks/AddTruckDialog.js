@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { addTruck } from "../../DriverFunctions";
 import Preloader from "../../../../controls/Preloader";
 import { Required } from "../../../../styles/MiscellaneousStyles";
 import ImageUploader from "../../../../controls/ImageUploader";
+import { getData, addTruck } from "../../DriverFunctions";
 
 class AddTruckDialog extends Component {
     constructor(props) {
@@ -150,60 +150,88 @@ class AddTruckDialog extends Component {
             return;
         }
 
-        const newTruck = {
+        let request = {
             Token: localStorage.Token,
-            PlateNumber: this.state.PlateNumber,
-            Owner: this.state.Owner,
-            ProductionYear: this.state.ProductionYear,
-            Brand: this.state.Brand,
-            Model: this.state.Model,
-            Type: this.state.Type,
-            MaximumWeight: this.state.MaximumWeight,
-            PhotoURL: this.state.PhotoURL
-        }
+            Get: "Owner",
+            Params: {
+                Owner: this.state.Owner
+            }
+        };
 
-        this.setState({
-            ShowPreloader: true 
-        });
+        await getData(request).then(async response => {
+            console.log(response);
 
-        await addTruck(newTruck).then(response => {
-            if (response.Message === "Truck is added.") {
-                this.cancelButton.click();
-                this.props.OnOK();
-
+            if (response.Message === "Owner found.") {
+                
                 this.setState({
-                    ShowPreloader: false
+                    ShowPreloader: true
+                });
+
+                const newTruck = {
+                    Token: localStorage.Token,
+                    TransportCompanyResponsibleID: response.Owner.TransportCompanyResponsibleID,
+                    PlateNumber: this.state.PlateNumber,
+                    Owner: response.Owner.Username,
+                    ProductionYear: this.state.ProductionYear,
+                    Brand: this.state.Brand,
+                    Model: this.state.Model,
+                    Type: this.state.Type,
+                    MaximumWeight: this.state.MaximumWeight,
+                    PhotoURL: this.state.PhotoURL
+                }
+
+                await addTruck(newTruck).then(response => {
+                    this.setState({
+                        ShowPreloader: false
+                    });
+
+                    if (response.Message === "Truck is added.") {
+                        this.cancelButton.click();
+                        this.props.OnOK();
+                    }
                 });
             }
             else {
+                let {
+                    Errors,
+                } = this.state;
+
+                Errors.Owner = "Owner not found."
+
                 this.setState({
-                    ShowPreloader: false
+                    Errors: Errors,
+                    ValidOwner: false,
+                    ValidForm: false
                 });
             }
         });
     }
 
     render() {
-        return (
-            <div className="modal" id="add-truck-dialog"
+        return <section>
+            <div className="modal modal-center-vertical" id="add-truck-dialog"
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
                 {this.state.ShowPreloader ? <Preloader /> : null}
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <p>
+                <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
+                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                        <div className="modal-header">
+                            <div className="text-right">
+                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                    data-dismiss="modal"
+                                    ref={cancelButton => this.cancelButton = cancelButton}>
+                                    <span className="fas fa-times"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="modal-body">
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div className="modal-header">
-                                    <img alt="add.png" src="./images/add.png" height="60" />
-                                    <div className="type-h3">New Truck</div>
-                                    <div className="type-sh3">These detials will be displayed on your profile.</div>
-                                </div>
-                                <div className="modal-body">
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <ImageUploader Source={this.state.PhotoURL}
-                                                    Height="220px" Width="220px"
+                                <div className="jumbotron theme-default">
+                                    <div className="container">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <ImageUploader
+                                                    Source={this.state.PhotoURL}
                                                     OnImageUploaded={response => {
                                                         if (response.message === "Image uploaded successfully.") {
                                                             this.setState({
@@ -218,77 +246,79 @@ class AddTruckDialog extends Component {
                                                     }}
                                                     OnInvalidImageSelected={() => {
                                                         this.validateField("PhotoURL", null);
-                                                    }}
-                                                    ImageCategory="Truck" />
+                                                    }} />
                                             </div>
-                                            <div className="form-group">
+                                            <div className="col-md-12">
+                                                <div className="type-h3 color-default p-t-xxs">Add Truck</div>
                                                 <label className="text-danger">{this.state.Errors.PhotoURL}</label>
+                                                <div className="row">
+                                                    <div className="col-md-12">
+                                                        <div className="form-group">
+                                                            <label className="control-label">Plate Number</label>
+                                                            <span className="text-danger m-l-xxxs">*</span>
+                                                            <input type="number" name="PlateNumber" className="form-control" autoComplete="off"
+                                                                value={this.state.PlateNumber} onChange={this.onChange} />
+                                                            <span className="text-danger">{this.state.Errors.PlateNumber}</span>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label className="control-label">Owner</label>
+                                                            <span className="text-danger m-l-xxxs">*</span>
+                                                            <input type="text" name="Owner" className="form-control" autoComplete="off"
+                                                                value={this.state.Owner} onChange={this.onChange} />
+                                                            <span className="text-danger">{this.state.Errors.Owner}</span>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label className="control-label">Production Year</label>
+                                                            <span className="text-danger m-l-xxxs">*</span>
+                                                            <input type="number" name="ProductionYear" className="form-control" autoComplete="off"
+                                                                value={this.state.ProductionYear} onChange={this.onChange} placeholder="XXXX" />
+                                                            <span className="text-danger">{this.state.Errors.ProductionYear}</span>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label className="control-label">Brand</label>
+                                                            <span className="text-danger m-l-xxxs">*</span>
+                                                            <input type="text" name="Brand" className="form-control" autoComplete="off"
+                                                                value={this.state.Brand} onChange={this.onChange} />
+                                                            <span className="text-danger">{this.state.Errors.Brand}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-12">
+                                                        <div className="form-group">
+                                                            <label className="control-label">Truck Model</label>
+                                                            <span className="text-danger m-l-xxxs">*</span>
+                                                            <input type="text" name="Model" className="form-control" autoComplete="off"
+                                                                value={this.state.Model} onChange={this.onChange} />
+                                                            <span className="text-danger">{this.state.Errors.Model}</span>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label className="control-label">Truck Type</label>
+                                                            <span className="text-danger m-l-xxxs">*</span>
+                                                            <input type="text" name="Type" className="form-control" autoComplete="off"
+                                                                value={this.state.Type} onChange={this.onChange} />
+                                                            <span className="text-danger">{this.state.Errors.Type}</span>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label className="control-label">Maximum Weight (GVW)</label>
+                                                            <span className="text-danger m-l-xxxs">*</span>
+                                                            <input type="number" name="MaximumWeight" className="form-control" autoComplete="off"
+                                                                value={this.state.MaximumWeight} onChange={this.onChange} />
+                                                            <span className="text-danger">{this.state.Errors.MaximumWeight}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-12">                                          
-                                            <div className="form-group">
-                                                <label className="control-label">Plate Number</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="number" name="PlateNumber" className="form-control" autoComplete="off"
-                                                    value={this.state.PlateNumber} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.PlateNumber}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Owner</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="text" name="Owner" className="form-control" autoComplete="off"
-                                                    value={this.state.Owner} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.Owner}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Production Year</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="number" name="ProductionYear" className="form-control" autoComplete="off"
-                                                    value={this.state.ProductionYear} onChange={this.onChange} placeholder="XXXX" />
-                                                <span className="text-danger">{this.state.Errors.ProductionYear}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Brand</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="text" name="Brand" className="form-control" autoComplete="off"
-                                                    value={this.state.Brand} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.Brand}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Truck Model</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="text" name="Model" className="form-control" autoComplete="off"
-                                                    value={this.state.Model} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.Model}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Truck Type</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="text" name="Type" className="form-control" autoComplete="off"
-                                                    value={this.state.Type} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.Type}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Maximum Weight (GVW)</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="number" name="MaximumWeight" className="form-control" autoComplete="off"
-                                                    value={this.state.MaximumWeight} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.MaximumWeight}</span>
-                                            </div>
+                                        <div className="text-right">
+                                            <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
-                                <div className="modal-footer">
-                                    <button className="btn btn-default" data-dismiss="modal"
-                                        ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                    <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
-                                </div>
                             </form>
-                        </p>
+                        </div>
                     </div>
                 </div>
-            </div>             
-        );
+            </div>
+        </section>;
     }
 };
 

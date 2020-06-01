@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { addDriverRequest, deleteDriverRequest } from "../../../DriverFunctions";
-import TraderContainer from "../../../../../containers/trader/TraderContainer";
-import JobOfferContainer from "../../../../../containers/jobOffer/JobOfferContainer";
+import { addDriverRequest, deleteDriverRequest } from "../../../../DriverFunctions";
+import TraderContainer from "../../../../../../containers/trader/TraderContainer";
+import JobOfferContainer from "../../../../../../containers/jobOffer/JobOfferContainer";
 import BidJobOfferDialog from "./BidJobOfferDialog";
-import Preloader from "../../../../../controls/Preloader";
+import Preloader from "../../../../../../controls/Preloader";
 
 class JobOfferPostsList extends Component {
     constructor(props) {

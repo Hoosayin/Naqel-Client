@@ -14,7 +14,7 @@ class ProfileDialog extends Component {
             <div className="modal modal-center-vertical" id={`profile-dialog-${index}`}
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
-                <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
                     <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
                         <div className="modal-header">
                             <div className="text-right">
@@ -22,7 +22,6 @@ class ProfileDialog extends Component {
                                     <span className="fas fa-times"></span>
                                 </button>
                             </div>
-                            <div className="type-h2" style={{ color: "#008575", paddingTop: "0px" }}>Driver's Profile</div>
                         </div>
                         <div className="modal-body">
                             <section>

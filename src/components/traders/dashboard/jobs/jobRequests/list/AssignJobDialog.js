@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Preloader from "../../../../../controls/Preloader";
-import { addOnGoingJobFromJobRequest } from "../../../TraderFunctions";
+import Preloader from "../../../../../../controls/Preloader";
+import { addOnGoingJobFromJobRequest } from "../../../../TraderFunctions";
 
 class AssignJobDialog extends Component {
     constructor(props) {

@@ -154,6 +154,15 @@ class Truck extends Component {
                                                         <div className="content-text-secondary">{`${truck.MaximumWeight} GVW`}</div>
                                                     </div>
                                                 </div>
+                                                <div className="entity-list-item">
+                                                    <div className="item-icon">
+                                                        <span className="fas fa-copyright"></span>
+                                                    </div>
+                                                    <div className="item-content-primary">
+                                                        <div className="content-text-primary">Owner</div>
+                                                        <div className="content-text-secondary">{truck.Owner}</div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

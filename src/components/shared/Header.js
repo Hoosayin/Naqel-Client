@@ -33,9 +33,26 @@ class Header extends Component {
 
     render() {
         let token;
+        let dashboardRoute;
 
         if (localStorage.Token) {
             token = jwt_decode(localStorage.Token);
+
+            if (token.DriverID) {
+                dashboardRoute = "/drivers";
+            }
+            else if (token.TraderID) {
+                dashboardRoute = "/traders";
+            }
+            else if (token.AdministratorID) {
+                dashboardRoute = "/administrators";
+            }
+            else if (token.TransportCompanyResponsibleID) {
+                dashboardRoute = "/transportCompanyResponsibles";
+            }
+            else {
+                dashboardRoute = "/login";
+            }
         }
 
         const loginRegisterLinks = <ul className="nav navbar-nav navbar-right">
@@ -49,7 +66,7 @@ class Header extends Component {
 
         const userLinks = <ul className="nav navbar-nav navbar-right">
             <li>
-                <Link to={(token && token.DriverID) ? "/drivers" : "/traders"}>Dashboard</Link>
+                <Link to={dashboardRoute}>Dashboard</Link>
             </li>
             <li>
                 <Link to="" onClick={this.logOut.bind(this)}>Logout</Link>

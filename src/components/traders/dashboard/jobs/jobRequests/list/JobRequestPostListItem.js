@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import UUID from "uuid-v4";
-import Preloader from "../../../../../controls/Preloader";
-import DriverContainer from "../../../../../containers/driver/DriverContainer";
-import TruckContainer from "../../../../../containers/truck/TruckContainer";
-import JobRequestContainer from "../../../../../containers/jobReqeust/JobRequestContainer";
+import Preloader from "../../../../../../controls/Preloader";
+import DriverContainer from "../../../../../../containers/driver/DriverContainer";
+import TruckContainer from "../../../../../../containers/truck/TruckContainer";
+import JobRequestContainer from "../../../../../../containers/jobReqeust/JobRequestContainer";
 import SendTraderRequestDialog from "./SendTraderRequestDialog";
 import TraderRequestDialog from "./TraderRequestDialog";
 import AssignJobDialog from "./AssignJobDialog";
-import { deleteTraderRequest } from "../../../TraderFunctions";
+import { deleteTraderRequest } from "../../../../TraderFunctions";
 
 class JobRequestPostListItem extends Component {
     constructor(props) {
