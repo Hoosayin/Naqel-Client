@@ -11,7 +11,8 @@ class BillsList extends Component {
         this.state = {
             Bills: [],
             NumberOfPaidBills: 0,
-            NumberOfUnpaidBills: 0, 
+            NumberOfUnpaidBills: 0,
+            CanRequestSpecialBills: false,
             Searching: false
         }
 
@@ -39,6 +40,7 @@ class BillsList extends Component {
                         Bills: response.Bills,
                         NumberOfPaidBills: response.NumberOfPaidBills,
                         NumberOfUnpaidBills: response.NumberOfUnpaidBills,
+                        CanRequestSpecialBills: response.CanRequestSpecialBills,
                         Searching: false
                     });
                 }
@@ -47,6 +49,7 @@ class BillsList extends Component {
                         Bills: [],
                         NumberOfPaidBills: 0,
                         NumberOfUnpaidBills: 0,
+                        CanRequestSpecialBills: false,
                         Searching: false
                     });
                 }
@@ -58,6 +61,7 @@ class BillsList extends Component {
         const bills = this.state.Bills;
         const numberOfPaidBills = this.state.NumberOfPaidBills;
         const numberOfUnpaidBills = this.state.NumberOfUnpaidBills;
+        const canRequestSpecialBills = this.state.CanRequestSpecialBills;
 
         return <section>
             <PageHeading Heading="PAYMENTS" />
@@ -116,6 +120,7 @@ class BillsList extends Component {
                     {bills.map((bill, index) => {
                         return <BillListItem key={index}
                             Index={index} Bill={bill}
+                            CanRequestSpecialBills={canRequestSpecialBills}
                             OnPayProofUpdated={(bill, hasPayProof) => {
                                 let bills = this.state.Bills;
 
@@ -149,6 +154,20 @@ class BillsList extends Component {
                                     Bills: bills,
                                     NumberOfPaidBills: numberOfPaidBills,
                                     NumberOfUnpaidBills: numberOfUnpaidBills
+                                });
+                            }}
+                            OnSpecialBillRequested={(bill, specialBill) => {
+                                let bills = this.state.Bills;
+
+                                for (let billItem of bills) {
+                                    if (billItem === bill) {
+                                        billItem.SpecialTraderBill = specialBill;
+                                        break;
+                                    }
+                                }
+
+                                this.setState({
+                                    Bills: bills
                                 });
                             }} />;
                     })}

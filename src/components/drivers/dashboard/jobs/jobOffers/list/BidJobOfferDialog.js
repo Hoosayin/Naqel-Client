@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Required } from "../../../../../../styles/MiscellaneousStyles.js";
 import Preloader from "../../../../../../controls/Preloader.js";
 import { addDriverRequest } from "../../../../DriverFunctions";
 
@@ -57,9 +56,9 @@ class BidJobOfferDialog extends Component {
             Errors: Errors,
             ValidPrice: ValidPrice
         }, () => {
-                this.setState({
-                    ValidForm: this.state.ValidPrice
-                });
+            this.setState({
+                ValidForm: this.state.ValidPrice
+            });
         });
     }
 
@@ -104,40 +103,46 @@ class BidJobOfferDialog extends Component {
     }
 
     render() {
-        return <section className="text-left">
-            <div className="modal" id={`bid-job-offer-dialog-${this.props.DialogID}`}
+        return <section>
+            <div className="modal modal-center-vertical" id={`bid-job-offer-dialog-${this.props.DialogID}`}
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
                 {this.state.Preloader}
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <section>
+                <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                        <div className="modal-header">
+                            <div className="text-right">
+                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                    data-dismiss="modal"
+                                    ref={cancelButton => this.cancelButton = cancelButton}>
+                                    <span className="fas fa-times"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="modal-body">
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div className="modal-header">
-                                    <img alt="bid.png" src="./images/bid.png" height="60" />
-                                    <div className="type-h3">Bid on Price</div>
-                                    <div className="type-sh3">{`Maximum Accepted Price is $${this.props.JobOffer.Price}.`}</div>
-                                </div>
-                                <div className="modal-body">
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <label className="control-label">Price (USD)</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="number" min="0.00" step="0.01" max="100.00" name="Price"
-                                                    className="form-control" autoComplete="off" value={this.state.Price} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.Price}</span>
+                                <div className="jumbotron theme-default">
+                                    <div className="container">
+                                        <div className="type-h3 color-default p-t-xxs">Bid on Price</div>
+                                        <div className="type-sh3">{`Maximum Accepted Price is $${this.props.JobOffer.Price}.`}</div>
+                                        <div className="row p-t-xxs">
+                                            <div className="col-md-24">
+                                                <div className="form-group">
+                                                    <label className="control-label">Price (USD)</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="number" min="0.00" step="0.01" name="Price"
+                                                        className="form-control" autoComplete="off" value={this.state.Price} onChange={this.onChange} />
+                                                    <span className="text-danger">{this.state.Errors.Price}</span>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <input type="submit" value="Bid" className="btn btn-primary" disabled={!this.stateValidForm} />
                                         </div>
                                     </div>
                                 </div>
-                                <div className="modal-footer">
-                                    <button className="btn btn-default" data-dismiss="modal"
-                                        ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                    <input type="submit" value="Bid" className="btn btn-primary" disabled={!this.state.ValidForm} />
-                                </div>
                             </form>
-                        </section>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -132,7 +132,7 @@ class EarningsList extends Component {
             {(earnings.length === 0) ?
                 <SearchingContainer Searching={this.state.Searching}
                     SearchingFor="earnings" /> :
-                <div class="table-responsive back-color-gray">
+                <div class="table-responsive back-color-gray" style={{ height: "100vh" }}>
                     <table class="table table-striped">
                         <thead>
                             <tr>

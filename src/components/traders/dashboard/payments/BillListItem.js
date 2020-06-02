@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import { ElementsConsumer } from "@stripe/react-stripe-js";
 import BillContainer from "../../../../containers/bill/BillContainer";
 import PrintBillDialog from "./PrintBillDialog";
+import PrintSpecialBillDialog from "./PrintSpecialBillDialog";
 import AddPayProofDialog from "./AddPayProofDialog";
 import PaymentDetails from "./PaymentDetails";
 import PayOnlineDialog from "./PayOnlineDialog";
+import RequestSpecialBillDialog from "./RequestSpecialBillDialog";
 
 class BillListItem extends Component {
     constructor(props) {
@@ -14,6 +16,7 @@ class BillListItem extends Component {
     render() {
         const index = this.props.Index;
         const bill = this.props.Bill;
+        const canRequestSpecialBills = this.props.CanRequestSpecialBills;
 
         return <li className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
             <BillContainer Index={index} Bill={bill} />
@@ -35,6 +38,15 @@ class BillListItem extends Component {
                     <button className="btn btn-primary"
                         data-toggle="modal"
                         data-target={`#add-pay-proof-dialog-${index}`}>Upload Pay Proof</button>}
+
+                {canRequestSpecialBills ?
+                    <section>{bill.SpecialTraderBill ? 
+                        <button className="btn btn-secondary"
+                            data-toggle="modal"
+                            data-target={`#print-special-bill-dialog-${index}`}>Print Special Bill</button> : 
+                        <button className="btn btn-primary"
+                            data-toggle="modal"
+                            data-target={`#request-special-bill-dialog-${index}`}>Request Special Bill</button>}</section> : null}
             </div>
 
             <div className="back-color-gray" data-toggle="collapse" aria-expanded="false" data-target={`#bill-${index}`}
@@ -82,6 +94,16 @@ class BillListItem extends Component {
                                 await this.RefreshPaymentDetails();
                             }} />)}
                 </ElementsConsumer>}
+
+            {canRequestSpecialBills ?
+                <section>{bill.SpecialTraderBill ? 
+                    <PrintSpecialBillDialog Index={index}
+                        Bill={bill} /> : 
+                    <RequestSpecialBillDialog Index={index}
+                        TraderBill={bill}
+                        OnOK={specialBill => {
+                            this.props.OnSpecialBillRequested(bill, specialBill);
+                        }} />}</section> : null}
         </li>;
     }
 };

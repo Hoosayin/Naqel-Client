@@ -61,9 +61,7 @@ class Bill extends Component {
             return <section>
                 <div className="jumbotron theme-default back-color-light">
                     <div className="container">
-                        {billData.Type === "Trader" ? 
-                            <div className="type-t3" style={{ fontWeight: "600" }}><span className="fas fa-route m-r-xxxs"></span>NAQEL</div> : 
-                            null}
+                        <div className="type-t3" style={{ fontWeight: "600" }}><span className="fas fa-route m-r-xxxs"></span>NAQEL</div>
 
                         <div className="p-t-xxs">
                             <div className="type-t9">123 Naqel Street</div>

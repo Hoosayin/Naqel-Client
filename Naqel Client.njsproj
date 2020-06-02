@@ -1966,8 +1966,12 @@
     <Content Include="src\components\administrators\dashboard\questions\traderQuestions\TraderQuestionListItem.js" />
     <Content Include="src\components\administrators\dashboard\questions\traderQuestions\TraderQuestions.js" />
     <Content Include="src\components\administrators\dashboard\questions\traderQuestions\TraderQuestionsList.js" />
+    <Content Include="src\components\administrators\dashboard\traders\ChargeTraderDialog.js" />
+    <Content Include="src\components\administrators\dashboard\traders\ExonerateTraderDialog.js" />
     <Content Include="src\components\administrators\dashboard\traders\SetRefundRateDialog.js" />
-    <Content Include="src\components\administrators\dashboard\traders\TraderListItem.js" />
+    <Content Include="src\components\administrators\dashboard\traders\TraderListItem.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\components\administrators\dashboard\traders\TradersList.js" />
     <Content Include="src\components\administrators\dashboard\traders\Traders.js" />
     <Content Include="src\components\drivers\dashboard\DriversDashboard.js" />
@@ -2089,6 +2093,9 @@
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\OnGoingJob.js" />
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\OnGoingJobOptions.js" />
     <Content Include="src\components\traders\dashboard\jobs\onGoingJob\ReviewDialog.js" />
+    <Content Include="src\components\traders\dashboard\payments\SpecialBill.js" />
+    <Content Include="src\components\traders\dashboard\payments\PrintSpecialBillDialog.js" />
+    <Content Include="src\components\traders\dashboard\payments\RequestSpecialBillDialog.js" />
     <Content Include="src\components\traders\dashboard\payments\Bill.js" />
     <Content Include="src\components\traders\dashboard\payments\AddPayProofDialog.js" />
     <Content Include="src\components\traders\dashboard\payments\PayOnlineDialog.js" />
@@ -2168,6 +2175,7 @@
     <Content Include="src\components\transportCompanyResponsibles\dashboard\trucks\truckList\TrucksList.js" />
     <Content Include="src\components\transportCompanyResponsibles\TransportCompanyResponsiblesFunctions.js" />
     <Content Include="src\containers\bill\BillContainer.js" />
+    <Content Include="src\containers\exoneratedTrader\ExoneratedTraderContainer.js" />
     <Content Include="src\containers\blockedUser\BlockedUserContainer.js" />
     <Content Include="src\containers\completedJob\CompletedJobContainer.js" />
     <Content Include="src\containers\responsibleQuestion\ResponsibleQuestionContainer.js" />
@@ -2197,6 +2205,7 @@
     <Content Include="src\containers\truck\TrailersContainer.js" />
     <Content Include="src\containers\truck\TrailersDialog.js" />
     <Content Include="src\containers\truck\TruckContainer.js" />
+    <Content Include="src\controls\Map - Copy.js" />
     <Content Include="src\controls\PlaceInput.js" />
     <Content Include="src\controls\BackToTop.js" />
     <Content Include="src\controls\ImageUploader.js" />
@@ -2353,6 +2362,7 @@
     <Folder Include="src\components\transportCompanyResponsibles\dashboard\trucks\truckJobs\truckJobsTable\" />
     <Folder Include="src\components\transportCompanyResponsibles\dashboard\trucks\truckJobs\truckJobsTable\truckJobDetails\" />
     <Folder Include="src\components\transportCompanyResponsibles\dashboard\trucks\truckList\" />
+    <Folder Include="src\containers\exoneratedTrader\" />
     <Folder Include="src\containers\blockedUser\" />
     <Folder Include="src\containers\responsibleQuestion\" />
     <Folder Include="src\containers\payDetails\" />

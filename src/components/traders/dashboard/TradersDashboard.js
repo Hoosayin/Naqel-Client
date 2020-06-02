@@ -5,13 +5,18 @@ import Jobs from "./jobs/Jobs";
 import Payments from "./payments/Payments";
 import Questions from "./questions/Questions";
 import Settings from "./settings/Settings";
+import SearchingContainer from "../../../containers/searching/SearchingContainer";
+import ExoneratedTraderContainer from "../../../containers/exoneratedTrader/ExoneratedTraderContainer";
+import { getData } from "../TraderFunctions";
 
 class TradersDashboard extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            Left: -400
+            Left: -400,
+            DashboardData: null,
+            Searching: false
         };
 
         this.onCloseNavigation = this.onCloseNavigation.bind(this);
@@ -23,59 +28,101 @@ class TradersDashboard extends Component {
         });
     }
 
+    async componentDidMount() {
+        if (localStorage.Token) {
+            let request = {
+                Token: localStorage.Token,
+                Get: "DashboardData"
+            };
+
+            this.setState({
+                Searching: true
+            });
+
+            await getData(request).then(response => {
+                if (response.Message === "Dashboard data found.") {
+                    this.setState({
+                        DashboardData: response.DashboardData,
+                        Searching: false
+                    });
+                }
+                else {
+                    this.setState({
+                        DashboardData: null,
+                        Searching: false
+                    });
+                }
+            });
+        }
+    }
+
     render() {
         if (!localStorage.Token) {
             return <Redirect to="/login" />;
         }
         else {
-            return <section>
-                <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
-                    <a className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
+            const {
+                DashboardData,
+                Searching
+            } = this.state;
 
-                    <div class="entity-list" role="tablist">
-                        <div class="entity-list-item" role="presentation">
-                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Profile</a>
-                        </div>
-                        <div class="entity-list-item" role="presentation">
-                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
-                        </div>
-                        <div class="entity-list-item" role="presentation">
-                            <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Payments</a>
-                        </div>
-                        <div class="entity-list-item" role="presentation">
-                            <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Questions</a>
-                        </div>
-                        <div class="entity-list-item" role="presentation">
-                            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Settings</a>
-                        </div>
-                    </div>
-                </div>
+            return (Searching || !DashboardData) ?
+                <SearchingContainer Searching={Searching}
+                    SearchingFor="trader" /> :
+                <section>
+                    {DashboardData.ExoneratedTrader ?
+                        <ExoneratedTraderContainer ExoneratedTrader={DashboardData.ExoneratedTrader} /> :
+                        <section>
+                            <section>
+                                <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
+                                    <a className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
 
-                <div className="tab-content">
-                    <div role="tabpanel" className="tab-pane active" id="profile">
-                        <Profile ref="Profile" />
-                    </div>
-                    <div role="tabpanel" className="tab-pane" id="jobs">
-                        <Jobs />
-                    </div>
-                    <div role="tabpanel" className="tab-pane" id="payments">
-                        <Payments />
-                    </div>
-                    <div role="tabpanel" className="tab-pane" id="questions">
-                        <Questions />
-                    </div>
-                    <div role="tabpanel" className="tab-pane" id="settings">
-                        <Settings />
-                    </div>
-                </div>
+                                    <div class="entity-list" role="tablist">
+                                        <div class="entity-list-item" role="presentation">
+                                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Profile</a>
+                                        </div>
+                                        <div class="entity-list-item" role="presentation">
+                                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
+                                        </div>
+                                        <div class="entity-list-item" role="presentation">
+                                            <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Payments</a>
+                                        </div>
+                                        <div class="entity-list-item" role="presentation">
+                                            <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Questions</a>
+                                        </div>
+                                        <div class="entity-list-item" role="presentation">
+                                            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div className="side-nav-btn" onClick={() => {
-                    this.setState({
-                        Left: 0
-                    });
-                }}><div className="fas fa-bars" style={{ fontSize: "x-large" }}></div>
-                </div>
-            </section>;
+                                <div className="tab-content">
+                                    <div role="tabpanel" className="tab-pane active" id="profile">
+                                        <Profile ref="Profile" />
+                                    </div>
+                                    <div role="tabpanel" className="tab-pane" id="jobs">
+                                        <Jobs />
+                                    </div>
+                                    <div role="tabpanel" className="tab-pane" id="payments">
+                                        <Payments />
+                                    </div>
+                                    <div role="tabpanel" className="tab-pane" id="questions">
+                                        <Questions />
+                                    </div>
+                                    <div role="tabpanel" className="tab-pane" id="settings">
+                                        <Settings />
+                                    </div>
+                                </div>
+
+                                <div className="side-nav-btn" onClick={() => {
+                                    this.setState({
+                                        Left: 0
+                                    });
+                                }}><div className="fas fa-bars" style={{ fontSize: "x-large" }}></div>
+                                </div>
+                            </section>
+                        </section>}
+                </section>;
         }
     }
 }

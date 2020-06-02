@@ -160,6 +160,20 @@ class TradersList extends Component {
                                     this.setState({
                                         Traders: traders
                                     });
+                                }}
+                                OnTraderExonerated={(trader, isExonerated) => {
+                                    let traders = Traders;
+
+                                    for (let traderItem of traders) {
+                                        if (traderItem === trader) {
+                                            traderItem.IsExonerated = isExonerated;
+                                            break;
+                                        }
+                                    }
+
+                                    this.setState({
+                                        Traders: traders
+                                    });
                                 }} />
                         </li>;
                     })}

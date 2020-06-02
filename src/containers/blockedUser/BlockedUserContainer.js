@@ -11,7 +11,7 @@ class BlockedUserContainer extends Component {
         } = this.props;
 
         return <section>
-            <div className="jumbotron">
+            <div className="jumbotron" style={{ height: "100vh" }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4 text-center">

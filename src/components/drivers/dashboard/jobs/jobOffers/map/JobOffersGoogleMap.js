@@ -2,31 +2,7 @@ import React, { useState } from "react";
 import { withGoogleMap, withScriptjs, GoogleMap, Marker, InfoWindow } from "react-google-maps";
 const Key = "AIzaSyD_U_2NzdPIL7TWb8ECBHWO1eROR2yrebI";
 
-const JobOfferWindow = props => {
-    const { JobOffer } = props;
-
-    return <section>
-        <div className="jumbotron theme-default" style={{ backgroundColor: "#FFFFFF" }}>
-            <div className="container">
-                <div className="col-md-24">
-                    <div className="type-h6 color-default p-t-n">{`${JobOffer.JobOfferType} Job Offer`}</div>
-                    <div className="type-sh6">
-                        <span className="fas fa-tag color-default m-r-xxxs"></span>
-                        <span className="color-default">PRICE: </span>{`$${JobOffer.Price}`}</div>
-                    <div className="type-sh6">
-                        <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
-                        <span className="color-default">FROM: </span>{JobOffer.LoadingPlace}</div>
-                    <div className="type-sh6">
-                        <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
-                        <span className="color-default">TO: </span>{JobOffer.UnloadingPlace}</div>
-                </div>
-            </div>
-        </div>
-    </section>;
-};
-
 const Map = props => {
-    console.log(props.Place);
     const [SelectedJobOffer, SetSelectedJobOffer] = useState(null);
 
     const {
@@ -42,26 +18,41 @@ const Map = props => {
         defaultCenter={{ lat: 33.784310, lng: 72.738780 }}
         center={{ lat: lat, lng: lng }}>
 
-        {JobOfferPosts.map((jobOfferPost, index) => {
-            const jobOffer = jobOfferPost.JobOffer;
-
-            return <Marker key={index} position={{ lat: jobOffer.LoadingLat, lng: jobOffer.LoadingLng }}
+        {JobOfferPosts.map(jobOfferPost => (
+            <Marker key={jobOfferPost.JobOffer.JobOfferID} position={{ lat: jobOfferPost.JobOffer.LoadingLat, lng: jobOfferPost.JobOffer.LoadingLng }}
                 icon={{
                     url: "./images/marker.svg",
                     scaledSize: new window.google.maps.Size(40, 40)
                 }}
                 onClick={() => {
-                    SetSelectedJobOffer(jobOffer);
-                }} />;
-        })}
-        
+                    SetSelectedJobOffer(jobOfferPost.JobOffer);
+                }} />
+        ))}
 
-        {SelectedJobOffer ? <InfoWindow position={{ lat: SelectedJobOffer.LoadingLat, lng: SelectedJobOffer.LoadingLng }}
+        {SelectedJobOffer && <InfoWindow position={{ lat: SelectedJobOffer.LoadingLat, lng: SelectedJobOffer.LoadingLng }}
             onCloseClick={() => {
                 SetSelectedJobOffer(null);
             }}>
-            <JobOfferWindow JobOffer={SelectedJobOffer} />
-        </InfoWindow> : null}
+
+            <section>
+                <div className="jumbotron theme-default" style={{ backgroundColor: "#FFFFFF" }}>
+                    <div className="container">
+                        <div className="col-md-24">
+                            <div className="type-h6 color-default p-t-n">{`${SelectedJobOffer.JobOfferType} Job Offer`}</div>
+                            <div className="type-sh6">
+                                <span className="fas fa-tag color-default m-r-xxxs"></span>
+                                <span className="color-default">PRICE: </span>{`$${SelectedJobOffer.Price}`}</div>
+                            <div className="type-sh6">
+                                <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
+                                <span className="color-default">FROM: </span>{SelectedJobOffer.LoadingPlace}</div>
+                            <div className="type-sh6">
+                                <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
+                                <span className="color-default">TO: </span>{SelectedJobOffer.UnloadingPlace}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </InfoWindow>}
     </GoogleMap>;
 }
 

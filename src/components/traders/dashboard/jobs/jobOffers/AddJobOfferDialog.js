@@ -346,7 +346,7 @@ class AddJobOfferDialog extends Component {
                                                     <button type="button" data-toggle="button" className="btn btn-toggle-switch"
                                                         autocomplete="off" aria-pressed="false"
                                                         onClick={() => {
-                                                            JobOfferType = (JobOfferType === "Fixed-Price") ?
+                                                            this.state.JobOfferType = (JobOfferType === "Fixed-Price") ?
                                                                 "Auctionable" : "Fixed-Price";
                                                         }}>
                                                         <span className="stateLabel stateLabel-on">Auctionable Job Offer</span>
@@ -358,7 +358,7 @@ class AddJobOfferDialog extends Component {
                                                         <label className="control-label">
                                                             <input type="checkbox" name="EntryExit"
                                                                 value={EntryExit} onChange={() => {
-                                                                    EntryExit = EntryExit ? 0 : 1;
+                                                                    this.state.EntryExit = EntryExit ? false : true;
                                                                 }}></input>
                                                             <span>Entry/Exit</span>
                                                         </label>

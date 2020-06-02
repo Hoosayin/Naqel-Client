@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ProgressRing from "../../../../controls/ProgressRing";
 import TraderContainer from "../../../../containers/trader/TraderContainer";
 import SetRefundRateDialog from "./SetRefundRateDialog";
+import ChargeTraderDialog from "./ChargeTraderDialog";
+import ExonerateTraderDialog from "./ExonerateTraderDialog";
 
 class TraderListItem extends Component {
     constructor(props) {
@@ -10,31 +12,7 @@ class TraderListItem extends Component {
         this.state = {
             Refreshing: false
         };
-
-        //this.onActivateAccount = this.onActivateAccount.bind(this);
     }
-
-    //onActivateAccount = async () => {
-    //    this.setState({
-    //        Refreshing: true
-    //    });
-
-    //    const activatedDriver = {
-    //        Token: localStorage.Token,
-    //        DriverID: this.props.Driver.DriverID
-    //    };
-
-    //    await activateDriverAccount(activatedDriver).then(async response => {
-    //        this.setState({
-    //            Refreshing: false
-    //        });
-
-    //        if (response.Message === "Driver account is activated.") {
-    //            this.props.OnAccountActivated(this.props.Driver);
-    //            await this.RefreshDriverContainer();
-    //        }
-    //    });
-    //}
 
     render() {
         const {
@@ -59,7 +37,7 @@ class TraderListItem extends Component {
                                     width: "100%",
                                     margin: "0px",
                                     border: "3px solid #3A3A3C"
-                                }}/>
+                                }} />
                         </div>
                         <div className="item-content-primary">
                             <div className="type-h5 color-default p-t-n">{`${Index + 1}.`}
@@ -80,10 +58,17 @@ class TraderListItem extends Component {
             </div>
 
             <div className="text-right p-xxs" style={{ backgroundColor: "#DDDDDD" }}>
-                <button className="btn btn-danger">Exonerate</button>
                 <button className="btn btn-primary"
                     data-toggle="modal"
                     data-target={`#set-refund-rate-dialog-${Index}`}>Set Refund Rate</button>
+
+                {Trader.IsExonerated ?
+                    <button className="btn btn-secondary"
+                        data-toggle="modal"
+                        data-target={`#charge-trader-dialog-${Index}`}>Charge</button> :
+                    <button className="btn btn-danger"
+                        data-toggle="modal"
+                        data-target={`#exonerate-trader-dialog-${Index}`}>Exonerate</button>}
             </div>
 
             <div className="back-color-gray" data-toggle="collapse" aria-expanded="false" data-target={`#trader-list-item-${Index}`}>
@@ -103,6 +88,18 @@ class TraderListItem extends Component {
                 OnOK={refundRate => {
                     this.props.OnRefundRateSet(Trader, refundRate);
                 }} />
+
+            {Trader.IsExonerated ?
+                <ChargeTraderDialog Index={Index}
+                    Trader={Trader}
+                    OnOK={() => {
+                        this.props.OnTraderExonerated(Trader, false);
+                    }} /> :
+                <ExonerateTraderDialog Index={Index}
+                    Trader={Trader}
+                    OnOK={() => {
+                        this.props.OnTraderExonerated(Trader, true);
+                    }} />}
         </section>;
     }
 };

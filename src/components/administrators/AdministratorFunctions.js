@@ -218,6 +218,30 @@ export const setRefundRate = async traderRefundRate => {
     });
 };
 
+// POST: ExonerateTrader
+export const exonerateTrader = async exoneratedTrader => {
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/exonerateTrader`, {
+        TraderID: exoneratedTrader.TraderID,
+        ExonerateDate: exoneratedTrader.ExonerateDate,
+        Reason: exoneratedTrader.Reason
+    }, {
+        headers: { Authorization: `JWT ${exoneratedTrader.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ChargeTrader
+export const chargeTrader = async chargedTrader => {
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/chargeTrader`, {
+        TraderID: chargedTrader.TraderID,
+    }, {
+        headers: { Authorization: `JWT ${chargedTrader.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
 // POST: AddTraderObjectionReason
 export const addTraderObjectionReason = async newTraderObjectionReason => {
     console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/addTraderObjectionReason...`);

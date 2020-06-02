@@ -443,6 +443,18 @@ export const getClientSecret = newClientSecret => {
     });
 };
 
+// POST: requestSpecialBill
+export const requestSpecialBill = requestedSpecialBill => {
+    return axios.post(`${Strings.NAQEL_SERVER}traders/requestSpecialBill`, {
+        TraderBillID: requestedSpecialBill.TraderBillID,
+        Amount: requestedSpecialBill.Amount
+    }, {
+        headers: { Authorization: `JWT ${requestedSpecialBill.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
 // POST: addQuestion
 export const addQuestion = newQuestion => {
     return axios.post(`${Strings.NAQEL_SERVER}traders/addQuestion`, {
