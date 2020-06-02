@@ -153,7 +153,7 @@ class EditCommercialRegisterCertificateDialog extends Component {
                                                     }} />
                                             </div>
                                             <div className="col-md-12">
-                                                <div className="type-h3 color-default p-t-xxs">Add Commercial Register Certificate</div>
+                                                <div className="type-h3 color-default p-t-xxs">Edit Commercial Register Certificate</div>
                                                 <div className="type-sh4 text-danger">{Errors.PhotoURL}</div>
                                                 <div className="form-group">
                                                     <label className="control-label">Certificate Type</label>

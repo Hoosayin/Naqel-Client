@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PageHeading from "../../../../controls/PageHeading";
 import TruckList from "./truckList/TruckList";
+import TruckJobs from "./truckJobs/TruckJobs";
 
 class Trucks extends Component {
     render() {
@@ -16,7 +17,7 @@ class Trucks extends Component {
                     <a href="#truck-list" aria-controls="truck-list" role="tab" data-toggle="tab">Truck List</a>
                 </li>
                 <li role="presentation">
-                    <a href="#truck-operations" aria-controls="truck-operations" role="tab" data-toggle="tab">Truck Operations</a>
+                    <a href="#truck-jobs" aria-controls="truck-jobs" role="tab" data-toggle="tab">Truck Jobs</a>
                 </li>
             </ul>
 
@@ -24,8 +25,8 @@ class Trucks extends Component {
                 <div role="tabpanel" class="tab-pane active" id="truck-list">
                     <TruckList />
                 </div>
-                <div role="tabpanel" class="tab-pane" id="truck-operations">
-                    TRUCK OPERATIONS HERE
+                <div role="tabpanel" class="tab-pane" id="truck-jobs">
+                    <TruckJobs />
                 </div>
             </div>
         </section>;

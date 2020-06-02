@@ -26,15 +26,18 @@ const Directions = () => {
         }
     });
 
-    return <DirectionsRenderer directions={Directions} />;
+    var Dir = new window.google.maps.DirectionsRenderer({ suppressMarkers: true });
+
+    return <DirectionsRenderer directions={Directions} options={{
+        suppressMarkers: true
+    }} />;
 };
 
 const Map = () => {
     const [SelectedJobOffer, SetSelectedPark] = useState(null);
 
     return <GoogleMap
-        defaultZoom={10}
-        defaultCenter={{ lat: 33.784310, lng: 72.738780 }}>
+        defaultZoom={10}>
         <Marker key={1} position={{ lat: 33.784310, lng: 72.738780 }}
             icon={{
                 url: "./images/sad.svg",

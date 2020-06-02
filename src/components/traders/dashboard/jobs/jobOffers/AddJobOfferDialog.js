@@ -207,7 +207,7 @@ class AddJobOfferDialog extends Component {
 
         await addJobOffer(newJobOffer).then(response => {
             this.setState({
-                Preloader: false
+                ShowPreloader: false
             });
 
             if (response.Message === "Job offer is added.") {

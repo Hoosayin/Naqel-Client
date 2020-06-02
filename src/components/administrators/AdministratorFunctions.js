@@ -375,6 +375,41 @@ export const classifyTraderQuestion = async classifiedTraderQuestion => {
     });
 };
 
+// POST: AddResponsibleAnswer
+export const addResponsibleAnswer = async responsibleAnswer => {
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/addResponsibleAnswer`, {
+        ResponsibleQuestionID: responsibleAnswer.ResponsibleQuestionID,
+        Answer: responsibleAnswer.Answer
+    }, {
+        headers: { Authorization: `JWT ${responsibleAnswer.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: AddResponsibleQuestionClass
+export const addResponsibleQuestionClass = async newResponsibleQuestionClass => {
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/addResponsibleQuestionClass`, {
+        Class: newResponsibleQuestionClass.Class
+    }, {
+        headers: { Authorization: `JWT ${newResponsibleQuestionClass.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ClassifyResponsibleQuestion
+export const classifyResponsibleQuestion = async classifiedResponsibleQuestion => {
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/classifyResponsibleQuestion`, {
+        ResponsibleQuestionID: classifiedResponsibleQuestion.ResponsibleQuestionID,
+        Class: classifiedResponsibleQuestion.Class
+    }, {
+        headers: { Authorization: `JWT ${classifiedResponsibleQuestion.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
 // POST: SetGlobalFeeRate
 export const setGlobalFeeRate = async feeRate => {
     console.log(`Sending HTTP POST request to ${Strings.NAQEL_SERVER}administrators/setGlobalFeeRate...`);

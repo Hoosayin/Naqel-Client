@@ -137,7 +137,7 @@ class TradersBillsList extends Component {
 
             {(Bills.length === 0) ?
                 <SearchingContainer Searching={Searching} SearchingFor="bills" /> :
-                <div class="table-responsive back-color-gray">
+                <div class="table-responsive back-color-gray" style={{ height: "100vh" }}>
                     <table class="table table-striped">
                         <thead>
                             <tr>

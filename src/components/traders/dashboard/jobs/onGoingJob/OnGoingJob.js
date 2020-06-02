@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import firebase from "firebase";
+import FirebaseConfiguration from "../../../../../res/FirebaseConfiguration";
 import { getData } from "../../../TraderFunctions";
 import ProgressBar from "../../../../../controls/ProgressBar";
 import Job from "./Job";
@@ -12,9 +14,13 @@ class OnGoingJob extends Component {
     constructor(props) {
         super(props);
 
+        this.FirebaseApp = firebase.initializeApp(FirebaseConfiguration);
+        this.Database = null;
+
         this.state = {
             OnGoingJob: null,
             HasObjections: false,
+            DriverLocation: null,
             Loading: false
         };
 
@@ -40,15 +46,35 @@ class OnGoingJob extends Component {
 
             await getData(request).then(response => {
                 if (response.Message === "On-going job found.") {
-                    this.setState({
-                        OnGoingJob: response.OnGoingJob,
-                        HasObjections: response.HasObjections,
-                        Loading: false
+                    if (!this.Database) {
+                        this.Database = this.FirebaseApp.database().ref().child(`${response.OnGoingJob.DriverID}`);
+                    }
+
+                    this.Database.on("value", snapshot => {
+                        let driverLocation = null;
+                        const value = snapshot.val();
+
+                        if (value) {
+                            const locationCoordinates = value["latlong"].split(",");
+
+                            driverLocation = {
+                                Lat: parseFloat(locationCoordinates[0]),
+                                Lng: parseFloat(locationCoordinates[1])
+                            };
+                        }
+
+                        this.setState({
+                            DriverLocation: driverLocation,
+                            OnGoingJob: response.OnGoingJob,
+                            HasObjections: response.HasObjections,
+                            Loading: false
+                        });
                     });
                 }
                 else {
                     this.setState({
                         OnGoingJob: null,
+                        DriverLocation: null,
                         HasObjections: false,
                         Loading: false
                     });
@@ -66,12 +92,28 @@ class OnGoingJob extends Component {
 
             await getData(request).then(response => {
                 if (response.Message === "On-going job found.") {
-                    console.log("ON-GOING JOB");
-                    console.log(response.OnGoingJob);
+                    if (!this.Database) {
+                        this.Database = this.FirebaseApp.database().ref().child(`${response.OnGoingJob.DriverID}`);
+                    }
 
-                    this.setState({
-                        OnGoingJob: response.OnGoingJob,
-                        HasObjections: response.HasObjections
+                    this.Database.on("value", snapshot => {
+                        let driverLocation = null;
+                        const value = snapshot.val();
+
+                        if (value) {
+                            const locationCoordinates = value["latlong"].split(",");
+
+                            driverLocation = {
+                                Lat: parseFloat(locationCoordinates[0]),
+                                Lng: parseFloat(locationCoordinates[1])
+                            };
+                        }
+
+                        this.setState({
+                            DriverLocation: driverLocation,
+                            OnGoingJob: response.OnGoingJob,
+                            HasObjections: response.HasObjections
+                        });
                     });
                 }
                 else {
@@ -158,7 +200,8 @@ class OnGoingJob extends Component {
                         <TruckContainer Refresh={refresh => { this.RefreshTruckContainer = refresh; }} DriverID={onGoingJob.DriverID} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="map-tab">
-                        <OnGoingJobMap OnGoingJob={onGoingJob} />
+                        <OnGoingJobMap OnGoingJob={onGoingJob}
+                            DriverLocation={this.state.DriverLocation} />
                     </div>
                     {onGoingJob.CompletedByDriver ? 
                         null :

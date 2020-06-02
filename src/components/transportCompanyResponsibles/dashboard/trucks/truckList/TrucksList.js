@@ -79,12 +79,12 @@ class TrucksList extends Component {
 
             {(Trucks.length === 0) ?
                 <SearchingContainer Searching={Searching} SearchingFor="trucks" /> :
-                <div class="table-responsive back-color-gray">
+                <div class="table-responsive back-color-gray" style={{ height: "100vh" }}>
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>NUMBER</th>
-                                <th>TRUCK ID</th>
+                                <th>TRUCK NUMBER</th>
                                 <th>BRAND</th>
                                 <th>MODEL</th>
                                 <th></th>

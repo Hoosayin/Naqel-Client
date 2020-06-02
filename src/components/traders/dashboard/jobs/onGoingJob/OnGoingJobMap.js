@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withGoogleMap, withScriptjs, GoogleMap, DirectionsRenderer } from "react-google-maps";
+import { withGoogleMap, withScriptjs, GoogleMap, DirectionsRenderer, Marker } from "react-google-maps";
 const Key = "AIzaSyD_U_2NzdPIL7TWb8ECBHWO1eROR2yrebI";
 
 const Directions = props => {
@@ -24,15 +24,42 @@ const Directions = props => {
         }
     });
 
-    return <DirectionsRenderer directions={Directions} />;
+    return <DirectionsRenderer directions={Directions} options={{
+        suppressMarkers: true
+    }} />;
 };
 
 const Map = props => {
-    return <GoogleMap
-        defaultZoom={10}
-        defaultCenter={{ lat: 33.784310, lng: 72.738780 }}>
+    const [ShowInfoWindow, SetShowInfoWindow] = useState(false);
 
-        <Directions OnGoingJob={props.OnGoingJob} />
+    const {
+        OnGoingJob,
+        DriverLocation
+    } = props;
+
+    return <GoogleMap
+        defaultZoom={10}>
+
+        <Marker key={1} position={{ lat: OnGoingJob.LoadingLat, lng: OnGoingJob.LoadingLng }}
+            icon={{
+                url: "./images/source.svg",
+                scaledSize: new window.google.maps.Size(30, 30)
+            }} />
+
+        <Marker key={1} position={{ lat: OnGoingJob.UnloadingLat, lng: OnGoingJob.UnloadingLng }}
+            icon={{
+                url: "./images/destination.svg",
+                scaledSize: new window.google.maps.Size(30, 30)
+            }} />
+
+        {DriverLocation ?
+            <Marker key={1} position={{ lat: DriverLocation.Lat, lng: DriverLocation.Lng }}
+                icon={{
+                    url: "./images/driver_marker.svg",
+                    scaledSize: new window.google.maps.Size(40, 40)
+                }} /> : null}
+
+        <Directions OnGoingJob={OnGoingJob} />
     </GoogleMap>;
 }
 
@@ -45,7 +72,8 @@ const OnGoingJobMap = props => {
             loadingElement={<div style={{ height: `100%` }} />}
             containerElement={<div style={{ height: `100%` }} />}
             mapElement={<div style={{ height: `100%` }} />}
-            OnGoingJob={props.OnGoingJob} />
+            OnGoingJob={props.OnGoingJob}
+            DriverLocation={props.DriverLocation} />
     </div>;
 }
 

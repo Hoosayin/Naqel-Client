@@ -65,7 +65,7 @@ class PlaceInput extends Component {
                                 : "suggestion-item p-xxxs";
 
                             const style = suggestion.active
-                                ? { backgroundColor: "#FAFAFA", cursor: "pointer" }
+                                ? { backgroundColor: "#EBEBEB", cursor: "pointer" }
                                 : { backgroundColor: "#FEFEFE", cursor: "pointer" };
 
                             return <div

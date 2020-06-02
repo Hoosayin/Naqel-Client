@@ -11,7 +11,7 @@ class CompletedJobsList extends Component {
         this.state = {
             AllCompletedJobPackages: [],
             CompletedJobPackages: [],
-            SearchDate: "",
+            SearchString: "",
             Searching: false,
             Refreshing: false
         }
@@ -108,13 +108,12 @@ class CompletedJobsList extends Component {
         const allCompletedJobPackages = this.state.AllCompletedJobPackages;
         let filteredCompletedJobPackages = [];
         let count = 0;
-        let searchDate = this.state.SearchDate;
+        let searchString = this.state.SearchString;
 
         for (let completedJobPackage of allCompletedJobPackages) {
             let completedJob = completedJobPackage.CompletedJob;
 
-            if ((new Date(completedJob.LoadingDate).getTime() === new Date(searchDate).getTime()) ||
-                (new Date(completedJob.Created).getTime() === new Date(searchDate).getTime())) {
+            if (completedJob.JobNumber.includes(searchString)) {
                 filteredCompletedJobPackages[count++] = completedJobPackage;
             }
         }
@@ -152,9 +151,9 @@ class CompletedJobsList extends Component {
                         <form noValidate onSubmit={this.onSearch} className="navbar-form navbar-right" role="search">
                             <div className="putbox" style={{ margin: "0px" }}>
                                 <div className="form-group">
-                                    <input type="date" name="SearchDate" className="form-control" placeholder="Search by Date"
+                                    <input type="text" name="SearchString" className="form-control" placeholder="Search Jobs"
                                         style={{ maxWidth: "500px", width: "100%" }}
-                                        value={this.state.SearchDate} onChange={this.onChange} />
+                                        value={this.state.SearchString} onChange={this.onChange} />
                                 </div>
                                 <button type="submit" className="btn btn-default form-control" style={{ width: "34px" }}></button>
                             </div> 

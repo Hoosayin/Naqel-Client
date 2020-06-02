@@ -3,6 +3,8 @@ import { Redirect } from "react-router-dom";
 import Profile from "./profile/Profile";
 import Settings from "./settings/Settings";
 import Trucks from "./trucks/Trucks";
+import Questions from "./questions/Questions";
+import FinancialAccounts from "./financialAccounts/FinancialAccounts";
 
 class TransportCompanyResponsiblesDashboard extends Component {
     constructor(props) {
@@ -41,6 +43,9 @@ class TransportCompanyResponsiblesDashboard extends Component {
                             <a href="#financial-accounts" aria-controls="financial-accounts" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Financial Accounts</a>
                         </div>
                         <div class="entity-list-item" role="presentation">
+                            <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Questions</a>
+                        </div>
+                        <div class="entity-list-item" role="presentation">
                             <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Settings</a>
                         </div>
                     </div>
@@ -54,6 +59,10 @@ class TransportCompanyResponsiblesDashboard extends Component {
                         <Trucks />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="financial-accounts">
+                        <FinancialAccounts />
+                    </div>
+                    <div role="tabpanel" className="tab-pane" id="questions">
+                        <Questions />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="settings">
                         <Settings />

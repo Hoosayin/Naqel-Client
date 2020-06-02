@@ -54,7 +54,7 @@ class DriverAccountStatementBrowser extends Component {
                         <form noValidate onSubmit={this.onSearch} className="navbar-form navbar-right" role="search">
                             <div className="putbox" style={{ margin: "0px" }}>
                                 <div className="form-group">
-                                    <input type="search" name="SearchString" className="form-control" placeholder="Search"
+                                    <input type="search" name="SearchString" className="form-control" placeholder="Search Username"
                                         style={{ maxWidth: "500px", width: "100%" }}
                                         value={SearchString} onChange={this.onChange} />
                                 </div>

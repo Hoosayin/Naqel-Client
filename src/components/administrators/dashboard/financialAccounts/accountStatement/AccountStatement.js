@@ -72,7 +72,7 @@ class AccountStatement extends Component {
 
             {(Searching || !AccountStatement) ?
                 <section>
-                    <div className="jumbotron theme-default">
+                    <div className="jumbotron theme-default" style={{ height: "100vh" }}>
                         <div className="container">
                             {Searching ? <div className="text-center p-xxs">
                                 <div className="type-h4 color-default">Searching</div>

@@ -154,3 +154,24 @@ export const passwordSettings = async updatedTransportCompanyResponsible => {
         return response.data;
     });
 };
+
+// POST: addQuestion
+export const addQuestion = newQuestion => {
+    return axios.post(`${Strings.NAQEL_SERVER}transportCompanyResponsibles/addQuestion`, {
+        Question: newQuestion.Question
+    }, {
+        headers: { Authorization: `JWT ${newQuestion.Token}` }
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// DELETE: deleteQuestion
+export const deleteQuestion = async discardedQuestion => {
+    return await axios.delete(`${Strings.NAQEL_SERVER}transportCompanyResponsibles/deleteQuestion`, {
+        headers: { Authorization: `JWT ${discardedQuestion.Token}` },
+        data: { ResponsibleQuestionID: discardedQuestion.ResponsibleQuestionID }
+    }).then(response => {
+        return response.data;
+    });
+};

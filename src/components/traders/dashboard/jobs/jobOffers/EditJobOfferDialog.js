@@ -218,7 +218,7 @@ class EditJobOfferDialog extends Component {
 
         await updateJobOffer(updatedJobOffer).then(response => {
             this.setState({
-                Preloader: false
+                ShowPreloader: false
             });
 
             if (response.Message === "Job offer is updated.") {

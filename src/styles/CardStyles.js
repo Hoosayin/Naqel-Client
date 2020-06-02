@@ -3,6 +3,7 @@ export const LoginCardBack = {
     backgroundAttachment: "fixed",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    height: "100vh"
 };
 
 export const RegisterCardBack = {
@@ -10,6 +11,7 @@ export const RegisterCardBack = {
     backgroundAttachment: "fixed",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    height: "100vh"
 };
 
 export const EmailConfirmationCardBack = {
@@ -17,6 +19,7 @@ export const EmailConfirmationCardBack = {
     backgroundAttachment: "fixed",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    height: "100vh"
 };
 
 export const AccountSetupCardBack = {
@@ -24,6 +27,7 @@ export const AccountSetupCardBack = {
     backgroundAttachment: "fixed",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    height: "100vh"
 };
 
 export const CongratulationsCardBack = {
@@ -31,6 +35,7 @@ export const CongratulationsCardBack = {
     backgroundAttachment: "fixed",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    height: "100vh"
 };
 
 export const Card = {

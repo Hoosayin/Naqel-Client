@@ -17,7 +17,7 @@ class AccountStatementData extends Component {
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
             {(AccountStatement.Bills.length === 0) ?
                 <section>
-                    <div className="jumbotron theme-default">
+                    <div className="jumbotron theme-default" style={{ height: "100vh" }}>
                         <div className="container">
                             <div className="text-center p-xxs">
                                 <div className="type-h4">
@@ -39,7 +39,7 @@ class AccountStatementData extends Component {
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive back-color-gray" style={{ borderTop: "4px solid #CCCCCC" }}>
+                    <div class="table-responsive back-color-gray" style={{ borderTop: "4px solid #CCCCCC", height: "100vh" }}>
                         <table class="table table-striped">
                             <thead>
                                 <tr>

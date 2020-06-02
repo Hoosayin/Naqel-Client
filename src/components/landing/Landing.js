@@ -56,7 +56,7 @@ class Landing extends Component {
                 </div>
             </div>
 
-            <div class="jumbotron theme-dark" style={{ backgroundColor: "#202020", }}>
+            <div class="jumbotron theme-dark" style={{ backgroundColor: "#202020", height: "100vh" }}>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-24 text-center">

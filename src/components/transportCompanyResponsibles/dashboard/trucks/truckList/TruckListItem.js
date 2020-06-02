@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TruckDialog from "./TruckDialog";
 import DriverDialog from "./DriverDialog";
+import LocateTruckDialog from "./LocateTruckDialog";
 
 class TruckListItem extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class TruckListItem extends Component {
                 <strong>{Index + 1}</strong>
             </td>
 
-            <td>{Truck.TruckID}</td>
+            <td>{Truck.TruckNumber}</td>
 
             <td>{Truck.Brand}</td>
 
@@ -37,7 +38,10 @@ class TruckListItem extends Component {
                         await this.RefreshDocumentsContainer();
                     }}>Driver</button>
 
-                <button className="btn btn-primary m-t-n">Locate</button>
+                <button className="btn btn-primary m-t-n"
+                    data-toggle="modal"
+                    data-target={`#locate-truck-dialog-${Index}`}
+                    onClick={() => { this.LocateTruck(); }}>Locate</button>
 
                 <TruckDialog Index={Index}
                     DriverID={Truck.DriverID}
@@ -47,6 +51,10 @@ class TruckListItem extends Component {
                     DriverID={Truck.DriverID}
                     RefreshDriver={refresh => { this.RefreshDriverContainer = refresh; }}
                     RefreshDocuments={refresh => { this.RefreshDocumentsContainer = refresh; }} />
+
+                <LocateTruckDialog Index={Index}
+                    DriverID={Truck.DriverID}
+                    LocateTruck={locateTruck => { this.LocateTruck = locateTruck; }}/>
             </td>
         </tr>;
     }

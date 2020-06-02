@@ -180,7 +180,7 @@ class Truck extends Component {
                     {showPreloader ? <Preloader /> : null}
                 </section> :
                 <section>
-                    <div className="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
+                    <div className="jumbotron theme-alt" style={{ width: "100%", height: "100vh", backgroundColor: "#333333" }}>
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-12 col-md-push-12 text-center">

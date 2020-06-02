@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PageHeading from "../../../../controls/PageHeading";
 import DriverQuestions from "./driverQuestions/DriverQuestions";
 import TraderQuestions from "./traderQuestions/TraderQuestions";
+import ResponsibleQuestions from "./responsibleQuestions/ResponsibleQuestions";
 
 class Questions extends Component {
     render() {
@@ -19,6 +20,9 @@ class Questions extends Component {
                 <li role="presentation">
                     <a href="#trader-questions" aria-controls="trader-questions" role="tab" data-toggle="tab">Traders' Questions</a>
                 </li>
+                <li role="presentation">
+                    <a href="#responsible-questions" aria-controls="responsible-questions" role="tab" data-toggle="tab">TC Responsibles' Questions</a>
+                </li>
             </ul>
 
             <div class="tab-content">
@@ -27,6 +31,9 @@ class Questions extends Component {
                 </div>
                 <div role="tabpanel" class="tab-pane" id="trader-questions">
                     <TraderQuestions />
+                </div>
+                <div role="tabpanel" class="tab-pane" id="responsible-questions">
+                    <ResponsibleQuestions />
                 </div>
             </div>
         </section>;
