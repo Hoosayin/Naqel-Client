@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import firebase from "firebase";
-import FirebaseConfiguration from "../../../../../res/FirebaseConfiguration";
+import FirebaseApp from "../../../../../res/FirebaseApp";
 import TruckMap from "./TruckMap";
 import SearchingContainer from "../../../../../containers/searching/SearchingContainer";
 
@@ -8,8 +7,7 @@ class LocateTruckDialog extends Component {
     constructor(props) {
         super(props);
 
-        this.FirebaseApp = firebase.initializeApp(FirebaseConfiguration);
-        this.Database = this.FirebaseApp.database().ref().child(`${this.props.DriverID}`);
+        this.Database = FirebaseApp.database().ref().child(`${this.props.DriverID}`);
 
         this.state = {
             DriverLocation: null,

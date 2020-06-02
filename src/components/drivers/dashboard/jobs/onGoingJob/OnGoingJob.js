@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import firebase from "firebase";
-import FirebaseConfiguration from "../../../../../res/FirebaseConfiguration";
+import FirebaseApp from "../../../../../res/FirebaseApp";
 import { getData } from "../../../DriverFunctions";
 import ProgressBar from "../../../../../controls/ProgressBar";
 import TraderContainer from "../../../../../containers/trader/TraderContainer";
@@ -13,7 +12,6 @@ class OnGoingJob extends Component {
     constructor(props) {
         super(props);
 
-        this.FirebaseApp = firebase.initializeApp(FirebaseConfiguration);
         this.Database = null;
 
         this.state = {
@@ -46,7 +44,7 @@ class OnGoingJob extends Component {
             await getData(request).then(response => {
                 if (response.Message === "On-going job found.") {
                     if (!this.Database) {
-                        this.Database = this.FirebaseApp.database().ref().child(`${response.OnGoingJob.DriverID}`);
+                        this.Database = FirebaseApp.database().ref().child(`${response.OnGoingJob.DriverID}`);
                     }
 
                     this.Database.on("value", snapshot => {
