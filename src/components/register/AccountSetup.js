@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import firebase from "firebase";
+import FirebaseApp from "../../res/FirebaseApp";
+import Preloader from "../../controls/Preloader";
+import PhoneConfirmationDialog from "../../containers/phoneConfirmationDialog/PhoneConfirmationDialog";
 import { setupDriverAccount } from "../drivers/DriverFunctions";
 import { setupTraderAccount } from "../traders/TraderFunctions";
 import { Required } from "../../styles/MiscellaneousStyles";
@@ -36,7 +40,11 @@ class AccountSetup extends Component {
             ValidAddress: false,
             ValidPhoneNumber: false,
 
+            ConfirmationResult: null,
+            PhoneCodeVerified: false,
+
             ValidForm: false,
+            ShowPreloader: false,
 
             Errors: {
                 FirstName: "",
@@ -45,12 +53,21 @@ class AccountSetup extends Component {
                 Nationality: "",
                 Address: "",
                 PhoneNumber: "",
+                FormError: ""
             }
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.validateField = this.validateField.bind(this);
+    }
+
+    componentDidMount() {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha", {
+            "size": "invisible",
+            "callback": response => {
+            }
+        });
     }
 
     onChange = event => {
@@ -123,47 +140,91 @@ class AccountSetup extends Component {
     }
 
     onSubmit = async event => {
-        event.preventDefault();
+        if (event) {
+            event.preventDefault();
+        }
 
         if (!this.state.ValidForm) {
             return;
         }
 
         if (localStorage.verifiedCredentialsToken) {
-            const decoded = jwt_decode(localStorage.verifiedCredentialsToken);
-            this.state.Username = decoded.Username;
-            this.state.Email = decoded.Email;
-            this.state.Password = decoded.Password;
-            this.state.RegisterAs = decoded.RegisterAs;
-        }
+            if (this.state.PhoneCodeVerified) {
+                this.setState({
+                    ShowPreloader: true
+                });
 
-        const newUser = {
-            Username: this.state.Username,
-            Email: this.state.Email,
-            Password: this.state.Password,
-            RegisterAs: this.state.RegisterAs,
-            FirstName: this.state.FirstName,
-            LastName: this.state.LastName,
-            DateOfBirth: this.state.DateOfBirth,
-            Gender: this.state.Gender,
-            Address: this.state.Address,
-            PhoneNumber: this.state.PhoneNumber,
-            Nationality: this.state.Nationality,
-        }
+                const decoded = jwt_decode(localStorage.verifiedCredentialsToken);
+                this.state.Username = decoded.Username;
+                this.state.Email = decoded.Email;
+                this.state.Password = decoded.Password;
+                this.state.RegisterAs = decoded.RegisterAs;
 
-        if (newUser.RegisterAs == "Driver") {
-            await setupDriverAccount(newUser).then(response => {
-                localStorage.removeItem("verifiedCredentialsToken");
-                localStorage.setItem("IsCreatedSuccessfully", true);
-                this.props.history.push("/congratulations");
-            });
-        }
-        if (newUser.RegisterAs == "Trader" || newUser.RegisterAs == "Broker") {
-            await setupTraderAccount(newUser).then(response => {
-                localStorage.removeItem("verifiedCredentialsToken");
-                localStorage.setItem("IsCreatedSuccessfully", true);
-                this.props.history.push("/congratulations");
-            });
+                const newUser = {
+                    Username: this.state.Username,
+                    Email: this.state.Email,
+                    Password: this.state.Password,
+                    RegisterAs: this.state.RegisterAs,
+                    FirstName: this.state.FirstName,
+                    LastName: this.state.LastName,
+                    DateOfBirth: this.state.DateOfBirth,
+                    Gender: this.state.Gender,
+                    Address: this.state.Address,
+                    PhoneNumber: this.state.PhoneNumber,
+                    Nationality: this.state.Nationality,
+                }
+
+                if (newUser.RegisterAs == "Driver") {
+                    await setupDriverAccount(newUser).then(response => {
+                        this.setState({
+                            ShowPreloader: false
+                        });
+
+                        localStorage.removeItem("verifiedCredentialsToken");
+                        localStorage.setItem("IsCreatedSuccessfully", true);
+                        this.props.history.push("/congratulations");
+                    });
+                }
+                if (newUser.RegisterAs == "Trader" || newUser.RegisterAs == "Broker") {
+                    await setupTraderAccount(newUser).then(response => {
+                        this.setState({
+                            ShowPreloader: false
+                        });
+
+                        localStorage.removeItem("verifiedCredentialsToken");
+                        localStorage.setItem("IsCreatedSuccessfully", true);
+                        this.props.history.push("/congratulations");
+                    });
+                }
+            }
+            else {
+                this.setState({
+                    ShowPreloader: true
+                });
+
+                const appVerifier = window.recaptchaVerifier;
+
+                FirebaseApp.auth().languageCode = "en";
+                FirebaseApp.auth().signInWithPhoneNumber(this.state.PhoneNumber, appVerifier).then(confirmationResult => {
+                    this.setState({
+                        ShowPreloader: false,
+                        ConfirmationResult: confirmationResult
+                    });
+
+                    this.SendCodeButton.click();
+                }).catch(error => {
+                    let {
+                        Errors
+                    } = this.state;
+
+                    Errors.FormError = error.message;
+
+                    this.setState({
+                        ShowPreloader: false,
+                        Errors: Errors
+                    });
+                });
+            }
         }
     }
 
@@ -173,7 +234,7 @@ class AccountSetup extends Component {
             return <a />
         }
         else {
-            return (
+            return <section>
                 <div class="middle" style={AccountSetupCardBack}>
                     <div class="theme-default animated fadeIn" style={CardLarge}>
                         <div style={CardChild}>
@@ -249,6 +310,9 @@ class AccountSetup extends Component {
                                             <span class="text-danger">{this.state.Errors.Address}</span>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="control-label text-danger">{this.state.Errors.FormError}</label>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" value="Create" class="btn btn-primary" disabled={!this.state.ValidForm} />
@@ -257,7 +321,37 @@ class AccountSetup extends Component {
                         </div>
                     </div>
                 </div>
-            );
+                <button
+                    style={{ display: "none" }}
+                    data-toggle="modal"
+                    data-target="#phone-confirmation-dialog"
+                    ref={sendCodeButton => this.SendCodeButton = sendCodeButton}></button>
+                <PhoneConfirmationDialog ConfirmationResult={this.state.ConfirmationResult}
+                    PhoneNumber={this.state.PhoneNumber}
+                    OnOK={phoneCodeVerified => {
+                        if (phoneCodeVerified) {
+                            this.setState({
+                                PhoneCodeVerified: true
+                            });
+
+                            this.onSubmit();
+                        }
+                        else {
+                            let {
+                                Errors
+                            } = this.state;
+
+                            Errors.FormError = "Confirmation code is invalid.";
+
+                            this.setState({
+                                ValidForm: false,
+                                Errors: Errors
+                            });
+                        }
+                    }} />
+                <div id="recaptcha"></div>
+                {this.state.ShowPreloader ? <Preloader /> : null}
+            </section>;
         }
     }
 };

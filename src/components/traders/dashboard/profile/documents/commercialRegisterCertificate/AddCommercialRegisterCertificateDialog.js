@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import UUID from "uuid-v4";
-import { Required } from "../../../../../../styles/MiscellaneousStyles.js";
 import ImageUploader from "../../../../../../controls/ImageUploader.js";
 import Preloader from "../../../../../../controls/Preloader.js";
 import { addCommercialRegisterCertificate } from "../../../../TraderFunctions.js";
@@ -10,7 +8,6 @@ class AddCommercialRegisterCertificateDialog extends Component {
         super(props);
 
         this.state = {
-            Number: UUID().substring(0, 7).toUpperCase(),
             Type: "",
             PhotoURL: "./images/default_image.png",
 
@@ -78,7 +75,6 @@ class AddCommercialRegisterCertificateDialog extends Component {
 
         const newCommercialRegisterCertificate = {
             Token: localStorage.Token,
-            Number: this.state.Number,
             Type: this.state.Type,
             PhotoURL: this.state.PhotoURL
         };
@@ -90,89 +86,80 @@ class AddCommercialRegisterCertificateDialog extends Component {
         });
 
         addCommercialRegisterCertificate(newCommercialRegisterCertificate).then(response => {
-            if (response.Message === "Commercial register certificate is added.") {
-                this.props.OnOK(this.cancelButton);
-            }
-
             this.setState({
                 Preloader: null
             });
+
+            if (response.Message === "Commercial register certificate is added.") {
+                this.props.OnOK(this.cancelButton);
+            }
         });
     }
 
     render() {
-        return (
-            <section className="text-left">
-                <div className="modal" id="add-commercial-register-certificate-dialog"
-                    tabIndex="-1" role="dialog"
-                    aria-labelledby="modal-sample-label" aria-hidden="true">
-                    {this.state.Preloader}
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <section>
-                                <form noValidate onSubmit={this.onSubmit}>
-                                    <div className="modal-header">
-                                        <img alt="add.png" src="./images/add.png" height="60" />
-                                        <div className="type-h3">Add Commercial Register Certificate</div>
-                                    </div>
-                                    <div className="modal-body">
+        return <section>
+            <div className="modal modal-center-vertical" id="add-commercial-register-certificate-dialog"
+                tabIndex="-1" role="dialog"
+                aria-labelledby="modal-sample-label" aria-hidden="true">
+                {this.state.Preloader}
+                <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                        <div className="modal-header">
+                            <div className="text-right">
+                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                    data-dismiss="modal"
+                                    ref={cancelButton => this.cancelButton = cancelButton}>
+                                    <span className="fas fa-times"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="modal-body">
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <div className="jumbotron theme-default">
+                                    <div className="container">
                                         <div className="row">
                                             <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <ImageUploader
-                                                        Source={this.state.PhotoURL}
-                                                        Height="220px"
-                                                        Width="220px"
-                                                        OnImageUploaded={response => { 
-                                                            if (response.message === "Image uploaded successfully.") {
-                                                                this.setState({
-                                                                    PhotoURL: response.imageUrl
-                                                                });
+                                                <ImageUploader
+                                                    Source={this.state.PhotoURL}
+                                                    OnImageUploaded={response => {
+                                                        if (response.message === "Image uploaded successfully.") {
+                                                            this.setState({
+                                                                PhotoURL: response.imageUrl
+                                                            });
 
-                                                                this.validateField("PhotoURL", this.state.PhotoURL);
-                                                            }
-                                                            else {
-                                                                this.validateField("PhotoURL", null);
-                                                            }
-                                                        }}
-                                                        OnInvalidImageSelected={() => {
+                                                            this.validateField("PhotoURL", this.state.PhotoURL);
+                                                        }
+                                                        else {
                                                             this.validateField("PhotoURL", null);
-                                                        }}
-                                                        ImageCategory="CommercialRegisterCertificate" />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="text-danger">{this.state.Errors.PhotoURL}</label>
-                                                </div>
+                                                        }
+                                                    }}
+                                                    OnInvalidImageSelected={() => {
+                                                        this.validateField("PhotoURL", null);
+                                                    }} />
                                             </div>
                                             <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <label className="control-label">Certificate Number</label>
-                                                    <span className="text-danger" style={Required}>*</span>
-                                                    <input type="text" name="Number" className="form-control" autoComplete="off" readOnly
-                                                        value={this.state.Number} onChange={this.onChange} />
-                                                </div>
+                                                <div className="type-h3 color-default p-t-xxs">Add Commercial Register Certificate</div>
+                                                <div className="type-sh4 text-danger">{this.state.Errors.PhotoURL}</div>
                                                 <div className="form-group">
                                                     <label className="control-label">Certificate Type</label>
-                                                    <span className="text-danger" style={Required}>*</span>
-                                                    <input type="text" name="Type" className="form-control" autoComplete="off" required
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="text" name="Type" className="form-control" autoComplete="off"
                                                         value={this.state.Type} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.Type}</span>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="text-right">
+                                            <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                        </div>
                                     </div>
-                                    <div className="modal-footer">
-                                        <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
-                                            ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                        <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
-                                    </div>
-                                </form>
-                            </section>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </section>            
-        );
+            </div>
+        </section>;
     }
 };
 

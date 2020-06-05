@@ -127,83 +127,83 @@ class EditIdentityCardDialog extends Component {
         });
 
         updateIdentityCard(updatedIdentityCard).then(response => {
-            if (response.Message === "Identity card is updated.") {
-                this.props.OnOK(this.cancelButton);
-            }
-
             this.setState({
                 Preloader: null
             });
+
+            if (response.Message === "Identity card is updated.") {
+                this.props.OnOK(this.cancelButton);
+            }
         });
     }
 
     render() {
-        return (
-            <section>
-                <div className="modal" id="edit-identity-card-dialog"
-                    tabIndex="-1" role="dialog"
-                    aria-labelledby="modal-sample-label" aria-hidden="true">
-                    {this.state.Preloader}
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <section>
-                                <form noValidate onSubmit={this.onSubmit}>
-                                    <div className="modal-header">
-                                        <img alt="pencil.png" src="./images/pencil.png" height="60" />
-                                        <div className="type-h3">Edit Identity Card</div>
-                                    </div>
-                                    <div className="modal-body">
+        return <section>
+            <div className="modal modal-center-vertical" id="edit-identity-card-dialog"
+                tabIndex="-1" role="dialog"
+                aria-labelledby="modal-sample-label" aria-hidden="true">
+                {this.state.Preloader}
+                <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
+                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                        <div className="modal-header">
+                            <div className="text-right">
+                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                    data-dismiss="modal"
+                                    ref={cancelButton => this.cancelButton = cancelButton}>
+                                    <span className="fas fa-times"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="modal-body">
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <div className="jumbotron theme-default">
+                                    <div className="container">
                                         <div className="row">
                                             <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <ImageUploader
-                                                        Source={this.state.PhotoURL}
-                                                        Height="220px"
-                                                        Width="220px"
-                                                        OnImageUploaded={response => {
-                                                            if (response.message === "Image uploaded successfully.") {
-                                                                this.setState({
-                                                                    PhotoURL: response.imageUrl
-                                                                });
+                                                <ImageUploader
+                                                    Source={this.state.PhotoURL}
+                                                    Height="220px"
+                                                    Width="220px"
+                                                    OnImageUploaded={response => {
+                                                        if (response.message === "Image uploaded successfully.") {
+                                                            this.setState({
+                                                                PhotoURL: response.imageUrl
+                                                            });
 
-                                                                this.validateField("PhotoURL", this.state.PhotoURL);
-                                                            }
-                                                            else {
-                                                                this.validateField("PhotoURL", null);
-                                                            }
-                                                        }}
-                                                        OnInvalidImageSelected={() => {
+                                                            this.validateField("PhotoURL", this.state.PhotoURL);
+                                                        }
+                                                        else {
                                                             this.validateField("PhotoURL", null);
-                                                        }}
-                                                        ImageCategory="IdentityCard" />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="text-danger">{this.state.Errors.PhotoURL}</label>
-                                                </div>
+                                                        }
+                                                    }}
+                                                    OnInvalidImageSelected={() => {
+                                                        this.validateField("PhotoURL", null);
+                                                    }}
+                                                    ImageCategory="IdentityCard" />
                                             </div>
                                             <div className="col-md-12">
+                                                <div className="type-h3 color-default p-t-xxs">Edit Identity Card</div>
+                                                <div className="type-sh4 text-danger">{this.state.Errors.PhotoURL}</div>
                                                 <div className="form-group">
                                                     <label className="control-label">ID Number</label>
-                                                    <span className="text-danger" style={Required}>*</span>
+                                                    <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" name="IDNumber" className="form-control" autoComplete="off" required
                                                         value={this.state.IDNumber} onChange={this.onChange} min="1000000000" max="99999999999" />
                                                     <span className="text-danger">{this.state.Errors.IDNumber}</span>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="text-right">
+                                            <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                        </div>
                                     </div>
-                                    <div className="modal-footer">
-                                        <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
-                                            ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                        <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
-                                    </div>
-                                </form>
-                            </section>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </section>
-        );
+            </div>
+        </section>;
     }
 };
 

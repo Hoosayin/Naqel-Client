@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import Preloader from "../../../../controls/Preloader.js";
+import firebase from "firebase";
+import FirebaseApp from "../../../../res/FirebaseApp";
+import Preloader from "../../../../controls/Preloader";
+import PhoneConfirmationDialog from "../../../../containers/phoneConfirmationDialog/PhoneConfirmationDialog";
 import { getData, generalSettings } from "../../TraderFunctions";
 
 class GeneralSettings extends Component {
@@ -19,9 +22,12 @@ class GeneralSettings extends Component {
             ValidLastName: true,
             ValidPhoneNumber: true,
 
+            ConfirmationResult: null,
+            PhoneCodeVerified: false,
+
             ValidForm: false,
             SettingsSaved: false,
-            Preloader: null,
+            ShowPreloader: false,
 
             Errors: {
                 FirstName: "",
@@ -35,6 +41,12 @@ class GeneralSettings extends Component {
     }
 
     async componentDidMount() {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha", {
+            "size": "invisible",
+            "callback": response => {
+            }
+        });
+
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
@@ -116,37 +128,65 @@ class GeneralSettings extends Component {
     }
 
     onSubmit = async event => {
-        event.preventDefault();
+        if (event) {
+            event.preventDefault();
+        }
 
         if (!this.state.ValidForm) {
             return;
         }
 
-        const updatedTrader = {
-            Token: localStorage.Token,
-            FirstName: this.state.FirstName,
-            LastName: this.state.LastName,
-            Address: this.state.Address,
-            PhoneNumber: this.state.PhoneNumber,
-            Gender: this.state.Gender,
-            Nationality: this.state.Nationality,
-            DateOfBirth: this.state.DateOfBirth,
-        }
-
         this.setState({
-            Preloader: <Preloader />
+            ShowPreloader: true
         });
 
-        await generalSettings(updatedTrader).then(response => {
-            if (response.Message === "Trader is updated.") {
-                this.forceUpdate();
-                this.props.OnSettingsSaved();
+        if (this.state.PhoneCodeVerified) {
+            const updatedTrader = {
+                Token: localStorage.Token,
+                FirstName: this.state.FirstName,
+                LastName: this.state.LastName,
+                Address: this.state.Address,
+                PhoneNumber: this.state.PhoneNumber,
+                Gender: this.state.Gender,
+                Nationality: this.state.Nationality,
+                DateOfBirth: this.state.DateOfBirth,
             }
 
-            this.setState({
-                Preloader: null
+            await generalSettings(updatedTrader).then(response => {
+                this.setState({
+                    ShowPreloader: false
+                });
+
+                if (response.Message === "Trader is updated.") {
+                    this.forceUpdate();
+                    this.props.OnSettingsSaved();
+                }
             });
-        });
+        }
+        else {
+            const appVerifier = window.recaptchaVerifier;
+
+            FirebaseApp.auth().languageCode = "en";
+            FirebaseApp.auth().signInWithPhoneNumber(this.state.PhoneNumber, appVerifier).then(confirmationResult => {
+                this.setState({
+                    ShowPreloader: false,
+                    ConfirmationResult: confirmationResult
+                });
+
+                this.SendCodeButton.click();
+            }).catch(error => {
+                let {
+                    Errors
+                } = this.state;
+
+                Errors.PhoneNumber = error.message;
+
+                this.setState({
+                    ShowPreloader: false,
+                    Errors: Errors
+                });
+            });
+        }
     }
 
     render() {
@@ -278,7 +318,36 @@ class GeneralSettings extends Component {
                     </div>
                 </form>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                {this.state.Preloader}
+                <button
+                    style={{ display: "none" }}
+                    data-toggle="modal"
+                    data-target="#phone-confirmation-dialog"
+                    ref={sendCodeButton => this.SendCodeButton = sendCodeButton}></button>
+                <PhoneConfirmationDialog ConfirmationResult={this.state.ConfirmationResult}
+                    PhoneNumber={this.state.PhoneNumber}
+                    OnOK={phoneCodeVerified => {
+                        if (phoneCodeVerified) {
+                            this.setState({
+                                PhoneCodeVerified: true
+                            });
+
+                            this.onSubmit();
+                        }
+                        else {
+                            let {
+                                Errors
+                            } = this.state;
+
+                            Errors.PhoneNumber = "Confirmation code is invalid.";
+
+                            this.setState({
+                                ValidForm: false,
+                                Errors: Errors
+                            });
+                        }
+                    }} />
+                <div id="recaptcha"></div>
+                {this.state.ShowPreloader ? <Preloader /> : null}
             </div>
         );
     }

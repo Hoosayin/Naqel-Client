@@ -1,27 +1,21 @@
 import React, { useState } from "react";
 import { withGoogleMap, withScriptjs, GoogleMap, Marker, InfoWindow } from "react-google-maps";
-const Key = "AIzaSyD_U_2NzdPIL7TWb8ECBHWO1eROR2yrebI";
+import Strings from "../../../../../../res/strings";
 
 const JobRequestWindow = props => {
     const { JobRequest } = props;
 
     return <section>
-        <div className="jumbotron theme-default" style={{ backgroundColor: "#FFFFFF" }}>
-            <div className="container">
-                <div className="col-md-24">
-                    <div className="type-h6 color-default p-t-n">Job Request</div>
-                    <div className="type-sh6">
-                        <span className="fas fa-tag color-default m-r-xxxs"></span>
-                        <span className="color-default">PRICE: </span>{`$${JobRequest.Price}`}</div>
-                    <div className="type-sh6">
-                        <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
-                        <span className="color-default">FROM: </span>{JobRequest.LoadingPlace}</div>
-                    <div className="type-sh6">
-                        <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
-                        <span className="color-default">TO: </span>{JobRequest.UnloadingPlace}</div>
-                </div>
-            </div>
-        </div>
+        <div className="type-h6 color-default p-t-n">Job Request</div>
+        <div className="type-sh9">
+            <span className="fas fa-tag color-default m-r-xxxs"></span>
+            <span className="color-default">PRICE: </span>{`$${JobRequest.Price}`}</div>
+        <div className="type-sh9">
+            <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
+            <span className="color-default">FROM: </span>{JobRequest.LoadingPlace}</div>
+        <div className="type-sh9">
+            <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
+            <span className="color-default">TO: </span>{JobRequest.UnloadingPlace}</div>
     </section>;
 };
 
@@ -37,9 +31,10 @@ const Map = props => {
     const lng = Place ? Place.Lng : 72.738780;
 
     return <GoogleMap
-        defaultZoom={10}
+        defaultZoom={14}
         defaultCenter={{ lat: 33.784310, lng: 72.738780 }}
-        center={{ lat: lat, lng: lng }}>
+        center={{ lat: lat, lng: lng }}
+        options={{ streetViewControl: false }}>
 
         {JobRequestPosts.map((jobRequestPost, index) => {
             const jobRequest = jobRequestPost.JobRequest;
@@ -55,12 +50,12 @@ const Map = props => {
         })}
         
 
-        {SelectedJobRequest ? <InfoWindow position={{ lat: SelectedJobRequest.LoadingLat, lng: SelectedJobRequest.LoadingLng }}
+        {SelectedJobRequest && <InfoWindow position={{ lat: SelectedJobRequest.LoadingLat, lng: SelectedJobRequest.LoadingLng }}
             onCloseClick={() => {
                 SetSelectedJobRequest(null);
             }}>
             <JobRequestWindow JobRequest={SelectedJobRequest} />
-        </InfoWindow> : null}
+        </InfoWindow>}
     </GoogleMap>;
 }
 
@@ -69,7 +64,7 @@ const MapWrapped = withScriptjs(withGoogleMap(Map));
 const JobRequestsGoogleMap = props => {
     return <div style={{ width: "100%", height: "100vh" }}>
         <MapWrapped
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${Key}`}
+            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${Strings.GOOGLE_API_KEY}`}
             loadingElement={<div style={{ height: `100%` }} />}
             containerElement={<div style={{ height: `100%` }} />}
             mapElement={<div style={{ height: `100%` }} />}

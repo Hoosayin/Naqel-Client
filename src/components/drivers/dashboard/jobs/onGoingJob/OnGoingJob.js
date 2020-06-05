@@ -173,7 +173,7 @@ class OnGoingJob extends Component {
                     </div>
                     <div role="tabpanel" className="tab-pane" id="map-tab">
                         <OnGoingJobMap OnGoingJob={onGoingJob}
-                            DriverLocation={this.state.DriverLocation}/>
+                            DriverLocation={this.state.DriverLocation} />
                     </div>
                     {onGoingJob.CompletedByDriver ? 
                         null :

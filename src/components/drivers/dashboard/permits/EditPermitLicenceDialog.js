@@ -134,27 +134,30 @@ class EditPermitLicenceDialog extends Component {
     }
 
     render() {
-        return <section className="text-left">
-            <div className="modal" id={`edit-permit-dialog${this.props.DialogID}`}
+        return <section>
+            <div className="modal modal-center-vertical" id={`edit-permit-dialog${this.props.DialogID}`}
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
                 {this.state.Preloader}
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <section>
+                <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
+                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                        <div className="modal-header">
+                            <div className="text-right">
+                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                    data-dismiss="modal"
+                                    ref={cancelButton => this.cancelButton = cancelButton}>
+                                    <span className="fas fa-times"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="modal-body">
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div className="modal-header">
-                                    <img alt="pencil.png" src="./images/pencil.png" height="60" />
-                                    <div className="type-h3">Add Permit Licence</div>
-                                </div>
-                                <div className="modal-body">
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="form-group">
+                                <div className="jumbotron theme-default">
+                                    <div className="container">
+                                        <div className="row">
+                                            <div className="col-md-12">
                                                 <ImageUploader
                                                     Source={this.state.PhotoURL}
-                                                    Height="220px"
-                                                    Width="220px"
                                                     OnImageUploaded={response => {
                                                         if (response.message === "Image uploaded successfully.") {
                                                             this.setState({
@@ -171,49 +174,46 @@ class EditPermitLicenceDialog extends Component {
                                                         this.validateField("PhotoURL", null);
                                                     }} />
                                             </div>
-                                            <div className="form-group">
-                                                <label className="text-danger">{this.state.Errors.PhotoURL}</label>
+                                            <div className="col-md-12">
+                                                <div className="type-h3 color-default p-t-xxs">Edit Permit Licence</div>
+                                                <div className="type-sh4 text-danger">{this.state.Errors.PhotoURL}</div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Permit Number</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="number" name="PermitNumber" className="form-control" autoComplete="off"
+                                                        value={this.state.PermitNumber} onChange={this.onChange} />
+                                                    <span className="text-danger">{this.state.Errors.PermitNumber}</span>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Expiry Date</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="date" name="ExpiryDate" className="form-control" autoComplete="off"
+                                                        value={this.state.ExpiryDate} onChange={this.onChange} />
+                                                    <span className="text-danger">{this.state.Errors.ExpiryDate}</span>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Permit Code</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="text" name="Code" className="form-control" autoComplete="off"
+                                                        value={this.state.Code} onChange={this.onChange} />
+                                                    <span className="text-danger">{this.state.Errors.Code}</span>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Permit Place</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="text" name="Place" className="form-control" autoComplete="off"
+                                                        value={this.state.Place} onChange={this.onChange} />
+                                                    <span className="text-danger">{this.state.Errors.Place}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <label className="control-label">Permit Number</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="number" name="PermitNumber" className="form-control" autoComplete="off"
-                                                    value={this.state.PermitNumber} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.PermitNumber}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Expiry Date</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="date" name="ExpiryDate" className="form-control" autoComplete="off"
-                                                    value={this.state.ExpiryDate} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.ExpiryDate}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Permit Code</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="text" name="Code" className="form-control" autoComplete="off"
-                                                    value={this.state.Code} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.Code}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Permit Place</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="text" name="Place" className="form-control" autoComplete="off"
-                                                    value={this.state.Place} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.Place}</span>
-                                            </div>
+                                        <div className="text-right">
+                                            <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
-                                <div className="modal-footer">
-                                    <button className="btn btn-default" data-dismiss="modal"
-                                        ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                    <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
-                                </div>
                             </form>
-                        </section>
+                        </div>
                     </div>
                 </div>
             </div>

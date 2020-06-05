@@ -10,6 +10,7 @@ class Profile extends Component {
             Name: "",
             Email: "",
             Username: "",
+            PhoneNumber: "",
             InternalNumber: "", 
             CommercialRegisterNumber: "",
             Active: false,
@@ -31,6 +32,7 @@ class Profile extends Component {
                         Name: transportCompanyResponsible.Name,
                         Email: transportCompanyResponsible.Email,
                         Username: transportCompanyResponsible.Username,
+                        PhoneNumber: transportCompanyResponsible.PhoneNumber,
                         InternalNumber: transportCompanyResponsible.InternalNumber,
                         CommercialRegisterNumber: transportCompanyResponsible.CommercialRegisterNumber,
                         Active: transportCompanyResponsible.Active,
@@ -41,6 +43,7 @@ class Profile extends Component {
                         Name: "",
                         Email: "",
                         Username: "",
+                        PhoneNumber: "",
                         InternalNumber: "",
                         CommercialRegisterNumber: "",
                         Active: false,
@@ -55,6 +58,7 @@ class Profile extends Component {
             Name,
             Email,
             Username,
+            PhoneNumber,
             InternalNumber,
             CommercialRegisterNumber,
             Active
@@ -89,6 +93,17 @@ class Profile extends Component {
                                     <div className="item-content-primary">
                                         <div className="content-text-primary">Email</div>
                                         <div className="content-text-secondary">{Email}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="entity-list">
+                                <div className="entity-list-item">
+                                    <div className="item-icon">
+                                        <span className="fas fa-phone"></span>
+                                    </div>
+                                    <div className="item-content-primary">
+                                        <div className="content-text-primary">Phone Number</div>
+                                        <div className="content-text-secondary">{PhoneNumber}</div>
                                     </div>
                                 </div>
                             </div>

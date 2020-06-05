@@ -8,4 +8,5 @@ module.exports = {
     IMAGE_UPLOADER: "https://us-central1-naqel-transport-jobs.cloudfunctions.net/uploadImage",
     STRIPE_PUBLISHABLE_KEY: "pk_test_Wjc5dIC6ytMmH3g1roSUOYcm00FaTN1yBn",
     STRIPE_SECRET_KEY: "sk_test_RVhdSfOgg0jQHCYLYH8Z05JM00bkPnPBVg",
+    GOOGLE_API_KEY: "AIzaSyD_U_2NzdPIL7TWb8ECBHWO1eROR2yrebI"
 };

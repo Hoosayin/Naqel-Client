@@ -32,9 +32,7 @@ class AddIdentityCardButton extends Component {
                                     this.props.OnDocumentsUpdated();
                                 }} />,
                         });
-                    }}>
-                    <span className="fas fa-plus" aria-hidden="true"></span> Identity Card
-                </button>
+                    }}>Identity Card</button>
                 {this.state.AddIdentityCardDialog}
             </section>
         );

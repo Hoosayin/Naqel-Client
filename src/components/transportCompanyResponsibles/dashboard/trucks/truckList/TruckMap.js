@@ -1,6 +1,6 @@
 import React from "react";
 import { withGoogleMap, withScriptjs, GoogleMap, Marker, } from "react-google-maps";
-const Key = "AIzaSyD_U_2NzdPIL7TWb8ECBHWO1eROR2yrebI";
+import Strings from "../../../../../res/strings";
 
 const Map = props => {
     const {
@@ -8,8 +8,10 @@ const Map = props => {
     } = props;
 
     return <GoogleMap
-        defaultZoom={10}
-        defaultCenter={{ lat: DriverLocation.Lat, lng: DriverLocation.Lng }}>
+        defaultZoom={14}
+        defaultCenter={{ lat: DriverLocation.Lat, lng: DriverLocation.Lng }}
+        center={{ lat: DriverLocation.Lat, lng: DriverLocation.Lng }}
+        options={{ streetViewControl: false }}>
 
         <Marker key={1} position={{ lat: DriverLocation.Lat, lng: DriverLocation.Lng }}
             icon={{
@@ -22,9 +24,9 @@ const Map = props => {
 const MapWrapped = withScriptjs(withGoogleMap(Map));
 
 const TruckMap = props => {
-    return <div style={{ width: "100%", height: "400px" }}>
+    return <div style={{ width: "100%", height: "100vh" }}>
         <MapWrapped
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${Key}`}
+            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${Strings.GOOGLE_API_KEY}`}
             loadingElement={<div style={{ height: `100%` }} />}
             containerElement={<div style={{ height: `100%` }} />}
             mapElement={<div style={{ height: `100%` }} />}

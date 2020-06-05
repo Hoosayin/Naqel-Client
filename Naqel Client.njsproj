@@ -2055,6 +2055,7 @@
     <Content Include="src\components\drivers\dashboard\trucks\Truck.js" />
     <Content Include="src\components\drivers\dashboard\trucks\TruckSettings.js" />
     <Content Include="src\components\drivers\DriverFunctions.js" />
+    <Content Include="src\containers\phoneConfirmationDialog\PhoneConfirmationDialog.js" />
     <Content Include="src\components\register\SetupAdministratorAccount.js" />
     <Content Include="src\components\register\SetupTransportCompanyResponsibleAccount.js" />
     <Content Include="src\components\shared\UserFunctions.js" />
@@ -2364,6 +2365,7 @@
     <Folder Include="src\components\transportCompanyResponsibles\dashboard\trucks\truckList\" />
     <Folder Include="src\containers\exoneratedTrader\" />
     <Folder Include="src\containers\blockedUser\" />
+    <Folder Include="src\containers\phoneConfirmationDialog\" />
     <Folder Include="src\containers\responsibleQuestion\" />
     <Folder Include="src\containers\payDetails\" />
     <Folder Include="src\containers\traderQuestion\" />

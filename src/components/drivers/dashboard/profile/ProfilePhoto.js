@@ -32,7 +32,7 @@ class ProfilePhoto extends Component {
                     });
                 }
                 else {
-                    this.state({
+                    this.setState({
                         PhotoURL: "./images/defaultProfilePhoto.png"
                     });
                 }

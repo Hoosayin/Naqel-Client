@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Required } from "../../../../../../styles/MiscellaneousStyles.js";
 import Preloader from "../../../../../../controls/Preloader.js";
 import { addEntryExitCard } from "../../../../DriverFunctions.js";
 
@@ -117,78 +116,84 @@ class AddEntryExitCardDialog extends Component {
         });
 
         await addEntryExitCard(newEntryExitCard).then(response => {
-            if (response.Message === "Entry/Exit card is added.") {
-                this.props.OnOK(this.cancelButton);
-            }
-
             this.setState({
                 Preloader: null
             });
+
+            if (response.Message === "Entry/Exit card is added.") {
+                this.props.OnOK(this.cancelButton);
+            }
         });
     }
 
     render() {
-        return <section className="text-left">
-            <div className="modal" id="add-entry-exit-card-dialog"
+        return <section>
+            <div className="modal modal-center-vertical" id="add-entry-exit-card-dialog"
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
                 {this.state.Preloader}
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <section>
+                <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                        <div className="modal-header">
+                            <div className="text-right">
+                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                    data-dismiss="modal"
+                                    ref={cancelButton => this.cancelButton = cancelButton}>
+                                    <span className="fas fa-times"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="modal-body">
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div className="modal-header">
-                                    <img alt="add.png" src="./images/add.png" height="60" />
-                                    <div className="type-h3">Add Entry/Exit Card</div>
-                                </div>
-                                <div className="modal-body">
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <label className="control-label">Entry/Exit Number</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="number" name="EntryExitNumber" className="form-control" autoComplete="off"
-                                                    value={this.state.EntryExitNumber} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.EntryExitNumber}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Card Type</label><br />
-                                                <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
-                                                    <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
-                                                        aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                                        <span>{this.state.Type}</span>
-                                                        <span className="caret"></span>
-                                                    </button>
-                                                    <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                                        <li><a onClick={() => { this.setState({ Type: "Simple" }); }}>Simple</a></li>
-                                                        <li><a onClick={() => { this.setState({ Type: "Multiple" }); }}>Multiple</a></li>
-                                                    </ul>
+                                <div className="jumbotron theme-default">
+                                    <div className="container">
+                                        <div className="row">
+                                            <div className="col-md-24">
+                                                <div className="type-h3 color-default p-t-xxs">Add Entry/Exit Card</div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Entry/Exit Number</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="number" name="EntryExitNumber" className="form-control" autoComplete="off"
+                                                        value={this.state.EntryExitNumber} onChange={this.onChange} />
+                                                    <span className="text-danger">{this.state.Errors.EntryExitNumber}</span>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Card Type</label><br />
+                                                    <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
+                                                        <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
+                                                            aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
+                                                            <span>{this.state.Type}</span>
+                                                            <span className="caret"></span>
+                                                        </button>
+                                                        <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
+                                                            <li><a onClick={() => { this.setState({ Type: "Simple" }); }}>Simple</a></li>
+                                                            <li><a onClick={() => { this.setState({ Type: "Multiple" }); }}>Multiple</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Release Date</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="date" name="ReleaseDate" className="form-control" autoComplete="off"
+                                                        value={this.state.ReleaseDate} onChange={this.onChange} />
+                                                    <span className="text-danger">{this.state.Errors.ReleaseDate}</span>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">Number of Months</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="number" name="NumberOfMonths" className="form-control" autoComplete="off"
+                                                        value={this.state.NumberOfMonths} onChange={this.onChange} />
+                                                    <span className="text-danger">{this.state.Errors.NumberOfMonths}</span>
                                                 </div>
                                             </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Release Date</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="date" name="ReleaseDate" className="form-control" autoComplete="off"
-                                                    value={this.state.ReleaseDate} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.ReleaseDate}</span>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className="control-label">Number of Months</label>
-                                                <span className="text-danger" style={Required}>*</span>
-                                                <input type="number" name="NumberOfMonths" className="form-control" autoComplete="off"
-                                                    value={this.state.NumberOfMonths} onChange={this.onChange} />
-                                                <span className="text-danger">{this.state.Errors.NumberOfMonths}</span>
-                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
-                                <div className="modal-footer">
-                                    <button className="btn btn-default" data-dismiss="modal" onClick={this.props.OnCancel}
-                                        ref={cancelButton => this.cancelButton = cancelButton}>Cancel</button>
-                                    <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
-                                </div>
                             </form>
-                        </section>
+                        </div>
                     </div>
                 </div>
             </div>

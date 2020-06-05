@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { withGoogleMap, withScriptjs, GoogleMap, DirectionsRenderer, Marker } from "react-google-maps";
-const Key = "AIzaSyD_U_2NzdPIL7TWb8ECBHWO1eROR2yrebI";
+import Strings from "../../../../../res/strings";
 
 const Directions = props => {
     const [Directions, SetDirections] = useState(null);
@@ -36,7 +36,8 @@ const Map = props => {
     } = props;
 
     return <GoogleMap
-        defaultZoom={10}>
+        defaultZoom={14}
+        options={{ streetViewControl: false }}>
 
         <Marker key={1} position={{ lat: OnGoingJob.LoadingLat, lng: OnGoingJob.LoadingLng }}
             icon={{
@@ -64,9 +65,9 @@ const Map = props => {
 const MapWrapped = withScriptjs(withGoogleMap(Map));
 
 const OnGoingJobMap = props => {
-    return <div style={{ width: "100%", height: "400px" }}>
+    return <div style={{ width: "100%", height: "100vh" }}>
         <MapWrapped
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${Key}`}
+            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${Strings.GOOGLE_API_KEY}`}
             loadingElement={<div style={{ height: `100%` }} />}
             containerElement={<div style={{ height: `100%` }} />}
             mapElement={<div style={{ height: `100%` }} />}

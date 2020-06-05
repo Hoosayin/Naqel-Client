@@ -92,7 +92,7 @@ class EarningsList extends Component {
         return <section>
             <PageHeading Heading="EARNINGS" />
             <div class="page-header" style={{
-                backgroundImage: "url(/images/teal.jpg)",
+                backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",
                 backgroundColor: "#215761"
             }}>

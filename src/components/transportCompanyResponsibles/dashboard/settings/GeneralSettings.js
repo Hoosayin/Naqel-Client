@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import firebase from "firebase";
+import FirebaseApp from "../../../../res/FirebaseApp";
 import Preloader from "../../../../controls/Preloader";
+import PhoneConfirmationDialog from "../../../../containers/phoneConfirmationDialog/PhoneConfirmationDialog";
 import { getData, generalSettings } from "../../TransportCompanyResponsiblesFunctions";
 
 class GeneralSettings extends Component {
@@ -12,6 +15,9 @@ class GeneralSettings extends Component {
 
             ValidName: true,
             ValidPhoneNumber: true,
+
+            ConfirmationResult: null,
+            PhoneCodeVerified: false,
 
             ValidForm: false,
             SettingsSaved: false,
@@ -28,6 +34,12 @@ class GeneralSettings extends Component {
     }
 
     async componentDidMount() {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha", {
+            "size": "invisible",
+            "callback": response => {
+            }
+        });
+
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
@@ -108,37 +120,66 @@ class GeneralSettings extends Component {
     }
 
     onSubmit = async event => {
-        event.preventDefault();
+        if (event) {
+            event.preventDefault();
+        }
 
         if (!this.state.ValidForm) {
             return;
         }
 
-        const updatedTransportCompanyResponsible = {
-            Token: localStorage.Token,
-            Name: this.state.Name,
-            PhoneNumber: this.state.PhoneNumber
-        };
-
         this.setState({
             ShowPreloader: true
         });
 
-        await generalSettings(updatedTransportCompanyResponsible).then(response => {
-            this.setState({
-                ShowPreloader: false
-            });
+        if (this.state.PhoneCodeVerified) {
+            const updatedTransportCompanyResponsible = {
+                Token: localStorage.Token,
+                Name: this.state.Name,
+                PhoneNumber: this.state.PhoneNumber
+            };
 
-            if (response.Message === "Transport company responsible is updated.") {
-                this.props.OnSettingsSaved();
-            }
-        });
+            await generalSettings(updatedTransportCompanyResponsible).then(response => {
+                this.setState({
+                    ShowPreloader: false
+                });
+
+                if (response.Message === "Transport company responsible is updated.") {
+                    this.props.OnSettingsSaved();
+                }
+            });
+        }
+        else {
+            const appVerifier = window.recaptchaVerifier;
+
+            FirebaseApp.auth().languageCode = "en";
+            FirebaseApp.auth().signInWithPhoneNumber(this.state.PhoneNumber, appVerifier).then(confirmationResult => {
+                this.setState({
+                    ShowPreloader: false,
+                    ConfirmationResult: confirmationResult
+                });
+
+                this.SendCodeButton.click();
+            }).catch(error => {
+                let {
+                    Errors
+                } = this.state;
+
+                Errors.PhoneNumber = error.message;
+
+                this.setState({
+                    ShowPreloader: false,
+                    Errors: Errors
+                });
+            });
+        }
     }
 
     render() {
         const {
             Name,
             PhoneNumber,
+            ConfirmationResult,
             ShowPreloader,
             ValidForm,
             Errors
@@ -171,7 +212,7 @@ class GeneralSettings extends Component {
                         <div className="item-content-secondary">
                             <div className="form-group">
                                 <input type="text" className="form-control" name="PhoneNumber" autocomplete="off"
-                                    placeholder="+XXXXXXXXXXXX" value={this.state.PhoneNumber} onChange={this.onChange} style={{ width: "193px", }} />
+                                    placeholder="+XXXXXXXXXXXX" value={PhoneNumber} onChange={this.onChange} style={{ width: "193px", }} />
                             </div>
                         </div>
                         <div className="item-content-primary">
@@ -193,6 +234,35 @@ class GeneralSettings extends Component {
                     </div>
                 </div>
             </form>
+            <button
+                style={{ display: "none" }}
+                data-toggle="modal"
+                data-target="#phone-confirmation-dialog"
+                ref={sendCodeButton => this.SendCodeButton = sendCodeButton}></button>
+            <PhoneConfirmationDialog ConfirmationResult={ConfirmationResult}
+                PhoneNumber={this.state.PhoneNumber}
+                OnOK={phoneCodeVerified => {
+                    if (phoneCodeVerified) {
+                        this.setState({
+                            PhoneCodeVerified: true
+                        });
+
+                        this.onSubmit();
+                    }
+                    else {
+                        let {
+                            Errors
+                        } = this.state;
+
+                        Errors.PhoneNumber = "Confirmation code is invalid.";
+
+                        this.setState({
+                            ValidForm: false,
+                            Errors: Errors
+                        });
+                    }
+                }} />
+            <div id="recaptcha"></div>
             {ShowPreloader ? <Preloader /> : null}
         </section>;
     }

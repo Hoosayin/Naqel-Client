@@ -32,9 +32,7 @@ class AddCommercialRegisterCertificateButton extends Component {
                                     this.props.OnDocumentsUpdated();
                                 }} />
                         });
-                    }}>
-                    <span className="fas fa-plus" aria-hidden="true"></span> CR Certificate
-                </button>
+                    }}>Add CR Certificate</button>
                 {this.state.AddCommercialRegisterCertificateDialog}
             </section>
         );

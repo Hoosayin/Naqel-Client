@@ -1,6 +1,23 @@
 import React, { useState } from "react";
 import { withGoogleMap, withScriptjs, GoogleMap, Marker, InfoWindow } from "react-google-maps";
-const Key = "AIzaSyD_U_2NzdPIL7TWb8ECBHWO1eROR2yrebI";
+import Strings from "../../../../../../res/strings";
+
+const JobOfferInfoWindow = props => {
+    const { JobOffer } = props;
+
+    return <section>
+        <div className="type-h6 color-default p-t-n">{`${JobOffer.JobOfferType} Job Offer`}</div>
+        <div className="type-sh9">
+            <span className="fas fa-tag color-default m-r-xxxs"></span>
+            <span className="color-default">PRICE: </span>{`$${JobOffer.Price}`}</div>
+        <div className="type-sh9">
+            <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
+            <span className="color-default">FROM: </span>{JobOffer.LoadingPlace}</div>
+        <div className="type-sh9">
+            <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
+            <span className="color-default">TO: </span>{JobOffer.UnloadingPlace}</div>
+    </section>;
+};
 
 const Map = props => {
     const [SelectedJobOffer, SetSelectedJobOffer] = useState(null);
@@ -14,9 +31,10 @@ const Map = props => {
     const lng = Place ? Place.Lng : 72.738780;
 
     return <GoogleMap
-        defaultZoom={10}
+        defaultZoom={14}
         defaultCenter={{ lat: 33.784310, lng: 72.738780 }}
-        center={{ lat: lat, lng: lng }}>
+        center={{ lat: lat, lng: lng }}
+        options={{ streetViewControl: false }}>
 
         {JobOfferPosts.map(jobOfferPost => (
             <Marker key={jobOfferPost.JobOffer.JobOfferID} position={{ lat: jobOfferPost.JobOffer.LoadingLat, lng: jobOfferPost.JobOffer.LoadingLng }}
@@ -33,25 +51,7 @@ const Map = props => {
             onCloseClick={() => {
                 SetSelectedJobOffer(null);
             }}>
-
-            <section>
-                <div className="jumbotron theme-default" style={{ backgroundColor: "#FFFFFF" }}>
-                    <div className="container">
-                        <div className="col-md-24">
-                            <div className="type-h6 color-default p-t-n">{`${SelectedJobOffer.JobOfferType} Job Offer`}</div>
-                            <div className="type-sh6">
-                                <span className="fas fa-tag color-default m-r-xxxs"></span>
-                                <span className="color-default">PRICE: </span>{`$${SelectedJobOffer.Price}`}</div>
-                            <div className="type-sh6">
-                                <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
-                                <span className="color-default">FROM: </span>{SelectedJobOffer.LoadingPlace}</div>
-                            <div className="type-sh6">
-                                <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
-                                <span className="color-default">TO: </span>{SelectedJobOffer.UnloadingPlace}</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <JobOfferInfoWindow JobOffer={SelectedJobOffer} />
         </InfoWindow>}
     </GoogleMap>;
 }
@@ -61,7 +61,7 @@ const MapWrapped = withScriptjs(withGoogleMap(Map));
 const JobOffersGoogleMap = props => {
     return <div style={{ width: "100%", height: "100vh" }}>
         <MapWrapped
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${Key}`}
+            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${Strings.GOOGLE_API_KEY}`}
             loadingElement={<div style={{ height: `100%` }} />}
             containerElement={<div style={{ height: `100%` }} />}
             mapElement={<div style={{ height: `100%` }} />}

@@ -27,7 +27,7 @@ class Permits extends Component {
             <section>
                 <PageHeading Heading="PERMITS" />
                 <div class="page-header" style={{
-                    backgroundImage: "url(/images/teal.jpg)",
+                    backgroundImage: "url(/images/poly_back.jpg)",
                     backgroundSize: "cover",
                     backgroundColor: "#215761"
                 }}>

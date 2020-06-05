@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Strings from "../../res/strings";
-
+import Preloader from "../../controls/Preloader";
 import { registerDriver } from "../drivers/DriverFunctions";
 import { registerTrader } from "../traders/TraderFunctions";
 import { registerAdministrator } from "../administrators/AdministratorFunctions";
@@ -32,8 +32,10 @@ class Register extends Component {
             UsernameOrEmailTaken: false,
             ValidEmail: false,
             ValidPassword: false,
+
             ValidForm: false,
             Agreed: false,
+            ShowPreloader: false,
 
             Errors: {
                 Email: "",
@@ -115,6 +117,10 @@ class Register extends Component {
             return;
         }
 
+        this.setState({
+            ShowPreloader: true
+        });
+
         const newCredentials = {
             Username: this.state.Username,
             Password: this.state.Password,
@@ -124,6 +130,10 @@ class Register extends Component {
 
         if (newCredentials.RegisterAs === "Driver") {
             await registerDriver(newCredentials).then(response => {
+                this.setState({
+                    ShowPreloader: false
+                });
+
                 if (response && localStorage.newCredentialsToken) {
                     this.props.history.push("/emailConfirmation");
                 }
@@ -137,6 +147,10 @@ class Register extends Component {
         }
         else if (newCredentials.RegisterAs === "Administrator") {
             await registerAdministrator(newCredentials).then(response => {
+                this.setState({
+                    ShowPreloader: false
+                });
+
                 if (response.Message === "Token received.") {
                     localStorage.setItem("newCredentialsToken", response.Token);
                     this.props.history.push("/emailConfirmation");
@@ -151,6 +165,10 @@ class Register extends Component {
         }
         else if (newCredentials.RegisterAs === "TC Responsible") {
             await registerTransportCompanyResponsible(newCredentials).then(response => {
+                this.setState({
+                    ShowPreloader: false
+                });
+
                 if (response.Message === "Token received.") {
                     localStorage.setItem("newCredentialsToken", response.Token);
                     this.props.history.push("/emailConfirmation");
@@ -164,8 +182,11 @@ class Register extends Component {
             });
         }
         else {
-            console.log("Seting up resources for new trader or broker...");
             await registerTrader(newCredentials).then(response => {
+                this.setState({
+                    ShowPreloader: false
+                });
+
                 if (response && localStorage.newCredentialsToken) {
                     this.props.history.push("/emailConfirmation");
                 }
@@ -287,6 +308,8 @@ class Register extends Component {
                         </div>
                     </div>
                 </div>
+
+                {this.state.ShowPreloader ? <Preloader /> : null}
             </div>
         );
     }

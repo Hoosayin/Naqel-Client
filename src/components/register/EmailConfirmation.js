@@ -94,26 +94,28 @@ class EmailConfirmation extends Component {
             return <Redirect to={"/register"} />;
         }
         else {
-            return <div class="middle" style={EmailConfirmationCardBack}>
-                <div class="theme-default animated fadeIn" style={Card}>
-                    <div style={CardChild}>
-                        <img src="./images/passcode.png" alt="passcode.png" height="60" />
-                        <div class="type-h3" style={CardTitle}>Email Confirmation</div>
-                        <div class="type-sh3">We delivered a confirmation code to your email.</div>
-                        <br />
-                        <form noValidate onSubmit={this.onSubmit}>
-                            <div class="form-group">
-                                <label htmlFor="ConfirmationCode" class="control-label">Confirmation Code</label>
-                                <span class="text-danger m-l-xxxs">*</span>
-                                <input htmlFor="ConfirmationCode" type="text" name="ConfirmationCode" class="form-control"
-                                    value={this.state.ConfirmationCode} onChange={this.onChange} />
-                                <span class="text-danger">{this.state.Errors.ConfirmationCode}</span>
-                            </div>
-                            <input type="submit" value="Next" class="btn btn-primary" disabled={!this.state.ValidForm} />
-                        </form>
+            return <section>
+                <div class="middle" style={EmailConfirmationCardBack}>
+                    <div class="theme-default animated fadeIn" style={Card}>
+                        <div style={CardChild}>
+                            <img src="./images/passcode.png" alt="passcode.png" height="60" />
+                            <div class="type-h3" style={CardTitle}>Email Confirmation</div>
+                            <div class="type-sh3">We delivered a confirmation code to your email.</div>
+                            <br />
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <div class="form-group">
+                                    <label htmlFor="ConfirmationCode" class="control-label">Confirmation Code</label>
+                                    <span class="text-danger m-l-xxxs">*</span>
+                                    <input htmlFor="ConfirmationCode" type="text" name="ConfirmationCode" class="form-control"
+                                        value={this.state.ConfirmationCode} onChange={this.onChange} />
+                                    <span class="text-danger">{this.state.Errors.ConfirmationCode}</span>
+                                </div>
+                                <input type="submit" value="Next" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>;
+            </section>;
         }
     }
 };

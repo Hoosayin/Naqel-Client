@@ -1,21 +1,20 @@
 import React, { Component } from "react";
-import Preloader from "../../../../../../controls/Preloader.js";
-import { addDriverRequest } from "../../../../DriverFunctions";
+import Preloader from "../../controls/Preloader";
 
-class BidJobOfferDialog extends Component {
+class PhoneConfirmationDialog extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            Price: 0,
+            Code: "",
 
-            ValidPrice: false,
+            ValidCode: false,
 
             ValidForm: false,
-            Preloader: null,
+            ShowPreloader: false,
 
             Errors: {
-                Price: ""
+                Code: ""
             },
         };
 
@@ -33,20 +32,15 @@ class BidJobOfferDialog extends Component {
     }
 
     validateField(field, value) {
-        let Errors = this.state.Errors;
-        let ValidPrice = this.state.ValidPrice;
+        let {
+            Errors,
+            ValidCode
+        } = this.state;
 
         switch (field) {
-            case "Price":
-                ValidPrice = (value !== "");
-                Errors.Price = ValidPrice ? "" : "Bidding price is required.";
-
-                if (Errors.Price !== "") {
-                    break;
-                }
-
-                ValidPrice = (value <= this.props.JobOffer.Price);
-                Errors.Price = ValidPrice ? "" : "You cannot bid more than maximum accepted price.";
+            case "Code":
+                ValidCode = (value !== "");
+                Errors.Code = ValidCode ? "" : "Code is required.";
                 break;
             default:
                 break;
@@ -54,10 +48,10 @@ class BidJobOfferDialog extends Component {
 
         this.setState({
             Errors: Errors,
-            ValidPrice: ValidPrice
+            ValidCode: ValidCode
         }, () => {
             this.setState({
-                ValidForm: this.state.ValidPrice
+                ValidForm: ValidCode
             });
         });
     }
@@ -65,49 +59,70 @@ class BidJobOfferDialog extends Component {
     onSubmit = async event => {
         event.preventDefault();
 
-        if (!this.state.ValidForm) {
+        const {
+            Code,
+            ValidForm
+        } = this.state;
+
+        if (!ValidForm) {
             return;
         }
-
-        if (this.props.IsRequestSent()) {
-            return;
-        }
-
-        const newDriverRequest = {
-            Token: localStorage.Token,
-            JobOfferID: this.props.JobOffer.JobOfferID,
-            Price: this.state.Price
-        };
-
-        console.log("Going to add driver request...");
 
         this.setState({
-            Preloader: <Preloader />
+            ShowPreloader: true
         });
 
-        await addDriverRequest(newDriverRequest).then(response => {
-            if (response.Message === "Driver request is added.") {
-                this.setState({
-                    Preloader: null
-                });
+        const {
+            ConfirmationResult,
+            OnOK
+        } = this.props;
 
-                this.cancelButton.click();
-                this.props.OnOK(response.DriverRequest);
-            }
-            else {
-                this.setState({
-                    Preloader: null
-                });
-            }
+        ConfirmationResult.confirm(Code).then(result => {
+            this.setState({
+                Code: "",
+                ValidCode: false,
+                ValidForm: false,
+                ShowPreloader: false,
+                Errors: {
+                    Code: ""
+                },
+            });
+
+            this.cancelButton.click();
+            OnOK(true);
+        }).catch(error => {
+            this.setState({
+                Code: "",
+                ValidCode: false,
+                ValidForm: false,
+                ShowPreloader: false,
+                Errors: {
+                    Code: ""
+                },
+            });
+
+            this.cancelButton.click();
+            OnOK(false);
         });
     }
 
     render() {
+        const {
+            Code,
+            ShowPreloader,
+            ValidForm,
+            Errors
+        } = this.state;
+
+        const {
+            PhoneNumber
+        } = this.props;
+
         return <section>
-            <div className="modal modal-center-vertical" id={`bid-job-offer-dialog-${this.props.DialogID}`}
+            <div className="modal modal-center-vertical" id="phone-confirmation-dialog"
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
-                {this.state.Preloader}
+                {ShowPreloader ? <Preloader /> : null}
                 <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
                     <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
                         <div className="modal-header">
@@ -123,21 +138,21 @@ class BidJobOfferDialog extends Component {
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="jumbotron theme-default">
                                     <div className="container">
-                                        <div className="type-h3 color-default p-t-xxs">Bid on Price</div>
-                                        <div className="type-sh3">{`Maximum Accepted Price is $${this.props.JobOffer.Price}.`}</div>
+                                        <div className="type-h3 color-default p-t-xxs">Code Confirmation</div>
+                                        <div className="type-sh3">{`Enter 6-Digit Code sent on ${PhoneNumber}.`}</div>
                                         <div className="row p-t-xxs">
                                             <div className="col-md-24">
                                                 <div className="form-group">
-                                                    <label className="control-label">Price (USD)</label>
+                                                    <label className="control-label">Code</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
-                                                    <input type="number" min="0.00" step="0.01" name="Price"
-                                                        className="form-control" autoComplete="off" value={this.state.Price} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.Price}</span>
+                                                    <input type="number" name="Code" className="form-control" autoComplete="off"
+                                                        value={Code} onChange={this.onChange} />
+                                                    <span className="text-danger">{Errors.Code}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Bid" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value="Verify" className="btn btn-primary" disabled={!ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -150,4 +165,4 @@ class BidJobOfferDialog extends Component {
     }
 };
 
-export default BidJobOfferDialog;
+export default PhoneConfirmationDialog;

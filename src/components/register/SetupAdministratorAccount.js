@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import Preloader from "../../controls/Preloader";
 import { setupAdministratorAccount } from "../administrators/AdministratorFunctions";
 
 import {
@@ -24,6 +25,7 @@ class SetupAdministratorAccount extends Component {
             ValidAdministratorSecret: false,
 
             ValidForm: false,
+            ShowPreloader: false,
 
             Errors: {
                 FirstName: "",
@@ -104,6 +106,10 @@ class SetupAdministratorAccount extends Component {
         }
 
         if (localStorage.verifiedCredentialsToken) {
+            this.setState({
+                ShowPreloader: true
+            });
+
             const verifiedCredentials = jwt_decode(localStorage.verifiedCredentialsToken);
 
             const newAdministrator = {
@@ -117,6 +123,10 @@ class SetupAdministratorAccount extends Component {
             }
 
             await setupAdministratorAccount(newAdministrator).then(response => {
+                this.setState({
+                    ShowPreloader: false
+                });
+
                 if (response.Message == "Administrator created.") {
                     localStorage.removeItem("verifiedCredentialsToken");
                     localStorage.setItem("IsCreatedSuccessfully", true);
@@ -139,50 +149,53 @@ class SetupAdministratorAccount extends Component {
             return <Redirect to={"/register"} />;
         }
         else {
-            return <div class="middle" style={AccountSetupCardBack}>
-                <div class="theme-default animated fadeIn" style={CardLarge}>
-                    <div style={CardChild}>
-                        <img src="./images/create_account.png" atl="create_account.png" height="60" />
-                        <div class="type-h3" style={CardTitle}>
-                            Create Account
+            return <section>
+                <div class="middle" style={AccountSetupCardBack}>
+                    <div class="theme-default animated fadeIn" style={CardLarge}>
+                        <div style={CardChild}>
+                            <img src="./images/create_account.png" atl="create_account.png" height="60" />
+                            <div class="type-h3" style={CardTitle}>
+                                Create Account
                                 </div>
-                        <div class="type-sh3">
-                            Just one more step, and you're done!
+                            <div class="type-sh3">
+                                Just one more step, and you're done!
                                 </div>
-                        <br />
-                        <form noValidate onSubmit={this.onSubmit}>
-                            <div class="row">
-                                <div class="col-md-24">
-                                    <div class="form-group">
-                                        <label class="control-label">First Name</label>
-                                        <span class="text-danger m-l-xxxs">*</span>
-                                        <input type="text" className="form-control" name="FirstName" autocomplete="off"
-                                            value={this.state.FirstName} onChange={this.onChange} />
-                                        <span class="text-danger">{this.state.Errors.FirstName}</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Last Name</label>
-                                        <span class="text-danger m-l-xxxs">*</span>
-                                        <input type="text" className="form-control" name="LastName" autocomplete="off"
-                                            value={this.state.LastName} onChange={this.onChange} />
-                                        <span class="text-danger">{this.state.Errors.LastName}</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Secret Code</label>
-                                        <span class="text-danger m-l-xxxs">*</span>
-                                        <input type="text" class="form-control" name="AdministratorSecret" autocomplete="off"
-                                            value={this.state.AdministratorSecret} onChange={this.onChange} />
-                                        <span class="text-danger">{this.state.Errors.AdministratorSecret}</span>
+                            <br />
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <div class="row">
+                                    <div class="col-md-24">
+                                        <div class="form-group">
+                                            <label class="control-label">First Name</label>
+                                            <span class="text-danger m-l-xxxs">*</span>
+                                            <input type="text" className="form-control" name="FirstName" autocomplete="off"
+                                                value={this.state.FirstName} onChange={this.onChange} />
+                                            <span class="text-danger">{this.state.Errors.FirstName}</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Last Name</label>
+                                            <span class="text-danger m-l-xxxs">*</span>
+                                            <input type="text" className="form-control" name="LastName" autocomplete="off"
+                                                value={this.state.LastName} onChange={this.onChange} />
+                                            <span class="text-danger">{this.state.Errors.LastName}</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Secret Code</label>
+                                            <span class="text-danger m-l-xxxs">*</span>
+                                            <input type="text" class="form-control" name="AdministratorSecret" autocomplete="off"
+                                                value={this.state.AdministratorSecret} onChange={this.onChange} />
+                                            <span class="text-danger">{this.state.Errors.AdministratorSecret}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" disabled={!this.state.ValidForm} />
-                            </div>
-                        </form>
+                                <div class="form-group">
+                                    <input type="submit" value="Create" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>;
+                {this.state.ShowPreloader ? <Preloader /> : null}
+            </section>;
         }
     }
 };

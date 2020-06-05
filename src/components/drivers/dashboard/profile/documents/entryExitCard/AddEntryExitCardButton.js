@@ -32,8 +32,7 @@ class AddEntryExitCardButton extends Component {
                                     this.props.OnDocumentsUpdated();
                                 }} />
                         });
-                    }}>
-                    <span className="fas fa-plus" aria-hidden="true"></span> Entry/Exit Card</button>
+                    }}>Add Entry/Exit Card</button>
                 {this.state.AddEntryExitCardDialog}
             </section>
         );

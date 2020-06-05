@@ -32,9 +32,7 @@ class AddDrivingLicenceButton extends Component {
                                     this.props.OnDocumentsUpdated();
                                 }} />),
                         });
-                    }}>
-                    <span className="fas fa-plus" aria-hidden="true"></span> Driving Licence
-                </button>
+                    }}>Add Driving Licence</button>
                 {this.state.AddDrivingLicenceDialog}
             </section>
         );

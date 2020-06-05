@@ -198,7 +198,6 @@ export const deleteIdentityCard = discardedIdentityCard => {
 // POST: addCommercialRegisterCertificate
 export const addCommercialRegisterCertificate = newCommercialRegisterCertificate => {
     return axios.post(`${Strings.NAQEL_SERVER}traders/addCommercialRegisterCertificate`, {
-        Number: newCommercialRegisterCertificate.Number,
         Type: newCommercialRegisterCertificate.Type,
         PhotoURL: newCommercialRegisterCertificate.PhotoURL
     }, {
