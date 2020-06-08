@@ -81,20 +81,21 @@ class DriversDashboard extends Component {
                                 width: "100%",
                                 margin: "0px",
                             }}>
-                                <li role="presentation" className="active">
-                                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
-                                </li>
-                                <li role="presentation">
-                                    <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">Trucks</a>
-                                </li>
+                                {DashboardData.IsActiveAccount &&
+                                    <li role="presentation" className="active">
+                                        <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a>
+                                    </li>}
+                                {!DashboardData.IsActiveAccount &&
+                                    <li role="presentation" className="active">
+                                        <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">Trucks</a>
+                                    </li>}
+                                {DashboardData.IsActiveAccount && 
+                                    <li role="presentation">
+                                        <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">Trucks</a>
+                                    </li>}
                                 <li role="presentation">
                                     <a href="#permits" aria-controls="permits" role="tab" data-toggle="tab">Permits</a>
                                 </li>
-
-                                {DashboardData.IsActiveAccount &&
-                                    <li role="presentation">
-                                        <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a>
-                                    </li>}
                                 {DashboardData.IsActiveAccount &&
                                     <li role="presentation">
                                     <a href="#earnings" aria-controls="earnings" role="tab" data-toggle="tab"
@@ -109,7 +110,9 @@ class DriversDashboard extends Component {
                                         <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">Questions</a>
                                     </li>}
                                 <li role="presentation">
-
+                                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                                </li>
+                                <li role="presentation">
                                     <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
                                 </li>
                             </ul>
@@ -166,12 +169,17 @@ class DriversDashboard extends Component {
                                         </div>
                                     </div>}
 
-                                <div role="tabpanel" className="tab-pane active" id="profile">
+                                <div role="tabpanel" className="tab-pane" id="profile">
                                     <Profile />
                                 </div>
-                                <div role="tabpanel" className="tab-pane" id="trucks">
-                                    <Truck />
-                                </div>
+                                {DashboardData.IsActiveAccount && 
+                                    <div role="tabpanel" className="tab-pane" id="trucks">
+                                        <Truck />
+                                    </div>}
+                                {!DashboardData.IsActiveAccount &&
+                                    <div role="tabpanel" className="tab-pane" id="trucks">
+                                        <Truck />
+                                    </div>}
                                 <div role="tabpanel" className="tab-pane" id="permits">
                                     <Permits />
                                 </div>
@@ -180,7 +188,7 @@ class DriversDashboard extends Component {
                                         <Earnings Refresh={refresh => { this.RefreshEarnings = refresh; }} />
                                     </div> : null}
                                 {DashboardData.IsActiveAccount ?
-                                    <div role="tabpanel" className="tab-pane" id="jobs">
+                                    <div role="tabpanel" className="tab-pane active" id="jobs">
                                         <Jobs />
                                     </div> : null}
                                 {DashboardData.IsActiveAccount ?

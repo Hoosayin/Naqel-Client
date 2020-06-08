@@ -55,7 +55,7 @@ class Profile extends Component {
     render() {
         return (
             <section>
-                <PageHeading Heading="PROFILE" />
+                {/* <PageHeading Heading="PROFILE" /> */}
                 <div className="jumbotron theme-default">
                     <div className="container">
                         <div className="row">

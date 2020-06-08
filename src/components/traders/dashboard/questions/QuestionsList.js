@@ -103,7 +103,7 @@ class QuestionsList extends Component {
         } = this.state;
 
         return <section>
-            <PageHeading Heading="QUESTIONS" />
+            {/* <PageHeading Heading="QUESTIONS" /> */}
             <div class="page-header" style={{
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",

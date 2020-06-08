@@ -58,7 +58,7 @@ class Profile extends Component {
         } = this.state;
 
         return <section>
-            <PageHeading Heading="PROFILE" />
+            {/* <PageHeading Heading="PROFILE" /> */}
             <div className="jumbotron theme-default">
                 <div className="container">
                     <div className="row">

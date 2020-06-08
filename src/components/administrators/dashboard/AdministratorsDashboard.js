@@ -38,9 +38,6 @@ class AdministratorsDashboard extends Component {
                     margin: "0px",
                 }}>
                     <li role="presentation" className="active">
-                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
-                    </li>
-                    <li role="presentation">
                         <a href="#drivers" aria-controls="drivers" role="tab" data-toggle="tab">Drivers</a>
                     </li>
                     <li role="presentation">
@@ -54,6 +51,9 @@ class AdministratorsDashboard extends Component {
                     </li>
                     <li role="presentation">
                         <a href="#fee-rates" aria-controls="fee-rates" role="tab" data-toggle="tab">Fee Rates</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
                     </li>
                     <li role="presentation">
                         <a href="#financial-accounts" aria-controls="financial-accounts" role="tab" data-toggle="tab">Financial Accounts</a>
@@ -91,10 +91,10 @@ class AdministratorsDashboard extends Component {
                  */}
 
                 <div className="tab-content">
-                    <div role="tabpanel" className="tab-pane active" id="profile">
+                    <div role="tabpanel" className="tab-pane" id="profile">
                         <Profile />
                     </div>
-                    <div role="tabpanel" className="tab-pane" id="drivers">
+                    <div role="tabpanel" className="tab-pane active" id="drivers">
                         <Drivers />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="traders">

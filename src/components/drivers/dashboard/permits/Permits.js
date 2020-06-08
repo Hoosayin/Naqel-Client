@@ -25,7 +25,7 @@ class Permits extends Component {
     render() {
         return (
             <section>
-                <PageHeading Heading="PERMITS" />
+                {/* <PageHeading Heading="PERMITS" /> */}
                 <div class="page-header" style={{
                     backgroundImage: "url(/images/poly_back.jpg)",
                     backgroundSize: "cover",

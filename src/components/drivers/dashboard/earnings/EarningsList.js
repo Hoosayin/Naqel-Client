@@ -91,7 +91,7 @@ class EarningsList extends Component {
         const netEarning = this.state.NetEarning; 
 
         return <section>
-            <PageHeading Heading="EARNINGS" />
+            {/* <PageHeading Heading="EARNINGS" /> */}
             <div class="page-header" style={{
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",

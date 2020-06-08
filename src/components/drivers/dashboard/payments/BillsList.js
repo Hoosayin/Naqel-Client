@@ -60,7 +60,7 @@ class BillsList extends Component {
         const numberOfUnpaidBills = this.state.NumberOfUnpaidBills;
 
         return <section>
-            <PageHeading Heading="PAYMENTS" />
+            {/* <PageHeading Heading="PAYMENTS" /> */}
             <div class="page-header" style={{
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",

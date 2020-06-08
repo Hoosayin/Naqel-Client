@@ -6,7 +6,7 @@ import TraderRates from "./traderRates/TraderRates";
 class FeeRates extends Component {
     render() {
         return <section>
-            <PageHeading Heading="FEE RATES" />
+            {/* <PageHeading Heading="FEE RATES" /> */}
             <ul className="nav nav-tabs theme-alt" role="tablist" style={{
                 padding: "10px",
                 backgroundColor: "#3A3A3C",

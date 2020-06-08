@@ -64,7 +64,7 @@ class BillsList extends Component {
         const canRequestSpecialBills = this.state.CanRequestSpecialBills;
 
         return <section>
-            <PageHeading Heading="PAYMENTS" />
+            {/* <PageHeading Heading="PAYMENTS" /> */}
             <div class="page-header" style={{
                 backgroundImage: "url(/images/teal.jpg)",
                 backgroundSize: "cover",

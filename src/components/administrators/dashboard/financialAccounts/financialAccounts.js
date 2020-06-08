@@ -7,7 +7,7 @@ import AccountStatement from "./accountStatement/AccountStatement";
 class FinancialAccounts extends Component {
     render() {
         return <section>
-            <PageHeading Heading="FINANCIAL ACCOUNTS" />
+            {/* <PageHeading Heading="FINANCIAL ACCOUNTS" /> */}
 
             <ul className="nav nav-tabs theme-alt" role="tablist" style={{
                 padding: "10px",

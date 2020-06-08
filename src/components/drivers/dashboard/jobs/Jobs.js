@@ -8,7 +8,7 @@ import PageHeading from "../../../../controls/PageHeading";
 class Jobs extends Component {
     render() {
         return <section>
-            <PageHeading Heading="JOBS" />
+            {/* <PageHeading Heading="JOBS" /> */}
             <ul className="nav nav-tabs theme-alt" role="tablist" style={{
                 padding: "10px",
                 backgroundColor: "#3A3A3C",

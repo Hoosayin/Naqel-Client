@@ -7,7 +7,7 @@ import PageHeading from "../../../../controls/PageHeading";
 class Settings extends Component {
     render() {
         return <section>
-            <PageHeading Heading="SETTINGS" />
+            {/* <PageHeading Heading="SETTINGS" /> */}
             <GeneralSettings />
             <UsernameAndEmailSettings />
             <PasswordSettings />

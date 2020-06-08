@@ -7,7 +7,7 @@ import ResponsibleQuestions from "./responsibleQuestions/ResponsibleQuestions";
 class Questions extends Component {
     render() {
         return <section>
-            <PageHeading Heading="QUESTIONS" />
+            {/* <PageHeading Heading="QUESTIONS" /> */}
             <ul className="nav nav-tabs theme-alt" role="tablist" style={{
                 padding: "10px",
                 backgroundColor: "#3A3A3C",

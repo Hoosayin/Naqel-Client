@@ -6,7 +6,7 @@ import TruckJobs from "./truckJobs/TruckJobs";
 class Trucks extends Component {
     render() {
         return <section>
-            <PageHeading Heading="TRUCKS" />
+            {/* <PageHeading Heading="TRUCKS" /> */}
             <ul className="nav nav-tabs theme-alt" role="tablist" style={{
                 padding: "10px",
                 backgroundColor: "#3A3A3C",

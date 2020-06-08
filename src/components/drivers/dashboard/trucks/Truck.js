@@ -83,7 +83,7 @@ class Truck extends Component {
         const showPreloader = this.state.ShowPreloader;
 
         return <section>
-            <PageHeading Heading="TRUCKS" />
+            {/* <PageHeading Heading="TRUCKS" /> */}
             {truck ? 
                 <section>
                     <div className="jumbotron theme-default">

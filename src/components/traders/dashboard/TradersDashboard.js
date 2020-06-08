@@ -81,9 +81,6 @@ class TradersDashboard extends Component {
                                     margin: "0px",
                                 }}>
                                     <li role="presentation" className="active">
-                                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
-                                    </li>
-                                    <li role="presentation">
                                         <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a>
                                     </li>
                                     <li role="presentation">
@@ -91,6 +88,9 @@ class TradersDashboard extends Component {
                                     </li>
                                     <li role="presentation">
                                         <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">Questions</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
@@ -122,10 +122,10 @@ class TradersDashboard extends Component {
                                  */}
 
                                 <div className="tab-content">
-                                    <div role="tabpanel" className="tab-pane active" id="profile">
+                                    <div role="tabpanel" className="tab-pane" id="profile">
                                         <Profile ref="Profile" />
                                     </div>
-                                    <div role="tabpanel" className="tab-pane" id="jobs">
+                                    <div role="tabpanel" className="tab-pane active" id="jobs">
                                         <Jobs />
                                     </div>
                                     <div role="tabpanel" className="tab-pane" id="payments">

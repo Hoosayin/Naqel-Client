@@ -8,7 +8,8 @@ class Header extends Component {
         super(props);
 
         this.state = {
-            DriverLoggedIn: false
+            DriverLoggedIn: false,
+            ShowDashboardButton: false
         };
 
         this.logOut = this.logOut.bind(this);
@@ -60,14 +61,25 @@ class Header extends Component {
                 <Link to="/register">Register</Link>
             </li>
             <li>
-                <Link to="/login">Login</Link>
+                <Link to="/login"
+                    onClick={() => {
+                        this.setState({
+                            ShowDashboardButton: false
+                        });
+                    }}>Login</Link>
             </li>
         </ul>;
 
         const userLinks = <ul className="nav navbar-nav navbar-right">
-            <li>
-                <Link to={dashboardRoute}>Dashboard</Link>
-            </li>
+            {this.state.ShowDashboardButton && 
+                <li>
+                <Link to={dashboardRoute}
+                    onClick={() => {
+                        this.setState({
+                            ShowDashboardButton: false
+                        });
+                    }}>Dashboard</Link>
+                </li>}
             <li>
                 <Link to="" onClick={this.logOut.bind(this)}>Logout</Link>
             </li>
@@ -83,7 +95,12 @@ class Header extends Component {
                                     <span className="sr-only">Toggle navigation</span>
                                     <i className="glyph glyph-hamburger"></i>
                                 </button>
-                                <Link to="/" className="navbar-brand">{Strings.APP_NAME.toUpperCase()}</Link>
+                                <Link to="/" className="navbar-brand"
+                                    onClick={() => {
+                                        this.setState({
+                                            ShowDashboardButton: true
+                                        });
+                                    }}>{Strings.APP_NAME.toUpperCase()}</Link>
                             </div>
                             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                                 <ul className="nav navbar-nav"></ul>

@@ -103,7 +103,7 @@ class TradersList extends Component {
         } = this.state;
 
         return <section>
-            <PageHeading Heading="TRADERS" />
+            {/* <PageHeading Heading="TRADERS" /> */}
             <div class="page-header" style={{
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",
