@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Strings from "../../res/strings";
 
 class BillContainer extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class BillContainer extends Component {
                                     </div>
                                     <div className="item-content-primary">
                                         <div className="content-text-primary">Amount</div>
-                                        <div className="content-text-secondary">{`$${bill.Amount.toFixed(2)}`}</div>
+                                        <div className="content-text-secondary">{`${bill.Amount.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</div>
                                     </div>
                                 </div>
                                 <div className="entity-list-item">

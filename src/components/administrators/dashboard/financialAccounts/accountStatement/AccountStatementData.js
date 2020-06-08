@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Strings from "../../../../../res/strings";
 import RowData from "./RowData";
 
 class AccountStatementData extends Component {
@@ -75,7 +76,7 @@ class AccountStatementData extends Component {
                                     <td></td>
                                     <td></td>
                                     <td>TOTAL</td>
-                                    <td>{`$${AccountStatement.NetAmount.toFixed(2)}`}</td>
+                                    <td>{`${AccountStatement.NetAmount.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
                                 </tr>
                             </tbody>
                         </table>

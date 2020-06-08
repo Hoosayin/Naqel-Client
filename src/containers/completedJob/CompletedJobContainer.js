@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Strings from "../../res/strings";
 
 class CompletedJobContainer extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class CompletedJobContainer extends Component {
                             {index === 0 ? <span class="badge back-color-golden m-l-xxs">LATEST</span> : null}
                         </div>
                         <div className="type-sh3">
-                            <span className="fas fa-tag m-r-xxs" style={{ color: "#606060" }}></span>{`$${completedJob.Price.toFixed(2)}`}
+                            <span className="fas fa-tag m-r-xxs" style={{ color: "#606060" }}></span>{`${completedJob.Price.toFixed(2)} ${Strings.SAUDI_RIYAL}`}
                         </div>
                         <div className="type-h4" style={{ color: "#008575", paddingTop: "0px" }}>
                             <span className="fas fa-check m-r-xxxs"></span>

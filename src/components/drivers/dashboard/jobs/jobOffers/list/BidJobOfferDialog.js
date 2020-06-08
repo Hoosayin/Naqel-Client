@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Preloader from "../../../../../../controls/Preloader.js";
+import Strings from "../../../../../../res/strings";
 import { addDriverRequest } from "../../../../DriverFunctions";
 
 class BidJobOfferDialog extends Component {
@@ -124,11 +125,11 @@ class BidJobOfferDialog extends Component {
                                 <div className="jumbotron theme-default">
                                     <div className="container">
                                         <div className="type-h3 color-default p-t-xxs">Bid on Price</div>
-                                        <div className="type-sh3">{`Maximum Accepted Price is $${this.props.JobOffer.Price}.`}</div>
+                                        <div className="type-sh3">{`Maximum Accepted Price is ${this.props.JobOffer.Price} ${Strings.SAUDI_RIYAL}.`}</div>
                                         <div className="row p-t-xxs">
                                             <div className="col-md-24">
                                                 <div className="form-group">
-                                                    <label className="control-label">Price (USD)</label>
+                                                    <label className="control-label">{`Price (${Strings.SAUDI_RIYAL})`}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" min="0.00" step="0.01" name="Price"
                                                         className="form-control" autoComplete="off" value={this.state.Price} onChange={this.onChange} />

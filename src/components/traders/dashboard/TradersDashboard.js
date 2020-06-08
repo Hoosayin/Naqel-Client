@@ -19,14 +19,14 @@ class TradersDashboard extends Component {
             Searching: false
         };
 
-        this.onCloseNavigation = this.onCloseNavigation.bind(this);
+        //this.onCloseNavigation = this.onCloseNavigation.bind(this);
     }
 
-    onCloseNavigation = () => {
-        this.setState({
-            Left: -400
-        });
-    }
+    //onCloseNavigation = () => {
+    //    this.setState({
+    //        Left: -400
+    //    });
+    //}
 
     async componentDidMount() {
         if (localStorage.Token) {
@@ -74,7 +74,31 @@ class TradersDashboard extends Component {
                         <ExoneratedTraderContainer ExoneratedTrader={DashboardData.ExoneratedTrader} /> :
                         <section>
                             <section>
-                                <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
+                                <ul className="nav nav-tabs theme-alt" role="tablist" style={{
+                                    padding: "10px",
+                                    backgroundColor: "#133F4F",
+                                    width: "100%",
+                                    margin: "0px",
+                                }}>
+                                    <li role="presentation" className="active">
+                                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">Payments</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">Questions</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
+                                    </li>
+                                </ul>
+
+                                {/*
+                                 <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
                                     <a className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
 
                                     <div class="entity-list" role="tablist">
@@ -95,6 +119,7 @@ class TradersDashboard extends Component {
                                         </div>
                                     </div>
                                 </div>
+                                 */}
 
                                 <div className="tab-content">
                                     <div role="tabpanel" className="tab-pane active" id="profile">
@@ -114,12 +139,14 @@ class TradersDashboard extends Component {
                                     </div>
                                 </div>
 
-                                <div className="side-nav-btn" onClick={() => {
+                                {/*
+                                 <div className="side-nav-btn" onClick={() => {
                                     this.setState({
                                         Left: 0
                                     });
                                 }}><div className="fas fa-bars" style={{ fontSize: "x-large" }}></div>
                                 </div>
+                                 */}
                             </section>
                         </section>}
                 </section>;

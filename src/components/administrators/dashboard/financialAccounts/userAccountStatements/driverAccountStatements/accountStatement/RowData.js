@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Strings from "../../../../../../../res/strings";
 
 class RowData extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class RowData extends Component {
 
             <td>{Bill.PaymentMethod}</td>
 
-            <td>{`$${Bill.AmountCharged.toFixed(2)}`}</td>
+            <td>{`${Bill.AmountCharged.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
         </tr>;
     }
 };

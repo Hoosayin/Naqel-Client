@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Strings from "../../../../../res/strings";
 import JobContainer from "../../../../../containers/onGoingJob/JobContainer";
 
 class Job extends Component {
@@ -45,7 +46,7 @@ class Job extends Component {
             JumbotronContent = <section>
                 <h3><span className="fas fa-clock"></span>   {remainingTime}</h3>
                 <div class="type-sh3">
-                    <span className="fas fa-tag m-r-xxs"></span>{`$${onGoingJob.Price} AMOUNT IS ON YOUR WAY`}</div>
+                    <span className="fas fa-tag m-r-xxs"></span>{`${onGoingJob.Price} ${Strings.SAUDI_RIYAL} IS ON YOUR WAY`}</div>
                 <div class="col-md-12 col-md-offset-6">
                     <div class="type-p3">{(onGoingJob.AcceptedDelay > 0) ?
                         <span>

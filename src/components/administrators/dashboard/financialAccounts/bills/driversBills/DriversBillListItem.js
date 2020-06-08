@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PayProofDialog from "./PayProofDialog";
+import Strings from "../../../../../../res/strings";
 import PayDetailsDialog from "./PayDetailsDialog";
 
 class DriversBillListItem extends Component {
@@ -26,7 +27,7 @@ class DriversBillListItem extends Component {
 
             <td>{Bill.Username}</td>
 
-            <td>{`$${Bill.Amount.toFixed(2)}`}</td>
+            <td>{`${Bill.Amount.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
 
             <td>{`${new Date(Bill.Created).toDateString()}`}</td>
 

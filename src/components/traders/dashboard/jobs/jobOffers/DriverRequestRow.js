@@ -3,6 +3,7 @@ import UUID from "uuid-v4";
 import ProfileDialog from "./ProfileDialog";
 import TruckDialog from "./TruckDialog";
 import AssignJobDialog from "./AssignJobDialog";
+import Strings from "../../../../../res/strings";
 
 class DriverRequestRow extends Component {
     constructor(props) {
@@ -36,7 +37,7 @@ class DriverRequestRow extends Component {
 
             <td>{new Date(driverRequest.Created).toDateString()}</td>
 
-            {driverRequest.Price ? <td>{`$${driverRequest.Price}`}</td> : null}
+            {driverRequest.Price ? <td>{`${driverRequest.Price} ${Strings.SAUDI_RIYAL}`}</td> : null}
 
             <td class="text-right">
                 <div>

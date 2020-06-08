@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { CardElement } from "@stripe/react-stripe-js";
 import Preloader from "../../../../controls/Preloader";
+import Strings from "../../../../res/strings";
 import {
     getClientSecret,
     addDriverPayDetails,
@@ -308,7 +309,7 @@ class PayOnlineDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value={`Pay $${bill.Amount.toFixed(2)}`} className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={`Pay ${bill.Amount.toFixed(2)} ${Strings.SAUDI_RIYAL}`} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>

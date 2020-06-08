@@ -3,6 +3,7 @@ import PageHeading from "../../../../controls/PageHeading";
 import SearchingContainer from "../../../../containers/searching/SearchingContainer";
 import ProgressRing from "../../../../controls/ProgressRing";
 import EarningListItem from "./EarningListItem";
+import Strings from "../../../../res/strings";
 import { getData } from "../../DriverFunctions";
 
 class EarningsList extends Component {
@@ -116,7 +117,7 @@ class EarningsList extends Component {
                                 </div>
                                 <div className="item-content-primary">
                                     <div className="content-text-primary">Net Earning</div>
-                                    <div className="content-text-secondary">{`$${netEarning.toFixed(2)}`}</div>
+                                    <div className="content-text-secondary">{`${netEarning.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</div>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Strings from "../../../../res/strings";
 
 class EarningListItem extends Component {
     constructor(props) {
@@ -15,7 +16,7 @@ class EarningListItem extends Component {
                 <strong>{index + 1}</strong>
                 {index === 0 ? <span class="badge back-color-golden m-l-xxxs">NEW</span> : null}
             </td>
-            <td>{`$${earning.Amount.toFixed(2)}`}</td>
+            <td>{`${earning.Amount.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
             <td>{earning.JobNumber}</td>
             <td>{earning.DuesPaid ?
                 <span className="fa fa-check-circle" style={{ color: "#25AE88" }}></span> :

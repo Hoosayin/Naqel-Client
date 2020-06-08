@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PlaceInput from "../../../../../controls/PlaceInput";
 import Preloader from "../../../../../controls/Preloader.js";
+import Strings from "../../../../../res/strings";
 import { updateJobRequest } from "../../../DriverFunctions.js";
 
 class EditJobRequestDialog extends Component {
@@ -218,9 +219,9 @@ class EditJobRequestDialog extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Price (USD)</label>
+                                                    <label className="control-label">{`Price (${Strings.SAUDI_RIYAL})`}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
-                                                    <input type="number" min="0.00" step="0.01" max="100.00" name="Price"
+                                                    <input type="number" min="0.00" step="0.01" name="Price"
                                                         className="form-control" autoComplete="off" value={Price} onChange={this.onChange} />
                                                     <span className="text-danger">{Errors.Price}</span>
                                                 </div>

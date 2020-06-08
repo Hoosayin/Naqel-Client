@@ -9,7 +9,7 @@ const JobRequestWindow = props => {
         <div className="type-h6 color-default p-t-n">Job Request</div>
         <div className="type-sh9">
             <span className="fas fa-tag color-default m-r-xxxs"></span>
-            <span className="color-default">PRICE: </span>{`$${JobRequest.Price}`}</div>
+            <span className="color-default">PRICE: </span>{`${JobRequest.Price} ${Strings.SAUDI_RIYAL}`}</div>
         <div className="type-sh9">
             <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
             <span className="color-default">FROM: </span>{JobRequest.LoadingPlace}</div>

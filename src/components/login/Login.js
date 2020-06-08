@@ -238,7 +238,6 @@ class Login extends Component {
                                 </div>
                                 <div className="form-group">
                                     {this.state.LoginError}
-                                    <label className="control-label"><Link to="/">Forgot password</Link></label>
                                     <br />
                                     <label className="control-label">No account? <span><Link to="/register">Register now</Link></span></label>
                                 </div>

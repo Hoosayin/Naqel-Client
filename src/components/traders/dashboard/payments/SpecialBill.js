@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SearchingContainer from "../../../../containers/searching/SearchingContainer";
+import Strings from "../../../../res/strings";
 import { getData } from "../../TraderFunctions";
 
 class SpecialBill extends Component {
@@ -86,7 +87,7 @@ class SpecialBill extends Component {
                             <div className="type-t9 p-t-xxxs">DATE OF ISSUE</div>
                             <div className="type-t9">{new Date(bill.SpecialTraderBill.Created).toDateString()}</div>
                             <div className="type-t9 p-t-xxxs">INVOICE TOTAL</div>
-                            <div className="type-t3 color-default">{`$${bill.SpecialTraderBill.Amount.toFixed(2)}`}</div>
+                            <div className="type-t3 color-default">{`${bill.SpecialTraderBill.Amount.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</div>
                         </div>
                     </div>
                 </div>

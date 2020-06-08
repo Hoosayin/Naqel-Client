@@ -9,7 +9,7 @@ const JobOfferInfoWindow = props => {
         <div className="type-h6 color-default p-t-n">{`${JobOffer.JobOfferType} Job Offer`}</div>
         <div className="type-sh9">
             <span className="fas fa-tag color-default m-r-xxxs"></span>
-            <span className="color-default">PRICE: </span>{`$${JobOffer.Price}`}</div>
+            <span className="color-default">PRICE: </span>{`${JobOffer.Price} ${Strings.SAUDI_RIYAL}`}</div>
         <div className="type-sh9">
             <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
             <span className="color-default">FROM: </span>{JobOffer.LoadingPlace}</div>

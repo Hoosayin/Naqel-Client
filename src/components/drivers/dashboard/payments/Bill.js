@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SearchingContainer from "../../../../containers/searching/SearchingContainer";
+import Strings from "../../../../res/strings";
 import { getData } from "../../DriverFunctions";
 
 class Bill extends Component {
@@ -96,7 +97,7 @@ class Bill extends Component {
                             <div className="type-t9 p-t-xxxs">DATE OF ISSUE</div>
                             <div className="type-t9">{new Date(bill.Created).toDateString()}</div>
                             <div className="type-t9 p-t-xxxs">INVOICE TOTAL</div>
-                            <div className="type-t3 color-default">{`$${bill.Amount.toFixed(2)}`}</div>
+                            <div className="type-t3 color-default">{`${bill.Amount.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</div>
                         </div>
                     </div>
                 </div>

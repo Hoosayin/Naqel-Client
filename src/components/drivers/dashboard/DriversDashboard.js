@@ -22,7 +22,7 @@ class DriversDashboard extends Component {
             Searching: false
         };
 
-        this.onCloseNavigation = this.onCloseNavigation.bind(this);
+        //this.onCloseNavigation = this.onCloseNavigation.bind(this);
     }
 
     async componentDidMount() {
@@ -53,11 +53,11 @@ class DriversDashboard extends Component {
         }
     }
 
-    onCloseNavigation = () => {
-        this.setState({
-            Left: -400
-        });
-    }
+    //onCloseNavigation = () => {
+    //    this.setState({
+    //        Left: -400
+    //    });
+    //}
 
     render() {
         if (!localStorage.Token) {
@@ -75,7 +75,48 @@ class DriversDashboard extends Component {
                     {DashboardData.BlockedUser ?
                         <BlockedUserContainer BlockedUser={DashboardData.BlockedUser} /> :
                         <section>
-                            <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
+                            <ul className="nav nav-tabs theme-alt" role="tablist" style={{
+                                padding: "10px",
+                                backgroundColor: "#133F4F",
+                                width: "100%",
+                                margin: "0px",
+                            }}>
+                                <li role="presentation" className="active">
+                                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">Trucks</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#permits" aria-controls="permits" role="tab" data-toggle="tab">Permits</a>
+                                </li>
+
+                                {DashboardData.IsActiveAccount &&
+                                    <li role="presentation">
+                                        <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a>
+                                    </li>}
+                                {DashboardData.IsActiveAccount &&
+                                    <li role="presentation">
+                                    <a href="#earnings" aria-controls="earnings" role="tab" data-toggle="tab"
+                                        onClick={async () => { await this.RefreshEarnings(); }}>Earnings</a>
+                                    </li>}
+                                {DashboardData.IsActiveAccount &&
+                                    <li role="presentation">
+                                        <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">Payments</a>
+                                    </li>}
+                                {DashboardData.IsActiveAccount &&
+                                    <li role="presentation">
+                                        <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">Questions</a>
+                                    </li>}
+                                <li role="presentation">
+
+                                    <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
+                                </li>
+                            </ul>
+
+
+                            {/*
+                             <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
                                 <a className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
 
                                 <div class="entity-list" role="tablist">
@@ -111,6 +152,7 @@ class DriversDashboard extends Component {
                                     </div>
                                 </div>
                             </div>
+                             */}
 
                             <div className="tab-content">
                                 {DashboardData.IsActiveAccount ?
@@ -154,12 +196,14 @@ class DriversDashboard extends Component {
                                 </div>
                             </div>
 
-                            <div className="side-nav-btn" onClick={() => {
+                            {/*
+                             <div className="side-nav-btn" onClick={() => {
                                 this.setState({
                                     Left: 0
                                 });
                             }}><div className="fas fa-bars" style={{ fontSize: "x-large" }}></div>
                             </div>
+                             */}
                         </section>}
                 </section>;
         }

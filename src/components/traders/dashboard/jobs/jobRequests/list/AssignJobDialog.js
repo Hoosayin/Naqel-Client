@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Preloader from "../../../../../../controls/Preloader";
+import Strings from "../../../../../../res/strings";
 import { addOnGoingJobFromJobRequest } from "../../../../TraderFunctions";
 
 class AssignJobDialog extends Component {
@@ -77,7 +78,7 @@ class AssignJobDialog extends Component {
                                         <div class="col-md-24">
                                             <img alt="new.png" src="./images/new.png" height="80" />
                                             <div class="type-h4">You are About to Start a New Job with <span class="color-default">{`${driver.FirstName} ${driver.LastName}`}</span>.</div>
-                                            <div class="type-sh3">Your Payment Amount is <span class="color-default">{`$${price}`}</span>.</div>
+                                            <div class="type-sh3">Your Payment Amount is <span class="color-default">{`${price} ${Strings.SAUDI_RIYAL}`}</span>.</div>
                                             <p><span class="color-default">Important Note:</span> After this step, you'll be engaged in an On-Going Job. You have to pay <span class="color-default">{`$${price}`}</span> after the completion of your job from the <span class="color-default">Payments</span> section.</p>
                                             <div class="text-right">
                                                 <button class="btn btn-primary" onClick={this.onAssignNow}>Assign Now</button>

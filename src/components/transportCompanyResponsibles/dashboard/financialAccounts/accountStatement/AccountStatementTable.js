@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Strings from "../../../../../res/strings";
 import AccountStatementRow from "./AccountStatementRow";
 
 class AccountStatementTable extends Component {
@@ -85,9 +86,9 @@ class AccountStatementTable extends Component {
                                 <td></td>
                                 <td></td>
                                 <td>TOTAL:</td>
-                                <td>{`$${netEarned.toFixed(2)}`}</td>
-                                <td>{`$${netCharged.toFixed(2)}`}</td>
-                                <td>{`$${netAmount.toFixed(2)}`}</td>
+                                <td>{`${netEarned.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
+                                <td>{`${netCharged.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
+                                <td>{`${netAmount.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
                             </tr>
                         </tbody>
                     </table>

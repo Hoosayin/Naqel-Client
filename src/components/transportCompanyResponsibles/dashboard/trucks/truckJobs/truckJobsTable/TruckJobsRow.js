@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Strings from "../../../../../../res/strings";
 import TruckJobDetailsDialog from "./TruckJobDetailsDialog";
 
 class TruckJobsRow extends Component {
@@ -23,7 +24,7 @@ class TruckJobsRow extends Component {
 
             <td>{TruckJob.UnloadingPlace}</td>
 
-            <td>{`$${TruckJob.Price.toFixed(2)}`}</td>
+            <td>{`${TruckJob.Price.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
 
             <td>{TruckJob.TruckNumber}</td>
 

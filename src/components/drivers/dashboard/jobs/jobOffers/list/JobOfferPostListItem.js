@@ -3,6 +3,7 @@ import { addDriverRequest, deleteDriverRequest } from "../../../../DriverFunctio
 import TraderContainer from "../../../../../../containers/trader/TraderContainer";
 import JobOfferContainer from "../../../../../../containers/jobOffer/JobOfferContainer";
 import BidJobOfferDialog from "./BidJobOfferDialog";
+import Strings from "../../../../../../res/strings";
 import Preloader from "../../../../../../controls/Preloader";
 
 class JobOfferPostsList extends Component {
@@ -141,7 +142,7 @@ class JobOfferPostsList extends Component {
                                             </div>
                                             <div className="item-content-primary">
                                                 <div className="content-text-primary">Your Bid Price</div>
-                                                <div className="content-text-secondary">{`$${driverRequest.Price}`}</div>
+                                                <div className="content-text-secondary">{`${driverRequest.Price} ${Strings.SAUDI_RIYAL}`}</div>
                                             </div>
                                         </div>
                                     </div> : 
@@ -155,7 +156,7 @@ class JobOfferPostsList extends Component {
                                         </div>
                                         <div className="item-content-primary">
                                             <div className="content-text-primary">Price</div>
-                                            <div className="content-text-secondary">{`$${jobOffer.Price}`}</div>
+                                            <div className="content-text-secondary">{`${jobOffer.Price} ${Strings.SAUDI_RIYAL}`}</div>
                                         </div>
                                     </div>
                                     <div className="entity-list-item">
@@ -163,10 +164,9 @@ class JobOfferPostsList extends Component {
                                             <span className="fas  fa-map-marker-alt"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">From </div>
-                                            <div className="content-text-secondary">{jobOffer.LoadingPlace}</div>
-                                            <div className="content-text-primary">To</div>
-                                            <div className="content-text-secondary">{jobOffer.UnloadingPlace}</div>
+                                            <div className="content-text-primary">Route</div>
+                                            <div className="content-text-secondary">{`FROM: ${jobOffer.LoadingPlace}`}</div>
+                                            <div className="content-text-secondary">{`TO: ${jobOffer.UnloadingPlace}`}</div>
                                         </div>
                                     </div>
                                 </div>

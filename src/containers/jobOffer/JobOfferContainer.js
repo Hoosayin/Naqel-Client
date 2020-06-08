@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Strings from "../../res/strings";
 
 class JobOfferContainer extends Component {
     constructor(props) {
@@ -23,8 +24,7 @@ class JobOfferContainer extends Component {
                            `${index + 1}. ${jobOffer.JobOfferType} Job Offer` :
                            `${jobOffer.JobOfferType} Job Offer`)}</div>
                        <div className="type-sh3">
-                           <span className="fas fa-tag" style={{ color: "#606060" }}></span>   {`$${jobOffer.Price}`}
-                       </div>
+                           <span className="fas fa-tag m-r-xxxs" style={{ color: "#606060" }}></span>{`${jobOffer.Price} ${Strings.SAUDI_RIYAL}`}</div>
                    </div>
                    <div className="row">
                        <div className="col-md-8">

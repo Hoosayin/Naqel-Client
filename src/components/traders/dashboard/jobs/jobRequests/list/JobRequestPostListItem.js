@@ -7,6 +7,7 @@ import JobRequestContainer from "../../../../../../containers/jobReqeust/JobRequ
 import SendTraderRequestDialog from "./SendTraderRequestDialog";
 import TraderRequestDialog from "./TraderRequestDialog";
 import AssignJobDialog from "./AssignJobDialog";
+import Strings from "../../../../../../res/strings";
 import { deleteTraderRequest } from "../../../../TraderFunctions";
 
 class JobRequestPostListItem extends Component {
@@ -110,7 +111,7 @@ class JobRequestPostListItem extends Component {
                                         </div>
                                         <div className="item-content-primary">
                                             <div className="content-text-primary">Price</div>
-                                            <div className="content-text-secondary">{`$${jobRequest.Price}`}</div>
+                                            <div className="content-text-secondary">{`${jobRequest.Price} ${Strings.SAUDI_RIYAL}`}</div>
                                         </div>
                                     </div>
                                     <div className="entity-list-item">
