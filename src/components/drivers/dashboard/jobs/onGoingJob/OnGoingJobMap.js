@@ -35,24 +35,21 @@ const Map = props => {
         DriverLocation
     } = props;
 
-    return <GoogleMap
-        defaultZoom={14}
-        options={{ streetViewControl: false }}>
-
-        <Marker key={1} position={{ lat: OnGoingJob.LoadingLat, lng: OnGoingJob.LoadingLng }}
+    return <GoogleMap>
+        <Marker position={{ lat: OnGoingJob.LoadingLat, lng: OnGoingJob.LoadingLng }}
             icon={{
                 url: "./images/source.svg",
                 scaledSize: new window.google.maps.Size(30, 30)
             }} />
 
-        <Marker key={1} position={{ lat: OnGoingJob.UnloadingLat, lng: OnGoingJob.UnloadingLng }}
+        <Marker position={{ lat: OnGoingJob.UnloadingLat, lng: OnGoingJob.UnloadingLng }}
             icon={{
                 url: "./images/destination.svg",
                 scaledSize: new window.google.maps.Size(30, 30)
             }} />
 
         {DriverLocation ?
-            <Marker key={1} position={{ lat: DriverLocation.Lat, lng: DriverLocation.Lng }}
+            <Marker position={{ lat: DriverLocation.Lat, lng: DriverLocation.Lng }}
                 icon={{
                     url: "./images/driver_marker.svg",
                     scaledSize: new window.google.maps.Size(40, 40)

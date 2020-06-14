@@ -2055,6 +2055,8 @@
     <Content Include="src\components\drivers\dashboard\trucks\Truck.js" />
     <Content Include="src\components\drivers\dashboard\trucks\TruckSettings.js" />
     <Content Include="src\components\drivers\DriverFunctions.js" />
+    <Content Include="src\components\traders\dashboard\jobs\completedJobs\ReviewDialog - Copy.js" />
+    <Content Include="src\components\traders\dashboard\jobs\onGoingJob\objections\AddObjectionDialog - Copy.js" />
     <Content Include="src\containers\phoneConfirmationDialog\PhoneConfirmationDialog.js" />
     <Content Include="src\components\register\SetupAdministratorAccount.js" />
     <Content Include="src\components\register\SetupTransportCompanyResponsibleAccount.js" />

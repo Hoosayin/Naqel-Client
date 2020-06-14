@@ -206,7 +206,7 @@ class Register extends Component {
                 <div class="middle" style={RegisterCardBack}>
                     <div class="theme-default animated fadeIn" style={Card}>
                         <div style={CardChild}>
-                            <img src="./images/signup.png" alt="signup.png" height="60" />
+                            <img src="./images/spaceship.svg" alt="signup.png" height="60" />
                             <div class="type-h3" style={CardTitle}>Sign Up</div>
                             <br />
                             <form noValidate onSubmit={this.onSubmit}>

@@ -109,51 +109,43 @@ class ReviewDialog extends Component {
                 aria-labelledby="modal-sample-label" aria-hidden="true">
                 {this.state.ShowPreloader ? <Preloader /> : null}
                 <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
-                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                    <div className="modal-content">
                         <div className="modal-header">
                             <div className="text-right">
-                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
-                                    data-dismiss="modal"
-                                    ref={cancelButton => this.cancelButton = cancelButton}>
+                                <button className="btn btn-primary"
+                                    ref={cancelButton => this.cancelButton = cancelButton}
+                                    style={{ minWidth: "0px" }} data-dismiss="modal">
                                     <span className="fas fa-times"></span>
                                 </button>
                             </div>
+                            <div className="type-h3 color-default p-t-n">Rate and Review</div>
                         </div>
                         <div className="modal-body">
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div className="jumbotron theme-default">
-                                    <div className="container">
-                                        <div className="row">
-                                            <div className="col-md-24">
-                                                <div className="type-h3 color-default p-t-n">Rate and Review</div>
-                                                <div class="form-group">
-                                                    <label>Rate this Driver</label>
-                                                    <InteractiveRating OnRated={rating => {
-                                                        this.setState({
-                                                            Rating: rating,
-                                                            ValidRating: true
-                                                        }, () => {
-                                                            this.setState({
-                                                                ValidForm: this.state.ValidRating && this.state.ValidReview
-                                                            });
-                                                        });
-                                                    }} />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Review</label>
-                                                    <textarea rows="6" class="form-control" name="Review" style={{ maxWidth: "100%" }}
-                                                        value={this.state.Review} onChange={this.onChange}></textarea>
-                                                    <span className={(this.state.Errors.Review === "Too long..." ||
-                                                        this.state.Errors.Review === "Review is required") ? "text-danger" : "text-accent"}>{this.state.Errors.Review}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="text-right">
-                                            <input type="submit" value="Submit" className="btn btn-primary m-n" disabled={!this.state.ValidForm} />
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label>Rate this Driver</label>
+                                    <InteractiveRating OnRated={rating => {
+                                        this.setState({
+                                            Rating: rating,
+                                            ValidRating: true
+                                        }, () => {
+                                            this.setState({
+                                                ValidForm: this.state.ValidRating && this.state.ValidReview
+                                            });
+                                        });
+                                    }} />
                                 </div>
-                            </form>
+                                <div class="form-group">
+                                    <label>Review</label>
+                                    <textarea rows="6" class="form-control" name="Review" style={{ maxWidth: "100%" }}
+                                        value={this.state.Review} onChange={this.onChange}></textarea>
+                                    <span className={(this.state.Errors.Review === "Too long..." ||
+                                        this.state.Errors.Review === "Review is required") ? "text-danger" : "text-accent"}>{this.state.Errors.Review}</span>
+                                </div>
+                                <div className="text-right">
+                                    <input type="submit" value="Submit" className="btn btn-primary m-n" disabled={!this.state.ValidForm} />
+                                </div>
+                            </form>                        
                         </div>
                     </div>
                 </div>

@@ -95,7 +95,7 @@ class JobRequestPostsList extends Component {
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
                                 <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                    alt="job_requests.png" src="./images/job_requests.png" data-source-index="2" />
+                                    alt="job_requests.png" src="./images/job_requests.svg" data-source-index="2" style={{ maxWidth: "70%" }} />
                             </div>
                             <div className="col-md-12 col-md-pull-12">
                                 <div className="type-h3">Job Requests</div>
@@ -115,7 +115,7 @@ class JobRequestPostsList extends Component {
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
                                 <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                    alt="job_requests.png" src="./images/job_requests.png" data-source-index="2" />
+                                    alt="job_requests.png" src="./images/job_requests.svg" data-source-index="2" style={{ maxWidth: "70%" }} />
                             </div>
                             <div className="col-md-12 col-md-pull-12">
                                 <div className="type-h3">Job Requests</div>

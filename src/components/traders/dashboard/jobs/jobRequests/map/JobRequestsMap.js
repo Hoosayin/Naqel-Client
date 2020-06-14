@@ -95,15 +95,7 @@ class JobRequestsMap extends Component {
             {JobRequestPosts.length === 0 ?
                 <SearchingContainer Searching={Searching} SearchingFor="job requests" /> :
                 <section>
-                    <div className="text-right p-xxs" style={{ backgroundColor: "#DDDDDD" }}>
-                        <PlaceInput Address=""
-                            OnPlaceSelected={place => {
-                                this.setState({
-                                    Place: place,
-                                });
-                            }} />
-                    </div>
-                    <JobRequestsGoogleMap Place={Place} JobRequestPosts={JobRequestPosts} />
+                    <JobRequestsGoogleMap JobRequestPosts={JobRequestPosts} />
                 </section>}
         </section>;
     }

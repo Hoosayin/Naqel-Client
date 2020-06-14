@@ -9,7 +9,7 @@ class Header extends Component {
 
         this.state = {
             DriverLoggedIn: false,
-            ShowDashboardButton: false
+            ShowDashboardButton: true
         };
 
         this.logOut = this.logOut.bind(this);

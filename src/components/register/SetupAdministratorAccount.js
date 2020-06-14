@@ -153,7 +153,7 @@ class SetupAdministratorAccount extends Component {
                 <div class="middle" style={AccountSetupCardBack}>
                     <div class="theme-default animated fadeIn" style={CardLarge}>
                         <div style={CardChild}>
-                            <img src="./images/create_account.png" atl="create_account.png" height="60" />
+                            <img src="./images/create_account.svg" atl="create_account.png" height="60" />
                             <div class="type-h3" style={CardTitle}>
                                 Create Account
                                 </div>

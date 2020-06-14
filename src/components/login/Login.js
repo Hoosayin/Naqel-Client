@@ -203,7 +203,7 @@ class Login extends Component {
                 <div className="middle" style={LoginCardBack}>
                     <div className="theme-default animated fadeIn" style={Card} >
                         <div style={CardChild}>
-                            <img src="./images/login.png" alt="Login.png" height="60" />
+                            <img src="./images/lock.svg" alt="Login.png" height="60" />
                             <div className="type-h3" style={CardTitle}>Sign In</div>
                             <br />
                             <form noValidate onSubmit={this.onSubmit}>
@@ -238,7 +238,6 @@ class Login extends Component {
                                 </div>
                                 <div className="form-group">
                                     {this.state.LoginError}
-                                    <br />
                                     <label className="control-label">No account? <span><Link to="/register">Register now</Link></span></label>
                                 </div>
                                 <div>

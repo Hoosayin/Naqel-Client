@@ -88,7 +88,7 @@ class JobOfferPostsList extends Component {
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
                                 <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                    alt="job_offers.png" src="./images/job_offers.png" data-source-index="2" />
+                                    alt="job_offers.png" src="./images/job_offers.svg" data-source-index="2" style={{ maxWidth: "70%" }} />
                             </div>
                             <div className="col-md-12 col-md-pull-12">
                                 <div className="type-h3">Job Offers</div>
@@ -108,7 +108,7 @@ class JobOfferPostsList extends Component {
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
                                 <img className="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                    alt="job_offers.png" src="./images/job_offers.png" data-source-index="2" />
+                                    alt="job_offers.png" src="./images/job_offers.svg" data-source-index="2" style={{ maxWidth: "70%" }} />
                             </div>
                             <div className="col-md-12 col-md-pull-12">
                                 <div className="type-h3">Job Offers</div>

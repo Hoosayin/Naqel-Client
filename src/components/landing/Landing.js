@@ -10,7 +10,7 @@ class Landing extends Component {
                     <div class="row">
                         <div class="col-md-12 col-md-push-12 text-center">
                             <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                alt="truck.png" src="./images/truck.png" data-source-index="2" />
+                                alt="truck.png" src="./images/delivery-truck.svg" data-source-index="2" style={{ maxWidth: "70%" }}  />
                         </div>
                         <div class="col-md-12 col-md-pull-12">
                             <div class="type-h3" style={{ color: "#008575", }}>Weclome to Naqel</div>
@@ -26,7 +26,7 @@ class Landing extends Component {
                     <div class="row">
                         <div class="col-md-12 col-md-push-12 text-center">
                             <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                alt="oath.png" src="./images/oath.png" data-source-index="2" />
+                                alt="oath.png" src="./images/oath.svg" data-source-index="2" style={{ maxWidth: "70%" }} />
                         </div>
                         <div class="col-md-12 col-md-pull-12">
                             <div class="type-h3" style={{ color: "#008575", }}>Privacy</div>
@@ -42,7 +42,7 @@ class Landing extends Component {
                     <div class="row">
                         <div class="col-md-12 col-md-push-12 text-center">
                             <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-                                alt="account.png" src="./images/account.png" data-source-index="2" />
+                                alt="account.png" src="./images/team.svg" data-source-index="2" style={{ maxWidth: "70%" }} />
                         </div>
                         <div class="col-md-12 col-md-pull-12">
                             <div class="type-h3" style={{ color: "#008575", }}>User Accounts</div>
@@ -57,7 +57,7 @@ class Landing extends Component {
                 </div>
             </div>
 
-            <div class="jumbotron theme-dark" style={{ backgroundColor: "#202020", height: "100vh" }}>
+            <div class="jumbotron theme-dark" style={{ backgroundColor: "#202020", height: "50vh" }}>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-24 text-center">

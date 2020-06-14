@@ -23,17 +23,12 @@ const Map = props => {
     const [SelectedJobRequest, SetSelectedJobRequest] = useState(null);
 
     const {
-        Place,
         JobRequestPosts
     } = props;
 
-    const lat = Place ? Place.Lat : 33.784310;
-    const lng = Place ? Place.Lng : 72.738780;
-
     return <GoogleMap
         defaultZoom={14}
-        defaultCenter={{ lat: 33.784310, lng: 72.738780 }}
-        center={{ lat: lat, lng: lng }}
+        defaultCenter={{ lat: 24.630820, lng: 46.728230 }}
         options={{ streetViewControl: false }}>
 
         {JobRequestPosts.map((jobRequestPost, index) => {
@@ -68,7 +63,6 @@ const JobRequestsGoogleMap = props => {
             loadingElement={<div style={{ height: `100%` }} />}
             containerElement={<div style={{ height: `100%` }} />}
             mapElement={<div style={{ height: `100%` }} />}
-            Place={props.Place}
             JobRequestPosts={props.JobRequestPosts} />
     </div>;
 }

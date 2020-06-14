@@ -98,7 +98,7 @@ class EmailConfirmation extends Component {
                 <div class="middle" style={EmailConfirmationCardBack}>
                     <div class="theme-default animated fadeIn" style={Card}>
                         <div style={CardChild}>
-                            <img src="./images/passcode.png" alt="passcode.png" height="60" />
+                            <img src="./images/more.svg" alt="passcode.png" height="60" />
                             <div class="type-h3" style={CardTitle}>Email Confirmation</div>
                             <div class="type-sh3">We delivered a confirmation code to your email.</div>
                             <br />

@@ -3,7 +3,7 @@ export const LoginCardBack = {
     backgroundAttachment: "fixed",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    height: "130vh"
+    height: "110vh"
 };
 
 export const RegisterCardBack = {

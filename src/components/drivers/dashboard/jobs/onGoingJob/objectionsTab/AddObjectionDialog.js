@@ -103,50 +103,57 @@ class AddObjectionDialog extends Component {
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
                 {this.state.Preloader}
-                <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
-                    <div className="modal-content">
+                <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
+                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
                         <div className="modal-header">
                             <div className="text-right">
-                                <button className="btn btn-primary"
-                                    ref={cancelButton => this.cancelButton = cancelButton}
-                                    style={{ minWidth: "0px" }} data-dismiss="modal">
+                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                    data-dismiss="modal"
+                                    ref={cancelButton => this.cancelButton = cancelButton}>
                                     <span className="fas fa-times"></span>
                                 </button>
                             </div>
-                            <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>Add an Objection</div>
                         </div>
                         <div className="modal-body">
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div class="form-group">
-                                    <label>Reason</label>
-                                    <input type="text" class="form-control" name="Reason" style={{ maxWidth: "100%" }} readonly
-                                        value={this.state.Reason} />
-                                </div>
-                                <div class="form-group">
-                                    <label>Comment</label>
-                                    <textarea rows="4" class="form-control" style={{ maxWidth: "100%" }} name="Comment"
-                                        value={this.state.Comment} onChange={this.onChange}></textarea>
-                                    <span>{this.state.Errors.Comment}</span>
-                                </div>
-                                <div style={{ textAlign: "right" }}>
-                                    <input type="submit" value="Add Objection" className="btn btn-primary" style={{ margin: "0px" }} disabled={!this.state.ValidForm} />
+                                <div className="jumbotron theme-default">
+                                    <div className="container">
+                                        <div className="type-h3 color-default p-t-xxs">Add an Objection</div>
+                                        <div className="row p-t-xxs">
+                                            <div className="col-md-8">
+                                                <div class="form-group">
+                                                    <label>Reason</label>
+                                                    <input type="text" class="form-control" name="Reason" style={{ maxWidth: "100%" }} readonly
+                                                        value={this.state.Reason} />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Comment</label>
+                                                    <textarea rows="4" class="form-control" style={{ maxWidth: "100%" }} name="Comment"
+                                                        value={this.state.Comment} onChange={this.onChange}></textarea>
+                                                    <span className="text-danger">{this.state.Errors.Comment}</span>
+                                                </div>
+                                                <div className="text-right">
+                                                    <input type="submit" value="Add Objection" className="btn btn-primary" style={{ margin: "0px" }} disabled={!this.state.ValidForm} />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-16">
+                                                <div className="m-t-xxxs" style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
+                                                <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>Reasons</div>
+                                                <ReasonsList ObjectionReasons={this.props.ObjectionReasons} OnReasonSelected={reason => {
+                                                    this.setState({
+                                                        Reason: reason,
+                                                        ValidReason: true
+                                                    }, () => {
+                                                        this.setState({
+                                                            ValidForm: this.state.ValidReason && this.state.ValidComment
+                                                        });
+                                                    });
+                                                }} />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
-                            <br/>
-                            <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                            <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>{"   Reasons"}
-                                <i className="fas fa-ellipsis-v"></i>
-                            </div>
-                            <ReasonsList ObjectionReasons={this.props.ObjectionReasons} OnReasonSelected={reason => {
-                                this.setState({
-                                    Reason: reason,
-                                    ValidReason: true
-                                }, () => {
-                                    this.setState({
-                                        ValidForm: this.state.ValidReason && this.state.ValidComment
-                                    });
-                                });
-                            }} />                           
                         </div>
                     </div>
                 </div>
