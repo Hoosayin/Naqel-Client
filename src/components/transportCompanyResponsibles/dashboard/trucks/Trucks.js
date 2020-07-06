@@ -14,10 +14,10 @@ class Trucks extends Component {
                 margin: "0px",
             }}>
                 <li role="presentation" className="active">
-                    <a href="#truck-list" aria-controls="truck-list" role="tab" data-toggle="tab">Truck List</a>
+                    <a href="#truck-list" aria-controls="truck-list" role="tab" data-toggle="tab">{Dictionary.TruckList}</a>
                 </li>
                 <li role="presentation">
-                    <a href="#truck-jobs" aria-controls="truck-jobs" role="tab" data-toggle="tab">Truck Jobs</a>
+                    <a href="#truck-jobs" aria-controls="truck-jobs" role="tab" data-toggle="tab">{Dictionary.TruckJobs}</a>
                 </li>
             </ul>
 
@@ -32,5 +32,25 @@ class Trucks extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        TruckList: "قائمة الشاحنات",
+        TruckJobs: "وظائف الشاحنات",
+    };
+}
+else {
+    Dictionary = {
+        TruckList: "Truck List",
+        TruckJobs: "Truck Jobs",
+    };
+}
 
 export default Trucks;

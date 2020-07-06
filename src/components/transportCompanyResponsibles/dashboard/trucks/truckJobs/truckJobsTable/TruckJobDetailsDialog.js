@@ -77,11 +77,11 @@ class TruckJobDetailsDialog extends Component {
                         <div className="modal-body">
                             {Searching || !TruckJobDetails ?
                                 <SearchingContainer Searching={Searching}
-                                    SearchingFor="job details" /> :
+                                    SearchingFor={Dictionary.JobDetails} /> :
                                 <section>
                                     <div className="text-right p-xxs" style={{ backgroundColor: "#DDDDDD" }}>
                                         <ReactToPrint
-                                            trigger={() => <button className="btn btn-primary m-t-n">Print</button>}
+                                            trigger={() => <button className="btn btn-primary m-t-n">{Dictionary.Print}</button>}
                                             content={() => this.JobDetails} />
                                     </div>
                                     <TruckJobDetailsContainer JobDetails={TruckJobDetails}
@@ -94,5 +94,25 @@ class TruckJobDetailsDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobDetails: "تفاصيل الوظيفة",
+        Print: "طباعة",
+    };
+}
+else {
+    Dictionary = {
+        JobDetails: "Job Details",
+        Print: "Print",
+    };
+}
 
 export default TruckJobDetailsDialog;

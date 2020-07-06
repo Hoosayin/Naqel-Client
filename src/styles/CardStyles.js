@@ -1,17 +1,26 @@
+//export const LoginCardBack = {
+//    backgroundImage: "url(/images/login_back.jpg)",
+//    backgroundAttachment: "fixed",
+//    backgroundRepeat: "no-repeat",
+//    backgroundSize: "cover",
+//    height: "110vh"
+//};
+
 export const LoginCardBack = {
-    backgroundImage: "url(/images/login_back.jpg)",
-    backgroundAttachment: "fixed",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
+    background: "linear-gradient(to right bottom, #0F6F6F, #003640)",
     height: "110vh"
 };
 
+//export const RegisterCardBack = {
+//    backgroundImage: "url(/images/signup_back.jpg)",
+//    backgroundAttachment: "fixed",
+//    backgroundRepeat: "no-repeat",
+//    backgroundSize: "cover",
+//    height: "130vh"
+//};
+
 export const RegisterCardBack = {
-    backgroundImage: "url(/images/signup_back.jpg)",
-    backgroundAttachment: "fixed",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    height: "130vh"
+    background: "linear-gradient(to right bottom, #0F6F6F, #003640)",
 };
 
 export const EmailConfirmationCardBack = {
@@ -22,20 +31,28 @@ export const EmailConfirmationCardBack = {
     height: "100vh"
 };
 
+//export const AccountSetupCardBack = {
+//    backgroundImage: "url(/images/create_account_back.jpg)",
+//    backgroundAttachment: "fixed",
+//    backgroundRepeat: "no-repeat",
+//    backgroundSize: "cover",
+//    height: "150vh"
+//};
+
 export const AccountSetupCardBack = {
-    backgroundImage: "url(/images/create_account_back.jpg)",
-    backgroundAttachment: "fixed",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    height: "100vh"
+    background: "linear-gradient(to right bottom, #0F6F6F, #003640)",
 };
 
+//export const CongratulationsCardBack = {
+//    backgroundImage: "url(/images/congrats_back.jpg)",
+//    backgroundAttachment: "fixed",
+//    backgroundRepeat: "no-repeat",
+//    backgroundSize: "cover",
+//    height: "100vh"
+//};
+
 export const CongratulationsCardBack = {
-    backgroundImage: "url(/images/congrats_back.jpg)",
-    backgroundAttachment: "fixed",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    height: "100vh"
+    background: "linear-gradient(to right bottom, #0F6F6F, #003640)",
 };
 
 export const Card = {

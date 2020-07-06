@@ -16,12 +16,12 @@ class AddTrailer extends Component {
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",
                 backgroundColor: "#215761"
-            }}>
+            }} dir={GetDirection()}>
                 <div class="container" style={{ paddingBottom: "10px", marginBottom: "12px" }}>
                     <div class="row">
                         <div class="col-xs-18">
-                            <div className="type-h3 color-light"><span className="fas fa-truck-pickup"></span>   Trailers</div>
-                            <p className="color-light">RECOMMENDED: Since your truck is all set up, you're good to go for adding up to TWO trailers to it.</p>
+                            <div className="type-h3 color-light"><span className="fas fa-truck-pickup m-r-xxs m-l-xxs"></span>{Dictionary.Trailers}</div>
+                            <p className="color-light">{Dictionary.TrailersSubtitle}</p>
                             <div className="btn-group">
                                 <button
                                     type="button"
@@ -42,7 +42,7 @@ class AddTrailer extends Component {
                                                     this.props.OnTrailerAdded();
                                                 }} />
                                         });
-                                    }}>Add Trailer</button>
+                                    }}>{Dictionary.AddTrailer}</button>
                             </div>
                         </div>
                     </div>
@@ -52,5 +52,27 @@ class AddTrailer extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Trailers: "المقطورات",
+        TrailersSubtitle: ".موصى به: نظرًا لأنه تم إعداد شاحنتك بالكامل ، فأنت على ما يرام لإضافة مقطورتين إليها",
+        AddTrailer: "إضافة مقطع دعائي",
+    };
+}
+else {
+    Dictionary = {
+        Trailers: "Trailers",
+        TrailersSubtitle: "RECOMMENDED: Since your truck is all set up, you're good to go for adding up to TWO trailers to it.",
+        AddTrailer: "Add Trailer",
+    };
+}
 
 export default AddTrailer;

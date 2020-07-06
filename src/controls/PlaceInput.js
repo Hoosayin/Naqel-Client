@@ -24,6 +24,10 @@ class PlaceInput extends Component {
     };
 
     onSelect = address => {
+        this.setState({
+            Address: address
+        });
+
         geocodeByAddress(address).then(results => {
             const location = results[0].geometry.location;
             const lat = location.lat();

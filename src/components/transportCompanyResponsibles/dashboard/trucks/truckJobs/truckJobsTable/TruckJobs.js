@@ -66,15 +66,15 @@ class TruckJobs extends Component {
         } = this.state;
 
         return (Searching || AllTruckJobs.length === 0) ?
-            <section>
+            <section dir={GetDirection()}>
                 <div className="jumbotron theme-default" style={{ width: "100%", height: "100vh" }}>
                     <div className="container">
                         {Searching ? <div className="text-center p-xxs">
-                            <div className="type-h4 color-default">Searching</div>
+                            <div className="type-h4 color-default">{Dictionary.Searching}</div>
                             <ProgressBar />
                         </div> : <div className="text-center p-xxs">
-                                <div className="type-h4"><span className="fas fa-exclamation-triangle m-r-xxs"
-                                    style={{ color: "#FFBF15" }}></span>No truck jobs to display. Search the truck by number to view its jobs.</div>
+                                <div className="type-h4"><span className="fas fa-exclamation-triangle m-r-xxs m-l-xxs"
+                                    style={{ color: "#FFBF15" }}></span>{Dictionary.NoJobsFound}.</div>
                             </div>}
                     </div>
                 </div>
@@ -88,10 +88,10 @@ class TruckJobs extends Component {
                                     TruckJobs: AllTruckJobs,
                                     ShowingSearchResults: false
                                 });
-                            }}>Cancel Search</button> : 
+                            }}>{Dictionary.CancelSearch}</button> : 
                         <button className="btn btn-secondary m-t-n"
                             data-toggle="modal"
-                            data-target={`#search-truck-jobs-dialog`}>Search Jobs</button>}
+                            data-target={`#search-truck-jobs-dialog`}>{Dictionary.SearchJobs}</button>}
                 </div>
 
                 <SearchTruckJobsDialog TruckJobs={AllTruckJobs}
@@ -104,10 +104,34 @@ class TruckJobs extends Component {
 
                 {TruckJobs.length === 0 ?
                     <SearchingContainer Searching={false}
-                        SearchingFor="truck jobs" /> :
+                        SearchingFor={Dictionary.TruckJobs} /> :
                     <TruckJobsTable TruckJobs={TruckJobs} />}
             </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Searching: "يبحث",
+        NoJobsFound: "لا توجد وظائف شاحنة لعرضها. ابحث في الشاحنة عن طريق الرقم لعرض وظائفها",
+        SearchJobs: "بحث وظائف",
+        CancelSearch: "إلغاء البحث", 
+    };
+}
+else {
+    Dictionary = {
+        Searching: "Searching",
+        NoJobsFound: "No truck jobs to display. Search the truck by number to view its jobs",
+        SearchJobs: "Search Jobs",
+        CancelSearch: "Cancel Search", 
+    };
+}
 
 export default TruckJobs;

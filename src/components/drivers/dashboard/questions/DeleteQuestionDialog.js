@@ -62,17 +62,17 @@ class DeleteQuestionDialog extends Component {
                             </div>
                         </div>
                         <div className="modal-body">
-                            <div className="jumbotron theme-default">
+                            <div className="jumbotron theme-default" dir={GetDirection()}>
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-md-24">
-                                            <div className="type-h3 color-default p-t-n">Delete Question</div>
-                                            <div className="type-sh3 m-b-xxs">Are you sure you want to delete question with ID
+                                            <div className="type-h3 color-default p-t-n">{Dictionary.DeleteQuestion}</div>
+                                            <div className="type-sh3 m-b-xxs">{Dictionary.DeleteMessage}
                                                 <span className="color-default">{` ${QuestionNumber}.`}</span></div>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <button className="btn btn-primary" onClick={this.onDelete}>Delete</button>
+                                        <button className="btn btn-primary" onClick={this.onDelete}>{Dictionary.Delete}</button>
                                     </div>
                                 </div>
                             </div>
@@ -83,5 +83,27 @@ class DeleteQuestionDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        DeleteQuestion: "حذف السؤال",
+        DeleteMessage: "هل أنت متأكد أنك تريد حذف السؤال برقم التعريف",
+        Delete: "حذف"
+    };
+}
+else {
+    Dictionary = {
+        DeleteQuestion: "Delete Question",
+        DeleteMessage: "Are you sure you want to delete question with ID",
+        Delete: "Delete"
+    };
+}
 
 export default DeleteQuestionDialog;

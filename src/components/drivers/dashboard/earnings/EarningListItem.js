@@ -14,7 +14,7 @@ class EarningListItem extends Component {
         return <tr>
             <td>
                 <strong>{index + 1}</strong>
-                {index === 0 ? <span class="badge back-color-golden m-l-xxxs">NEW</span> : null}
+    {index === 0 ? <span class="badge back-color-golden m-l-xxxs">{Dictionary.New}</span> : null}
             </td>
             <td>{`${earning.Amount.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
             <td>{earning.JobNumber}</td>
@@ -25,5 +25,24 @@ class EarningListItem extends Component {
         </tr>;
     }
 };
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        New: "جديد"
+    };
+}
+else if (Language === "Urdu") {
+    Dictionary = {
+        New: "نئی"
+    };
+}
+else {
+    Dictionary = {
+        New: "NEW"
+    };
+}
 
 export default EarningListItem;

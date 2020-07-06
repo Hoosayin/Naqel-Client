@@ -7,10 +7,10 @@ class JobOffers extends Component {
         return <section>
             <ul className="nav nav-tabs tabs-light" role="tablist">
                 <li role="presentation" className="active">
-                    <a href="#job-offers-list" aria-controls="job-offers-list" role="tab" data-toggle="tab">List</a>
+                    <a href="#job-offers-list" aria-controls="job-offers-list" role="tab" data-toggle="tab">{Dictionary.List}</a>
                 </li>
                 <li role="presentation">
-                    <a href="#job-offers-map" aria-controls="job-offers-map" role="tab" data-toggle="tab">Map</a>
+                    <a href="#job-offers-map" aria-controls="job-offers-map" role="tab" data-toggle="tab">{Dictionary.Map}</a>
                 </li>
             </ul>
 
@@ -25,5 +25,27 @@ class JobOffers extends Component {
         </section>;
     }
 };
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        List: "قائمة",
+        Map: "خريطة"
+    };
+}
+else if (Language === "Urdu") {
+    Dictionary = {
+        List: "فہرست",
+        Map: "نقشہ"
+    };
+}
+else {
+    Dictionary = {
+        List: "List",
+        Map: "Map"
+    };
+}
 
 export default JobOffers;

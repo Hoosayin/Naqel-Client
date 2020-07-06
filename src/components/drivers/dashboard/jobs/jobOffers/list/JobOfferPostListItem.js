@@ -86,18 +86,18 @@ class JobOfferPostsList extends Component {
             RequestButton = <button className="btn btn-secondary"
                 onClick={async () => { 
                     await this.onCancelRequest(jobOffer); }}>{(jobOffer.JobOfferType === "Fixed-Price") ?
-                    "Cancel Request" :
-                    "Cancel Bid"}
+                    Dictionary.CancelRequest :
+                    Dictionary.CancelBid}
             </button>;
         }
         else {
             RequestButton = (jobOffer.JobOfferType === "Fixed-Price") ?
                 <button className="btn btn-primary"
-                    onClick={async () => { await this.onSendRequest(jobOffer); }}>Send Request</button> :
+                    onClick={async () => { await this.onSendRequest(jobOffer); }}>{Dictionary.SendRequest}</button> :
                 <button className="btn btn-primary"
                     data-toggle="modal"
                     disabled={driverRequest}
-                    data-target={`#bid-job-offer-dialog-${index}`}>Bid</button>;
+                    data-target={`#bid-job-offer-dialog-${index}`}>{Dictionary.Bid}</button>;
         }
 
         return <section>
@@ -108,7 +108,7 @@ class JobOfferPostsList extends Component {
                             <div className="type-h5 color-default p-t-n">
                                 {`${index + 1}.`}
                                 {driverRequest ? <span class="badge back-color-default m-l-xxs">{(jobOffer.JobOfferType === "Fixed-Price") ?
-                                    "REQUEST SENT" : "ALREADY BADE"}</span> : null}
+                                    Dictionary.RequestSent : Dictionary.AlreadyBade}</span> : null}
                             </div>
                             <div className="col-md-12">
                                 <div className="entity-list">
@@ -117,7 +117,7 @@ class JobOfferPostsList extends Component {
                                             <span className="fas fa-user"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">Posted By</div>
+                                            <div className="content-text-primary">{Dictionary.PostedBy}</div>
                                             <div className="content-text-secondary">{`${trader.FirstName} ${trader.LastName}`}
                                             </div>
                                         </div>
@@ -129,7 +129,7 @@ class JobOfferPostsList extends Component {
                                             <span className="fas fa-clock"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">Posted On</div>
+                                            <div className="content-text-primary">{Dictionary.PostedOn}</div>
                                             <div className="content-text-secondary">{new Date(jobOffer.TimeCreated).toDateString()}</div>
                                         </div>
                                     </div>
@@ -141,7 +141,7 @@ class JobOfferPostsList extends Component {
                                                 <span className="fas fa-tag"></span>
                                             </div>
                                             <div className="item-content-primary">
-                                                <div className="content-text-primary">Your Bid Price</div>
+                                                <div className="content-text-primary">{Dictionary.YourBidPrice}</div>
                                                 <div className="content-text-secondary">{`${driverRequest.Price} ${Strings.SAUDI_RIYAL}`}</div>
                                             </div>
                                         </div>
@@ -155,7 +155,7 @@ class JobOfferPostsList extends Component {
                                             <span className="fas fa-tag"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">Price</div>
+                                            <div className="content-text-primary">{Dictionary.Price}</div>
                                             <div className="content-text-secondary">{`${jobOffer.Price} ${Strings.SAUDI_RIYAL}`}</div>
                                         </div>
                                     </div>
@@ -164,9 +164,9 @@ class JobOfferPostsList extends Component {
                                             <span className="fas  fa-map-marker-alt"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">Route</div>
-                                            <div className="content-text-secondary">{`FROM: ${jobOffer.LoadingPlace}`}</div>
-                                            <div className="content-text-secondary">{`TO: ${jobOffer.UnloadingPlace}`}</div>
+                                            <div className="content-text-primary">{Dictionary.Route}</div>
+                                            <div className="content-text-secondary">{`${Dictionary.From}: ${jobOffer.LoadingPlace}`}</div>
+                                            <div className="content-text-secondary">{`${Dictionary.To}: ${jobOffer.UnloadingPlace}`}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -179,8 +179,8 @@ class JobOfferPostsList extends Component {
                 </div>
 
                 <div className="back-color-gray" data-toggle="collapse" aria-expanded="false" data-target={`#job-offer-post-${index}`}>
-                    <div className="type-h4 text-right color-default p-xxxs">
-                        {"   More Details"} <i className="fas fa-ellipsis-v"></i>
+                    <div className="type-h4 text-right color-default p-xxxs m-r-xxs">{Dictionary.MoreDetails}
+                    <i className="fas fa-ellipsis-v"></i>
                         <i class="glyph glyph-add"></i>
                         <i class="glyph glyph-remove"></i>
                     </div>
@@ -194,10 +194,10 @@ class JobOfferPostsList extends Component {
                             margin: "0px"
                         }}>
                         <li role="presentation" className="active">
-                            <a href={`#job-offer-${index}`} aria-controls={`job-offer-${index}`} role="tab" data-toggle="tab">Job Offer</a>
+                            <a href={`#job-offer-${index}`} aria-controls={`job-offer-${index}`} role="tab" data-toggle="tab">{Dictionary.JobOffer}</a>
                         </li>
                         <li role="presentation">
-                            <a href={`#trader-${index}`} aria-controls={`trader-${index}`} role="tab" data-toggle="tab">Trader</a>
+                            <a href={`#trader-${index}`} aria-controls={`trader-${index}`} role="tab" data-toggle="tab">{Dictionary.Trader}</a>
                         </li>
                     </ul>
                     <div className="tab-content">
@@ -219,5 +219,53 @@ class JobOfferPostsList extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        CancelRequest: "إلغاء الطلب",
+        CancelBid: "إلغاء العطاء",
+        SendRequest: "ارسل طلب",
+        Bid: "المناقصة",
+        RequestSent: "تم ارسال الطلب",
+        AlreadyBade: "قاعدة بالفعل",
+        PostedBy: "منشور من طرف",
+        PostedOn: "نشر على",
+        YourBidPrice: "سعر العرض الخاص بك",
+        Price: "السعر",
+        Route: "طريق",
+        From: "من عند",
+        To: "المكان المقصود",
+        MoreDetails: "المزيد من التفاصيل",
+        JobOffer: "عرض عمل",
+        Trader: "التاجر"
+    };
+}
+else {
+    Dictionary = {
+        CancelRequest: "Cancel Request",
+        CancelBid: "Cancel Bid",
+        SendRequest: "Send Request",
+        Bid: "Bid",
+        RequestSent: "REQUEST SENT",
+        AlreadyBade: "ALREADY BADE",
+        PostedBy: "Posted By",
+        PostedOn: "Posted On",
+        YourBidPrice: "Your Bid Price",
+        Price: "Price",
+        Route: "Route",
+        From: "FROM",
+        To: "TO",
+        MoreDetails: "More Details",
+        JobOffer: "Job Offer",
+        Trader: "Trader"
+    };
+}
 
 export default JobOfferPostsList;

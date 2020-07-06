@@ -94,7 +94,7 @@ class TraderRequestsTable extends Component {
     render() {
         if (this.state.Searching || this.state.TraderRequestPackages.length === 0) {
             return <SearchingContainer Searching={this.state.Searching}
-                SearchingFor="requests" />;
+                SearchingFor={Dictionary.Requests} />;
         }
         else {
             const traderRequestPackages = this.state.TraderRequestPackages;
@@ -105,9 +105,9 @@ class TraderRequestsTable extends Component {
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>NUMBER</th>
-                                <th>TRADER</th>
-                                <th>REQUESTED ON</th>
+                                <th>{Dictionary.Number}</th>
+                                <th>{Dictionary.Trader}</th>
+                                <th>{Dictionary.RequestedOn}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -126,5 +126,29 @@ class TraderRequestsTable extends Component {
         }
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Number: "رقم",
+        Trader: "تاجر",
+        RequestedOn: "مطلوب على",
+        Requests: "الطلبات"
+    };
+}
+else {
+    Dictionary = {
+        Number: "NUMBER",
+        Trader: "TRADER",
+        RequestedOn: "REQUESTED ON",
+        Requests: "Requests"
+    };
+}
 
 export default TraderRequestsTable;

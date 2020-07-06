@@ -96,12 +96,12 @@ class EarningsList extends Component {
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",
                 backgroundColor: "#215761"
-            }}>
+            }} dir={GetDirection()}>
                 <div class="container" style={{ paddingBottom: "10px", marginBottom: "12px" }}>
                     <div class="row">
                         <div class="col-xs-18">
-                            <div className="type-h3 color-light"><span className="fas fa-coins m-r-xs"></span>Earnings</div>
-                            <p className="color-light">JOB CHARGES: In case you have some unpaid dues, you must pay them from Payments section.</p>
+        <div className="type-h3 color-light"><span className="fas fa-coins m-r-xs"></span>{Dictionary.Earnings}</div>
+        <p className="color-light">{Dictionary.EarningsSubtitle}</p>
                         </div>
                     </div>
                 </div>
@@ -116,7 +116,7 @@ class EarningsList extends Component {
                                     <span className="fas fa-dollar-sign"></span>
                                 </div>
                                 <div className="item-content-primary">
-                                    <div className="content-text-primary">Net Earning</div>
+                                    <div className="content-text-primary">{Dictionary.NetEarning}</div>
                                     <div className="content-text-secondary">{`${netEarning.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</div>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@ class EarningsList extends Component {
             </div>
 
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Your Earnings
+        <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>{Dictionary.YourEarnings}
                     {this.state.Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
             </div>
 
@@ -137,11 +137,11 @@ class EarningsList extends Component {
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>NUMBER</th>
-                                <th>AMOUNT</th>
-                                <th>JOB NUMBER</th>
-                                <th>DUES PAID?</th>
-                                <th>EARNED ON</th>
+                            <th>{Dictionary.Number}</th>
+            <th>{Dictionary.Amount}</th>
+            <th>{Dictionary.JobNumber}</th>
+                                <th>{Dictionary.DuesPaid}</th>
+            <th>{Dictionary.EarnedOn}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -156,5 +156,52 @@ class EarningsList extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Earnings: "أرباح",
+        EarningsSubtitle: "رسوم الوظيفة: في حال كان لديك بعض المستحقات غير المدفوعة ، يجب عليك دفعها من قسم المدفوعات.",
+        NetEarning: "صافي ربح",
+        YourEarnings: "أرباحك",
+        Number: "رقم",
+        Amount: "كمية",
+        JobNumber: "رقم الوظيفة",
+        DuesPaid: "مدفوعة المستحقات؟",
+        EarnedOn: "مكسب",
+    };
+}
+else if (Language === "Urdu") {
+    Dictionary = {
+        Earnings: "آمدنی",
+        EarningsSubtitle: "ملازمت کے معاوضے: اگر آپ کے پاس بقول ادائیگی واجب الادا رقم ہے تو ، آپ کو ادائیگیوں کے سیکشن سے انہیں ادائیگی کرنا ہوگی۔",
+        NetEarning: "نیٹ کمائی",
+        YourEarnings: "آپ کی آمدنی",
+        Number: "نمبر",
+        Amount: "رقم",
+        JobNumber: "نوکری نمبر",
+        DuesPaid: "واجبات ادا؟",
+        EarnedOn: "کمائی گئی",
+    };
+}
+else {
+    Dictionary = {
+        Earnings: "Earnings",
+        EarningsSubtitle: "JOB CHARGES: In case you have some unpaid dues, you must pay them from Payments section.",
+        NetEarning: "Net Earning",
+        YourEarnings: "Your Earnings",
+        Number: "NUMBER",
+        Amount: "AMOUNT",
+        JobNumber: "JOB NUMBER",
+        DuesPaid: "DUES PAID?",
+        EarnedOn: "EARNED ON",
+    };
+}
 
 export default EarningsList;

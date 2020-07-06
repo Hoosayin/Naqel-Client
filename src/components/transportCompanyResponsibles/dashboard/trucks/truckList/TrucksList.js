@@ -62,31 +62,31 @@ class TrucksList extends Component {
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",
                 backgroundColor: "#215761"
-            }}>
+            }} dir={GetDirection()}>
                 <div class="container p-b-xxs m-b-xxs">
                     <div class="row">
                         <div class="col-xs-18">
-                            <div className="type-h3 color-light"><span className="fas fa-truck-moving m-r-xxs"></span>Trucks</div>
+                            <div className="type-h3 color-light"><span className="fas fa-truck-moving m-r-xxs m-l-xxs"></span>{Dictionary.Trucks}</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Your Trucks
-                    {Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
+            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }} dir={GetDirection()}>{Dictionary.YourTrucks}
+                    {Refreshing ? <span className="m-l-xxs m-r-xxs"><ProgressRing /></span> : null}
             </div>
 
             {(Trucks.length === 0) ?
-                <SearchingContainer Searching={Searching} SearchingFor="trucks" /> :
+                <SearchingContainer Searching={Searching} SearchingFor={Dictionary.Trucks} /> :
                 <div class="table-responsive back-color-gray" style={{ height: "100vh" }}>
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>NUMBER</th>
-                                <th>TRUCK NUMBER</th>
-                                <th>BRAND</th>
-                                <th>MODEL</th>
+                                <th>{Dictionary.Number}</th>
+                                <th>{Dictionary.TruckNumber}</th>
+                                <th>{Dictionary.Brand}</th>
+                                <th>{Dictionary.Model}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -102,5 +102,33 @@ class TrucksList extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Trucks: "الشاحنات",
+        YourTrucks: "الشاحنات الخاصة بك",
+        Number: "رقم",
+        TruckNumber: "رقم الشاحنة",
+        Brand: "العلامة التجارية",
+        Model: "نموذج",
+    };
+}
+else {
+    Dictionary = {
+        Trucks: "Trucks",
+        YourTrucks: "Your Trucks",
+        Number: "NUMBER",
+        TruckNumber: "TRUCK NUMBER",
+        Brand: "BRAND",
+        Model: "MODEL",
+    };
+}
 
 export default TrucksList;

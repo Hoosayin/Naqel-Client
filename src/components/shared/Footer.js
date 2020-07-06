@@ -1,15 +1,28 @@
-import React, { Component } from "react";
+﻿import React, { Component } from "react";
+import LanguageDispatcher from "../../res/LanguageDispatcher";
+
+const Language = LanguageDispatcher.GetLanguage();
+
+const LinkStyle = {
+    textDecoration: "none",
+    cursor: "pointer"
+};
 
 class Footer extends Component {
     render() {
-
-        return (
-            <footer className="border-top footer theme-default color-bg-light-neutral-high text-light">
-                <div className="container">
-                    &copy; {new Date().getFullYear()} - Core Infinite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div>
-            </footer>
-        );
+        return <footer className="border-top footer theme-default color-bg-light-neutral-high text-light">
+            <div className="container">
+                &copy; {new Date().getFullYear()} - {Language.CoreInfinite} - <a style={LinkStyle}
+                    onClick={() => {
+                        LanguageDispatcher.SetLanguage("English");
+                        window.location.reload(false);
+                    }}>English</a> | <a style={LinkStyle}
+                    onClick={() => {
+                        LanguageDispatcher.SetLanguage("Arabic");
+                        window.location.reload(false);
+                    }}>العربية</a>
+            </div>
+        </footer>;
     }
 };
 

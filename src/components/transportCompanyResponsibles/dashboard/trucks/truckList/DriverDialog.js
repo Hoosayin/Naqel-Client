@@ -32,10 +32,10 @@ class ProfileDialog extends Component {
                             <section>
                                 <ul className="nav nav-tabs tabs-light" role="tablist">
                                     <li role="presentation" className="active">
-                                        <a href={`#driver-tab-${Index}`} aria-controls={`driver-tab-${Index}`} role="tab" data-toggle="tab">Driver</a>
+                                        <a href={`#driver-tab-${Index}`} aria-controls={`driver-tab-${Index}`} role="tab" data-toggle="tab">{Dictionary.Driver}</a>
                                     </li>
                                     <li role="presentation">
-                                        <a href={`#documents-tab-${Index}`} aria-controls={`documents-tab-${Index}`} role="tab" data-toggle="tab">Documents</a>
+                                        <a href={`#documents-tab-${Index}`} aria-controls={`documents-tab-${Index}`} role="tab" data-toggle="tab">{Dictionary.Documents}</a>
                                     </li>
                                 </ul>
                                 <div className="tab-content">
@@ -54,5 +54,25 @@ class ProfileDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Driver: "سائق",
+        Documents: "مستندات"
+    };
+}
+else {
+    Dictionary = {
+        Driver: "Driver",
+        Documents: "Documents"
+    };
+}
 
 export default ProfileDialog;

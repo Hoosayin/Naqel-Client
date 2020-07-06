@@ -21,8 +21,8 @@ class JobOfferContainer extends Component {
                <div className="container">
                    <div className="col-md-24">
                        <div className="type-h3 color-default p-t-n">{(index ?
-                           `${index + 1}. ${jobOffer.JobOfferType} Job Offer` :
-                           `${jobOffer.JobOfferType} Job Offer`)}</div>
+                           `${index + 1}. ${jobOffer.JobOfferType} ${Dictionary.JobOffer}` :
+                           `${jobOffer.JobOfferType} ${Dictionary.JobOffer}`)}</div>
                        <div className="type-sh3">
                            <span className="fas fa-tag m-r-xxxs" style={{ color: "#606060" }}></span>{`${jobOffer.Price} ${Strings.SAUDI_RIYAL}`}</div>
                    </div>
@@ -34,7 +34,7 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-map-marker-alt"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Loading Place</div>
+                                       <div className="content-text-primary">{Dictionary.LoadingPlace}</div>
                                        <div className="content-text-secondary">{jobOffer.LoadingPlace}</div>
                                    </div>
                                </div>
@@ -45,7 +45,7 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-map-marker-alt"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Unloading Place</div>
+                                       <div className="content-text-primary">{Dictionary.UnloadingPlace}</div>
                                        <div className="content-text-secondary">{jobOffer.UnloadingPlace}</div>
                                    </div>
                                </div>
@@ -56,7 +56,7 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-map-signs"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Trip Type</div>
+                                       <div className="content-text-primary">{Dictionary.TripType}</div>
                                        <div className="content-text-secondary">{jobOffer.TripType}</div>
                                    </div>
                                </div>
@@ -67,7 +67,7 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-clock"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Accpeted Delay</div>
+                                       <div className="content-text-primary">{Dictionary.AcceptedDelay}</div>
                                        <div className="content-text-secondary">{`${jobOffer.AcceptedDelay} Hour(s)`}</div>
                                    </div>
                                </div>
@@ -80,7 +80,7 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-box"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Cargo Type</div>
+                                       <div className="content-text-primary">{Dictionary.CargoType}</div>
                                        <div className="content-text-secondary">{jobOffer.CargoType}</div>
                                    </div>
                                </div>
@@ -91,7 +91,7 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-weight"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Cargo Weight</div>
+                                       <div className="content-text-primary">{Dictionary.CargoWeight}</div>
                                        <div className="content-text-secondary">{`${jobOffer.CargoWeight} lbs.`}</div>
                                    </div>
                                </div>
@@ -102,7 +102,7 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-calendar"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Loading Date</div>
+                                       <div className="content-text-primary">{Dictionary.LoadingDate}</div>
                                        <div className="content-text-secondary">{loadingDate.toDateString()}</div>
                                    </div>
                                </div>
@@ -113,8 +113,8 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-clock"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Loading Time</div>
-                                       <div className="content-text-secondary">{loadingDate.toTimeString()}</div>
+                                       <div className="content-text-primary">{Dictionary.LoadingTime}</div>
+                                       <div className="content-text-secondary">{loadingDate.toLocaleTimeString()}</div>
                                    </div>
                                </div>
                            </div>
@@ -126,7 +126,7 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-id-badge"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Entry/Exit</div>
+                                       <div className="content-text-primary">{Dictionary.EntryExit}</div>
                                        <div className="content-text-secondary">{(jobOffer.EntryExit === 1) ?
                                            <span className="fa fa-check-circle" style={{ color: "#25AE88" }}></span> :
                                            <span className="fa fa-times-circle" style={{ color: "#D75A4A" }}></span>}</div>
@@ -139,7 +139,7 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-plug"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Availabe</div>
+                                       <div className="content-text-primary">{Dictionary.Available}</div>
                                        <div className="content-text-secondary">{(createdHoursAgo < jobOffer.WaitingTime) ? 
                                            <span className="fa fa-check-circle" style={{ color: "#25AE88" }}></span> :
                                            <span className="fa fa-times-circle" style={{ color: "#D75A4A" }}></span>}</div>
@@ -152,7 +152,7 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-calendar"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Posted on</div>
+                                       <div className="content-text-primary">{Dictionary.PostedOn}</div>
                                        <div className="content-text-secondary">{new Date(jobOffer.TimeCreated).toDateString()}</div>
                                    </div>
                                </div>
@@ -163,8 +163,8 @@ class JobOfferContainer extends Component {
                                        <span className="fas fa-clock"></span>
                                    </div>
                                    <div className="item-content-primary">
-                                       <div className="content-text-primary">Posted at</div>
-                                       <div className="content-text-secondary">{new Date(jobOffer.TimeCreated).toTimeString()}</div>
+                                       <div className="content-text-primary">{Dictionary.PostedAt}</div>
+                                       <div className="content-text-secondary">{new Date(jobOffer.TimeCreated).toLocaleTimeString()}</div>
                                    </div>
                                </div>
                            </div>
@@ -175,5 +175,43 @@ class JobOfferContainer extends Component {
        </section>;
     }
 };
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobOffer: "عرض عمل",
+        LoadingPlace: "مكان التحميل",
+        UnloadingPlace: "مكان التفريغ",
+        TripType: "نوع الرحلة",
+        AcceptedDelay: "تأخير مقبول",
+        CargoType: "نوع البضائع",
+        CargoWeight: "وزن البضائع",
+        LoadingDate: "تاريخ التحميل",
+        LoadingTime: "وقت التحميل",
+        EntryExit: "الدخول / الخروج",
+        Available: "متاح",
+        PostedOn: "نشر على",
+        PostedAt: "نشر في"
+    };
+}
+else {
+    Dictionary = {
+        JobOffer: "Job Offer",
+        LoadingPlace: "Loading Place",
+        UnloadingPlace: "Unloading Place",
+        TripType: "Trip Type",
+        AcceptedDelay: "Accepted Delay",
+        CargoType: "Cargo Type",
+        CargoWeight: "Cargo Weight",
+        LoadingDate: "Loading Date",
+        LoadingTime: "Loading Time",
+        EntryExit: "Entry/Exit",
+        Available: "Available",
+        PostedOn: "Posted on",
+        PostedAt: "Posted at"
+    };
+}
 
 export default JobOfferContainer;

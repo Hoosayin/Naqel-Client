@@ -17,21 +17,20 @@ class CompletedJobPackageListItem extends Component {
 
         return <li className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
             {!billPaid ?
-                <div class="alert alert-danger m-n p-n">
+                <div class="alert alert-danger m-n p-n" dir={GetDirection()}>
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-24">
-                                <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>Please pay the bill for this job from <span className="color-default">Payments</span> section.
-                                    If you have uploaded a payment proof, then please wait for the driver to approve your payment.</p>
+                                <p><span className="fas fa-exclamation-circle m-r-xxxs m-l-xxxs"></span>{Dictionary.BillNotPaidMessage}.</p>
                             </div>
                         </div>
                     </div>
                 </div> :
-                <div class="alert alert-info m-n p-n">
+                <div class="alert alert-info m-n p-n" dir={GetDirection()}>
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-24">
-                                <p><span className="fas fa-check-circle m-r-xxxs"></span>The bill has been paid! View bill details from the <span className="color-default">Payments</span> section.</p>
+                                <p><span className="fas fa-check-circle m-r-xxxs m-l-xxxs"></span>{Dictionary.BillPaidMessage}.</p>
                             </div>
                         </div>
                     </div>
@@ -49,9 +48,9 @@ class CompletedJobPackageListItem extends Component {
                                         <span className="fas fa-star"></span>
                                     </div>
                                     <div className="item-content-primary">
-                                        <div className="content-text-primary">Rating</div>
+                                        <div className="content-text-primary">{Dictionary.Rating}</div>
                                         <div className="content-text-secondary"><Rating Rating={driverReview.Rating} Color="" Size="rating-small" /></div>
-                                        <div className="content-text-primary">Review</div>
+                                        <div className="content-text-primary">{Dictionary.Review}</div>
                                         <div className="content-text-secondary">{driverReview.Review}</div>
                                     </div>
                                 </div>
@@ -68,8 +67,8 @@ class CompletedJobPackageListItem extends Component {
                                         <span className="fas fa-star"></span>
                                     </div>
                                     <div className="item-content-primary">
-                                        <div className="content-text-primary">Rate and Review the Driver</div>
-                                        <div className="content-text-secondary">Your reviews means a lot to us and the driver too.</div>
+                                        <div className="content-text-primary">{Dictionary.RateAndReview}</div>
+                                        <div className="content-text-secondary">{Dictionary.RateAndReviewSubtitle}</div>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +76,7 @@ class CompletedJobPackageListItem extends Component {
                         <div class="col-md-4 text-right">
                             <button className="btn btn-primary"
                                 data-toggle="modal"
-                                data-target={`#review-dialog-${index}`}>Write a Review</button>
+                                data-target={`#review-dialog-${index}`}>{Dictionary.WriteAReview}</button>
                         </div>
                     </div>
                 </div>}
@@ -88,7 +87,7 @@ class CompletedJobPackageListItem extends Component {
 
             <div className="back-color-gray" data-toggle="collapse" aria-expanded="false" data-target={`#completed-job-${index}`}
                 onClick={async () => { await this.RefreshDriverContainer(); }}>
-                <div className="type-h4 color-default text-right p-xxxs">Driver Details
+                <div className="type-h4 color-default text-right p-xxxs">{Dictionary.DriverDetails}
                     <i className="fas fa-ellipsis-v"></i>
                     <i class="glyph glyph-add"></i>
                     <i class="glyph glyph-remove"></i>
@@ -101,5 +100,37 @@ class CompletedJobPackageListItem extends Component {
         </li>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        BillNotPaidMessage: "يرجى دفع فاتورة هذه الوظيفة من قسم المدفوعات. إذا قمت بتحميل إثبات دفع ، فيرجى الانتظار حتى يوافق السائق على الدفع",
+        BillPaidMessage: "تم دفع الفاتورة! عرض تفاصيل الفاتورة من قسم المدفوعات",
+        Rating: "تقييم",
+        Review: "مراجعة",
+        RateAndReview: "تقييم ومراجعة برنامج التشغيل",
+        RateAndReviewSubtitle: ".ملاحظاتك تعني الكثير لنا وللسائق أيضًا",
+        WriteAReview: "أكتب مراجعة",
+        DriverDetails: "تفاصيل السائق",
+    };
+}
+else {
+    Dictionary = {
+        BillNotPaidMessage: "Please pay the bill for this job from Payments section. If you have uploaded a payment proof, then please wait for the driver to approve your payment",
+        BillPaidMessage: "The bill has been paid! View bill details from the Payments section",
+        Rating: "Rating",
+        Review: "Review",
+        RateAndReview: "Rate and Review the Driver",
+        RateAndReviewSubtitle: "Your reviews means a lot to us and the driver too.",
+        WriteAReview: "Write a Review",
+        DriverDetails: "Driver Details",
+    };
+}
 
 export default CompletedJobPackageListItem;

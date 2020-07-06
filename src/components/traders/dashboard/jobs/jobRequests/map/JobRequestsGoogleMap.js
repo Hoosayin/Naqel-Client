@@ -6,16 +6,16 @@ const JobRequestWindow = props => {
     const { JobRequest } = props;
 
     return <section>
-        <div className="type-h6 color-default p-t-n">Job Request</div>
+        <div className="type-h6 color-default p-t-n">{Dictionary.JobRequest}t</div>
         <div className="type-sh9">
             <span className="fas fa-tag color-default m-r-xxxs"></span>
-            <span className="color-default">PRICE: </span>{`${JobRequest.Price} ${Strings.SAUDI_RIYAL}`}</div>
+            <span className="color-default">{Dictionary.Price}: </span>{`${JobRequest.Price} ${Strings.SAUDI_RIYAL}`}</div>
         <div className="type-sh9">
             <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
-            <span className="color-default">FROM: </span>{JobRequest.LoadingPlace}</div>
+            <span className="color-default">{Dictionary.Source}: </span>{JobRequest.LoadingPlace}</div>
         <div className="type-sh9">
             <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
-            <span className="color-default">TO: </span>{JobRequest.UnloadingPlace}</div>
+            <span className="color-default">{Dictionary.Destination}: </span>{JobRequest.UnloadingPlace}</div>
     </section>;
 };
 
@@ -65,6 +65,30 @@ const JobRequestsGoogleMap = props => {
             mapElement={<div style={{ height: `100%` }} />}
             JobRequestPosts={props.JobRequestPosts} />
     </div>;
+}
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobRequest: "طلب وظيفة",
+        Price: "السعر",
+        Source: "مصدر",
+        Destination: "المكان المقصود",
+    };
+}
+else {
+    Dictionary = {
+        JobRequest: "Job Request",
+        Price: "PRICE",
+        Source: "SOURCE",
+        Destination: "DESTINATION",
+    };
 }
 
 export default JobRequestsGoogleMap;

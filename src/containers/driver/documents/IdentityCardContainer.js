@@ -22,7 +22,7 @@ class IdentityCardContainer extends Component {
                                     }} />
                             </div>
                             <div className="col-md-16">
-                                <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>Identity Card</div>
+                                <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>{Dictionary.IdentityCardSubtitle}</div>
                                 <div className="row">
                                     <div className="col-md-24">
                                         <div class="entity-list">
@@ -31,7 +31,7 @@ class IdentityCardContainer extends Component {
                                                     <span class="fas fa-hashtag"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">ID Number</div>
+                                                    <div class="content-text-primary">{Dictionary.IDNumber}</div>
                                                     <div class="content-text-secondary">{identityCard.IDNumber}</div>
                                                 </div>
                                             </div>
@@ -46,5 +46,25 @@ class IdentityCardContainer extends Component {
         </section> : null;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        IdentityCardSubtitle: "البطاقة الشخصية",
+        IDNumber: "رقم الهوية",
+    };
+}
+else {
+    Dictionary = {
+        IdentityCardSubtitle: "Identity Card",
+        IDNumber: "ID Number",
+    };
+}
 
 export default IdentityCardContainer;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import PlaceInput from "../../../../../controls/PlaceInput";
 import Preloader from "../../../../../controls/Preloader.js";
 import Strings from "../../../../../res/strings";
+import PlacePicker from "../../../../../controls/PlacePicker";
 import { updateJobRequest } from "../../../DriverFunctions.js";
 
 class EditJobRequestDialog extends Component {
@@ -14,21 +14,23 @@ class EditJobRequestDialog extends Component {
 
         this.state = {
             LoadingPlace: {
-                Address: JobRequest.LoadingPlace,
+                Place: JobRequest.LoadingPlace,
                 Lat: JobRequest.LoadingLat,
                 Lng: JobRequest.LoadingLng
             },
             UnloadingPlace: {
-                Address: JobRequest.UnloadingPlace,
+                Place: JobRequest.UnloadingPlace,
                 Lat: JobRequest.UnloadingLat,
                 Lng: JobRequest.UnloadingLng
             },
             TripType: JobRequest.TripType,
             Price: JobRequest.Price,
+            WaitingTime: JobRequest.WaitingTime,
 
             ValidLoadingPlace: true,
             ValidUnloadingPlace: true,
             ValidPrice: true,
+            ValidWaitingTime: true,
 
             ValidForm: false,
             ShowPreloader: false,
@@ -36,7 +38,8 @@ class EditJobRequestDialog extends Component {
             Errors: {
                 LoadingPlace: "",
                 UnloadingPlace: "",
-                Price: ""
+                Price: "",
+                WaitingTime: "",
             }
         };
 
@@ -56,13 +59,25 @@ class EditJobRequestDialog extends Component {
     validateField(field, value) {
         let {
             Errors,
-            ValidPrice
+            ValidPrice,
+            ValidWaitingTime
         } = this.state;
 
         switch (field) {
             case "Price":
                 ValidPrice = (value > 0.00);
-                Errors.Price = ValidPrice ? "" : "Price must be more than $0.00.";
+                Errors.Price = ValidPrice ? "" : Dictionary.PriceError;
+                break;
+            case "WaitingTime":
+                ValidWaitingTime = (value !== "");
+                Errors.WaitingTime = ValidWaitingTime ? "" : Dictionary.WatingTimeError1;
+
+                if (Errors.WaitingTime !== "") {
+                    break;
+                }
+
+                ValidWaitingTime = (value >= 48);
+                Errors.WaitingTime = ValidWaitingTime ? "" : Dictionary.WaitingTimeError2;
                 break;
             default:
                 break;
@@ -70,10 +85,11 @@ class EditJobRequestDialog extends Component {
 
         this.setState({
             Errors: Errors,
-            ValidPrice: ValidPrice
+            ValidPrice: ValidPrice,
+            ValidWaitingTime: ValidWaitingTime,
         }, () => {
-            this.setState({
-                ValidForm: ValidPrice
+                this.setState({
+                    ValidForm: ValidPrice && ValidWaitingTime
             });
         });
     }
@@ -85,34 +101,6 @@ class EditJobRequestDialog extends Component {
             return;
         }
 
-        if (!this.state.LoadingPlace) {
-            let {
-                Errors
-            } = this.state;
-
-            Errors.LoadingPlace = "Loading place is required.";
-
-            this.setState({
-                Errors: Errors
-            });
-
-            return;
-        }
-
-        if (!this.state.UnloadingPlace) {
-            let {
-                Errors
-            } = this.state;
-
-            Errors.UnloadingPlace = "Unloading place is required.";
-
-            this.setState({
-                Errors: Errors
-            });
-
-            return;
-        }
-
         this.setState({
             ShowPreloader: true
         });
@@ -120,14 +108,15 @@ class EditJobRequestDialog extends Component {
         const updatedJobRequest = {
             Token: localStorage.Token,
             JobRequestID: this.props.JobRequest.JobRequestID,
-            LoadingPlace: this.state.LoadingPlace.Address,
+            LoadingPlace: this.state.LoadingPlace.Place,
             LoadingLat: this.state.LoadingPlace.Lat,
             LoadingLng: this.state.LoadingPlace.Lng,
-            UnloadingPlace: this.state.UnloadingPlace.Address,
+            UnloadingPlace: this.state.UnloadingPlace.Place,
             UnloadingLat: this.state.UnloadingPlace.Lat,
             UnloadingLng: this.state.UnloadingPlace.Lng,
             TripType: this.state.TripType,
-            Price: this.state.Price
+            Price: this.state.Price,
+            WaitingTime: this.state.WaitingTime
         };
 
         await updateJobRequest(updatedJobRequest).then(response => {
@@ -148,8 +137,11 @@ class EditJobRequestDialog extends Component {
             UnloadingPlace,
             TripType,
             Price,
+            WaitingTime,
             Errors,
             ShowPreloader,
+            ValidWaitingTime,
+            ValidPrice,
             ValidForm
         } = this.state;
 
@@ -177,58 +169,70 @@ class EditJobRequestDialog extends Component {
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="jumbotron theme-default">
                                     <div className="container">
-                                        <div className="type-h3 color-default p-t-xxs">Add Job Request</div>
+                                        <div className="type-h3 color-default p-t-xxs">{Dictionary.EditJobRequest}</div>
                                         <div className="row p-t-xxs">
                                             <div className="col-md-8">
                                                 <div className="form-group">
-                                                    <label className="control-label">Loading Place</label>
-                                                    <span className="text-danger m-l-xxxs">*</span>
-                                                    <PlaceInput Address={LoadingPlace.Address}
-                                                        OnPlaceSelected={place => {
-                                                            this.setState({
-                                                                LoadingPlace: place,
-                                                            });
-                                                        }} />
-                                                    <span className="text-danger">{Errors.LoadingPlace}</span>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="control-label">Unloading Place</label>
-                                                    <span className="text-danger m-l-xxxs">*</span>
-                                                    <PlaceInput Address={UnloadingPlace.Address}
-                                                        OnPlaceSelected={place => {
-                                                            this.setState({
-                                                                UnloadingPlace: place,
-                                                            });
-                                                        }} />
-                                                    <span className="text-danger">{Errors.UnloadingPlace}</span>
+                                                    <label className="control-label">{Dictionary.TripType}</label><br />
+                                                    <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
+                                                        <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
+                                                            aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
+                                                            {this.state.TripType === "One Way" ?
+                                                                <span>{Dictionary.OneWay}</span> :
+                                                                <span>{Dictionary.TwoWay}</span>}
+                                                            <span className="caret"></span>
+                                                        </button>
+                                                        <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
+                                                            <li><a onClick={() => { this.setState({ TripType: "One Way" }); }}>{Dictionary.OneWay}</a></li>
+                                                            <li><a onClick={() => { this.setState({ TripType: "Two Way" }); }}>{Dictionary.TwoWay}</a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="col-md-8">
                                                 <div className="form-group">
-                                                    <label className="control-label">Trip Type</label><br />
-                                                    <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
-                                                        <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
-                                                            aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                                            <span>{TripType}</span>
-                                                            <span className="caret"></span>
-                                                        </button>
-                                                        <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                                            <li><a onClick={() => { this.setState({ TripType: "One Way" }); }}>One Way</a></li>
-                                                            <li><a onClick={() => { this.setState({ TripType: "Two Way" }); }}>Two Way</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="control-label">{`Price (${Strings.SAUDI_RIYAL})`}</label>
+                                                    <label className="control-label">{`${Dictionary.Price} (${Strings.SAUDI_RIYAL})`}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
-                                                    <input type="number" min="0.00" step="0.01" name="Price"
+                                                    <input type="number" min="0.00" name="Price"
                                                         className="form-control" autoComplete="off" value={Price} onChange={this.onChange} />
                                                     <span className="text-danger">{Errors.Price}</span>
                                                 </div>
                                             </div>
+                                            <div className="col-md-8">
+                                                <div className="form-group">
+                                                    <label className="control-label">{Dictionary.WaitingTime}</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <input type="number" min="48" name="WaitingTime"
+                                                        className="form-control" autoComplete="off" value={WaitingTime} onChange={this.onChange} />
+                                                    <span className="text-danger">{Errors.WaitingTime}</span>
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        <PlacePicker
+                                            LoadingPlace={LoadingPlace}
+                                            UnloadingPlace={UnloadingPlace}
+                                            OnLoadingPlacePicked={loadingPlace => {
+                                                this.setState({
+                                                    LoadingPlace: loadingPlace
+                                                }, () => {
+                                                    this.setState({
+                                                        ValidForm: ValidPrice && ValidWaitingTime
+                                                    });
+                                                });
+                                            }}
+                                            OnUnloadingPlacePicked={unloadingPlace => {
+                                                this.setState({
+                                                    UnloadingPlace: unloadingPlace
+                                                }, () => {
+                                                    this.setState({
+                                                        ValidForm: ValidPrice && ValidWaitingTime
+                                                    });
+                                                });
+                                            }} />
+
                                         <div className="text-right">
-                                            <input type="submit" value="Add" className="btn btn-primary" disabled={!ValidForm} />
+                                            <input type="submit" value={Dictionary.Update} className="btn btn-primary" disabled={!ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -240,5 +244,49 @@ class EditJobRequestDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        EditJobRequest: "تحرير طلب وظيفة",
+        LoadingPlace: "مكان التحميل",
+        UnloadingPlace: "مكان التفريغ",
+        TripType: "نوع الرحلة",
+        OneWay: "اتجاه واحد",
+        TwoWay: "اتجاهين",
+        Price: "السعر",
+        WaitingTime: "وقت الانتظار - ساعات",
+        Update: "تحديث",
+        PriceError: "يجب أن يكون السعر أكثر من 0 ريال.",
+        WatingTimeError1: "مطلوب وقت الانتظار.",
+        WaitingTimeError2: "يجب أن يكون وقت الانتظار أكثر من 47 ساعة.",
+        LoadingPlaceError: "مطلوب مكان التحميل.",
+        UnloadingPlaceError: "مطلوب مكان التفريغ."
+    };
+}
+else {
+    Dictionary = {
+        EditJobRequest: "Edit Job Request",
+        LoadingPlace: "Loading Place",
+        UnloadingPlace: "Unloading Place",
+        TripType: "Trip Type",
+        OneWay: "One Way",
+        TwoWay: "Two Way",
+        Price: "Price",
+        WaitingTime: "Waiting Time (Hours)",
+        Update: "Update",
+        PriceError: "Price must be more than 0 SR.",
+        WatingTimeError1: "Waiting time is required.",
+        WaitingTimeError2: "Waiting time must be more than 47 hours.",
+        LoadingPlaceError: "Loading place is required.",
+        UnloadingPlaceError: "Unloading place is required."
+    };
+}
 
 export default EditJobRequestDialog;

@@ -66,7 +66,7 @@ class DocumentsDialog extends Component {
                                     <span className="fas fa-times"></span>
                                 </button>
                             </div>
-                            <div className="type-h2" style={{ color: "#008575", paddingTop: "0px" }}>Documents</div>
+                            <div className="type-h2" style={{ color: "#008575", paddingTop: "0px" }}>{Dictionary.Documents}</div>
                         </div>
                         <div className="modal-body">
                             {(this.state.Searching || !traderDocuments) ?
@@ -83,5 +83,23 @@ class DocumentsDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Documents: "مستندات"
+    };
+}
+else {
+    Dictionary = {
+        Documents: "Documents"
+    };
+}
 
 export default DocumentsDialog;

@@ -67,7 +67,7 @@ class PermitLicenceListItem extends Component {
                                                 <span className="fas fa-hashtag"></span>
                                             </div>
                                             <div className="item-content-primary">
-                                                <div className="content-text-primary">Permit Number</div>
+                                                <div className="content-text-primary">{Dictionary.PermitNumber}</div>
                                                 <div className="content-text-secondary">{permitLicence.PermitNumber}</div>
                                             </div>
                                         </div>
@@ -78,8 +78,8 @@ class PermitLicenceListItem extends Component {
                                                 <span className="fas fa-calendar"></span>
                                             </div>
                                             <div className="item-content-primary">
-                                                <div className="content-text-primary">Expiry Date</div>
-                                                <div className="content-text-secondary">{permitLicence.ExpiryDate}</div>
+                                                <div className="content-text-primary">{Dictionary.ExpiryDate}</div>
+                                                <div className="content-text-secondary">{new Date(permitLicence.ExpiryDate).toDateString()}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@ class PermitLicenceListItem extends Component {
                                                 <span className="fas fa-asterisk"></span>
                                             </div>
                                             <div className="item-content-primary">
-                                                <div className="content-text-primary">Permit Code</div>
+                                                <div className="content-text-primary">{Dictionary.PermitCode}</div>
                                                 <div className="content-text-secondary">{permitLicence.Code}</div>
                                             </div>
                                         </div>
@@ -102,7 +102,7 @@ class PermitLicenceListItem extends Component {
                                                 <span className="fas fa-map-marker-alt"></span>
                                             </div>
                                             <div className="item-content-primary">
-                                                <div className="content-text-primary">Permit Place</div>
+                                                <div className="content-text-primary">{Dictionary.PermitPlace}</div>
                                                 <div className="content-text-secondary">{permitLicence.Place}</div>
                                             </div>
                                         </div>
@@ -118,16 +118,83 @@ class PermitLicenceListItem extends Component {
                     type="button"
                     className="btn btn-primary"
                     data-toggle="modal"
-                    data-target={`#edit-permit-dialog${index}`}>Edit</button>
-                <button type="button" className="btn btn-danger" onClick={async () => { await this.onDelete(permitLicence.PermitLicenceID); }}>Delete</button>
+                    data-target={`#edit-permit-dialog${index}`}>{Dictionary.Edit}</button>
+                <button type="button" className="btn btn-danger"
+                    data-toggle="modal"
+                    data-target={`#delete-permit-licence-dialog-${index}`}>{Dictionary.Delete}</button>
             </div>
             <EditPermitLicenceDialog
                 DialogID={index}
                 PermitLicence={permitLicence}
                 OnOK={async () => { await this.props.OnPermitLicenceUpdated(); }} />
+
+            <div className="modal modal-center-vertical" id={`delete-permit-licence-dialog-${index}`}
+                tabIndex="-1" role="dialog"
+                aria-labelledby="modal-sample-label" aria-hidden="true">
+                <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                        <div className="modal-header">
+                            <div className="text-right">
+                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                    data-dismiss="modal"
+                                    ref={cancelButton => this.cancelButton = cancelButton}>
+                                    <span className="fas fa-times"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="modal-body">
+                            <div className="jumbotron theme-default">
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col-md-24">
+                                            <div className="type-sh3 m-b-xxs">Are you sure you want to delete this permit licence?</div>
+                                        </div>
+                                        <div className="text-right">
+                                            <button className="btn btn-danger"
+                                                onClick={async () => {
+                                                    this.cancelButton.click();
+                                                    await this.onDelete(permitLicence.PermitLicenceID);
+                                                }}>{Dictionary.Delete}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {this.state.Preloader}
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        PermitNumber: "رقم الترخيص",
+        ExpiryDate: "تاريخ الانتهاء",
+        PermitCode: "كود التصريح",
+        PermitPlace: "مكان التصريح",
+        Edit: "تعديل",
+        Delete: "حذف"
+    };
+}
+else {
+    Dictionary = {
+        PermitNumber: "Permit Number",
+        ExpiryDate: "Expiry Date",
+        PermitCode: "Permit Code",
+        PermitPlace: "Permit Place",
+        Edit: "Edit",
+        Delete: "Delete"
+    };
+}
 
 export default PermitLicenceListItem;

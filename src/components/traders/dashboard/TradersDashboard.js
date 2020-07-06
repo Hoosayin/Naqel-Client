@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import Profile from "./profile/Profile";
 import Jobs from "./jobs/Jobs";
 import Payments from "./payments/Payments";
+import AccountStatement from "./accountStatement/AccountStatement";
 import Questions from "./questions/Questions";
 import Settings from "./settings/Settings";
 import SearchingContainer from "../../../containers/searching/SearchingContainer";
@@ -81,19 +82,22 @@ class TradersDashboard extends Component {
                                     margin: "0px",
                                 }}>
                                     <li role="presentation" className="active">
-                                        <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a>
+                                        <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">{Dictionary.Jobs}</a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">Payments</a>
+                                        <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">{Dictionary.Payments}</a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">Questions</a>
+                                        <a href="#account-statement" aria-controls="account-statement" role="tab" data-toggle="tab">{Dictionary.AccountStatement}</a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                                        <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">{Dictionary.Questions}</a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
+                                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">{Dictionary.Profile}</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">{Dictionary.Settings}</a>
                                     </li>
                                 </ul>
 
@@ -131,6 +135,9 @@ class TradersDashboard extends Component {
                                     <div role="tabpanel" className="tab-pane" id="payments">
                                         <Payments />
                                     </div>
+                                    <div role="tabpanel" className="tab-pane" id="account-statement">
+                                        <AccountStatement />
+                                    </div>
                                     <div role="tabpanel" className="tab-pane" id="questions">
                                         <Questions />
                                     </div>
@@ -152,6 +159,34 @@ class TradersDashboard extends Component {
                 </section>;
         }
     }
+}
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Jobs: "وظائف",
+        Payments: "المدفوعات",
+        AccountStatement: "كشف حساب",
+        Questions: "الأسئلة",
+        Profile: "الملف الشخصي",
+        Settings: "الإعدادات",
+    };
+}
+else {
+    Dictionary = {
+        Jobs: "Jobs",
+        Payments: "Payments",
+        AccountStatement: "Account Statement",
+        Questions: "Questions",
+        Profile: "Profile",
+        Settings: "Settings",
+    };
 }
 
 export default TradersDashboard;

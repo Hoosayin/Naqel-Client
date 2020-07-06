@@ -81,7 +81,8 @@ class DriverListItem extends Component {
 
             <div className="text-right p-xxs" style={{ backgroundColor: "#DDDDDD" }}>
                 {Driver.Active ? null : <button className="btn btn-primary"
-                    onClick={this.onActivateAccount}>Activate</button>}
+                    data-toggle="modal"
+                    data-target={`#activate-driver-dialog-${Index}`}>Activate</button>}
 
                 {Driver.IsBlocked ?
                     <button className="btn btn-secondary"
@@ -120,6 +121,44 @@ class DriverListItem extends Component {
                     </div>
                 </div>
             </div>
+
+            {Driver.Active ? 
+                null : 
+                <div className="modal modal-center-vertical" id={`activate-driver-dialog-${Index}`}
+                    tabIndex="-1" role="dialog"
+                    aria-labelledby="modal-sample-label" aria-hidden="true">
+                    <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                        <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                            <div className="modal-header">
+                                <div className="text-right">
+                                    <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                        data-dismiss="modal"
+                                        ref={cancelButton => this.cancelButton = cancelButton}>
+                                        <span className="fas fa-times"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="modal-body">
+                                <div className="jumbotron theme-default">
+                                    <div className="container">
+                                        <div className="row">
+                                            <div className="col-md-24">
+                                                <div className="type-sh3 m-b-xxs">Are you sure you want to activate this driver?</div>
+                                            </div>
+                                            <div className="text-right">
+                                                <button className="btn btn-primary"
+                                                    onClick={async () => {
+                                                        this.cancelButton.click();
+                                                        await this.onActivateAccount();
+                                                    }}>Activate</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
 
             {Driver.IsBlocked ?
                 <UnblockAccountDialog Index={Index}

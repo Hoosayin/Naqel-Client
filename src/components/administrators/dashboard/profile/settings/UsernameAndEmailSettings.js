@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import CodeConfirmationDialog from "./CodeConfirmationDialog";
 import Preloader from "../../../../../controls/Preloader";
 
 import {
     getData,
     validateUsername,
     validateEmail,
-    sendCode,
     usernameAndEmailSettings
 } from "../../../AdministratorFunctions";
 
@@ -21,13 +19,10 @@ class UsernameAndEmailSettings extends Component {
             Email: "",
             NewEmail: "",
 
-            Code: "",
-
             ValidNewUsername: true,
             ValidNewEmail: true,
 
             ValidForm: false,
-            CodeConfirmationDialog: null,
             ShowPreloader: false,
 
             Errors: {
@@ -136,6 +131,10 @@ class UsernameAndEmailSettings extends Component {
             return;
         }
 
+        this.setState({
+            ShowPreloader: true
+        });
+
         if (this.state.NewUsername !== this.state.Username) {
             const response = await validateUsername(this.state.NewUsername);
 
@@ -144,7 +143,9 @@ class UsernameAndEmailSettings extends Component {
                 errors.NewUsername = response.Message;
 
                 this.setState({
-                    Errors: errors
+                    ShowPreloader: false,
+                    Errors: errors,
+                    ValidForm: false,
                 });
 
                 return;
@@ -158,7 +159,9 @@ class UsernameAndEmailSettings extends Component {
                 errors.NewEmail = response.Message;
 
                 this.setState({
-                    Errors: errors
+                    ShowPreloader: false,
+                    Errors: errors,
+                    ValidForm: false,
                 });
 
                 return;
@@ -169,48 +172,27 @@ class UsernameAndEmailSettings extends Component {
             ShowPreloader: true
         });
 
-        if (this.state.NewEmail === this.state.Email) {
-            const updatedAdministrator = {
-                Token: localStorage.Token,
-                Username: this.state.NewUsername,
-                Email: this.state.NewEmail,
-            };
+        const updatedAdministrator = {
+            Token: localStorage.Token,
+            Username: this.state.NewUsername,
+            Email: this.state.NewEmail,
+        };
 
-            await usernameAndEmailSettings(updatedAdministrator).then(response => {
+        await usernameAndEmailSettings(updatedAdministrator).then(response => {
+            this.setState({
+                ShowPreloader: false,
+                ValidForm: false,
+            });
+
+            if (response.Message === "Administrator is updated.") {
                 this.setState({
-                    ShowPreloader: false
+                    Username: this.state.NewUsername,
+                    Email: this.state.NewEmail
                 });
 
-                if (response.Message === "Administrator is updated.") {
-                    this.props.OnSettingsSaved();
-                }
-            });
-        }
-        else {
-            await sendCode(this.state.NewEmail).then(response => {
-                this.setState({
-                    ShowPreloader: false
-                });
-
-                if (response.Message === "Code sent.") {
-                    this.setState({
-                        CodeConfirmationDialog: <CodeConfirmationDialog
-                            Code={response.Code}
-                            Username={this.state.NewUsername}
-                            Email={this.state.NewEmail}
-                            OnCancel={() => {
-                                this.setState({
-                                    CodeConfirmationDialog: null,
-                                });
-                            }}
-                            OnOK={cancelButton => {
-                                cancelButton.click();
-                                this.props.OnSettingsSaved();
-                            }} />
-                    });
-                }
-            });
-        }
+                this.props.OnSettingsSaved();
+            }
+        });
     }
 
     render() {
@@ -219,7 +201,6 @@ class UsernameAndEmailSettings extends Component {
             NewEmail,
             ValidForm,
             ShowPreloader,
-            CodeConfirmationDialog,
             Errors
         } = this.state;
 
@@ -275,7 +256,6 @@ class UsernameAndEmailSettings extends Component {
                 </form>
                 
                 {ShowPreloader ? <Preloader /> : null}
-                {CodeConfirmationDialog}
             </section> 
         );
     }

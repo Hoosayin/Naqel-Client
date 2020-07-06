@@ -71,8 +71,8 @@ class SearchTransactionsDialog extends Component {
                 count = 0;
 
                 for (let transaction of filteredTransactions) {
-                    const created = new Date(transaction.Date);
-                    const startDate = new Date(StartDate);
+                    const created = new Date(transaction.Date).getTime();
+                    const startDate = new Date(StartDate).getTime();
 
                     if (created < startDate) {
                         indicesToRemove.push(count);
@@ -91,8 +91,8 @@ class SearchTransactionsDialog extends Component {
                 count = 0;
 
                 for (let transaction of filteredTransactions) {
-                    const created = new Date(transaction.Date);
-                    const endDate = new Date(EndDate);
+                    const created = new Date(transaction.Date).getTime();
+                    const endDate = new Date(EndDate).getTime();
 
                     if (created > endDate) {
                         indicesToRemove.push(count);
@@ -175,42 +175,42 @@ class SearchTransactionsDialog extends Component {
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="jumbotron theme-default">
                                     <div className="container">
-                                        <div className="type-h3 color-default p-t-xxs">Search Transactions</div>
+                                        <div className="type-h3 color-default p-t-xxs">{Dictionary.SearchTransactions}</div>
                                         <div className="row p-t-xxs">
                                             <div className="col-md-8">
                                                 <div className="form-group">
-                                                    <label className="control-label">Job Number</label>
+                                                    <label className="control-label">{Dictionary.JobNumber}</label>
                                                     <input type="text" name="JobNumber"
                                                         className="form-control" autoComplete="off" value={JobNumber} onChange={this.onChange} />
                                                 </div>
                                             </div>
                                             <div className="col-md-8">
                                                 <div className="form-group">
-                                                    <label className="control-label">Starting Date</label>
+                                                    <label className="control-label">{Dictionary.StartingDate}</label>
                                                     <input type="date" name="StartDate"
                                                         className="form-control" autoComplete="off" value={StartDate} onChange={this.onChange} />
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Ending Date</label>
+                                                    <label className="control-label">{Dictionary.EndingDate}</label>
                                                     <input type="date" name="EndDate"
                                                         className="form-control" autoComplete="off" value={EndDate} onChange={this.onChange} />
                                                 </div>
                                             </div>
                                             <div className="col-md-8">
                                                 <div className="form-group">
-                                                    <label className="control-label">Staring Amount (USD)</label>
-                                                    <input type="number" min="0.00" step="0.01" name="StartPrice"
+                                                    <label className="control-label">{Dictionary.StaringAmount}</label>
+                                                    <input type="number" min="0.00" name="StartPrice"
                                                         className="form-control" autoComplete="off" value={StartPrice} onChange={this.onChange} />
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Ending Amount (USD)</label>
-                                                    <input type="number" min="0.00" step="0.01" name="EndPrice"
+                                                    <label className="control-label">{Dictionary.EndingAmount}</label>
+                                                    <input type="number" min="0." name="EndPrice"
                                                         className="form-control" autoComplete="off" value={EndPrice} onChange={this.onChange} />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Search Now" className="btn btn-primary" />
+                                            <input type="submit" value={Dictionary.SearchNow} className="btn btn-primary" />
                                         </div>
                                     </div>
                                 </div>
@@ -222,5 +222,35 @@ class SearchTransactionsDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        SearchTransactions: "معاملات البحث",
+        JobNumber: "رقم الوظيفة",
+        StartingDate: "تاريخ البدء",
+        EndingDate: "تاريخ الانتهاء",
+        StaringAmount: "(المبلغ المحدق (ريال",
+        EndingAmount: "(المبلغ الختامي (ريال",
+        SearchNow: "ابحث الآن",
+    };
+}
+else {
+    Dictionary = {
+        SearchTransactions: "Search Transactions",
+        JobNumber: "Job Number",
+        StartingDate: "Starting Date",
+        EndingDate: "Ending Date",
+        StaringAmount: "Staring Amount (SR)",
+        EndingAmount: "Ending Amount (SR)",
+        SearchNow: "Search Now",
+    };
+}
 
 export default SearchTransactionsDialog;

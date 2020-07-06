@@ -32,11 +32,29 @@ class AddDrivingLicenceButton extends Component {
                                     this.props.OnDocumentsUpdated();
                                 }} />),
                         });
-                    }}>Add Driving Licence</button>
+                    }}>{Dictionary.AddDrivingLicence}</button>
                 {this.state.AddDrivingLicenceDialog}
             </section>
         );
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AddDrivingLicence: "إضافة رخصة قيادة"
+    };
+}
+else {
+    Dictionary = {
+        AddDrivingLicence: "Add Driving Licence"
+    };
+}
 
 export default AddDrivingLicenceButton;

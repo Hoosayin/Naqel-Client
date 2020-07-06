@@ -41,7 +41,7 @@ class TraderContainer extends Component {
             await getPublicData(request).then(response => {
                 if (response.Message === "Trader profile found.") {
                     this.setState({
-                        TraderProfile: response.TraderProfile,
+                        TraderProfile: response.Trader,
                         Searching: false
                     });
                 }
@@ -67,7 +67,7 @@ class TraderContainer extends Component {
             await getPublicData(request).then(response => {
                 if (response.Message === "Trader profile found.") {
                     this.setState({
-                        TraderProfile: response.TraderProfile
+                        TraderProfile: response.Trader
                     });
                 }
                 else {
@@ -82,14 +82,14 @@ class TraderContainer extends Component {
     render() {
         if (this.state.Searching || !this.state.TraderProfile) {
             return <SearchingContainer Searching={this.state.Searching}
-                SearchingFor="trader" />;
+                SearchingFor={Dictionary.Trader} />;
         }
         else {
             const traderProfile = this.state.TraderProfile;
-            const trader = traderProfile.Trader;
-            const onJob = traderProfile.OnJob;
-            const profilePhoto = traderProfile.ProfilePhoto ?
-                traderProfile.ProfilePhoto :
+            const trader = traderProfile;
+            const onJob = trader.OnJob;
+            const profilePhoto = trader.PhotoURL ?
+                trader.PhotoURL :
                 "./images/defaultProfilePhoto.png";
 
             const dialogID = UUID().substring(0, 7).toUpperCase();
@@ -109,10 +109,10 @@ class TraderContainer extends Component {
                             <div className="col-md-18">
                                 <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
                                     {`${trader.FirstName} ${trader.LastName}`}
-                                    {onJob ? <span class="badge back-color-golden m-l-xxs">ON JOB</span> : null}
+                                    {onJob ? <span class="badge back-color-golden m-l-xxs">{Dictionary.OnJob}</span> : null}
                                 </div>
                                 <div className="type-sh3">
-                                    <span className="fas fa-briefcase" style={{ color: "#606060" }}></span>   {trader.Type}
+                                    <span className="fas fa-briefcase m-r-xxxs" style={{ color: "#606060" }}></span>{trader.Type}
                                 </div>
                                 <div className="row">
                                     <div className="col-md-12">
@@ -122,8 +122,8 @@ class TraderContainer extends Component {
                                                     <span className="fas fa-globe-asia"></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">Active</div>
-                                                    <div className="content-text-secondary">{(trader.Active === 1) ?
+                                                    <div className="content-text-primary">{Dictionary.Active}</div>
+                                                    <div className="content-text-secondary">{(trader.Active) ?
                                                         <span className="fa fa-check-circle" style={{ color: "#25AE88" }}></span> :
                                                         <span className="fa fa-times-circle" style={{ color: "#D75A4A" }}></span>}</div>
                                                 </div>
@@ -135,7 +135,7 @@ class TraderContainer extends Component {
                                                     <span className={(trader.Gender === "Male") ? "fas fa-male" : "fas fa-female"}></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">Gender</div>
+                                                    <div className="content-text-primary">{Dictionary.Gender}</div>
                                                     <div className="content-text-secondary">{trader.Gender}</div>
                                                 </div>
                                             </div>
@@ -146,7 +146,7 @@ class TraderContainer extends Component {
                                                     <span className="fas fa-birthday-cake"></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">Birthday</div>
+                                                    <div className="content-text-primary">{Dictionary.Birthday}</div>
                                                     <div className="content-text-secondary">{trader.DateOfBirth}</div>
                                                 </div>
                                             </div>
@@ -159,7 +159,7 @@ class TraderContainer extends Component {
                                                     <span className="fas fa-flag"></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">Nationality</div>
+                                                    <div className="content-text-primary">{Dictionary.Nationality}</div>
                                                     <div className="content-text-secondary">{trader.Nationality}</div>
                                                 </div>
                                             </div>
@@ -170,7 +170,7 @@ class TraderContainer extends Component {
                                                     <span className="fas fa-envelope"></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">Email</div>
+                                                    <div className="content-text-primary">{Dictionary.Email}</div>
                                                     <div className="content-text-secondary">{trader.Email}</div>
                                                 </div>
                                             </div>
@@ -181,18 +181,22 @@ class TraderContainer extends Component {
                                                     <span className="fas fa-phone"></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">Phone Number</div>
+                                                    <div className="content-text-primary">{Dictionary.PhoneNumber}</div>
                                                     <div className="content-text-secondary">{trader.PhoneNumber}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div>
                                 {this.props.TabView ? 
                                     null :
                                     <button type="button" className="btn btn-default"
                                         style={{ minWidth: "152px" }} data-toggle="modal"
-                                        data-target={`#documents-dialog-${dialogID}`}>Documents</button>}
+                                        data-target={`#documents-dialog-${dialogID}`}>{Dictionary.Documents}</button>}
+                                        <a dir={GetDirection()} href={`https://api.whatsapp.com/send?phone=${trader.PhoneNumber.replace("+", "")}`} 
+                                        target="_blank" className="btn btn-primary">{Dictionary.ChatOnWhatsApp}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -205,5 +209,41 @@ class TraderContainer extends Component {
         }
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Trader: "التاجر",
+        OnJob: "على الوظيفة",
+        Active: "نشيط",
+        Gender: "جنس",
+        Birthday: "عيد الميلاد",
+        Nationality: "الجنسية",
+        Email: "البريد الإلكتروني",
+        PhoneNumber: "رقم الهاتف",
+        Documents: "مستندات",
+        ChatOnWhatsApp: "الدردشة على WhatsApp"
+    };
+}
+else {
+    Dictionary = {
+        Trader: "Trader",
+        OnJob: "ON JOB",
+        Active: "Active",
+        Gender: "Gender",
+        Birthday: "Birthday",
+        Nationality: "Nationality",
+        Email: "Email",
+        PhoneNumber: "Phone Number",
+        Documents: "Documents",
+        ChatOnWhatsApp: "Chat on WhatsApp"
+    };
+}
 
 export default TraderContainer;

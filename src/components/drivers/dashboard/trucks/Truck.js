@@ -128,7 +128,7 @@ class Truck extends Component {
                                                         <span className="fas fa-list-ol"></span>
                                                     </div>
                                                     <div className="item-content-primary">
-                                                        <div className="content-text-primary">Plate Number</div>
+                                                        <div className="content-text-primary">{Dictionary.PlateNumber}</div>
                                                         <div className="content-text-secondary">{truck.PlateNumber}</div>
                                                     </div>
                                                 </div>
@@ -137,7 +137,7 @@ class Truck extends Component {
                                                         <span className="fas fa-calendar-day"></span>
                                                     </div>
                                                     <div className="item-content-primary">
-                                                        <div className="content-text-primary">Production Year</div>
+                                                        <div className="content-text-primary">{Dictionary.ProductionYear}</div>
                                                         <div className="content-text-secondary">{truck.ProductionYear}</div>
                                                     </div>
                                                 </div>
@@ -150,7 +150,7 @@ class Truck extends Component {
                                                         <span className="fas fa-weight"></span>
                                                     </div>
                                                     <div className="item-content-primary">
-                                                        <div className="content-text-primary">Maximum Weight</div>
+                                                        <div className="content-text-primary">{Dictionary.MaximumWeight}</div>
                                                         <div className="content-text-secondary">{`${truck.MaximumWeight} GVW`}</div>
                                                     </div>
                                                 </div>
@@ -159,7 +159,7 @@ class Truck extends Component {
                                                         <span className="fas fa-copyright"></span>
                                                     </div>
                                                     <div className="item-content-primary">
-                                                        <div className="content-text-primary">Owner</div>
+                                                        <div className="content-text-primary">{Dictionary.Owner}</div>
                                                         <div className="content-text-secondary">{truck.Owner}</div>
                                                     </div>
                                                 </div>
@@ -168,7 +168,9 @@ class Truck extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-md-24">
-                                            <button type="button" className="btn btn-danger" onClick={this.onDelete}>Delete Truck</button>
+                                            <button type="button" className="btn btn-danger"
+                                                data-toggle="modal"
+                                                data-target="#delete-truck-dialog">{Dictionary.DeleteTruck}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -177,10 +179,46 @@ class Truck extends Component {
                     </div>
                     <TruckSettings OnTruckSettingsUpdated={this.onComponentUpdated} />
                     <Trailers />
+
+                    <div className="modal modal-center-vertical" id="delete-truck-dialog"
+                        tabIndex="-1" role="dialog"
+                        aria-labelledby="modal-sample-label" aria-hidden="true">
+                        <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                            <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                                <div className="modal-header">
+                                    <div className="text-right">
+                                        <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                            data-dismiss="modal"
+                                            ref={cancelButton => this.cancelButton = cancelButton}>
+                                            <span className="fas fa-times"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="modal-body">
+                                    <div className="jumbotron theme-default" dir={GetDirection()}>
+                                        <div className="container">
+                                            <div className="row">
+                                                <div className="col-md-24">
+                                                    <div className="type-sh3 m-b-xxs">{Dictionary.DeleteMessage}</div>
+                                                </div>
+                                                <div className="text-right">
+                                                    <button className="btn btn-danger"
+                                                        onClick={async () => {
+                                                            this.cancelButton.click();
+                                                            await this.onDelete();
+                                                        }}>{Dictionary.Delete}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {showPreloader ? <Preloader /> : null}
                 </section> :
                 <section>
-                    <div className="jumbotron theme-alt" style={{ width: "100%", height: "100vh", backgroundColor: "#333333" }}>
+                    <div className="jumbotron theme-alt" style={{ width: "100%", height: "100vh", backgroundColor: "#333333" }} dir={GetDirection()}>
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-12 col-md-push-12 text-center">
@@ -188,13 +226,13 @@ class Truck extends Component {
                                         alt="add_truck.png" src="./images/delivery.svg" data-source-index="2" />
                                 </div>
                                 <div className="col-md-12 col-md-pull-12">
-                                    <div className="type-h3">Truck</div>
-                                    <div className="type-sh3">You have not added any truck yet.</div>
-                                    <p>Adding your truck will let the Traders or Brokers see details about your it. Valid and complete details of your truck make more chances for you to receive job requests.</p>
+                                    <div className="type-h3">{Dictionary.Truck}</div>
+                                    <div className="type-sh3">{Dictionary.TruckSubtitle}</div>
+                                                    <p>{Dictionary.TruckDetails}</p>
                                     <div className="btn-group">
                                         <button className="btn btn-primary"
                                             data-toggle="modal"
-                                            data-target="#add-truck-dialog">Add Now</button>
+                                            data-target="#add-truck-dialog">{Dictionary.AddNow}</button>
                                     </div>
                                 </div>
                             </div>
@@ -206,5 +244,43 @@ class Truck extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        PlateNumber: "رقم لوحة",
+        Owner: "صاحب",
+        ProductionYear: "سنة الإنتاج",
+        MaximumWeight: "الوزن الأقصى",
+        DeleteTruck: "حذف الشاحنة",
+        Delete: "حذف",
+        DeleteMessage: "هل أنت متأكد أنك تريد حذف هذه الشاحنة؟",
+        Truck: "شاحنة",
+        TruckSubtitle: ".لم تقم بإضافة أي شاحنة حتى الآن",
+        TruckDetails: ".ستؤدي إضافة شاحنتك إلى السماح للمتداولين أو الوسطاء بالاطلاع على التفاصيل المتعلقة بها. توفر التفاصيل الصحيحة والكاملة لشاحنتك فرصًا أكبر لتلقي طلبات العمل",
+        AddNow: "إضافة الآن"
+    };
+}
+else {
+    Dictionary = {
+        PlateNumber: "Plate Number",
+        Owner: "Owner",
+        ProductionYear: "Production Year",
+        MaximumWeight: "Maximum Weight",
+        DeleteTruck: "Delete Truck",
+        Delete: "Delete",
+        DeleteMessage: "Are you sure you want to delete this truck?",
+        Truck: "Truck",
+        TruckSubtitle: "You have not added any truck yet.",
+        TruckDetails: "Adding your truck will let the Traders or Brokers see details about your it. Valid and complete details of your truck make more chances for you to receive job requests.",
+        AddNow: "Add Now"
+    };
+}
 
 export default Truck;

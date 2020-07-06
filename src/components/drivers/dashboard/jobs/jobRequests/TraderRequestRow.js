@@ -60,8 +60,8 @@ class TraderRequestRow extends Component {
 
             <td>
                 {`${trader.FirstName} ${trader.LastName}`}
-                {index === 0 ? <span class="badge back-color-golden m-l-xxxs">NEW</span> : null}
-                {traderOnJob ? <span class="badge back-color-golden m-l-xxxs">ON JOB</span> : null}
+                {index === 0 ? <span class="badge back-color-golden m-l-xxxs">{Dictionary.New}</span> : null}
+                {traderOnJob ? <span class="badge back-color-golden m-l-xxxs">{Dictionary.OnJob}</span> : null}
             </td>
 
             <td>{new Date(traderRequest.Created).toDateString()}</td>
@@ -74,17 +74,17 @@ class TraderRequestRow extends Component {
                         onMouseDown={async () => {
                             await this.RefreshTraderContainer();
                             await this.RefreshDocumentsContainer();
-                        }}>Profile</button>
+                        }}>{Dictionary.Profile}</button>
 
                     <button className="btn btn-secondary m-xxxs"
                         data-toggle="modal"
-                        data-target={`#request-dialog-${requestIndex}`}>Trader Request</button>
+                        data-target={`#request-dialog-${requestIndex}`}>{Dictionary.TraderRequest}</button>
 
                     {traderRequest.Selected ?
                         <button className="btn btn-danger m-xxxs"
-                            onClick={async () => { await this.onToggleSelect(traderRequest.TraderRequestID, false); }}>Deselect</button> :
+                            onClick={async () => { await this.onToggleSelect(traderRequest.TraderRequestID, false); }}>{Dictionary.Deselect}</button> :
                         <button className="btn btn-primary m-xxxs" disabled={requestSelected}
-                            onClick={async () => { await this.onToggleSelect(traderRequest.TraderRequestID, true); }}>Select</button>}
+                            onClick={async () => { await this.onToggleSelect(traderRequest.TraderRequestID, true); }}>{Dictionary.Select}</button>}
 
                     <ProfileDialog Index={profileIndex}
                         TraderID={traderRequest.TraderID}
@@ -98,5 +98,33 @@ class TraderRequestRow extends Component {
         </tr>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        New: "جديد",
+        OnJob: "على الوظيفة",
+        Profile: "الملف الشخصي",
+        TraderRequest: "طلب التاجر",
+        Select: "تحديد",
+        Deselect: "قم بإلغاء التحديد",
+    };
+}
+else {
+    Dictionary = {
+        New: "NEW",
+        OnJob: "ON JOB",
+        Profile: "Profile",
+        TraderRequest: "Trader Request",
+        Select: "Select",
+        Deselect: "Deselect",
+    };
+}
 
 export default TraderRequestRow;

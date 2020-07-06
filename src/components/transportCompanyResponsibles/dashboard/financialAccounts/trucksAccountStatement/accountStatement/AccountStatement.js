@@ -67,14 +67,14 @@ class AccountStatement extends Component {
 
         return (Searching || !AccountStatement) ?
             <section>
-                <div className="jumbotron theme-default" style={{ height: "100vh" }}>
+                <div className="jumbotron theme-default" style={{ height: "100vh" }} dir={GetDirection()}>
                     <div className="container">
                         {Searching ? <div className="text-center p-xxs">
-                            <div className="type-h4 color-default">Searching</div>
+                            <div className="type-h4 color-default">{Dictionary.Searching}</div>
                             <ProgressBar />
                         </div> : <div className="text-center p-xxs">
-                                <div className="type-h4"><span className="fas fa-exclamation-triangle m-r-xxs"
-                                    style={{ color: "#FFBF15" }}></span>No account statement to display. Search the truck by number to view its account statement.</div>
+                                <div className="type-h4"><span className="fas fa-exclamation-triangle m-r-xxs m-l-xxs"
+                                    style={{ color: "#FFBF15" }}></span>{Dictionary.NoAccountStatementFound}.</div>
                             </div>}
                     </div>
                 </div>
@@ -82,7 +82,7 @@ class AccountStatement extends Component {
             <section>
                 <div className="text-right p-xxs" style={{ backgroundColor: "#DDDDDD" }}>
                     <ReactToPrint
-                        trigger={() => <button className="btn btn-primary m-t-n">Print</button>}
+                        trigger={() => <button className="btn btn-primary m-t-n">{Dictionary.Print}</button>}
                         content={() => this.TruckAccountStatement} />
 
                     {ShowingSearchResults ?
@@ -99,10 +99,10 @@ class AccountStatement extends Component {
                                     AccountStatement: AccountStatement,
                                     ShowingSearchResults: false
                                 });
-                            }}>Cancel Search</button> :
+                            }}>{Dictionary.CancelSearch}</button> :
                         <button className="btn btn-secondary m-t-n"
                             data-toggle="modal"
-                            data-target={`#search-transactions-dialog`}>Search Transactions</button>}
+                            data-target={`#search-transactions-dialog`}>{Dictionary.SearchTransactions}</button>}
                 </div>
 
                 {ShowingSearchResults ? 
@@ -126,5 +126,31 @@ class AccountStatement extends Component {
             </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Searching: "يبحث",
+        NoAccountStatementFound: "لا يوجد بيان حساب لعرضه. ابحث في الشاحنة عن طريق الرقم لعرض كشف حسابها",
+        Print: "طباعة",
+        SearchTransactions: "معاملات البحث",
+        CancelSearch: "إلغاء البحث"
+    };
+}
+else {
+    Dictionary = {
+        Searching: "Searching",
+        NoAccountStatementFound: "No account statement to display. Search the truck by number to view its account statement",
+        Print: "Print",
+        SearchTransactions: "Search Transactions",
+        CancelSearch: "Cancel Search"
+    };
+}
 
 export default AccountStatement;

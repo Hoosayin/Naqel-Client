@@ -30,12 +30,12 @@ class Permits extends Component {
                     backgroundImage: "url(/images/poly_back.jpg)",
                     backgroundSize: "cover",
                     backgroundColor: "#215761"
-                }}>
+                }} dir={GetDirection()}>
                     <div class="container" style={{ paddingBottom: "10px", marginBottom: "12px" }}>
                         <div class="row">
                             <div class="col-xs-18">
-                                <div className="type-h3 color-light"><span className="fas fa-id-badge"></span>   Permit Licences</div>
-                                <p className="color-light">If you are a non-Saudi driver, then you must have at least one permit licence.</p>
+                                <div className="type-h3 color-light"><span className="fas fa-id-badge m-r-xxs"></span>{Dictionary.PermitLicences}</div>
+                                <p className="color-light">{Dictionary.PermitLicencesSubtitle}</p>
                                 <div className="btn-group">
                                     <button
                                         type="button"
@@ -55,7 +55,7 @@ class Permits extends Component {
                                                         this.onPermitLicencesUpdated();
                                                     }} />),
                                             });
-                                        }}>New Permit Licence</button>
+                                        }}>{Dictionary.NewPermitLicence}</button>
                                 </div>
                             </div>
                         </div>
@@ -67,5 +67,27 @@ class Permits extends Component {
         );
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        PermitLicences: "تصاريح التراخيص",
+        PermitLicencesSubtitle: ".إذا كنت سائقًا غير سعودي ، فيجب أن يكون لديك رخصة واحدة على الأقل",
+        NewPermitLicence: "رخصة تصريح جديدة",
+    };
+}
+else {
+    Dictionary = {
+        PermitLicences: "Permit Licences",
+        PermitLicencesSubtitle: "If you are a non-Saudi driver, then you must have at least one permit licence.",
+        NewPermitLicence: "New Permit Licence",
+    };
+}
 
 export default Permits;

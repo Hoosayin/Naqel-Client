@@ -31,7 +31,7 @@ class AddPayProofDialog extends Component {
         switch (field) {
             case "PhotoURL":
                 ValidPhotoURL = (value !== null);
-                Errors.PhotoURL = ValidPhotoURL ? "" : "Invalid Image. Please upload a correct one.";
+                Errors.PhotoURL = ValidPhotoURL ? "" : Dictionary.ImageError;
                 break;
             default:
                 break;
@@ -131,13 +131,13 @@ class AddPayProofDialog extends Component {
                                                 </div>
                                             </div>
                                             <div className="col-md-12">
-                                                <div className="type-h3 color-default p-t-n">Upload Payment Proof</div>
-                                                <div className="type-sh3"> The proof of a payment can be a Bank Transfer Receipt.</div>
+                                                <div className="type-h3 color-default p-t-n">{Dictionary.UploadPaymentProof}</div>
+                                                <div className="type-sh3">{Dictionary.UploadPaymentProofSubtitle}</div>
                                                 <div className="type-sh4 text-danger">{this.state.Errors.PhotoURL}</div>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Upload" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Upload} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -149,5 +149,37 @@ class AddPayProofDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        UploadPaymentProof: "تحميل إثبات الدفع",
+        UploadPaymentProofSubtitle: "يمكن أن يكون إثبات الدفع إيصال تحويل مصرفي.",
+        Upload: "رفع",
+        ImageError: "صورة غير صالحة. يرجى تحميل واحد صحيح.",
+    };
+}
+else if (Language === "Urdu") {
+    Dictionary = {
+        UploadPaymentProof: "ادائیگی کا ثبوت اپ لوڈ کریں",
+        UploadPaymentProofSubtitle: "ادائیگی کا ثبوت بینک ٹرانسفر رسید ہوسکتا ہے۔",
+        Upload: "اپ لوڈ کریں",
+        ImageError: "غلط تصویر براہ کرم ایک درست اپ لوڈ کریں۔",
+    };
+}
+else {
+    Dictionary = {
+        UploadPaymentProof: "Upload Payment Proof",
+        UploadPaymentProofSubtitle: "The proof of a payment can be a Bank Transfer Receipt.",
+        Upload: "Upload",
+        ImageError: "Invalid Image. Please upload a correct one.",
+    };
+}
 
 export default AddPayProofDialog;

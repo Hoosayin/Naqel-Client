@@ -1,10 +1,7 @@
-import React, { Component } from "react";
+﻿import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import firebase from "firebase";
-import FirebaseApp from "../../res/FirebaseApp";
 import Preloader from "../../controls/Preloader";
-import PhoneConfirmationDialog from "../../containers/phoneConfirmationDialog/PhoneConfirmationDialog";
 import { setupTransportCompanyResponsibleAccount } from "../transportCompanyResponsibles/TransportCompanyResponsiblesFunctions";
 
 import {
@@ -20,20 +17,17 @@ class SetupTransportCompanyResponsibleAccount extends Component {
 
         this.state = {
             Name: "",
-            PhoneNumber: "",
-            ConfirmationResult: null,
+            Email: "",
 
             ValidName: false,
-            ValidPhoneNumber: false,
-
-            PhoneCodeVerified: false,
+            ValidEmail: false,
 
             ValidForm: false,
             ShowPreloader: false,
 
             Errors: {
                 Name: "",
-                PhoneNumber: "",
+                Email: "",
                 FormError: ""
             }
         };
@@ -41,14 +35,6 @@ class SetupTransportCompanyResponsibleAccount extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.validateField = this.validateField.bind(this);
-    }
-
-    componentDidMount() {
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha", {
-            "size": "invisible",
-            "callback": response => {
-            }
-        });
     }
 
     onChange = event => {
@@ -62,32 +48,32 @@ class SetupTransportCompanyResponsibleAccount extends Component {
     validateField(field, value) {
         let {
             Errors,
-            ValidName,
-            ValidPhoneNumber
+            ValidEmail,
+            ValidName
         } = this.state;
 
         switch (field) {
+            case "Email":
+                ValidEmail = value !== "";
+                Errors.Email = ValidEmail ? "" : Dictionary.EmailError1;
+
+                if (!ValidEmail) {
+                    break;
+                }
+
+                ValidEmail = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                Errors.Email = ValidEmail ? "" : Dictionary.EmailError2;
+                break;
             case "Name":
                 ValidName = (value !== "");
-                Errors.Name = ValidName ? "" : "Company name is required.";
+                Errors.Name = ValidName ? "" : Dictionary.CompanyNameError1;
 
                 if (Errors.Name !== "") {
                     break;
                 }
 
                 ValidName = (value.match(/^[a-zA-Z ]+$/));
-                Errors.Name = ValidName ? "" : "Company name is invalid.";
-                break;
-            case "PhoneNumber":
-                ValidPhoneNumber = (value !== "");
-                Errors.PhoneNumber = ValidPhoneNumber ? "" : "Phone number is required.";
-
-                if (Errors.PhoneNumber !== "") {
-                    break;
-                }
-
-                ValidPhoneNumber = value.match(/^\+[0-9]?()[0-9](\s|\S)(\d[0-9]{9})$/);
-                Errors.PhoneNumber = ValidPhoneNumber ? "" : "Phone number is invalid.";
+                Errors.Name = ValidName ? "" : Dictionary.CompanyNameError2;
                 break;
             default:
                 break;
@@ -96,120 +82,81 @@ class SetupTransportCompanyResponsibleAccount extends Component {
         this.setState({
             Errors: Errors,
             ValidName: ValidName,
-            ValidPhoneNumber: ValidPhoneNumber
+            ValidEmail: ValidEmail
         }, () => {
             this.setState({
                 ValidForm: ValidName &&
-                    ValidPhoneNumber
+                    ValidEmail
             });
         });
     }
 
     onSubmit = async event => {
-        if (event) {
-            event.preventDefault();
-        }
+        event.preventDefault();
 
         if (!this.state.ValidForm) {
             return;
         }
 
-        if (localStorage.verifiedCredentialsToken) {
-            if (this.state.PhoneCodeVerified) {
-                this.setState({
-                    ShowPreloader: true
-                });
+        this.setState({
+            ShowPreloader: true
+        });
 
-                const verifiedCredentials = jwt_decode(localStorage.verifiedCredentialsToken);
+        const newUser = jwt_decode(localStorage.NewUserToken);
 
-                const newTransportCompanyResponsible = {
-                    Username: verifiedCredentials.Username,
-                    Email: verifiedCredentials.Email,
-                    Password: verifiedCredentials.Password,
-                    RegisterAs: verifiedCredentials.RegisterAs,
-                    Name: this.state.Name,
-                    PhoneNumber: this.state.PhoneNumber
-                }
-
-                await setupTransportCompanyResponsibleAccount(newTransportCompanyResponsible).then(response => {
-                    this.setState({
-                        ShowPreloader: false
-                    });
-
-                    if (response.Message === "Transport company responsible created.") {
-                        localStorage.removeItem("verifiedCredentialsToken");
-                        localStorage.setItem("IsCreatedSuccessfully", true);
-
-                        this.props.history.push("/congratulations");
-                    }
-                });
-            }
-            else {
-                this.setState({
-                    ShowPreloader: true
-                });
-
-                const appVerifier = window.recaptchaVerifier;
-
-                FirebaseApp.auth().languageCode = "en";
-                FirebaseApp.auth().signInWithPhoneNumber(this.state.PhoneNumber, appVerifier).then(confirmationResult => {
-                    this.setState({
-                        ShowPreloader: false,
-                        ConfirmationResult: confirmationResult
-                    });
-
-                    this.SendCodeButton.click();
-                }).catch(error => {
-                    let {
-                        Errors
-                    } = this.state;
-
-                    Errors.FormError = error.message;
-
-                    this.setState({
-                        ShowPreloader: false,
-                        Errors: Errors
-                    });
-                });
-            }
-
+        const newTransportCompanyResponsible = {
+            Username: newUser.Username,
+            PhoneNumber: newUser.PhoneNumber,
+            Password: newUser.Password,
+            RegisterAs: newUser.RegisterAs,
+            Name: this.state.Name,
+            Email: this.state.Email
         }
+
+        await setupTransportCompanyResponsibleAccount(newTransportCompanyResponsible).then(response => {
+            this.setState({
+                ShowPreloader: false
+            });
+
+            if (response.Message === "Transport company responsible created.") {
+                localStorage.removeItem("NewUserToken");
+                localStorage.setItem("IsCreatedSuccessfully", true);
+
+                this.props.history.push("/congratulations");
+            }
+        });
     }
 
     render() {
-        if (!localStorage.verifiedCredentialsToken) {
+        if (!localStorage.NewUserToken) {
             return <Redirect to={"/register"} />;
         }
         else {
-            return <section>
+            return <section dir={GetDirection()}>
                 <div class="middle" style={AccountSetupCardBack}>
                     <div class="theme-default animated fadeIn" style={CardLarge}>
                         <div style={CardChild}>
                             <img src="./images/create_account.svg" atl="create_account.png" height="60" />
-                            
-                            <div class="type-h3" style={CardTitle}>
-                                Create Account
-                                </div>
-                            <div class="type-sh3">
-                                Just one more step, and you're done!
-                                </div>
+
+                            <div class="type-h3" style={CardTitle}>{Dictionary.CreateAccount}</div>
+                            <div class="type-sh3">{Dictionary.CreateAccountSubtitle}</div>
                             <br />
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div class="row">
                                     <div class="col-md-24">
                                         <div class="form-group">
-                                            <label class="control-label">Company Name</label>
+                                            <label htmlFor="Email" class="control-label">{Dictionary.Email}</label>
+                                            <span className="text-danger m-l-xxxs">*</span>
+                                            <input htmlFor="Email" type="email" name="Email" class="form-control" placeholder="someone@example.com" autocomplete="off"
+                                                value={this.state.Email} onChange={this.onChange} />
+                                            <span class="text-danger">{this.state.Errors.Email}</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">{Dictionary.CompanyName}</label>
                                             <span class="text-danger m-l-xxxs">*</span>
                                             <input type="text" className="form-control" name="Name" autocomplete="off"
                                                 value={this.state.Name} onChange={this.onChange} />
                                             <span class="text-danger">{this.state.Errors.FirstName}</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label htmlFor="PhoneNumber" class="control-label">Phone Number</label>
-                                            <span class="text-danger m-l-xxxs">*</span>
-                                            <input type="text" className="form-control" name="PhoneNumber" autocomplete="off"
-                                                placeholder="+XXXXXXXXXXXX" value={this.state.PhoneNumber} onChange={this.onChange} />
-                                            <span class="text-danger">{this.state.Errors.PhoneNumber}</span>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label text-danger">{this.state.Errors.FormError}</label>
@@ -217,45 +164,52 @@ class SetupTransportCompanyResponsibleAccount extends Component {
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" value="Create" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                                    <input type="submit" value={Dictionary.Create} class="btn btn-primary" disabled={!this.state.ValidForm} />
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                <button
-                    style={{ display: "none" }}
-                    data-toggle="modal"
-                    data-target="#phone-confirmation-dialog"
-                    ref={sendCodeButton => this.SendCodeButton = sendCodeButton}></button>
-                <PhoneConfirmationDialog ConfirmationResult={this.state.ConfirmationResult}
-                    PhoneNumber={this.state.PhoneNumber}
-                    OnOK={phoneCodeVerified => {
-                        if (phoneCodeVerified) {
-                            this.setState({
-                                PhoneCodeVerified: true
-                            });
-
-                            this.onSubmit();
-                        }
-                        else {
-                            let {
-                                Errors
-                            } = this.state;
-
-                            Errors.FormError = "Confirmation code is invalid.";
-
-                            this.setState({
-                                ValidForm: false,
-                                Errors: Errors
-                            });
-                        }
-                    }} />
-                <div id="recaptcha"></div>
                 {this.state.ShowPreloader ? <Preloader /> : null}
             </section>;
         }
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        CreateAccount: "إنشاء حساب",
+        CreateAccountSubtitle: "!فقط خطوة أخرى ، لقد انتهيت",
+        Email: "البريد الإلكتروني",
+        CompanyName: "اسم الشركة",
+        Create: "خلق",
+        CompanyNameError1: ".اسم الشركة مطلوب",
+        CompanyNameError2: ".اسم الشركة غير صالح",
+        EmailError1: ".البريد الالكتروني مطلوب",
+        EmailError2: ".البريد الإلكتروني غير صالح",
+        CodeError: ".رمز التأكيد غير صالح"
+    };
+}
+else {
+    Dictionary = {
+        CreateAccount: "Create Account",
+        CreateAccountSubtitle: "Just one more step, and you're done!",
+        Email: "Email",
+        CompanyName: "Company Name",
+        Create: "Create",
+        CompanyNameError1: "Company name is required.",
+        CompanyNameError2: "Company name is invalid.",
+        EmailError1: "Email is required.",
+        EmailError2: "Email is invalid.",
+        CodeError: "Confirmation code is invalid." 
+    };
+}
 
 export default SetupTransportCompanyResponsibleAccount;

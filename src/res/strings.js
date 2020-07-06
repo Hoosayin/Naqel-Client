@@ -1,3 +1,6 @@
+const Language = localStorage.Language;
+const currencey = (!Language || Language === "English") ? "SR" : "ريال"; 
+
 module.exports = {
     APP_NAME: "Naqel",
     USER_TOKEN: "userToken",
@@ -9,6 +12,6 @@ module.exports = {
     STRIPE_PUBLISHABLE_KEY: "pk_test_Wjc5dIC6ytMmH3g1roSUOYcm00FaTN1yBn",
     STRIPE_SECRET_KEY: "sk_test_RVhdSfOgg0jQHCYLYH8Z05JM00bkPnPBVg",
     GOOGLE_API_KEY: "AIzaSyD_U_2NzdPIL7TWb8ECBHWO1eROR2yrebI",
-    SAUDI_RIYAL: "SR",
+    SAUDI_RIYAL: currencey,
     SANDBOX_API_KEY: "049RBmcjsZobtJu6jfqP02r1TNQBjZN8ZfUz25gr8FBBg9dXM8"
 };

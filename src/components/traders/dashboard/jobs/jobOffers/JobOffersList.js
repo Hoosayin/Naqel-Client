@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { getData } from "../../../TraderFunctions";
 import JobOfferPackageItem from "./JobOfferPackageItem";
 import AddJobOfferDialog from "./AddJobOfferDialog";
-import ProgressBar from "../../../../../controls/ProgressBar";
 import ProgressRing from "../../../../../controls/ProgressRing";
+import SearchingContainer from "../../../../../containers/searching/SearchingContainer";
 
 class JobOffersList extends Component {
     constructor(props) {
@@ -133,11 +133,11 @@ class JobOffersList extends Component {
         const jobOfferPackages = this.state.JobOfferPackages;
         return <section>
             {this.state.TraderOnJob ?
-                <div class="alert alert-danger m-n">
+                <div class="alert alert-danger m-n" dir={GetDirection()}>
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-24">
-                                <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>While you are engaged in an On-Going Job, you cannot assign more jobs to drivers. View details in <span className="color-default">On-Going Job</span> tab.</p>
+                                <p><span className="fas fa-exclamation-circle m-r-xxxs m-l-xxxs"></span>{Dictionary.OnJobMessage}</p>
                             </div>
                         </div>
                     </div>
@@ -147,18 +147,18 @@ class JobOffersList extends Component {
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",
                 backgroundColor: "#215761"
-            }}>
+            }} dir={GetDirection()}>
                 <div class="container" style={{ paddingBottom: "10px", marginBottom: "12px" }}>
                     <div class="row">
                         <div class="col-xs-18">
-                            <div className="type-h3 color-light"><span className="fas fa-hand-holding-usd"></span>   Job Offers</div>
-                            <p className="color-light">Hi There! Want to transport your freight somewhere? Why not create a new job offer now!</p>
+                            <div className="type-h3 color-light"><span className="fas fa-hand-holding-usd m-l-xxs m-r-xxs"></span>{Dictionary.JobOffers}</div>
+                            <p className="color-light">{Dictionary.JobOffersSubtitle}</p>
                             <div className="btn-group">
                                 <button
                                     type="button"
                                     className="btn btn-primary"
                                     data-toggle="modal"
-                                    data-target="#add-job-offer-dialog">New Job Offer</button>
+                                    data-target="#add-job-offer-dialog">{Dictionary.NewJobOffer}</button>
                             </div>
                         </div>
                     </div>
@@ -169,8 +169,8 @@ class JobOffersList extends Component {
                     this.onComponentUpdated();
                 }} />
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Your Job Offers
-                    {this.state.Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
+            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }} dir={GetDirection()}>{Dictionary.YourJobOffers}
+                    {this.state.Refreshing ? <span className="m-l-xxs m-r-xxs"><ProgressRing /></span> : null}
             </div>
             <nav className="navbar navbar-default" style={{ backgroundColor: "#F5F5F5" }}>
                 <div className="navbar-global theme-default" style={{ backgroundColor: "#E5E5E5;" }}>
@@ -178,7 +178,7 @@ class JobOffersList extends Component {
                         <form noValidate onSubmit={this.onSearch} className="navbar-form navbar-right" role="search">
                             <div className="putbox" style={{ margin: "0px" }}>
                                 <div className="form-group">
-                                    <input type="search" name="SearchString" className="form-control" placeholder="Search by Places"
+                                    <input type="search" name="SearchString" className="form-control" placeholder={Dictionary.SearchByPlaces}
                                         style={{ maxWidth: "500px", width: "100%" }}
                                         value={this.state.SearchString} onChange={this.onChange} />
                                 </div>
@@ -189,20 +189,8 @@ class JobOffersList extends Component {
                 </div>
             </nav>
             {(jobOfferPackages.length === 0) ?
-                <div className="jumbotron theme-default">
-                    <div className="container">
-                        <div className="row">
-                            {this.state.Searching ? <div className="col-md-24 text-center">
-                                <div>
-                                    <div className="type-h3" style={{ color: "#008575" }}>Searching</div>
-                                    <ProgressBar />
-                                </div>
-                            </div> : <div className="col-md-24 text-center">
-                                    <h3><span className="fas fa-exclamation-triangle" style={{ color: "#FFBF15" }}></span> No job offers found.</h3>
-                                </div>}
-                        </div>
-                    </div>
-                </div> : <ol className="list-items" style={{ margin: "0px" }}>
+                <SearchingContainer Searching={this.state.Searching}
+                SearchingFor={Dictionary.JobOffers} /> : <ol className="list-items" style={{ margin: "0px" }}>
                     {jobOfferPackages.map((jobOfferPackage, index) => {
                         return <li key={index} className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
                             <JobOfferPackageItem Index={index}
@@ -216,5 +204,33 @@ class JobOffersList extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        OnJobMessage: ".أثناء مشاركتك في وظيفة مستمرة ، لا يمكنك تعيين المزيد من الوظائف للسائقين. عرض التفاصيل في علامة التبويب مهمة مستمرة",
+        JobOffers: "عروض العمل",
+        JobOffersSubtitle: "!مرحبا! تريد نقل الشحن الخاص بك في مكان ما؟ لماذا لا تنشئ عرض عمل جديد الآن",
+        NewJobOffer: "عرض عمل جديد",
+        YourJobOffers: "عروض عملك",
+        SearchByPlaces: "البحث عن طريق الأماكن",
+    };
+}
+else {
+    Dictionary = {
+        OnJobMessage: "While you are engaged in an On-Going Job, you cannot assign more jobs to drivers. View details in On-Going Job tab.",
+        JobOffers: "Job Offers",
+        JobOffersSubtitle: "Hi There! Want to transport your freight somewhere? Why not create a new job offer now!",
+        NewJobOffer: "New Job Offer",
+        YourJobOffers: "Your Job Offers",
+        SearchByPlaces: "Search by Places",
+    };
+}
 
 export default JobOffersList;

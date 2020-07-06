@@ -73,7 +73,7 @@ class ReasonsList extends Component {
         switch (field) {
             case "NewReason":
                 ValidNewReason = (value.length > 0 && value.length <= 50);
-                Errors.NewReason = ValidNewReason ? value.length : "Too long...";
+                Errors.NewReason = ValidNewReason ? value.length : Dictionary.TooLong;
                 break;
             default:
                 break;
@@ -145,14 +145,14 @@ class ReasonsList extends Component {
                             <span class="glyph glyph-add"></span>
                         </div>
                         <div class="item-content-primary">
-                            <div class="content-text-primary">Add a Reason</div>
+                            <div class="content-text-primary">{Dictionary.AddAReason}</div>
                             <div class="content-text-secondary" style={(this.state.Errors.NewReason === "Too long...") ? { color: "#D75A4A" } : null}>{this.state.Errors.NewReason}</div>
                         </div>
                         <div class="item-content-expanded">
                             <form noValidate onSubmit={this.onSubmit}>
                                 <input type="text" className="form-control" name="NewReason" autocomplete="off"
                                     value={this.state.NewReason} onChange={this.onChange} />
-                                <input type="submit" value="Add" className="btn btn-secondary" disabled={!this.state.ValidForm} />
+                                <input type="submit" value={Dictionary.Add} className="btn btn-secondary" disabled={!this.state.ValidForm} />
                             </form>
                         </div>
                     </a>
@@ -164,7 +164,7 @@ class ReasonsList extends Component {
                         </div>
                         <div class="item-content-secondary">
                             <button type="button" class="btn btn-secondary" style={{ margin: "0px", minWidth: "0px" }}
-                                onClick={() => { this.props.OnReasonSelected(objectionReason.Reason); }}>Select</button>
+                                onClick={() => { this.props.OnReasonSelected(objectionReason.Reason); }}>{Dictionary.Select}</button>
                         </div>
                         <div class="item-content-primary">
                             <div class="content-text-primary">{`${index + 1}.`}</div>
@@ -176,5 +176,25 @@ class ReasonsList extends Component {
         </section>;
     }
 };
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AddAReason: "أضف سببًا",
+        Add: "أضف",
+        TooLong: "...طويل جدا",
+        Select: "تحديد"
+    };
+}
+else {
+    Dictionary = {
+        AddAReason: "Add a Reason",
+        Add: "Add",
+        TooLong: "Too long...",
+        Select: "Select"
+    };
+}
 
 export default ReasonsList;

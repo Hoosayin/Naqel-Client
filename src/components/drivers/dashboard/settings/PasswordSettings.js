@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Preloader from "../../../../controls/Preloader.js";
-import { validatePassword, passwordSettings } from "../../DriverFunctions.js";
+import Preloader from "../../../../controls/Preloader";
+import { validatePassword, passwordSettings } from "../../DriverFunctions";
 
 class PasswordSettings extends Component {
     constructor() {
@@ -16,7 +16,7 @@ class PasswordSettings extends Component {
             ValidConfirmPassword: false,
 
             ValidForm: false,
-            Preloader: null,
+            ShowPreloader: false,
 
             Errors: {
                 CurrentPassword: "",
@@ -46,22 +46,23 @@ class PasswordSettings extends Component {
         switch (field) {
             case "CurrentPassword":
                 ValidCurrentPassword = (value !== "");
-                Errors.CurrentPassword = ValidCurrentPassword ? "" : "Current password is required.";
-
-                if (Errors.CurrentPassword !== "") {
-                    break;
-                }
-
-                ValidCurrentPassword = (value !== "Invalid password.");
-                Errors.CurrentPassword = ValidCurrentPassword ? "" : "Current password is invalid.";
+                Errors.CurrentPassword = ValidCurrentPassword ? "" : Dictionary.CurrentPasswordError;
                 break;
             case "NewPassword":
                 ValidNewPassword = value.length >= 6;
-                Errors.NewPassword = ValidNewPassword ? "" : "Password is too short.";
+                Errors.NewPassword = ValidNewPassword ? "" : Dictionary.NewPasswordError;
+
+                if (Errors.NewPassword !== "") {
+                    break;
+                }
+
+                ValidConfirmPassword = value === this.state.ConfirmPassword;
+                Errors.ConfirmPassword = ValidConfirmPassword ? "" : Dictionary.ConfirmPasswordError;
+                break;
                 break;
             case "ConfirmPassword":
                 ValidConfirmPassword = value === this.state.NewPassword;
-                Errors.ConfirmPassword = ValidConfirmPassword ? "" : "Passwords did not match.";
+                Errors.ConfirmPassword = ValidConfirmPassword ? "" : Dictionary.ConfirmPasswordError;
                 break;
             default:
                 break;
@@ -88,6 +89,10 @@ class PasswordSettings extends Component {
             return;
         }
 
+        this.setState({
+            ShowPreloader: true
+        });
+
         let passwordPackage = {
             Token: localStorage.Token,
             Password: this.state.CurrentPassword
@@ -95,7 +100,14 @@ class PasswordSettings extends Component {
 
         await validatePassword(passwordPackage).then(async response => {
             if (response.Message === "Invalid password.") {
-                this.validateField("CurrentPassword", response.Message);
+                let errors = this.state.Errors;
+                errors.CurrentPassword = response.Message;
+
+                this.setState({
+                    ShowPreloader: false,
+                    ValidForm: false,
+                    Errors: errors
+                });
             }
             else {
                 const updatedDriver = {
@@ -103,91 +115,137 @@ class PasswordSettings extends Component {
                     Password: this.state.NewPassword
                 };
 
-                this.setState({
-                    Preloader: <Preloader />
-                });
-
                 await passwordSettings(updatedDriver).then(response => {
+                    this.setState({
+                        ShowPreloader: false,
+                        CurrentPassword: "",
+                        NewPassword: "",
+                        ConfirmPassword: "",
+                        ValidForm: false,
+                    });
+
                     if (response.Message === "Driver is updated.") {
                         this.props.OnSettingsSaved();
                     }
-
-                    this.setState({
-                        Preloader: null
-                    });
                 });
             }
         });
     }
 
     render() {
+        const {
+            CurrentPassword,
+            NewPassword,
+            ConfirmPassword,
+            ShowPreloader,
+            ValidForm,
+            Errors
+        } = this.state;
+
         return <section>
-            <div class="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF" }}>Change Password</div>
+            <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
+            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF" }}>{Dictionary.ChangePassword}</div>
             <form noValidate onSubmit={this.onSubmit}>
-                <div class="entity-list entity-list-expandable">
-                    <div class="entity-list-item">
-                        <div class="item-icon">
-                            <span class="fas fa-key"></span>
+                <div className="entity-list entity-list-expandable">
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className="fas fa-key"></span>
                         </div>
-                        <div class="item-content-secondary">
-                            <div class="form-group">
-                                <input type="password" name="CurrentPassword" class="form-control" autoComplete="off"
-                                    value={this.state.CurrentPassword} onChange={this.onChange} />
+                        <div className="item-content-secondary">
+                            <div className="form-group">
+                                <input type="password" name="CurrentPassword" className="form-control" autoComplete="off"
+                                    value={CurrentPassword} onChange={this.onChange} />
                             </div>
                         </div>
-                        <div class="item-content-primary">
-                            <div class="content-text-primary">Current Password</div>
-                            <div class="text-danger">{this.state.Errors["CurrentPassword"]}</div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">{Dictionary.CurrentPassword}</div>
+                            <div className="text-danger">{Errors.CurrentPassword}</div>
                         </div>
                     </div>
-                    <div class="entity-list-item">
-                        <div class="item-icon">
-                            <span class="fas fa-key"></span>
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className="fas fa-key"></span>
                         </div>
-                        <div class="item-content-secondary">
-                            <div class="form-group">
-                                <input type="password" name="NewPassword" class="form-control" autoComplete="off"
-                                    value={this.state.NewPassword} onChange={this.onChange} />
+                        <div className="item-content-secondary">
+                            <div className="form-group">
+                                <input type="password" name="NewPassword" className="form-control" autoComplete="off"
+                                    value={NewPassword} onChange={this.onChange} />
                             </div>
                         </div>
-                        <div class="item-content-primary">
-                            <div class="content-text-primary">New Password</div>
-                            <div class="text-danger">{this.state.Errors["NewPassword"]}</div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">{Dictionary.NewPassword}</div>
+                            <div className="text-danger">{Errors.NewPassword}</div>
                         </div>
                     </div>
-                    <div class="entity-list-item">
-                        <div class="item-icon">
-                            <span class="fas fa-key"></span>
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className="fas fa-key"></span>
                         </div>
-                        <div class="item-content-secondary">
-                            <div class="form-group">
-                                <input type="password" name="ConfirmPassword" class="form-control" autoComplete="off"
-                                    value={this.state.ConfirmPassword} onChange={this.onChange} />
+                        <div className="item-content-secondary">
+                            <div className="form-group">
+                                <input type="password" name="ConfirmPassword" className="form-control" autoComplete="off"
+                                    value={ConfirmPassword} onChange={this.onChange} />
                             </div>
                         </div>
-                        <div class="item-content-primary">
-                            <div class="content-text-primary">Confirm Password</div>
-                            <div class="text-danger">{this.state.Errors["ConfirmPassword"]}</div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">{Dictionary.ConfirmPassword}</div>
+                            <div className="text-danger">{Errors.ConfirmPassword}</div>
                         </div>
                     </div>
-                    <div class="entity-list-item active">
-                        <div class="item-icon">
-                            <span class="fas fa-save"></span>
+                    <div className="entity-list-item active">
+                        <div className="item-icon">
+                            <span className="fas fa-save"></span>
                         </div>
-                        <div class="item-content-primary">
-                            <div class="content-text-primary">Save Changes?</div>
-                            <div class="content-text-secondary">This cannot be undone.</div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">{Dictionary.SaveChanges}</div>
+                            <div className="content-text-secondary">{Dictionary.Undone}</div>
                         </div>
-                        <div class="item-content-expanded">
-                            <input type="submit" value="Save" class="btn btn-primary" disabled={!this.state.ValidForm} />
+                        <div className="item-content-expanded">
+                            <input type="submit" value={Dictionary.Save} className="btn btn-primary" disabled={!ValidForm} />
                         </div>
                     </div>
                 </div>
             </form>
-            <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            {this.state.Preloader}
+
+            {ShowPreloader ? <Preloader /> : null}
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        ChangePassword: "غير كلمة السر",
+        CurrentPassword: "كلمة المرور الحالي",
+        NewPassword: "كلمة سر جديدة",
+        ConfirmPassword: "تأكيد كلمة المرور",
+        SaveChanges: "حفظ التغييرات؟",
+        Undone: ".هذا لا يمكن التراجع عنها",
+        Save: "حفظ",  
+        CurrentPasswordError: ".كلمة المرور الحالية مطلوبة",
+        NewPasswordError: ".كلمة المرور قصيرة جدا",
+        ConfirmPasswordError: ".كلمتا المرور غير متطابقتين",
+    };
+}
+else {
+    Dictionary = {
+        ChangePassword: "Change Password",
+        CurrentPassword: "Current Password",
+        NewPassword: "New Password",
+        ConfirmPassword: "Confirm Password",
+        SaveChanges: "Save Changes?",
+        Undone: "This cannot be undone.",
+        Save: "Save",  
+        CurrentPasswordError: "Current password is required.",
+        NewPasswordError: "Password is too short.",
+        ConfirmPasswordError: "Passwords did not match.",
+    };
+}
 
 export default PasswordSettings;

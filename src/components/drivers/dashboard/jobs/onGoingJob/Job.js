@@ -20,12 +20,12 @@ class Job extends Component {
 
         if (onGoingJob.CompletedByDriver) {
             JumbotronContent = <section>
-                <h3><span className="fas fa-smile p-r-xxxs"></span>This Job is Completed.</h3>
-                <div class="type-sh3">Waiting for Trader's Approval</div>
+                <h3><span className="fas fa-smile p-r-xxxs"></span>{Dictionary.JobCompleted}</h3>
+                <div class="type-sh3">{Dictionary.WaitingForApproval}</div>
             </section>;
         }
         else if (hasObjections) {
-            JumbotronContent = <h3><span className="fas fa-exclamation p-r-xxxs"></span>This Job is Terminated.</h3>;
+            JumbotronContent = <h3><span className="fas fa-exclamation p-r-xxxs"></span>{Dictionary.JobTerminated}</h3>;
         }
         else {
             let dateDifference = loadingDate - new Date();
@@ -33,27 +33,27 @@ class Job extends Component {
             const hours = Math.floor((dateDifference % 86400000) / 3600000);
             const minutes = Math.round(((dateDifference % 86400000) % 3600000) / 60000);
 
-            let dayString = (days > 0) ? `${days} Days ` : "";
-            let hourString = (hours > 0) ? `${hours} Hours ` : "";
-            let minuteString = (minutes > 0) ? `${minutes} Minutes ` : "";
+            let dayString = (days > 0) ? `${days} ${Dictionary.Days} ` : "";
+            let hourString = (hours > 0) ? `${hours} ${Dictionary.Hours} ` : "";
+            let minuteString = (minutes > 0) ? `${minutes} ${Dictionary.Minutes} ` : "";
 
-            let remainingTime = `${dayString}${hourString}${minuteString}Left To Load Cargo`;
+            let remainingTime = `${Dictionary.TimeLeftToLoadCargo} ${dayString}${hourString}${minuteString}`;
 
             if (dateDifference < 0) {
-                remainingTime = "Loading Time has Passed";
+                remainingTime = Dictionary.LoadingTimePassed;
             }
 
             JumbotronContent = <section>
-                <h3><span className="fas fa-clock"></span>   {remainingTime}</h3>
+                <h3><span className="fas fa-clock m-r-xxs"></span>{remainingTime}</h3>
                 <div class="type-sh3">
-                    <span className="fas fa-tag m-r-xxs"></span>{`${onGoingJob.Price} ${Strings.SAUDI_RIYAL} IS ON YOUR WAY`}</div>
+                    <span className="fas fa-tag m-r-xxs"></span>{`${Dictionary.PriceOnYourWay} ${onGoingJob.Price} ${Strings.SAUDI_RIYAL}`}</div>
                 <div class="col-md-12 col-md-offset-6">
                     <div class="type-p3">{(onGoingJob.AcceptedDelay > 0) ?
                         <span>
-                            <span className="fas fa-leaf"></span>
-                            <span>{` You have a relaxation of ${onGoingJob.AcceptedDelay} Hours.`}</span>
+                            <span className="fas fa-leaf m-r-xxxs"></span>
+                            <span>{`${Dictionary.Relaxation} ${onGoingJob.AcceptedDelay}`}</span>
                         </span> :
-                        <span>"You must reach on time to load the cargo."</span>}
+                        <span>{Dictionary.ReachOnTime}</span>}
                     </div>
                 </div>
             </section>;
@@ -73,5 +73,43 @@ class Job extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobCompleted: "اكتملت هذه المهمة.",
+        WaitingForApproval: "في انتظار موافقة التاجر",
+        JobTerminated: ".تم إنهاء هذه الوظيفة",
+        Days: "أيام",
+        Hours: "ساعات",
+        Minutes: "الدقائق",
+        TimeLeftToLoadCargo: "الوقت المتبقي لتحميل البضائع:",
+        LoadingTimePassed: "لقد مر وقت التحميل",
+        PriceOnYourWay: ":السعر على طريقتك",
+        Relaxation: ":لديك الاسترخاء لساعات",
+        ReachOnTime: ".يجب أن تصل في الوقت المحدد لتحميل البضائع",
+    };
+}
+else {
+    Dictionary = {
+        JobCompleted: "This Job is Completed.",
+        WaitingForApproval: "Waiting for Trader's Approval",
+        JobTerminated: "This Job is Terminated.",
+        Days: "Days",
+        Hours: "Hours",
+        Minutes: "Minutes",
+        TimeLeftToLoadCargo: "Time Left To Load Cargo:",
+        LoadingTimePassed: "Loading Time has Passed",
+        PriceOnYourWay: "PRICE ON YOUR WAY:",
+        Relaxation: "You have relaxation for hours:",
+        ReachOnTime: "You must reach on time to load the cargo.",
+    };
+}
 
 export default Job;

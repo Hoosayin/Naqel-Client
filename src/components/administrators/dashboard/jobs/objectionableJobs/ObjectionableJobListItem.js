@@ -31,7 +31,7 @@ class ObjectionableJobListItem extends Component {
                     data-target={`#discard-objectionable-job-dialog-${Index}`}>Discard</button>
             </div>
 
-            <div className="back-color-gray" data-toggle="collapse" aria-expanded="false" data-target={`#driver-list-item-${Index}`}>
+            <div className="back-color-gray" data-toggle="collapse" aria-expanded="false" data-target={`#objections-${Index}`}>
                 <div className="type-h4 color-default text-right p-xxxs">
                     <span class="badge back-color-danger m-r-xxs">{NumberOfObjections}</span>Objections
                     <i className="fas fa-ellipsis-v"></i>
@@ -40,7 +40,7 @@ class ObjectionableJobListItem extends Component {
                 </div>
             </div>
 
-            <div className="collapse" id={`driver-list-item-${Index}`}>
+            <div className="collapse" id={`objections-${Index}`}>
                 <Objections OnGoingJobID={ObjectionableJob.OnGoingJobID}
                     OnObjectionsFound={numberOfObjections => {
                         this.setState({

@@ -82,11 +82,11 @@ class EditCommercialRegisterCertificateDialog extends Component {
         switch (field) {
             case "Type":
                 ValidType = (value !== "");
-                Errors.Type = ValidType ? "" : "Certificate type is required.";
+                Errors.Type = ValidType ? "" : Dictionary.TypeError;
                 break;
             case "PhotoURL":
                 ValidPhotoURL = (value !== null);
-                Errors.PhotoURL = ValidPhotoURL ? "" : "Invalid Image. Please upload a correct one.";
+                Errors.PhotoURL = ValidPhotoURL ? "" : Dictionary.PhotoURLError;
                 break;
             default:
                 break;
@@ -140,7 +140,7 @@ class EditCommercialRegisterCertificateDialog extends Component {
                 tabIndex="-1" role="dialog"
                 aria-labelledby="modal-sample-label" aria-hidden="true">
                 {this.state.Preloader}
-                <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
                     <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
                         <div className="modal-header">
                             <div className="text-right">
@@ -176,10 +176,10 @@ class EditCommercialRegisterCertificateDialog extends Component {
                                                     }} />
                                             </div>
                                             <div className="col-md-12">
-                                                <div className="type-h3 color-default p-t-xxs">Add Commercial Register Certificate</div>
+                                                <div className="type-h3 color-default p-t-xxs">{Dictionary.EditCRCertificate}</div>
                                                 <div className="type-sh4 text-danger">{this.state.Errors.PhotoURL}</div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Certificate Type</label>
+                                                    <label className="control-label">{Dictionary.CertificateType}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="text" name="Type" className="form-control" autoComplete="off"
                                                         value={this.state.Type} onChange={this.onChange} />
@@ -188,7 +188,7 @@ class EditCommercialRegisterCertificateDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Update} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -200,5 +200,31 @@ class EditCommercialRegisterCertificateDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        EditCRCertificate: "تحرير شهادة السجل التجاري",
+        CertificateType: "نوع الشهادة",
+        Update: "تحديث",
+        TypeError: ".نوع الشهادة مطلوب",
+        PhotoURLError: ".صورة غير صالحة. يرجى تحميل واحد صحيح"
+    };
+}
+else {
+    Dictionary = {
+        EditCRCertificate: "Edit Commercial Register Certificate",
+        CertificateType: "Certificate Type",
+        Update: "Update",
+        TypeError: "Certificate type is required.",
+        PhotoURLError: "Invalid Image. Please upload a correct one."
+    };
+}
 
 export default EditCommercialRegisterCertificateDialog;

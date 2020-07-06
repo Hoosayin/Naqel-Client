@@ -32,7 +32,7 @@ class TrailerContainer extends Component {
                                                     <span class="fas fa-weight"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Maximum Weight</div>
+                                                    <div class="content-text-primary">{Dictionary.MaximumWeight}</div>
                                                     <div class="content-text-secondary">{`${trailer.MaximumWeight} GVM`}</div>
                                                 </div>
                                             </div>
@@ -43,7 +43,7 @@ class TrailerContainer extends Component {
                                                     <span class="fas fa-cog"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Trailer Type</div>
+                                                    <div class="content-text-primary">{Dictionary.TrailerType}</div>
                                                     <div class="content-text-secondary">{trailer.Type}</div>
                                                 </div>
                                             </div>
@@ -58,5 +58,26 @@ class TrailerContainer extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        MaximumWeight: "الوزن الأقصى",
+        TrailerType: "نوع المقطورة",
+    };
+}
+else {
+    Dictionary = {
+        MaximumWeight: "Maximum Weight",
+        TrailerType: "Trailer Type",
+
+    };
+}
 
 export default TrailerContainer;

@@ -97,7 +97,7 @@ class DrivingLicenceListItem extends Component {
                                     <span style={{ fontWeight: "bold", color: "#008575" }}>{`${this.props.Index}.`}</span>
                                 </div>
                                 <div className="content-text-secondary">
-                                    <span style={{ fontWeight: "bold", color: "#008575" }}>DRIVING LICENCE</span>
+                                    <span style={{ fontWeight: "bold", color: "#008575" }}>{Dictionary.DrivingLicence}</span>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,7 @@ class DrivingLicenceListItem extends Component {
                                         }} />
                                 </div>
                                 <div className="col-md-18">
-                                    <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>Driving Licence</div>
+                                    <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>{Dictionary.DrivingLicenceSubtitle}</div>
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="entity-list">
@@ -126,7 +126,7 @@ class DrivingLicenceListItem extends Component {
                                                         <span className="fas fa-hashtag"></span>
                                                     </div>
                                                     <div className="item-content-primary">
-                                                        <div className="content-text-primary">Licence Number</div>
+                                                        <div className="content-text-primary">{Dictionary.LicenceNumber}</div>
                                                         <div className="content-text-secondary">{this.state.LicenceNumber}</div>
                                                     </div>
                                                 </div>
@@ -137,7 +137,7 @@ class DrivingLicenceListItem extends Component {
                                                         <span className="fas fa-star-of-life"></span>
                                                     </div>
                                                     <div className="item-content-primary">
-                                                        <div className="content-text-primary">Licence Type</div>
+                                                        <div className="content-text-primary">{Dictionary.LicenceType}</div>
                                                         <div className="content-text-secondary">{this.state.Type}</div>
                                                     </div>
                                                 </div>
@@ -150,7 +150,7 @@ class DrivingLicenceListItem extends Component {
                                                         <span className="fas fa-calendar"></span>
                                                     </div>
                                                     <div className="item-content-primary">
-                                                        <div className="content-text-primary">Release Date</div>
+                                                        <div className="content-text-primary">{Dictionary.ReleaseDate}</div>
                                                         <div className="content-text-secondary">{this.state.ReleaseDate}</div>
                                                     </div>
                                                 </div>
@@ -161,7 +161,7 @@ class DrivingLicenceListItem extends Component {
                                                         <span className="fas fa-calendar"></span>
                                                     </div>
                                                     <div className="item-content-primary">
-                                                        <div className="content-text-primary">Expiry Date</div>
+                                                        <div className="content-text-primary">{Dictionary.ExpiryDate}</div>
                                                         <div className="content-text-secondary">{this.state.ExpiryDate}</div>
                                                     </div>
                                                 </div>
@@ -191,15 +191,88 @@ class DrivingLicenceListItem extends Component {
                                             this.onComponentUpdated();
                                         }} />
                                 });
-                            }}>Edit</button>
-                        <button type="button" className="btn btn-danger" onClick={() => { this.onDelete(); }}>Delete</button>
+                            }}>{Dictionary.Edit}</button>
+                        <button type="button" className="btn btn-danger"
+                            data-toggle="modal"
+                            data-target={`#delete-driving-licence-dialog`}>{Dictionary.Delete}</button>
                     </div>
-                </div>             
+                </div> 
+
+                <div className="modal modal-center-vertical" id={`delete-driving-licence-dialog`}
+                    tabIndex="-1" role="dialog"
+                    aria-labelledby="modal-sample-label" aria-hidden="true">
+                    <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                        <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                            <div className="modal-header">
+                                <div className="text-right">
+                                    <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                        data-dismiss="modal"
+                                        ref={cancelButton => this.cancelButton = cancelButton}>
+                                        <span className="fas fa-times"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="modal-body">
+                                <div className="jumbotron theme-default" dir={GetDirection()}>
+                                    <div className="container">
+                                        <div className="row">
+                                            <div className="col-md-24">
+                                                <div className="type-sh3 m-b-xxs">{Dictionary.DeleteMessage}</div>
+                                            </div>
+                                            <div className="text-right">
+                                                <button className="btn btn-danger"
+                                                    onClick={async () => {
+                                                        this.cancelButton.click();
+                                                        await this.onDelete();
+                                                    }}>{Dictionary.Delete}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {this.state.Preloader}
                 {this.state.EditDrivingLicenceDialog}
             </li>        
         );
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        DrivingLicence: "رخصة قيادة",
+        DrivingLicenceSubtitle: "رخصة قيادة",
+        LicenceNumber: "رقم الرخصة",
+        LicenceType: "نوع الترخيص",
+        ReleaseDate: "يوم الاصدار",
+        ExpiryDate: "تاريخ الانتهاء",
+        Edit: "تعديل",
+        Delete: "حذف",
+        DeleteMessage: "هل أنت متأكد أنك تريد حذف رخصة القيادة هذه؟",
+    };
+}
+else {
+    Dictionary = {
+        DrivingLicence: "DRIVING LICENCE",
+        DrivingLicenceSubtitle: "Driving Licence",
+        LicenceNumber: "Licence Number",
+        LicenceType: "Licence Type",
+        ReleaseDate: "Release Date",
+        ExpiryDate: "Expiry Date",
+        Edit: "Edit",
+        Delete: "Delete",
+        DeleteMessage: "Are you sure you want to delete this driving licence?",
+    };
+}
 
 export default DrivingLicenceListItem;

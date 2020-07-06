@@ -57,44 +57,44 @@ class SendTraderRequestDialog extends Component {
         switch (field) {
             case "CargoType":
                 ValidCargoType = (value !== "");
-                Errors.CargoType = ValidCargoType ? "" : "Cargo type is required.";
+                Errors.CargoType = ValidCargoType ? "" : Dictionary.CargoTypeError;
                 break;
             case "CargoWeight":
                 ValidCargoWeight = (value !== "");
-                Errors.CargoWeight = ValidCargoWeight ? "" : "Cargo weight is required."; 
+                Errors.CargoWeight = ValidCargoWeight ? "" : Dictionary.CargoWeightError1; 
 
                 if (Errors.CargoWeight !== "") {
                     break;
                 }
 
                 ValidCargoWeight = (value >= 100);
-                Errors.CargoWeight = ValidCargoWeight ? "" : "Cargo weight must be greater than 100 lbs.";
+                Errors.CargoWeight = ValidCargoWeight ? "" : Dictionary.CargoWeightError2;
                 break;
             case "LoadingDate":
                 ValidLoadingDate = (value !== "");
-                Errors.LoadingDate = ValidLoadingDate ? "" : "Loading date is required.";
+                Errors.LoadingDate = ValidLoadingDate ? "" : Dictionary.LoadingDateError1;
 
                 if (Errors.LoadingDate !== "") {
                     break;
                 }
 
                 ValidLoadingDate = (new Date(value) >= new Date());
-                Errors.LoadingDate = ValidLoadingDate ? "" : "Loading date must be later than yesterday.";
+                Errors.LoadingDate = ValidLoadingDate ? "" : Dictionary.LoadingDateError2;
                 break;
             case "LoadingTime":
                 ValidLoadingTime = (value !== "");
-                Errors.LoadingTime = ValidLoadingTime ? "" : "Loading time is required.";
+                Errors.LoadingTime = ValidLoadingTime ? "" : Dictionary.LoadingTimeError;
                 break;
             case "AcceptedDelay":
                 ValidAcceptedDelay = (value !== "");
-                Errors.AcceptedDelay = ValidAcceptedDelay ? "" : "Accepted delay is required.";
+                Errors.AcceptedDelay = ValidAcceptedDelay ? "" : Dictionary.AcceptedDelayError1;
 
                 if (Errors.AcceptedDelay !== "") {
                     break;
                 }
 
                 ValidAcceptedDelay = (value >= 0 && value <= 48);
-                Errors.AcceptedDelay = ValidAcceptedDelay ? "" : "Accepted delay can be in the range of 0 to 48 hours.";
+                Errors.AcceptedDelay = ValidAcceptedDelay ? "" : Dictionary.AcceptedDelayError2;
                 break;
             default:
                 break;
@@ -185,25 +185,25 @@ class SendTraderRequestDialog extends Component {
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="jumbotron theme-default">
                                     <div className="container">
-                                        <div className="type-h3 color-default p-t-xxs">Send Request</div>
+                                        <div className="type-h3 color-default p-t-xxs">{Dictionary.SendRequest}</div>
                                         <div className="row p-t-xxs">
                                             <div className="col-md-8">
                                                 <div className="form-group">
-                                                    <label className="control-label">Cargo Type</label>
+                                                    <label className="control-label">{Dictionary.CargoType}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="text" name="CargoType" className="form-control" autoComplete="off"
                                                         value={this.state.CargoType} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.CargoType}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Cargo Weight (lbs)</label>
+                                                    <label className="control-label">{Dictionary.CargoWeight}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" name="CargoWeight" className="form-control" autoComplete="off"
                                                         value={this.state.CargoWeight} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.CargoWeight}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Accepted Delay (Hours)</label>
+                                                    <label className="control-label">{Dictionary.AcceptedDelay}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" name="AcceptedDelay" className="form-control" autoComplete="off"
                                                         value={this.state.AcceptedDelay} onChange={this.onChange} />
@@ -212,14 +212,14 @@ class SendTraderRequestDialog extends Component {
                                             </div>
                                             <div className="col-md-8">
                                                 <div className="form-group">
-                                                    <label className="control-label">Loading Date</label>
+                                                    <label className="control-label">{Dictionary.LoadingDate}</label>
                                                     <span className="text-danger" style={Required}>*</span>
                                                     <input type="date" name="LoadingDate" className="form-control" autoComplete="off"
                                                         value={this.state.LoadingDate} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.LoadingDate}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Loading Time</label>
+                                                    <label className="control-label">{Dictionary.LoadingTime}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="time" name="LoadingTime" className="form-control" autoComplete="off"
                                                         value={this.state.LoadingTime} onChange={this.onChange} />
@@ -232,14 +232,14 @@ class SendTraderRequestDialog extends Component {
                                                                 value={this.state.EntryExit} onChange={() => {
                                                                     this.state.EntryExit = this.state.EntryExit ? 0 : 1;
                                                                 }}></input>
-                                                            <span>Entry/Exit</span>
+                                                            <span>{Dictionary.EntryExit}</span>
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Send" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Send} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -251,5 +251,53 @@ class SendTraderRequestDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        SendRequest: "ارسل طلب",
+        CargoType: "نوع البضائع",
+        CargoWeight: "(وزن الشحنة (رطل",
+        AcceptedDelay: "(التأخير المقبول (ساعات",
+        LoadingDate: "تاريخ التحميل",
+        LoadingTime: "وقت التحميل",
+        EntryExit: "الدخول / الخروج",
+        Send: "إرسال",
+        CargoTypeError: ".نوع البضائع مطلوب",
+        CargoWeightError1: ".وزن البضائع مطلوب",
+        CargoWeightError2: ".يجب أن يكون وزن البضائع أكبر من 100 رطل",
+        LoadingDateError1: ".تاريخ التحميل مطلوب",
+        LoadingDateError2: ".يجب أن يكون تاريخ التحميل في وقت متأخر عن الأمس",
+        LoadingTimeError: ".وقت التحميل مطلوب",
+        AcceptedDelayError1: ".مطلوب التأخير المقبول",
+        AcceptedDelayError2: ".يمكن أن يتراوح التأخير المقبول بين 0 و 48 ساعة",
+    };
+}
+else {
+    Dictionary = {
+        SendRequest: "Send Request",
+        CargoType: "Cargo Type",
+        CargoWeight: "Cargo Weight (lbs)",
+        AcceptedDelay: "Accepted Delay (Hours)",
+        LoadingDate: "Loading Date",
+        LoadingTime: "Loading Time",
+        EntryExit: "Entry/Exit",
+        Send: "Send",
+        CargoTypeError: "Cargo type is required.",
+        CargoWeightError1: "Cargo weight is required.",
+        CargoWeightError2: "Cargo weight must be greater than 100 lbs.",
+        LoadingDateError1: "Loading date is required.",
+        LoadingDateError2: "Loading date must be later than yesterday.",
+        LoadingTimeError: "Loading time is required.",
+        AcceptedDelayError1: "Accepted delay is required.",
+        AcceptedDelayError2: "Accepted delay can be in the range of 0 to 48 hours.",
+    };
+}
 
 export default SendTraderRequestDialog;

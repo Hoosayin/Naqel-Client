@@ -108,15 +108,15 @@ class QuestionsList extends Component {
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",
                 backgroundColor: "#215761"
-            }}>
+            }} dir={GetDirection()}>
                 <div class="container p-b-xxs m-b-xxs">
                     <div class="row">
                         <div class="col-xs-18">
-                            <div className="type-h3 color-light"><span className="fas fa-question-circle m-r-xxs"></span>Questions</div>
-                            <p className="color-light">If you are facing any issues, then post a question. Naqel team will answer them as soon as possible.</p>
+                            <div className="type-h3 color-light"><span className="fas fa-question-circle m-r-xxs m-l-xxs"></span>{Dictionary.Questions}</div>
+                            <p className="color-light">{Dictionary.QuestionsSubtitle}</p>
                             <button className="btn btn-primary"
                                 data-toggle="modal"
-                                data-target={`#ask-question-dialog`}>Ask a Question</button>
+                                data-target={`#ask-question-dialog`}>{Dictionary.AskQuestion}</button>
                         </div>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ class QuestionsList extends Component {
             <AskQuestionDialog OnOK={async () => { await this.onComponentUpdated(); }} />
 
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Your Questions
+            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }} dir={GetDirection()}>{Dictionary.YourQuestions}
                     {Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
             </div>
             <nav className="navbar navbar-default" style={{ backgroundColor: "#F5F5F5" }}>
@@ -134,7 +134,7 @@ class QuestionsList extends Component {
                         <form noValidate onSubmit={this.onSearch} className="navbar-form navbar-right" role="search">
                             <div className="putbox" style={{ margin: "0px" }}>
                                 <div className="form-group">
-                                    <input type="search" name="SearchString" className="form-control" placeholder="Search Questions"
+                                    <input type="search" name="SearchString" className="form-control" placeholder={Dictionary.SearchQuestions}
                                         style={{ maxWidth: "500px", width: "100%" }}
                                         value={SearchString} onChange={this.onChange} />
                                 </div>
@@ -146,7 +146,7 @@ class QuestionsList extends Component {
             </nav>
 
             {(Questions.length === 0) ?
-                <SearchingContainer Searching={Searching} SearchingFor="questions" /> :
+                <SearchingContainer Searching={Searching} SearchingFor={Dictionary.Questions} /> :
                 <ol className="list-items m-n">
                     {Questions.map((question, index) => {
                         return <li key={index} className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
@@ -159,5 +159,31 @@ class QuestionsList extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Questions: "الأسئلة",
+        QuestionsSubtitle: "إذا كنت تواجه أي مشاكل ، فقم بنشر سؤال. سيقوم فريق Naqel بالرد عليهم في أقرب وقت ممكن.",
+        AskQuestion: "طرح سؤال",
+        YourQuestions: "أسئلتك",
+        SearchQuestions: "أسئلة البحث"
+    };
+}
+else {
+    Dictionary = {
+        Questions: "Questions",
+        QuestionsSubtitle: "If you are facing any issues, then post a question. Naqel team will answer them as soon as possible.",
+        AskQuestion: "Ask a Question",
+        YourQuestions: "Your Questions",
+        SearchQuestions: "Search Questions"
+    };
+}
 
 export default QuestionsList;

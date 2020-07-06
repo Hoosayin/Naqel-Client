@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Strings from "../../res/strings";
+import firebase from "firebase";
+import FirebaseApp from "../../res/FirebaseApp";
 import Preloader from "../../controls/Preloader";
+import PhoneConfirmationDialog from "../../containers/phoneConfirmationDialog/PhoneConfirmationDialog";
 import { registerDriver } from "../drivers/DriverFunctions";
 import { registerTrader } from "../traders/TraderFunctions";
 import { registerAdministrator } from "../administrators/AdministratorFunctions";
 import { registerTransportCompanyResponsible } from "../transportCompanyResponsibles/TransportCompanyResponsiblesFunctions";
-
-import { Required } from "../../styles/MiscellaneousStyles";
 
 import {
     RegisterCardBack,
@@ -22,31 +22,44 @@ class Register extends Component {
 
         this.state = {
             Username: "",
-            Email: "",
+            PhoneNumber: "",
             Password: "",
             ConfirmPassword: "",
             RegisterAs: "Driver",
-            NullError: false,
 
             PasswordsMatched: false,
             UsernameOrEmailTaken: false,
-            ValidEmail: false,
+            ValidPhoneNumber: false,
             ValidPassword: false,
+            ValidUsername: false,
+
+            ConfirmationResult: null,
+            PhoneCodeVerified: false,
 
             ValidForm: false,
             Agreed: false,
             ShowPreloader: false,
 
             Errors: {
-                Email: "",
+                Username: "",
+                PhoneNumber: "",
                 Password: "",
                 ConfirmPassword: "",
                 Agreed: "",
+                Form: "",
             }
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha", {
+            "size": "invisible",
+            "callback": response => {
+            }
+        });
     }
 
     onChange = e => {
@@ -58,24 +71,52 @@ class Register extends Component {
     }
 
     validateField(field, value) {
-        let fieldValidationErrors = this.state.Errors;
-        let ValidEmail = this.state.ValidEmail;
-        let ValidPassword = this.state.ValidPassword;
-        let PasswordsMatched = this.state.PasswordsMatched;
-        let Agreed = this.state.Agreed;
+        let {
+            ValidUsername,
+            ValidPhoneNumber,
+            ValidPassword,
+            PasswordsMatched,
+            Agreed,
+            Errors
+        } = this.state;
 
         switch (field) {
-            case "Email":
-                ValidEmail = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-                fieldValidationErrors.Email = ValidEmail ? "" : "Email is invalid.";
+            case "Username":
+                ValidUsername = (value !== "");
+                Errors.Username = ValidUsername ? "" : Dictionary.UsernameError1;
+
+                if (!ValidUsername) {
+                    break;
+                }
+
+                ValidUsername = (value.match(/^[a-z0-9]+$/i));
+                Errors.Username = ValidUsername ? "" : Dictionary.UsernameError2;
+                break;
+            case "PhoneNumber":
+                ValidPhoneNumber = value !== "";
+                Errors.PhoneNumber = ValidPhoneNumber ? "" : Dictionary.PhoneNumberError1;
+
+                if (!ValidPhoneNumber) {
+                    break;
+                }
+
+                ValidPhoneNumber = value.match(/^\+[0-9]?()[0-9](\s|\S)(\d[0-9]{9})$/);
+                Errors.PhoneNumber = ValidPhoneNumber ? "" : Dictionary.PhoneNumberError2;
                 break;
             case "Password":
+                ValidPassword = value != "";
+                Errors.Password = ValidPassword ? "" : Dictionary.PasswordError1;
+
+                if (!ValidPassword) {
+                    break;
+                }
+
                 ValidPassword = value.length >= 6;
-                fieldValidationErrors.Password = ValidPassword ? "" : "Password is too short.";
+                Errors.Password = ValidPassword ? "" : Dictionary.PasswordError2;
                 break;
             case "ConfirmPassword":
                 PasswordsMatched = this.state.Password === value;
-                fieldValidationErrors.ConfirmPassword = PasswordsMatched ? "" : "Passwords did not match.";
+                Errors.ConfirmPassword = PasswordsMatched ? "" : Dictionary.ConfirmPasswordError;
                 break;
             case "IsAgree":
                 Agreed = this.refs.agreementCheckBox.checked;
@@ -84,36 +125,57 @@ class Register extends Component {
         }
 
         this.setState({
-            Errors: fieldValidationErrors,
-            ValidEmail: ValidEmail,
+            Errors: Errors,
+            ValidUsername: ValidUsername,
+            ValidPhoneNumber: ValidPhoneNumber,
             ValidPassword: ValidPassword,
             PasswordsMatched: PasswordsMatched,
             Agreed: Agreed,
-        }, this.validateForm);
-    }
-
-    validateForm() {
-        this.setState({
-            ValidForm: this.state.ValidEmail &&
-                this.state.ValidPassword &&
-                this.state.PasswordsMatched &&
-                this.state.Agreed
+        }, () => {
+            this.setState({
+                ValidForm: ValidPhoneNumber &&
+                    ValidPassword &&
+                    PasswordsMatched &&
+                    Agreed &&
+                    ValidUsername
+            });
         });
     }
 
-    onSubmit = async event => {
-        event.preventDefault();
+    handleResponse = (response, registerAs) => {
+        console.log(response);
+        if (response.Message === "Token received.") {
+            localStorage.setItem("NewUserToken", response.Token);
 
-        if (this.state.Username === "" ||
-            this.state.Email === "" ||
-            this.state.Password === "" ||
-            this.state.ConfirmPassword === "") {
+            if (registerAs === "Administrator") {
+                this.props.history.push("/setupAdministratorAccount");
+            }
+            else if (registerAs === "TC Responsible") {
+                this.props.history.push("/setupTransportCompanyResponsibleAccount");
+            }
+            else {
+                this.props.history.push("/setupAccount");
+            }
+        }
+        else {
+            let {
+                Errors
+            } = this.state;
+
+            Errors.Form = response.Message;
 
             this.setState({
-                NullError: true,
-                UsernameOrEmailTaken: false,
+                Errors: Errors
             });
+        }
+    };
 
+    onSubmit = async event => {
+        if (event) {
+            event.preventDefault();
+        }
+
+        if (!this.state.ValidForm) {
             return;
         }
 
@@ -121,198 +183,292 @@ class Register extends Component {
             ShowPreloader: true
         });
 
-        const newCredentials = {
-            Username: this.state.Username,
-            Password: this.state.Password,
-            Email: this.state.Email,
-            RegisterAs: this.state.RegisterAs,
-        }
+        if (this.state.PhoneCodeVerified) {
+            const newUser = {
+                Username: this.state.Username,
+                Password: this.state.Password,
+                PhoneNumber: this.state.PhoneNumber,
+                RegisterAs: this.state.RegisterAs,
+            };
 
-        if (newCredentials.RegisterAs === "Driver") {
-            await registerDriver(newCredentials).then(response => {
-                this.setState({
-                    ShowPreloader: false
-                });
-
-                if (response && localStorage.newCredentialsToken) {
-                    this.props.history.push("/emailConfirmation");
-                }
-                else {
+            if (newUser.RegisterAs === "Driver") {
+                await registerDriver(newUser).then(response => {
                     this.setState({
-                        NullError: false,
-                        UsernameOrEmailTaken: true,
+                        ShowPreloader: false
                     });
-                }
-            });
-        }
-        else if (newCredentials.RegisterAs === "Administrator") {
-            await registerAdministrator(newCredentials).then(response => {
-                this.setState({
-                    ShowPreloader: false
-                });
 
-                if (response.Message === "Token received.") {
-                    localStorage.setItem("newCredentialsToken", response.Token);
-                    this.props.history.push("/emailConfirmation");
-                }
-                else {
-                    this.setState({
-                        NullError: false,
-                        UsernameOrEmailTaken: true,
-                    });
-                }
-            });
-        }
-        else if (newCredentials.RegisterAs === "TC Responsible") {
-            await registerTransportCompanyResponsible(newCredentials).then(response => {
-                this.setState({
-                    ShowPreloader: false
+                    this.handleResponse(response, newUser.RegisterAs);
                 });
-
-                if (response.Message === "Token received.") {
-                    localStorage.setItem("newCredentialsToken", response.Token);
-                    this.props.history.push("/emailConfirmation");
-                }
-                else {
+            }
+            else if (newUser.RegisterAs === "Administrator") {
+                await registerAdministrator(newUser).then(response => {
                     this.setState({
-                        NullError: false,
-                        UsernameOrEmailTaken: true,
+                        ShowPreloader: false
                     });
-                }
-            });
+
+                    this.handleResponse(response, newUser.RegisterAs);
+                });
+            }
+            else if (newUser.RegisterAs === "TC Responsible") {
+                await registerTransportCompanyResponsible(newUser).then(response => {
+                    this.setState({
+                        ShowPreloader: false
+                    });
+
+                    this.handleResponse(response, newUser.RegisterAs);
+                });
+            }
+            else {
+                await registerTrader(newUser).then(response => {
+                    this.setState({
+                        ShowPreloader: false
+                    });
+
+                    this.handleResponse(response, newUser.RegisterAs);
+                });
+            }
+
         }
         else {
-            await registerTrader(newCredentials).then(response => {
+            const appVerifier = window.recaptchaVerifier;
+
+            FirebaseApp.auth().languageCode = "en";
+            FirebaseApp.auth().signInWithPhoneNumber(this.state.PhoneNumber, appVerifier).then(confirmationResult => {
                 this.setState({
-                    ShowPreloader: false
+                    ShowPreloader: false,
+                    ConfirmationResult: confirmationResult
                 });
 
-                if (response && localStorage.newCredentialsToken) {
-                    this.props.history.push("/emailConfirmation");
-                }
-                else {
-                    this.setState({
-                        NullError: false,
-                        UsernameOrEmailTaken: true,
-                    });
-                }
+                this.SendCodeButton.click();
+            }).catch(error => {
+                let {
+                    Errors
+                } = this.state;
+
+                Errors.Form = error.message;
+
+                this.setState({
+                    ShowPreloader: false,
+                    Errors: Errors
+                });
             });
         }
     }
 
     render() {
-        return (
-            <div>
-                <div class="middle" style={RegisterCardBack}>
-                    <div class="theme-default animated fadeIn" style={Card}>
-                        <div style={CardChild}>
-                            <img src="./images/spaceship.svg" alt="signup.png" height="60" />
-                            <div class="type-h3" style={CardTitle}>Sign Up</div>
-                            <br />
-                            <form noValidate onSubmit={this.onSubmit}>
-                                <div class="form-group">
-                                    <label htmlFor="Username" class="control-label">Username</label>
-                                    <span class="text-danger" style={Required}>*</span>
-                                    <input htmlFor="Username" type="text" name="Username" class="form-control" autocomplete="off"
-                                        value={this.state.Username} onChange={this.onChange} required />
-                                </div>
-                                <div class="form-group">
-                                    <label htmlFor="Email" class="control-label">Email</label>
-                                    <span class="text-danger" style={Required}>*</span>
-                                    <input htmlFor="Email" type="email" name="Email" class="form-control" placeholder="someone@example.com" autocomplete="off"
-                                        value={this.state.Email} onChange={this.onChange} />
-                                    <span class="text-danger">{this.state.Errors["Email"]}</span>
-                                </div>
-                                <div class="form-group">
-                                    <label htmlFor="Password" class="control-label">Password</label>
-                                    <span class="text-danger" style={Required}>*</span>
-                                    <input htmlFor="Password" type="password" name="Password" class="form-control"
-                                        value={this.state.Password} onChange={this.onChange} />
-                                    <span class="text-danger">{this.state.Errors["Password"]}</span>
-                                </div>
-                                <div class="form-group">
-                                    <label htmlFor="ConfirmPassword" class="control-label">Confirm Password</label>
-                                    <span class="text-danger" style={Required}>*</span>
-                                    <input htmlFor="ConfirmPassword" type="password" name="ConfirmPassword" class="form-control"
-                                        value={this.state.ConfirmPassword} onChange={this.onChange} />
-                                    <span class="text-danger">{this.state.Errors["ConfirmPassword"]}</span>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Register As</label>
-                                    <div class="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
-                                        <button id="example-dropdown" class="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
-                                            aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                            <span>{this.state.RegisterAs}</span>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                            <li><Link onClick={e => { this.state.RegisterAs = "Driver" }} onChange={this.onChange}>Driver</Link></li>
-                                            <li><Link onClick={e => { this.state.RegisterAs = "Trader" }} onChange={this.onChange}>Trader</Link></li>
-                                            <li><Link onClick={e => { this.state.RegisterAs = "Broker" }} onChange={this.onChange}>Broker</Link></li>
-                                            <li><Link onClick={e => { this.state.RegisterAs = "TC Responsible" }} onChange={this.onChange}>TC Responsible</Link></li>
-                                            <li><Link onClick={e => { this.state.RegisterAs = "Administrator" }} onChange={this.onChange}>Administrator</Link></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="checkbox">
-                                        <label class="control-label">
-                                            <input ref="agreementCheckBox" type="checkbox" name="IsAgree" value="" onChange={this.onChange}></input>
-                                            <span>Agree with our </span>
-                                            <span>
-                                                <Link data-toggle="modal" data-target="#terms">Terms and Conditions</Link>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    {this.state.NullError &&
-                                        <div>
-                                            <label class="control-label text-danger">All fields are required.</label>
-                                            <br />
-                                        </div>
-                                    }
-                                    {this.state.UsernameOrEmailTaken &&
-                                        <div>
-                                            <label class="control-label text-danger">Username or email is already taken.</label>
-                                            <br />
-                                        </div>
-                                    }
-                                    {this.state.AgreementError &&
-                                        <div>
-                                            <label class="control-label text-danger">You must agree to our terms and conditions.</label>
-                                            <br />
-                                        </div>
-                                    }
+        const {
+            Username,
+            PhoneNumber,
+            Password,
+            ConfirmPassword,
+            ValidForm,
+            ShowPreloader,
+            Errors,
+        } = this.state;
 
-                                    <label class="control-label">Have an account? <span><Link to="/login">Sign In Now!</Link></span></label>
+        return <div dir={GetDirection()}>
+            <div class="middle" style={RegisterCardBack}>
+                <div class="theme-default animated fadeIn" style={Card}>
+                    <div style={CardChild}>
+                        <img src="./images/spaceship.svg" alt="signup.png" height="60" />
+                        <div class="type-h3" style={CardTitle}>{Dictionary.SignUp}</div>
+                        <br />
+                        <form noValidate onSubmit={this.onSubmit}>
+                            <div class="form-group">
+                                <label htmlFor="Username" class="control-label">{Dictionary.Username}</label>
+                                <span className="text-danger m-l-xxxs">*</span>
+                                <input htmlFor="Username" type="text" name="Username" class="form-control" autocomplete="off"
+                                    value={Username} onChange={this.onChange} required />
+                                <span class="text-danger">{Errors.Username}</span>
+                            </div>
+                            <div class="form-group">
+                                <label htmlFor="PhoneNumber" class="control-label">{Dictionary.PhoneNumber}</label>
+                                <span className="text-danger m-l-xxxs">*</span>
+                                <input type="text" className="form-control" name="PhoneNumber" autocomplete="off"
+                                    placeholder="+966501234567" value={PhoneNumber} onChange={this.onChange} />
+                                <span class="text-danger">{Errors.PhoneNumber}</span>
+                            </div>
+                            <div class="form-group">
+                                <label htmlFor="Password" class="control-label">{Dictionary.Password}</label>
+                                <span className="text-danger m-l-xxxs">*</span>
+                                <input htmlFor="Password" type="password" name="Password" class="form-control"
+                                    value={Password} onChange={this.onChange} />
+                                <span class="text-danger">{Errors.Password}</span>
+                            </div>
+                            <div class="form-group">
+                                <label htmlFor="ConfirmPassword" class="control-label">{Dictionary.ConfirmPassword}</label>
+                                <span className="text-danger m-l-xxxs">*</span>
+                                <input htmlFor="ConfirmPassword" type="password" name="ConfirmPassword" class="form-control"
+                                    value={ConfirmPassword} onChange={this.onChange} />
+                                <span class="text-danger">{Errors.ConfirmPassword}</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">{Dictionary.RegisterAs}</label>
+                                <div class="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
+                                    <button id="example-dropdown" class="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
+                                        aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
+                                        {this.state.RegisterAs === "Driver" && <span>{Dictionary.Driver}</span>}
+                                        {this.state.RegisterAs === "Trader" && <span>{Dictionary.Trader}</span>}
+                                        {this.state.RegisterAs === "Broker" && <span>{Dictionary.Broker}</span>}
+                                        {this.state.RegisterAs === "TC Responsible" && <span>{Dictionary.TCResponsible}</span>}
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
+                                        <li><Link onClick={e => { this.state.RegisterAs = "Driver" }} onChange={this.onChange}>{Dictionary.Driver}</Link></li>
+                                        <li><Link onClick={e => { this.state.RegisterAs = "Trader" }} onChange={this.onChange}>{Dictionary.Trader}</Link></li>
+                                        <li><Link onClick={e => { this.state.RegisterAs = "Broker" }} onChange={this.onChange}>{Dictionary.Broker}</Link></li>
+                                        <li><Link onClick={e => { this.state.RegisterAs = "TC Responsible" }} onChange={this.onChange}>{Dictionary.TCResponsible}</Link></li>
+                                    </ul>
                                 </div>
-                                <input type="submit" value="Next" class="btn btn-primary" disabled={!this.state.ValidForm} />
-                            </form>
-                        </div>
+                            </div>
+                            <div>
+                                <div class="checkbox">
+                                    <label class="control-label">
+                                        <input ref="agreementCheckBox" type="checkbox" name="IsAgree" value="" onChange={this.onChange}></input>
+                                        <span>{Dictionary.AgreeWithOur} </span>
+                                        <span>
+                                            <Link data-toggle="modal" data-target="#terms">{Dictionary.TermsAndConditions}</Link>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {Errors.Form ? <div>
+                                    <label class="text-danger">{Errors.Form}</label>
+                                    <br />
+                                </div> : null}
+                                <label class="control-label">{Dictionary.HaveAnAccount} <span><Link to="/login">{Dictionary.SignInNow}</Link></span></label>
+                            </div>
+
+                            <input type="submit" value={Dictionary.Next} class="btn btn-primary" disabled={!ValidForm} />
+                        </form>
                     </div>
                 </div>
-
-                <div class="modal" id="terms" tabindex="-1" role="dialog" aria-labelledby="modal-sample-label" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="modal-sample-label">Terms of Use</h4>
-                            </div>
-                            <div class="modal-body text-justify">
-                                Your privacy is important to us. <span>{Strings.APP_NAME}</span>'s Privacy Statement describes the types of data we collect from you, how we use your Data, and the legal bases we have to process your Data. The Privacy Statement also describes how {String.APP_NAME} uses your content, which is information submitted by you to {Strings.APP_NAME} via the Services. Where processing is based on consent and to the extent permitted by law, by agreeing to these Terms, you consent to {Strings.APP_NAME}� collection, use and disclosure of your content and data as described in the privacy statement. In some cases, we will provide separate notice and request your consent as referenced in the privacy statement.
-                                </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-info" data-dismiss="modal">Ok</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {this.state.ShowPreloader ? <Preloader /> : null}
             </div>
-        );
+
+            <div class="modal" id="terms" tabindex="-1" role="dialog" aria-labelledby="modal-sample-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal-sample-label">{Dictionary.TermsOfUse}</h4>
+                        </div>
+                        <div class="modal-body text-justify">{Dictionary.TermsAndConditionsDetails}</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-info" data-dismiss="modal">{Dictionary.OK}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button
+                style={{ display: "none" }}
+                data-toggle="modal"
+                data-target="#phone-confirmation-dialog"
+                ref={sendCodeButton => this.SendCodeButton = sendCodeButton}></button>
+
+            <PhoneConfirmationDialog ConfirmationResult={this.state.ConfirmationResult}
+                PhoneNumber={this.state.PhoneNumber}
+                OnOK={phoneCodeVerified => {
+                    if (phoneCodeVerified) {
+                        this.setState({
+                            PhoneCodeVerified: true
+                        });
+
+                        this.onSubmit();
+                    }
+                    else {
+                        let {
+                            Errors
+                        } = this.state;
+
+                        Errors.Form = Dictionary.CodeError;
+
+                        this.setState({
+                            ValidForm: false,
+                            Errors: Errors
+                        });
+                    }
+                }} />
+
+            <div id="recaptcha" />
+
+            {ShowPreloader ? <Preloader /> : null}
+        </div>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        SignUp: "سجل",
+        Username: "اسم المستخدم",
+        PhoneNumber: "رقم الهاتف",
+        Password: "كلمه السر",
+        ConfirmPassword: "تأكيد كلمة المرور",
+        RegisterAs: "تسجيل باسم",
+        Driver: "سائق",
+        Trader: "التاجر",
+        Broker: "وسيط",
+        TCResponsible: "مسؤول التعاون الفني",
+        Administrator: "مدير",
+        AgreeWithOur: "نتفق مع",
+        TermsAndConditions: "الأحكام والشروط",
+        HaveAnAccount: "هل لديك حساب؟",
+        SignInNow: "قم بتسجيل دخولك الآن!",
+        Next: "التالى",
+        TermsOfUse: "تعليمات الاستخدام",
+        TermsAndConditionsDetails: ".خصوصيتك مهمة بالنسبة لنا. يصف بيان خصوصية النقل أنواع البيانات التي نجمعها منك ، وكيفية استخدامنا لبياناتك ، والأسس القانونية التي يتعين علينا معالجتها لبياناتك. يصف بيان الخصوصية أيضًا كيف يستخدم النقل المحتوى الخاص بك ، وهي المعلومات التي قدمتها للنقل عبر الخدمات. عندما تستند المعالجة إلى الموافقة وإلى الحد الذي يسمح به القانون ، بالموافقة على هذه الشروط ، فإنك توافق على جمع ونقل واستخدام والكشف عن المحتوى والبيانات الخاصة بك كما هو موضح في بيان الخصوصية. في بعض الحالات ، سنقدم إشعارًا منفصلاً ونطلب موافقتك على النحو المشار إليه في بيان الخصوصية",
+        OK: "حسنا",
+        UsernameError1: ".اسم المستخدم مطلوب",
+        UsernameError2: ".إسم المستخدم غير صحيح",
+        PhoneNumberError1: ".رقم الهاتف مطلوب",
+        PhoneNumberError2: ".رقم الهاتف غير صالح",
+        CodeError: ".رمز التأكيد غير صالح",
+        PasswordError1: ".كلمة المرور مطلوبة",
+        PasswordError2: "كلمة المرور قصيرة جدا.",
+        ConfirmPasswordError: "كلمتا المرور غير متطابقتين.",
+        EmailUsernameError: ".اسم المستخدم أو البريد الإلكتروني مأخوذ بالفعل",
+        TermsError: "يجب أن توافق على الشروط والأحكام الخاصة بنا.",
+    };
+}
+else {
+    Dictionary = {
+        SignUp: "Sign Up",
+        Username: "Username",
+        PhoneNumber: "Phone Number",
+        Password: "Password",
+        ConfirmPassword: "Confirm Password",
+        RegisterAs: "Register As",
+        Driver: "Driver",
+        Trader: "Trader",
+        Broker: "Broker",
+        TCResponsible: "TC Responsible",
+        Administrator: "Administrator",
+        AgreeWithOur: "Agree with our",
+        TermsAndConditions: "Terms and Conditions",
+        HaveAnAccount: "Have an account?",
+        SignInNow: "Sign In Now!",
+        Next: "Next",
+        TermsOfUse: "Terms of Use",
+        TermsAndConditionsDetails: "Your privacy is important to us. Naqel's Privacy Statement describes the types of data we collect from you, how we use your Data, and the legal bases we have to process your Data. The Privacy Statement also describes how Naqel uses your content, which is information submitted by you to Naqel via the Services. Where processing is based on consent and to the extent permitted by law, by agreeing to these Terms, you consent to Naqel’s collection, use and disclosure of your content and data as described in the privacy statement. In some cases, we will provide separate notice and request your consent as referenced in the privacy statement.",
+        OK: "OK",
+        UsernameError1: "Username is required.",
+        UsernameError2: "Username is invalid.",
+        PhoneNumberError1: "Phone number is required.",
+        PhoneNumberError2: "Phone number is invalid.",
+        CodeError: "Confirmation code is invalid.",
+        PasswordError1: "Password is required.",
+        PasswordError2: "Password is too short.",
+        ConfirmPasswordError: "Passwords did not match.",
+        EmailUsernameError: "Username or email is already taken.",
+        TermsError: "You must agree to our terms and conditions.",
+    };
+}
 
 export default Register;

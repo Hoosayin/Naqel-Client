@@ -39,7 +39,7 @@ class AskQuestionDialog extends Component {
         switch (field) {
             case "Question":
                 ValidQuestion = (value !== "");
-                Errors.Question = ValidQuestion ? "" : "Question is required.";
+                Errors.Question = ValidQuestion ? "" : Dictionary.QuestionError;
                 break;
             default:
                 break;
@@ -113,9 +113,9 @@ class AskQuestionDialog extends Component {
                                     <div className="container">
                                         <div className="row">
                                             <div className="col-md-24">
-                                                <div className="type-h3 color-default p-t-n">Ask a New Question</div>
+                                                <div className="type-h3 color-default p-t-n">{Dictionary.AskNewQuestion}</div>
                                                 <div class="form-group">
-                                                    <label className="control-label">Question</label>
+                                                    <label className="control-label">{Dictionary.Question}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <textarea rows="6" class="form-control" name="Question" style={{ maxWidth: "100%" }}
                                                         value={Question} onChange={this.onChange}></textarea>
@@ -124,7 +124,7 @@ class AskQuestionDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Post" className="btn btn-primary" disabled={!ValidForm} />
+                                            <input type="submit" value={Dictionary.Post} className="btn btn-primary" disabled={!ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -136,5 +136,29 @@ class AskQuestionDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AskNewQuestion: "اطرح سؤالاً جديداً",
+        Question: "سؤال",
+        Post: "بريد",
+        QuestionError: "السؤال مطلوب."
+    };
+}
+else {
+    Dictionary = {
+        AskNewQuestion: "Ask a New Question",
+        Question: "Question",
+        Post: "Post",
+        QuestionError: "Question is required."
+    };
+}
 
 export default AskQuestionDialog;

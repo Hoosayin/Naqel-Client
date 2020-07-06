@@ -5,7 +5,7 @@ import Strings from "../../res/strings";
 export const registerAdministrator = async newCredentials => {
     return await axios.post(`${Strings.NAQEL_SERVER}administrators/register`, {
         Username: newCredentials.Username,
-        Email: newCredentials.Email,
+        PhoneNumber: newCredentials.PhoneNumber,
         Password: newCredentials.Password,
         RegisterAs: newCredentials.RegisterAs,
     }).then(response => {
@@ -20,6 +20,7 @@ export const setupAdministratorAccount = async newAdministrator => {
         Email: newAdministrator.Email,
         Password: newAdministrator.Password,
         RegisterAs: newAdministrator.RegisterAs,
+        Email: newAdministrator.Email,
         FirstName: newAdministrator.FirstName,
         LastName: newAdministrator.LastName,
         AdministratorSecret: newAdministrator.AdministratorSecret
@@ -32,7 +33,7 @@ export const setupAdministratorAccount = async newAdministrator => {
 export const loginAdministrator = async administrator => {
     console.log(`Sending HTTP POST request on ${Strings.NAQEL_SERVER}administrators/login`);
     return await axios.post(`${Strings.NAQEL_SERVER}administrators/login`, {
-        EmailOrUsername: administrator.EmailOrUsername,
+        PhoneNumberOrUsername: administrator.PhoneNumberOrUsername,
         Password: administrator.Password,
         SignInAs: administrator.SignInAs,
     }).then(response => {
@@ -98,6 +99,15 @@ export const validateUsername = async username => {
 export const validateEmail = async email => {
     return await axios.post(`${Strings.NAQEL_SERVER}administrators/validateEmail`, {
         Email: email
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ValidatePhoneNumber
+export const validatePhoneNumber = async phoneNumber => {
+    return await axios.post(`${Strings.NAQEL_SERVER}administrators/validatePhoneNumber`, {
+        PhoneNumber: phoneNumber
     }).then(response => {
         return response.data;
     });

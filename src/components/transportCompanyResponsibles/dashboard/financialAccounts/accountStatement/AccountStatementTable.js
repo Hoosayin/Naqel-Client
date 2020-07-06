@@ -25,27 +25,27 @@ class AccountStatementTable extends Component {
         }
 
         return <section>
-            <div className="jumbotron theme-default back-color-light">
+            <div className="jumbotron theme-default back-color-light" dir={GetDirection()}>
                 <div className="container">
-                    <div className="type-t3" style={{ fontWeight: "600" }}><span className="fas fa-route m-r-xxxs"></span>NAQEL</div>
+                    <div className="type-t3" style={{ fontWeight: "600" }}><span className="fas fa-route m-r-xxxs m-l-xxxs"></span>{Dictionary.Naqel}</div>
 
                     <div className="p-t-xxs">
-                        <div className="type-t8 m-b-xxs">TRANSPORT COMPANY DETAILS</div>
-                        <div className="type-t8">{`Company Name: ${transportCompany.Name}`}</div>
-                        <div className="type-t8">{`Username: ${transportCompany.Username}`}</div>
-                        <div className="type-t8">{`Internal Number: ${transportCompany.InternalNumber}`}</div>
-                        <div className="type-t8">{`Commercial Register Number: ${transportCompany.CommercialRegisterNumber}`}</div>
+                        <div className="type-t8 m-b-xxs">{Dictionary.TransportComapanyDetails}</div>
+                        <div className="type-t8">{`${Dictionary.CompanyName}: ${transportCompany.Name}`}</div>
+                        <div className="type-t8">{`${Dictionary.Username}: ${transportCompany.Username}`}</div>
+                        <div className="type-t8">{`${Dictionary.InternalNumber}: ${transportCompany.InternalNumber}`}</div>
+                        <div className="type-t8">{`${Dictionary.CommercialRegisterNumber}: ${transportCompany.CommercialRegisterNumber}`}</div>
                     </div>
                 </div>
             </div>
 
             {AccountStatement.Transactions.length === 0 ? 
-                <section>
+                <section dir={GetDirection()}>
                     <div className="jumbotron theme-default" style={{ height: "100vh" }}>
                         <div className="container">
                             <div className="text-center p-xxs">
-                                <div className="type-h4"><span className="fas fa-exclamation-triangle m-r-xxs"
-                                    style={{ color: "#FFBF15" }}></span>No transactions found.</div>
+                                <div className="type-h4"><span className="fas fa-exclamation-triangle m-r-xxs m-l-xxs"
+                                    style={{ color: "#FFBF15" }}></span>{Dictionary.NoTransactionFound}.</div>
                             </div>
                         </div>
                     </div>
@@ -54,19 +54,19 @@ class AccountStatementTable extends Component {
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>DATE</th>
-                                <th>TRUCK NUMBER</th>
-                                <th>JOB NUMBER</th>
-                                <th>TRADER BILL NUMBER</th>
-                                <th>TRADER BILL PAID?</th>
-                                <th>TRADER PAY METHOD</th>
-                                <th>DRIVER BILL NUMBER</th>
-                                <th>DRIVER BILL PAID?</th>
-                                <th>DRIVER PAY METHOD</th>
-                                <th>FEE RATE</th>
-                                <th>EARNED</th>
-                                <th>CHARGED</th>
-                                <th>TOTAL AMOUNT</th>
+                                <th>{Dictionary.Date}</th>
+                                <th>{Dictionary.TruckNumber}</th>
+                                <th>{Dictionary.JobNumber}</th>
+                                <th>{Dictionary.TraderBillNumber}</th>
+                                <th>{Dictionary.TraderBillPaid}</th>
+                                <th>{Dictionary.TradePayMethod}</th>
+                                <th>{Dictionary.DriverBillNumber}</th>
+                                <th>{Dictionary.DriverBillPaid}</th>
+                                <th>{Dictionary.DriverPayMethod}</th>
+                                <th>{Dictionary.FeeRate}</th>
+                                <th>{Dictionary.Earned}</th>
+                                <th>{Dictionary.Charged}</th>
+                                <th>{Dictionary.TotalAmount}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,7 +85,7 @@ class AccountStatementTable extends Component {
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>TOTAL:</td>
+                                <td>{Dictionary.Total}:</td>
                                 <td>{`${netEarned.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
                                 <td>{`${netCharged.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
                                 <td>{`${netAmount.toFixed(2)} ${Strings.SAUDI_RIYAL}`}</td>
@@ -96,5 +96,63 @@ class AccountStatementTable extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Naqel: "نا قل",
+        TransportComapanyDetails: "تفاصيل شركة النقل",
+        CompanyName: "اسم الشركة",
+        Username: "اسم المستخدم",
+        InternalNumber: "الرقم الداخلي",
+        CommercialRegisterNumber: "رقم السجل التجاري",
+        NoTransactionFound: "لم يتم العثور على معاملات",
+        Date: "تاريخ",
+        TruckNumber: "رقم الشاحنة",
+        JobNumber: "رقم الوظيفة",
+        TraderBillNumber: "رقم فاتورة التاجر",
+        TraderBillPaid: "دفع فاتورة التاجر؟",
+        TradePayMethod: "طريقة دفع التاجر",
+        DriverBillNumber: "رقم فاتورة السائق",
+        DriverBillPaid: "مدفوع فاتورة السائق؟",
+        DriverPayMethod: "طريقة دفع السائق",
+        FeeRate: "معدل الرسوم",
+        Earned: "حصل",
+        Charged: "متهم",
+        TotalAmount: "المبلغ الإجمالي",
+        Total: "مجموع"
+    };
+}
+else {
+    Dictionary = {
+        Naqel: "NAQEL",
+        TransportComapanyDetails: "TRANSPORT COMPANY DETAILS",
+        CompanyName: "Company Name",
+        Username: "Username",
+        InternalNumber: "Internal Number",
+        CommercialRegisterNumber: "Commercial Register Number",
+        NoTransactionFound: "No transactions found",
+        Date: "DATE",
+        TruckNumber: "TRUCK NUMBER",
+        JobNumber: "JOB NUMBER",
+        TraderBillNumber: "TRADER BILL NUMBER",
+        TraderBillPaid: "TRADER BILL PAID?",
+        TradePayMethod: "TRADER PAY METHOD",
+        DriverBillNumber: "DRIVER BILL NUMBER",
+        DriverBillPaid: "DRIVER BILL PAID?",
+        DriverPayMethod: "DRIVER PAY METHOD",
+        FeeRate: "FEE RATE",
+        Earned: "EARNED",
+        Charged: "CHARGED",
+        TotalAmount: "TOTAL AMOUNT",
+        Total: "TOTAL"
+    };
+}
 
 export default AccountStatementTable;

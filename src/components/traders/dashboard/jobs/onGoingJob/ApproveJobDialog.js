@@ -60,14 +60,14 @@ class ApproveJobDialog extends Component {
                             </div>
                         </div>
                         <div className="modal-body">
-                            <div class="jumbotron">
+                            <div class="jumbotron" dir={GetDirection()}>
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-24">
                                             <img alt="stamp.png" src="./images/stamp.png" height="100" />
-                                            <div class="type-h3">Approve Completion</div>
-                                            <div class="type-sh3">Your driver has finished the job. We hope your cargo is delivered.</div>
-                                            <p><span class="color-default">Note:</span> After approving completion, you can view this job in your <span class="color-default">Completed Jobs</span> tab. You can also rate and review this driver from there. You have to pay the bill from the <span class="color-default">Payments</span> section.</p>
+                                            <div class="type-h3">{Dictionary.ApproveCompletion}</div>
+                                            <div class="type-sh3">{Dictionary.ApproveCompletionSubtitle}.</div>
+                                            <p>{Dictionary.ApproveCompletionDetails}.</p>
                                             <div class="text-right">
                                                 <button class="btn btn-primary" onClick={this.onApprove}>Approve</button>
                                             </div>
@@ -82,5 +82,29 @@ class ApproveJobDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        ApproveCompletion: "الموافقة على الإنجاز",
+        ApproveCompletionSubtitle: "سائقك أنهى العمل نأمل أن يتم تسليم البضائع الخاصة بك",
+        ApproveCompletionDetails: "ملاحظة: بعد الموافقة على الانتهاء ، يمكنك عرض هذه الوظيفة في علامة تبويب المهام المكتملة. يمكنك أيضًا تقييم ومراجعة برنامج التشغيل هذا من هناك. عليك دفع الفاتورة من قسم المدفوعات",
+        Approve: "يوافق"
+    };
+}
+else {
+    Dictionary = {
+        ApproveCompletion: "Approve Completion",
+        ApproveCompletionSubtitle: ">Your driver has finished the job. We hope your cargo is delivered",
+        ApproveCompletionDetails: "Note: After approving completion, you can view this job in your Completed Jobs tab. You can also rate and review this driver from there. You have to pay the bill from the Payments section",
+        Approve: "Approve"
+    };
+}
 
 export default ApproveJobDialog;

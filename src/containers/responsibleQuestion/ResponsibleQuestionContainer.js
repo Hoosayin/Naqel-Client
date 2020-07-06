@@ -20,7 +20,7 @@ class ResponsibleQuestionContainer extends Component {
         return <section>
             <div className="jumbotron theme-default">
                 <div className="container">
-                    <div className="type-h5 color-default p-t-n">{`${Index + 1}. Question ID: ${Question.QuestionNumber}`}</div>
+                    <div className="type-h5 color-default p-t-n" dir={GetDirection()}>{`${Index + 1}. ${Dictionary.QuestionID}: ${Question.QuestionNumber}`}</div>
                     <div className="row">
                         <div className="col-md-12">
                             <div className="entity-list">
@@ -34,7 +34,7 @@ class ResponsibleQuestionContainer extends Component {
                                             {`${askedBy.Name}`}
                                         </div>
                                         <div className="content-text-secondary">{`@${askedBy.Username}`}</div>
-                                        <div className="content-text-secondary">{`${askedOn.toDateString()} at ${askedOn.toLocaleTimeString()}`}</div>
+                                        <div className="content-text-secondary" dir={GetDirection()}>{`${askedOn.toDateString()} ${Dictionary.At} ${askedOn.toLocaleTimeString()}`}</div>
                                     </div>
                                 </div>
                                 <div className="entity-list-item">
@@ -66,7 +66,7 @@ class ResponsibleQuestionContainer extends Component {
                                                 {`${answeredBy.FirstName} ${answeredBy.LastName}`}
                                             </div>
                                             <div className="content-text-secondary">{`@${answeredBy.Username}`}</div>
-                                            <div className="content-text-secondary">{`${answeredOn.toDateString()} at ${answeredOn.toLocaleTimeString()}.`}</div>
+                                            <div className="content-text-secondary" dir={GetDirection()}>{`${answeredOn.toDateString()} ${Dictionary.At} ${answeredOn.toLocaleTimeString()}.`}</div>
                                         </div>
                                     </div>
                                     <div className="entity-list-item">
@@ -75,8 +75,8 @@ class ResponsibleQuestionContainer extends Component {
                                         </div>
                                         <div className="item-content-primary">
                                             <div className="content-text-primary">
-                                                <span className="m-r-xxxs">Answer</span>
-                                                {responsibleAnswer.Edited ? <span className="color-default">EDITED</span> : null}
+                                                <span className="m-r-xxxs">{Dictionary.Answer}</span>
+                                                {responsibleAnswer.Edited ? <span className="color-default">{Dictionary.Edited}</span> : null}
                                             </div>
                                             <div className="content-text-secondary">{responsibleAnswer.Answer}</div>
                                         </div>
@@ -91,9 +91,9 @@ class ResponsibleQuestionContainer extends Component {
                                         </div>
                                         <div className="item-content-primary">
                                             <div className="content-text-primary">
-                                                <span className="m-r-xxxs">Answer</span>
+                                                <span className="m-r-xxxs">{Dictionary.Answer}</span>
                                             </div>
-                                            <div className="content-text-secondary">This question has not been answered yet.</div>
+                                            <div className="content-text-secondary">{Dictionary.AnswerDetails}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -104,5 +104,33 @@ class ResponsibleQuestionContainer extends Component {
        </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        QuestionID: "معرف السؤال",
+        At: "في",
+        Question: "سؤال",
+        Answer: "إجابة",
+        Edited: "محررة",
+        AnswerDetails: ".هذا السؤال مازال لم يجب عليه حتى الان"
+    };
+}
+else {
+    Dictionary = {
+        QuestionID: "Question ID",
+        At: "at",
+        Question: "Question",
+        Answer: "Answer",
+        Edited: "EDITED",
+        AnswerDetails: "This question has not been answered yet."
+    };
+}
 
 export default ResponsibleQuestionContainer;

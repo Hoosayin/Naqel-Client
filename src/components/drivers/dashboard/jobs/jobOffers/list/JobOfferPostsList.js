@@ -82,7 +82,7 @@ class JobOfferPostsList extends Component {
 
     render() {
         if (this.state.Searching) {
-            return <section>
+            return <section dir={GetDirection()}>
                 <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }}>
                     <div className="container">
                         <div className="row">
@@ -91,9 +91,9 @@ class JobOfferPostsList extends Component {
                                     alt="job_offers.png" src="./images/job_offers.svg" data-source-index="2" style={{ maxWidth: "70%" }} />
                             </div>
                             <div className="col-md-12 col-md-pull-12">
-                                <div className="type-h3">Job Offers</div>
-                                <p>Job opportunities from Traders and Brokers are displayed here.</p>
-                                <div class="type-sh3" style={{ color: "#008575" }}>Searhcing</div>
+                                <div className="type-h3">{Dictionary.JobOffers}</div>
+                                <p>{Dictionary.JobOffersSubtitle}</p>
+                                <div class="type-sh3" style={{ color: "#008575" }}>{Dictionary.Searching}</div>
                                 <ProgressBar />
                             </div>
                         </div>
@@ -102,7 +102,7 @@ class JobOfferPostsList extends Component {
             </section>;
         }
         else if (this.state.JobOfferPosts.length === 0) {
-            return <section>
+            return <section dir={GetDirection()}>
                 <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }}>
                     <div className="container">
                         <div className="row">
@@ -111,9 +111,9 @@ class JobOfferPostsList extends Component {
                                     alt="job_offers.png" src="./images/job_offers.svg" data-source-index="2" style={{ maxWidth: "70%" }} />
                             </div>
                             <div className="col-md-12 col-md-pull-12">
-                                <div className="type-h3">Job Offers</div>
-                                <div className="type-sh3">No Job Offers Found...</div>
-                                <p>Job opportunities from Traders and Brokers are displayed here.</p>
+                                <div className="type-h3">{Dictionary.JobOffers}</div>
+                                <div className="type-sh3">{Dictionary.NoJobOffersFound}</div>
+                                <p>{Dictionary.JobOffersSubtitle}</p>
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@ class JobOfferPostsList extends Component {
         else {
             return <section>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Job Offers
+                <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>{Dictionary.JobOffers}
                     {this.state.Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
                 </div>
                 <ol className="list-items" style={{ marginTop: "0px" }}>
@@ -153,5 +153,29 @@ class JobOfferPostsList extends Component {
        
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobOffers: "عروض العمل",
+        JobOffersSubtitle: "يتم عرض فرص العمل من التجار والوسطاء هنا.",
+        Searching: "يبحث",
+        NoJobOffersFound: "لم يتم العثور على عروض عمل ...",
+    };
+}
+else {
+    Dictionary = {
+        JobOffers: "Job Offers",
+        JobOffersSubtitle: "Job opportunities from Traders and Brokers are displayed here.",
+        Searching: "Searhcing",
+        NoJobOffersFound: "No Job Offers Found...",
+    };
+}
 
 export default JobOfferPostsList;

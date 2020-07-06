@@ -16,11 +16,11 @@ class MoreDetails extends Component {
             <ul className="nav nav-tabs tabs-light" role="tablist">
                 <li role="presentation" className="active">
                     <a href={`#trader-completed-jobs-${index}`} aria-controls={`trader-completed-jobs-${index}`} role="tab" data-toggle="tab"
-                        onClick={async () => { await this.RefreshTraderContainer(); }}>Trader</a>
+                        onClick={async () => { await this.RefreshTraderContainer(); }}>{Dictionary.Trader}</a>
                 </li>
                 <li role="presentation">
                     <a href={`#payment-details-completed-jobs-${index}`} aria-controls={`payment-details-completed-jobs-${index}`} role="tab" data-toggle="tab"
-                        onClick={async () => { await this.RefreshPaymentDetails(); }}>Payment Details</a>
+                        onClick={async () => { await this.RefreshPaymentDetails(); }}>{Dictionary.PaymentDetails}</a>
                 </li>
             </ul>
             <div className="tab-content">
@@ -35,5 +35,25 @@ class MoreDetails extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Trader: "التاجر",
+        PaymentDetails: "بيانات الدفع",
+    };
+}
+else {
+    Dictionary = {
+        Trader: "Trader",
+        PaymentDetails: "Payment Details",
+    };
+}
 
 export default MoreDetails;

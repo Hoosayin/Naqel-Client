@@ -16,13 +16,13 @@ class TruckJobsTable extends Component {
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>NUMBER</th>
-                            <th>JOB NUMBER</th>
-                            <th>SOURCE</th>
-                            <th>DESTINATION</th>
-                            <th>PRICE</th>
-                            <th>TRUCK NUMBER</th>
-                            <th>DATE</th>
+                            <th>{Dictionary.Number}</th>
+                            <th>{Dictionary.JobNumber}</th>
+                            <th>{Dictionary.Source}</th>
+                            <th>{Dictionary.Destination}</th>
+                            <th>{Dictionary.Price}</th>
+                            <th>{Dictionary.TruckNumber}</th>
+                            <th>{Dictionary.Date}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -38,5 +38,35 @@ class TruckJobsTable extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Number: "رقم",
+        JobNumber: "رقم الوظيفة",
+        Source: "مصدر",
+        Destination: "المكان المقصود",
+        Price: "السعر",
+        TruckNumber: "رقم الشاحنة",
+        Date: "تاريخ",
+    };
+}
+else {
+    Dictionary = {
+        Number: "NUMBER",
+        JobNumber: "JOB NUMBER",
+        Source: "SOURCE",
+        Destination: "DESTINATION",
+        Price: "PRICE",
+        TruckNumber: "TRUCK NUMBER",
+        Date: "DATE",
+    };
+}
 
 export default TruckJobsTable;

@@ -31,8 +31,8 @@ class DriverRequestRow extends Component {
 
             <td>
                 {`${driver.FirstName} ${driver.LastName}`}
-                {index === 0 ? <span class="badge back-color-golden m-l-xxxs">NEW</span> : null}
-                {driverOnJob ? <span class="badge back-color-danger m-l-xxxs">ON JOB</span> : null}
+                {index === 0 ? <span class="badge back-color-golden m-l-xxxs">{Dictionary.New}</span> : null}
+                {driverOnJob ? <span class="badge back-color-danger m-l-xxxs">{Dictionary.OnJob}</span> : null}
             </td>
 
             <td>{new Date(driverRequest.Created).toDateString()}</td>
@@ -47,19 +47,19 @@ class DriverRequestRow extends Component {
                         onClick={async () => {
                             await this.RefreshDriverContainer();
                             await this.RefreshDocumentsContainer();
-                        }}>Profile</button>
+                        }}>{Dictionary.Profile}</button>
 
                     <button className="btn btn-secondary m-xxxs"
                         data-toggle="modal"
                         data-target={`#truck-dialog-${truckIndex}`}
                         onClick={async () => {
                             await this.RefreshTruckContainer();
-                        }}>Truck</button>
+                        }}>{Dictionary.Truck}</button>
 
                     <button className="btn btn-primary m-xxxs"
                         disabled={!canAssign}
                         data-toggle="modal"
-                        data-target={`#assign-dialog-${assignJobIndex}`}>Assign Job</button>
+                        data-target={`#assign-dialog-${assignJobIndex}`}>{Dictionary.AssignJob}</button>
 
                     <ProfileDialog Index={profileIndex}
                         DriverID={driverRequest.DriverID}
@@ -81,5 +81,31 @@ class DriverRequestRow extends Component {
         </tr>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        New: "جديد",
+        OnJob: "على الوظيفة",
+        Profile: "الملف الشخصي",
+        Truck: "شاحنة",
+        AssignJob: "تعيين الوظيفة",
+    };
+}
+else {
+    Dictionary = {
+        New: "NEW",
+        OnJob: "ON JOB",
+        Profile: "Profile",
+        Truck: "Truck",
+        AssignJob: "Assign Job",
+    };
+}
 
 export default DriverRequestRow;

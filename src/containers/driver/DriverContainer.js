@@ -40,7 +40,7 @@ class DriverContainer extends Component {
             await getPublicData(request).then(response => {
                 if (response.Message === "Driver profile found.") {
                     this.setState({
-                        DriverProfile: response.DriverProfile,
+                        DriverProfile: response.Driver,
                         Searching: false
                     });
                 }
@@ -67,7 +67,7 @@ class DriverContainer extends Component {
             await getPublicData(request).then(response => {
                 if (response.Message === "Driver profile found.") {
                     this.setState({
-                        DriverProfile: response.DriverProfile
+                        DriverProfile: response.Driver
                     });
                 }
                 else {
@@ -82,15 +82,15 @@ class DriverContainer extends Component {
     render() {
         if (this.state.Searching || !this.state.DriverProfile) {
             return <SearchingContainer Searching={this.state.Searching}
-                SearchingFor="driver" />;
+                SearchingFor={Dictionary.Driver} />;
         }
         else {
             const driverProfile = this.state.DriverProfile;
-            const driver = driverProfile.Driver;
+            const driver = driverProfile;
             const ratingAndReviews = driverProfile.RatingAndReviews
             const onJob = driverProfile.OnJob;
-            const profilePhoto = driverProfile.ProfilePhoto ?
-                driverProfile.ProfilePhoto :
+            const profilePhoto = driverProfile.PhotoURL ?
+                driverProfile.PhotoURL :
                 "./images/defaultProfilePhoto.png";
 
             const dialogID = UUID().substring(0, 7).toUpperCase();
@@ -110,14 +110,14 @@ class DriverContainer extends Component {
                             <div className="col-md-18">
                                 <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>
                                     {`${driver.FirstName} ${driver.LastName} `}
-                                    {onJob ? <span class="badge back-color-golden">ON JOB</span> : null}
+                                    {onJob ? <span class="badge back-color-golden">{Dictionary.OnJob}</span> : null}
                                 </div>
-                                <div className="type-sh3"><span className="fas fa-car m-r-xxs" style={{ color: "#606060" }}></span>Driver</div>
+                                <div className="type-sh3"><span className="fas fa-car m-r-xxs" style={{ color: "#606060" }}></span>{Dictionary.Driver}</div>
                                 <div className="type-sh3">
                                     <span><Rating Rating={ratingAndReviews.Reviews > 0 ? ratingAndReviews.Rating : 0}
                                         Color="" Size="rating-small"
                                         Label={ratingAndReviews.Reviews > 0 ?
-                                            `(${ratingAndReviews.Reviews} Review(s))` : `No Reviews`} /></span>
+                                            `(${ratingAndReviews.Reviews} ${Dictionary.Reviews})` : `${Dictionary.NoReviews}`} /></span>
                                 </div>
                                 <div className="row">
                                     <div className="col-md-12">
@@ -127,7 +127,7 @@ class DriverContainer extends Component {
                                                     <span className="fas fa-globe-asia"></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">Active</div>
+                                                    <div className="content-text-primary">{Dictionary.Active}</div>
                                                     <div className="content-text-secondary">{(driver.Active === 1) ?
                                                         <span className="fa fa-check-circle" style={{ color: "#25AE88" }}></span> :
                                                         <span className="fa fa-times-circle" style={{ color: "#D75A4A" }}></span>}</div>
@@ -140,7 +140,7 @@ class DriverContainer extends Component {
                                                     <span class={(driver.Gender === "Male") ? "fas fa-male" : "fas fa-female"}></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Gender</div>
+                                                    <div class="content-text-primary">{Dictionary.Gender}</div>
                                                     <div class="content-text-secondary">{driver.Gender}</div>
                                                 </div>
                                             </div>
@@ -151,7 +151,7 @@ class DriverContainer extends Component {
                                                     <span class="fas fa-birthday-cake"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Birthday</div>
+                                                    <div class="content-text-primary">{Dictionary.Birthday}</div>
                                                     <div class="content-text-secondary">{driver.DateOfBirth}</div>
                                                 </div>
                                             </div>
@@ -164,7 +164,7 @@ class DriverContainer extends Component {
                                                     <span class="fas fa-envelope"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Email</div>
+                                                    <div class="content-text-primary">{Dictionary.Email}</div>
                                                     <div class="content-text-secondary">{driver.Email}</div>
                                                 </div>
                                             </div>
@@ -175,7 +175,7 @@ class DriverContainer extends Component {
                                                     <span class="fas fa-phone"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Phone Number</div>
+                                                    <div class="content-text-primary">{Dictionary.PhoneNumber}</div>
                                                     <div class="content-text-secondary">{driver.PhoneNumber}</div>
                                                 </div>
                                             </div>
@@ -186,18 +186,22 @@ class DriverContainer extends Component {
                                                     <span class="fas fa-flag"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Nationality</div>
+                                                    <div class="content-text-primary">{Dictionary.Nationality}</div>
                                                     <div class="content-text-secondary">{driver.Nationality}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div>
                                 {this.props.TabView ?
                                     null : 
                                     <button type="button" className="btn btn-default"
                                         style={{ minWidth: "152px" }} data-toggle="modal"
-                                        data-target={`#documents-dialog-${dialogID}`}>Documents</button>}
+                                        data-target={`#documents-dialog-${dialogID}`}>{Dictionary.Documents}</button>}
+                                        <a dir={GetDirection()} href={`https://api.whatsapp.com/send?phone=${driver.PhoneNumber.replace("+", "")}`} 
+                                        target="_blank" className="btn btn-primary">{Dictionary.ChatOnWhatsApp}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -210,5 +214,45 @@ class DriverContainer extends Component {
         } 
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        OnJob: "في العمل",
+        Driver: "سائق",
+        Reviews: "المراجعات",
+        NoReviews: "لم يتم تقديم تعليقات",
+        Active: "نشيط",
+        Gender: "جنس",
+        Birthday: "عيد الميلاد",
+        Email: "البريد الإلكتروني",
+        PhoneNumber: "رقم الهاتف",
+        Nationality: "الجنسية",
+        Documents: "مستندات",
+        ChatOnWhatsApp: "الدردشة على WhatsApp"
+    };
+}
+else {
+    Dictionary = {
+        OnJob: "ON JOB",
+        Driver: "Driver",
+        Reviews: "Review(s)",
+        NoReviews: "No Reviews",
+        Active: "Active",
+        Gender: "Gender",
+        Birthday: "Birthday",
+        Email: "Email",
+        PhoneNumber: "Phone Number",
+        Nationality: "Nationality",
+        Documents: "Documents",
+        ChatOnWhatsApp: "Chat on WhatsApp"
+    };
+}
 
 export default DriverContainer;

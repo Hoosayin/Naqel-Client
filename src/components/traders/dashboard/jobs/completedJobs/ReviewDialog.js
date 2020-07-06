@@ -42,14 +42,14 @@ class ReviewDialog extends Component {
         switch (field) {
             case "Review":
                 ValidReview = (value !== "");
-                Errors.Review = ValidReview ? "" : "Review is required";
+                Errors.Review = ValidReview ? "" : Dictionary.ReviewError1;
 
                 if (Errors.Review !== "") {
                     break;
                 }
 
                 ValidReview = (value.length <= 200);
-                Errors.Review = ValidReview ? value.length : "Too long...";
+                Errors.Review = ValidReview ? value.length : Dictionary.ReviewError2;
                 break;
             default:
                 break;
@@ -125,9 +125,9 @@ class ReviewDialog extends Component {
                                     <div className="container">
                                         <div className="row">
                                             <div className="col-md-24">
-                                                <div className="type-h3 color-default p-t-n">Rate and Review</div>
+                                                <div className="type-h3 color-default p-t-n">{Dictionary.RateAndReview}</div>
                                                 <div class="form-group">
-                                                    <label>Rate this Driver</label>
+                                                    <label>{Dictionary.RateDriver}</label>
                                                     <InteractiveRating OnRated={rating => {
                                                         this.setState({
                                                             Rating: rating,
@@ -140,16 +140,16 @@ class ReviewDialog extends Component {
                                                     }} />
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Review</label>
+                                                    <label>{Dictionary.Review}</label>
                                                     <textarea rows="6" class="form-control" name="Review" style={{ maxWidth: "100%" }}
                                                         value={this.state.Review} onChange={this.onChange}></textarea>
-                                                    <span className={(this.state.Errors.Review === "Too long..." ||
-                                                        this.state.Errors.Review === "Review is required") ? "text-danger" : "text-accent"}>{this.state.Errors.Review}</span>
+                                                    <span className={(this.state.Errors.Review === Dictionary.ReviewError1 ||
+                                                        this.state.Errors.Review === Dictionary.ReviewError2) ? "text-danger" : "text-accent"}>{this.state.Errors.Review}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Submit" className="btn btn-primary m-n" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Submit} className="btn btn-primary m-n" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -161,5 +161,33 @@ class ReviewDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        RateAndReview: "تقييم ومراجعة",
+        RateDriver: "قيم هذا السائق",
+        Review: "مراجعة",
+        Submit: "إرسال",
+        ReviewError1: "المراجعة مطلوبة",
+        ReviewError2: "...طويل جدا",
+    };
+}
+else {
+    Dictionary = {
+        RateAndReview: "Rate and Review",
+        RateDriver: "Rate this Driver",
+        Review: "Review",
+        Submit: "Submit",
+        ReviewError1: "Review is required",
+        ReviewError2: "Too long...",
+    };
+}
 
 export default ReviewDialog;

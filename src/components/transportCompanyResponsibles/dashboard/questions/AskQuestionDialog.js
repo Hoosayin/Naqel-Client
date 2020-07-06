@@ -39,7 +39,7 @@ class AskQuestionDialog extends Component {
         switch (field) {
             case "Question":
                 ValidQuestion = (value !== "");
-                Errors.Question = ValidQuestion ? "" : "Question is required.";
+                Errors.Question = ValidQuestion ? "" : Dictionary.QuestionError;
                 break;
             default:
                 break;
@@ -92,49 +92,73 @@ class AskQuestionDialog extends Component {
         } = this.state;
 
         return <section>
-            <div className="modal modal-center-vertical" id={`ask-question-dialog`}
-                tabIndex="-1" role="dialog"
-                aria-labelledby="modal-sample-label" aria-hidden="true">
-                {ShowPreloader ? <Preloader /> : null}
-                <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
-                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
-                        <div className="modal-header">
-                            <div className="text-right">
-                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
-                                    data-dismiss="modal"
-                                    ref={cancelButton => this.cancelButton = cancelButton}>
-                                    <span className="fas fa-times"></span>
-                                </button>
-                            </div>
+        <div className="modal modal-center-vertical" id={`ask-question-dialog`}
+            tabIndex="-1" role="dialog"
+            aria-labelledby="modal-sample-label" aria-hidden="true">
+            {ShowPreloader ? <Preloader /> : null}
+            <div className="modal-dialog" style={{ width: "100%", maxWidth: "95%" }}>
+                <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                    <div className="modal-header">
+                        <div className="text-right">
+                            <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                data-dismiss="modal"
+                                ref={cancelButton => this.cancelButton = cancelButton}>
+                                <span className="fas fa-times"></span>
+                            </button>
                         </div>
-                        <div className="modal-body">
-                            <form noValidate onSubmit={this.onSubmit}>
-                                <div className="jumbotron theme-default">
-                                    <div className="container">
-                                        <div className="row">
-                                            <div className="col-md-24">
-                                                <div className="type-h3 color-default p-t-n">Ask a New Question</div>
-                                                <div class="form-group">
-                                                    <label className="control-label">Question</label>
-                                                    <span className="text-danger m-l-xxxs">*</span>
-                                                    <textarea rows="6" class="form-control" name="Question" style={{ maxWidth: "100%" }}
-                                                        value={Question} onChange={this.onChange}></textarea>
-                                                    <span className="text-danger">{Errors.Question}</span>
-                                                </div>
+                    </div>
+                    <div className="modal-body">
+                        <form noValidate onSubmit={this.onSubmit}>
+                            <div className="jumbotron theme-default">
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col-md-24">
+                                            <div className="type-h3 color-default p-t-n">{Dictionary.AskNewQuestion}</div>
+                                            <div class="form-group">
+                                                <label className="control-label">{Dictionary.Question}</label>
+                                                <span className="text-danger m-l-xxxs">*</span>
+                                                <textarea rows="6" class="form-control" name="Question" style={{ maxWidth: "100%" }}
+                                                    value={Question} onChange={this.onChange}></textarea>
+                                                <span className="text-danger">{Errors.Question}</span>
                                             </div>
                                         </div>
-                                        <div className="text-right">
-                                            <input type="submit" value="Post" className="btn btn-primary" disabled={!ValidForm} />
-                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <input type="submit" value={Dictionary.Post} className="btn btn-primary" disabled={!ValidForm} />
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </section>;
+        </div>
+    </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AskNewQuestion: "اطرح سؤالاً جديداً",
+        Question: "سؤال",
+        Post: "بريد",
+        QuestionError: "السؤال مطلوب."
+    };
+}
+else {
+    Dictionary = {
+        AskNewQuestion: "Ask a New Question",
+        Question: "Question",
+        Post: "Post",
+        QuestionError: "Question is required."
+    };
+}
 
 export default AskQuestionDialog;

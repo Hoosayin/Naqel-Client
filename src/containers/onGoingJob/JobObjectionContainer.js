@@ -31,7 +31,7 @@ class JobObjectionContainer extends Component {
                                     {`${objectionBy.FirstName} ${objectionBy.LastName}`}
                                 </div>
                                 <div className="content-text-secondary">{objectionBy.Username}</div>
-                                <div className="content-text-secondary">{`Posted on ${createdOn.toDateString()}.`}</div>
+                                <div className="content-text-secondary">{`${Dictionary.PostedOn} ${createdOn.toDateString()}.`}</div>
                             </div>
                         </div>
                         <div className="entity-list-item">
@@ -39,9 +39,9 @@ class JobObjectionContainer extends Component {
                                 <span className="fas fa-thumbs-down"></span>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Objection</div>
-                                <div className="content-text-secondary">{`Reason: ${JobObjection.Reason}`}</div>
-                                <div className="content-text-secondary">{`Comment: ${JobObjection.Comment}`}</div>
+                                <div className="content-text-primary">{Dictionary.Objection}</div>
+                                <div className="content-text-secondary">{Dictionary.Reason}: {JobObjection.Reason}</div>
+                                <div className="content-text-secondary">{`${Dictionary.Comment}: ${JobObjection.Comment}`}</div>
                             </div>
                         </div>
                     </div>
@@ -50,5 +50,29 @@ class JobObjectionContainer extends Component {
        </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Objection: "اعتراض",
+        PostedOn: "نشر على",
+        Reason: "السبب",
+        Comment: "تعليق"
+    };
+}
+else {
+    Dictionary = {
+        Objection: "Objection",
+        PostedOn: "Posted on",
+        Reason: "Reason",
+        Comment: "Comment"
+    };
+}
 
 export default JobObjectionContainer;

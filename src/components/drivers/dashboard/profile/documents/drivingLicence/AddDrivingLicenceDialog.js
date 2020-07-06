@@ -57,23 +57,23 @@ class AddDrivingLicenceDialog extends Component {
         switch (field) {
             case "LicenceNumber":
                 ValidLicenceNumber = (value !== "");
-                Errors.LicenceNumber = ValidLicenceNumber ? "" : "Licence number is required.";
+                Errors.LicenceNumber = ValidLicenceNumber ? "" : Dictionary.LicenceNumberError;
                 break;
             case "Type":
                 ValidType = (value !== "");
-                Errors.Type = ValidType ? "" : "Licence type is required";
+                Errors.Type = ValidType ? "" : Dictionary.LicenceTypeError;
                 break;
             case "ReleaseDate":
                 ValidReleaseDate = (new Date(value).getTime() < new Date(this.state.ExpiryDate).getTime());
-                Errors.ReleaseDate = ValidReleaseDate ? "" : "Release date must be earlier than Expiry date.";
+                Errors.ReleaseDate = ValidReleaseDate ? "" : Dictionary.ReleaseDateError;
                 break;
             case "ExpiryDate":
                 ValidExpiryDate = (new Date(value).getTime() > new Date().getTime());
-                Errors.ExpiryDate = ValidExpiryDate ? "" : "Expiry Date must be later than today.";
+                Errors.ExpiryDate = ValidExpiryDate ? "" : Dictionary.ExipryDateError;
                 break;
             case "PhotoURL":
                 ValidPhotoURL = (value !== null);
-                Errors.PhotoURL = ValidPhotoURL ? "" : "Invalid Image. Please upload a correct one.";
+                Errors.PhotoURL = ValidPhotoURL ? "" : Dictionary.PhotoURLError;
                 break;
             default:
                 break;
@@ -173,31 +173,31 @@ class AddDrivingLicenceDialog extends Component {
                                                     ImageCategory="IdentityCard" />
                                             </div>
                                             <div className="col-md-12">
-                                                <div className="type-h3 color-default p-t-xxs">Add Your Driving Licence</div>
+                                                <div className="type-h3 color-default p-t-xxs">{Dictionary.AddDrivingLicence}</div>
                                                 <div className="type-sh4 text-danger">{this.state.Errors.PhotoURL}</div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Licence Number</label>
+                                                    <label className="control-label">{Dictionary.LicenceNumber}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" name="LicenceNumber" className="form-control" autoComplete="off"
                                                         value={this.state.LicenceNumber} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.LicenceNumber}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Licence Type</label>
+                                                    <label className="control-label">{Dictionary.LicenceType}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="text" name="Type" className="form-control" autoComplete="off"
                                                         value={this.state.Type} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.Type}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Release Date</label>
+                                                    <label className="control-label">{Dictionary.ReleaseDate}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="date" name="ReleaseDate" className="form-control" autoComplete="off"
                                                         value={this.state.ReleaseDate} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.ReleaseDate}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Expiry Date</label>
+                                                    <label className="control-label">{Dictionary.ExpiryDate}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="date" name="ExpiryDate" className="form-control" autoComplete="off"
                                                         value={this.state.ExpiryDate} onChange={this.onChange} />
@@ -206,7 +206,7 @@ class AddDrivingLicenceDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Add} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -218,5 +218,43 @@ class AddDrivingLicenceDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AddDrivingLicence: "إضافة رخصة القيادة الخاصة بك",
+        LicenceNumber: "رقم الرخصة",
+        LicenceType: "نوع الترخيص",
+        ReleaseDate: "يوم الاصدار",
+        ExpiryDate: "تاريخ الانتهاء",
+        Add: "أضف",
+        LicenceNumberError: ".رقم الترخيص مطلوب",
+        LicenceTypeError: ".نوع الترخيص مطلوب",
+        ReleaseDateError: ".يجب أن يكون تاريخ الإصدار قبل تاريخ انتهاء الصلاحية",
+        ExipryDateError: ".يجب أن يكون تاريخ الانتهاء بعد اليوم",
+        PhotoURLError: ".صورة غير صالحة. يرجى تحميل واحد صحيح",  
+    };
+}
+else {
+    Dictionary = {
+        AddDrivingLicence: "Add Your Driving Licence",
+        LicenceNumber: "Licence Number",
+        LicenceType: "Licence Type",
+        ReleaseDate: "Release Date",
+        ExpiryDate: "Expiry Date",
+        Add: "Add",
+        LicenceNumberError: "Licence number is required.",
+        LicenceTypeError: "Licence type is required.",
+        ReleaseDateError: "Release date must be earlier than Expiry date.",
+        ExipryDateError: "Expiry Date must be later than today.",
+        PhotoURLError: "Invalid Image. Please upload a correct one.",        
+    };
+}
 
 export default AddDrivingLicenceDialog;

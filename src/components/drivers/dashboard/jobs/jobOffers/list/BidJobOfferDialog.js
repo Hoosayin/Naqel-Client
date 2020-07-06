@@ -40,14 +40,14 @@ class BidJobOfferDialog extends Component {
         switch (field) {
             case "Price":
                 ValidPrice = (value !== "");
-                Errors.Price = ValidPrice ? "" : "Bidding price is required.";
+                Errors.Price = ValidPrice ? "" : Dictionary.BiddingError1;
 
                 if (Errors.Price !== "") {
                     break;
                 }
 
                 ValidPrice = (value <= this.props.JobOffer.Price);
-                Errors.Price = ValidPrice ? "" : "You cannot bid more than maximum accepted price.";
+                Errors.Price = ValidPrice ? "" : Dictionary.BiddingError2;
                 break;
             default:
                 break;
@@ -124,12 +124,12 @@ class BidJobOfferDialog extends Component {
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="jumbotron theme-default">
                                     <div className="container">
-                                        <div className="type-h3 color-default p-t-xxs">Bid on Price</div>
-                                        <div className="type-sh3">{`Maximum Accepted Price is ${this.props.JobOffer.Price} ${Strings.SAUDI_RIYAL}.`}</div>
+                                        <div className="type-h3 color-default p-t-xxs">{Dictionary.BidonPrice}</div>
+                                        <div className="type-sh3">{`${Dictionary.MaximumAcceptedPrice} ${this.props.JobOffer.Price} ${Strings.SAUDI_RIYAL}.`}</div>
                                         <div className="row p-t-xxs">
                                             <div className="col-md-24">
                                                 <div className="form-group">
-                                                    <label className="control-label">{`Price (${Strings.SAUDI_RIYAL})`}</label>
+                                                    <label className="control-label">{`${Dictionary.Price} (${Strings.SAUDI_RIYAL})`}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" min="0.00" step="0.01" name="Price"
                                                         className="form-control" autoComplete="off" value={this.state.Price} onChange={this.onChange} />
@@ -138,7 +138,7 @@ class BidJobOfferDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Bid" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Bid} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -150,5 +150,33 @@ class BidJobOfferDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        BidonPrice: "المزايدة على السعر",
+        MaximumAcceptedPrice: "أقصى سعر مقبول:",
+        Price: "السعر",
+        Bid: "المناقصة",
+        BiddingError1: "مطلوب سعر المزايدة.",
+        BiddingError2: "لا يمكنك المزايدة أكثر من السعر الأقصى المقبول.",
+    };
+}
+else {
+    Dictionary = {
+        BidonPrice: "Bid on Price",
+        MaximumAcceptedPrice: "Maximum Accepted Price:",
+        Price: "Price",
+        Bid: "Bid",
+        BiddingError1: "Bidding price is required.",
+        BiddingError2: "You cannot bid more than maximum accepted price.",
+    };
+}
 
 export default BidJobOfferDialog;

@@ -5,17 +5,11 @@ import Strings from "../../res/strings";
 export const registerDriver = async newCredentials => {
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/register`, {
         Username: newCredentials.Username,
-        Email: newCredentials.Email,
+        PhoneNumber: newCredentials.PhoneNumber,
         Password: newCredentials.Password,
         RegisterAs: newCredentials.RegisterAs,
     }).then(response => {
-        if (response.data.localeCompare(Strings.USERNAME_OR_EMAIL_TAKEN) === 0) {
-            return response.data;
-        }
-        else {
-            localStorage.setItem("newCredentialsToken", response.data);
-            return response.data;
-        }
+        return response.data;
     });
 };
 
@@ -42,12 +36,22 @@ export const setupDriverAccount = async newDriver => {
 export const loginDriver = async driver => {
     console.log(`Sending HTTP POST request on ${Strings.NAQEL_SERVER}drivers/login`);
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/login`, {
-        EmailOrUsername: driver.EmailOrUsername,
+        PhoneNumberOrUsername: driver.PhoneNumberOrUsername,
         Password: driver.Password,
         SignInAs: driver.SignInAs,
     }).then(response => {
         return response.data;
     })
+};
+
+// POST: RecoverPassword
+export const recoverPassword = async recoverPasswordPackage => {
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/recoverPassword`, {
+        PhoneNumber: recoverPasswordPackage.PhoneNumber,
+        Password: recoverPasswordPackage.Password
+    }).then(response => {
+        return response.data;
+    });
 };
 
 // GET: GetData
@@ -104,6 +108,15 @@ export const validateUsername = async username => {
 export const validateEmail = async email => {
     return await axios.post(`${Strings.NAQEL_SERVER}drivers/validateEmail`, {
         Email: email
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ValidatePhoneNumber
+export const validatePhoneNumber = async phoneNumber => {
+    return await axios.post(`${Strings.NAQEL_SERVER}drivers/validatePhoneNumber`, {
+        PhoneNumber: phoneNumber
     }).then(response => {
         return response.data;
     });
@@ -431,6 +444,7 @@ export const addJobRequest = async newJobRequest => {
         UnloadingLng: newJobRequest.UnloadingLng,
         TripType: newJobRequest.TripType,
         Price: newJobRequest.Price,
+        WaitingTime: newJobRequest.WaitingTime,
     }, {
         headers: { Authorization: `JWT ${newJobRequest.Token}` }
     }).then(response => {
@@ -451,6 +465,7 @@ export const updateJobRequest = async updatedJobRequest => {
         UnloadingLng: updatedJobRequest.UnloadingLng,
         TripType: updatedJobRequest.TripType,
         Price: updatedJobRequest.Price,
+        WaitingTime: updatedJobRequest.WaitingTime
     }, {
         headers: { Authorization: `JWT ${updatedJobRequest.Token}` }
     }).then(response => {

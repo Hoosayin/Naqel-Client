@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import LanguageDispatcher from "../../res/LanguageDispatcher";
 import jwt_decode from "jwt-decode";
 import { Link, withRouter } from "react-router-dom";
-import Strings from "../../res/strings"
 
 class Header extends Component {
     constructor(props) {
@@ -35,6 +35,7 @@ class Header extends Component {
     render() {
         let token;
         let dashboardRoute;
+        const Language = LanguageDispatcher.GetLanguage();
 
         if (localStorage.Token) {
             token = jwt_decode(localStorage.Token);
@@ -58,7 +59,7 @@ class Header extends Component {
 
         const loginRegisterLinks = <ul className="nav navbar-nav navbar-right">
             <li>
-                <Link to="/register">Register</Link>
+                <Link to="/register">{Language.Register}</Link>
             </li>
             <li>
                 <Link to="/login"
@@ -66,7 +67,7 @@ class Header extends Component {
                         this.setState({
                             ShowDashboardButton: false
                         });
-                    }}>Login</Link>
+                    }}>{Language.Login}</Link>
             </li>
         </ul>;
 
@@ -78,13 +79,12 @@ class Header extends Component {
                         this.setState({
                             ShowDashboardButton: false
                         });
-                    }}>Dashboard</Link>
+                    }}>{Language.Dashboard}</Link>
                 </li>}
             <li>
-                <Link to="" onClick={this.logOut.bind(this)}>Logout</Link>
+                <Link to="" onClick={this.logOut.bind(this)}>{Language.Logout}</Link>
             </li>
         </ul>;
-
         return (
             <header>
                 <nav className="navbar navbar-default">
@@ -100,7 +100,7 @@ class Header extends Component {
                                         this.setState({
                                             ShowDashboardButton: true
                                         });
-                                    }}>{Strings.APP_NAME.toUpperCase()}</Link>
+                                    }}>{Language.ApplicationName}</Link>
                             </div>
                             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                                 <ul className="nav navbar-nav"></ul>

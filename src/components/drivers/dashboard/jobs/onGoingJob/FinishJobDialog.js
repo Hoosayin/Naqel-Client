@@ -58,23 +58,23 @@ class FinishJobDialog extends Component {
                                 </button>
                             </div>
                             {this.state.Progress ? <ProgressRing /> : null}
-                            <div className="type-h2" style={{ color: "#008575", paddingTop: "0px" }}>Finish Job</div>
+                            <div className="type-h2" style={{ color: "#008575", paddingTop: "0px" }}>{Dictionary.FinishJob}</div>
                         </div>
                         <div className="modal-body">
-                            <div class="jumbotron">
+                            <div class="jumbotron" dir={GetDirection()}>
                                 <div class="container">
                                     <div class="row">
                                         {completedByDriver ? 
                                             <div class="col-md-24">
                                                 <img alt="confetti.png" src="./images/confetti.png" height="100" />
-                                                <div class="type-h3">Congratulations! You Have Finished Your Job</div>
-                                                <div class="type-sh3">The Trader's Approval is Pending at the Moment</div>
-                                                <p><span class="color-default">Important Note:</span> You can view this job in <span class="color-default">Completed Jobs</span> tab, once the trader approves job completion.</p>
+                                                <div class="type-h3">{Dictionary.FinishJobDetails1}</div>
+                                                <div class="type-sh3">{Dictionary.FinishJobDetails2}</div>
+                                        <p><span class="color-default">{Dictionary.ImportantNote}</span> {Dictionary.Note}</p>
                                             </div> : 
                                             <div class="col-md-24">
-                                                <p>Are you sure you want to finish this job? Your trader will approve job completion afterwards!</p>
+                                                <p>{Dictionary.Question}</p>
                                                 <div class="text-right">
-                                                    <button class="btn btn-primary" onClick={this.onYes}>Yes</button>
+                                                    <button class="btn btn-primary" onClick={this.onYes}>{Dictionary.Question}</button>
                                                 </div>
                                             </div>}
                                     </div>
@@ -87,5 +87,35 @@ class FinishJobDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        FinishJob: "إنهاء المهمة",
+        FinishJobDetails1: "تهانينا! لقد أنهيت عملك",
+        FinishJobDetails2: "موافقة التاجر معلقة في الوقت الراهن",
+        ImportantNote: ":ملاحظة مهمة",
+        Note: ".يمكنك عرض هذه الوظيفة في علامة تبويب المهام المكتملة ، بمجرد موافقة التاجر على إكمال المهمة",
+        Question: "!هل أنت متأكد أنك تريد إنهاء هذه المهمة؟ سيوافق التاجر الخاص بك على إكمال العمل بعد ذلك",
+        Yes: "نعم"
+    };
+}
+else {
+    Dictionary = {
+        FinishJob: "Finish Job",
+        FinishJobDetails1: "Congratulations! You Have Finished Your Job",
+        FinishJobDetails2: "The Trader's Approval is Pending at the Moment",
+        ImportantNote: "Important Note:",
+        Note: "You can view this job in Completed Jobs tab, once the trader approves job completion.",
+        Question: "Are you sure you want to finish this job? Your trader will approve job completion afterwards!",
+        Yes: "Yes"
+    };
+}
 
 export default FinishJobDialog;

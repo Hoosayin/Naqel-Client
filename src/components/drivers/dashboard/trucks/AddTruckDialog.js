@@ -70,14 +70,14 @@ class AddTruckDialog extends Component {
         switch (field) {
             case "PlateNumber":
                 ValidPlateNumber = (value !== "");
-                Errors.PlateNumber = ValidPlateNumber ? "" : "Plate number is required.";
+                Errors.PlateNumber = ValidPlateNumber ? "" : Dictionary.PlateNumberError1;
 
-                if (Errors.IDNumber !== "") {
+                if (Errors.PlateNumber !== "") {
                     break;
                 }
 
                 ValidPlateNumber = (value >= 100 && value <= 999);
-                Errors.PlateNumber = ValidPlateNumber ? "" : "Plate number must be 3-digits long.";
+                Errors.PlateNumber = ValidPlateNumber ? "" : Dictionary.PlateNumberError2;
                 break;
             case "Owner":
                 ValidOwner = (value !== "");
@@ -86,34 +86,34 @@ class AddTruckDialog extends Component {
             case "ProductionYear":
                 let currentYear = new Date().getFullYear();
                 ValidProductionYear = ((value !== "") && (value >= 2000 && value <= currentYear));
-                Errors.ProductionYear = ValidProductionYear ? "" : `Production Year must be between 2000 and ${currentYear}`;
+                Errors.ProductionYear = ValidProductionYear ? "" : Dictionary.ProductionYearError;
                 break;
             case "Brand":
                 ValidBrand = (value !== "");
-                Errors.Brand = ValidBrand ? "" : "Brand is required.";
+                Errors.Brand = ValidBrand ? "" : Dictionary.BrandError;
                 break;
             case "Model":
                 ValidModel = (value !== "");
-                Errors.Model = ValidModel ? "" : "Model is required.";
+                Errors.Model = ValidModel ? "" : Dictionary.ModelError;
                 break;
             case "Type":
                 ValidType = (value !== "");
-                Errors.Type = ValidType ? "" : "Type is required";
+                Errors.Type = ValidType ? "" : Dictionary.TypeError;
                 break;
             case "MaximumWeight":
                 ValidMaximumWeight = (value !== "");
-                Errors.MaximumWeight = ValidMaximumWeight ? "" : "Maximum Weight is required.";
+                Errors.MaximumWeight = ValidMaximumWeight ? "" : Dictionary.MaximumWeightError1;
 
                 if (Errors.MaximumWeight !== "") {
                     break;
                 }
 
                 ValidMaximumWeight = (value >= 700);
-                Errors.MaximumWeight = ValidMaximumWeight ? "" : "Maximum weight must be greater than 699.";
+                Errors.MaximumWeight = ValidMaximumWeight ? "" : Dictionary.MaximumWeightError2;
                 break;
             case "PhotoURL":
                 ValidPhotoURL = (value !== null);
-                Errors.PhotoURL = ValidPhotoURL ? "" : "Invalid Image. Please upload a correct one.";
+                Errors.PhotoURL = ValidPhotoURL ? "" :Dictionary.PhotoURLError;
                 break;
             default:
                 break;
@@ -196,7 +196,7 @@ class AddTruckDialog extends Component {
                     Errors,
                 } = this.state;
 
-                Errors.Owner = "Owner not found."
+                Errors.Owner = Dictionary.OwnerError
 
                 this.setState({
                     Errors: Errors,
@@ -249,33 +249,33 @@ class AddTruckDialog extends Component {
                                                     }} />
                                             </div>
                                             <div className="col-md-12">
-                                                <div className="type-h3 color-default p-t-xxs">Add Truck</div>
+                                                <div className="type-h3 color-default p-t-xxs">{Dictionary.AddTruck}</div>
                                                 <label className="text-danger">{this.state.Errors.PhotoURL}</label>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <div className="form-group">
-                                                            <label className="control-label">Plate Number</label>
+                                                            <label className="control-label">{Dictionary.PlateNumber}</label>
                                                             <span className="text-danger m-l-xxxs">*</span>
                                                             <input type="number" name="PlateNumber" className="form-control" autoComplete="off"
                                                                 value={this.state.PlateNumber} onChange={this.onChange} />
                                                             <span className="text-danger">{this.state.Errors.PlateNumber}</span>
                                                         </div>
                                                         <div className="form-group">
-                                                            <label className="control-label">Owner</label>
+                                                            <label className="control-label">{Dictionary.Owner}</label>
                                                             <span className="text-danger m-l-xxxs">*</span>
                                                             <input type="text" name="Owner" className="form-control" autoComplete="off"
                                                                 value={this.state.Owner} onChange={this.onChange} />
                                                             <span className="text-danger">{this.state.Errors.Owner}</span>
                                                         </div>
                                                         <div className="form-group">
-                                                            <label className="control-label">Production Year</label>
+                                                            <label className="control-label">{Dictionary.ProductionYear}</label>
                                                             <span className="text-danger m-l-xxxs">*</span>
                                                             <input type="number" name="ProductionYear" className="form-control" autoComplete="off"
                                                                 value={this.state.ProductionYear} onChange={this.onChange} placeholder="XXXX" />
                                                             <span className="text-danger">{this.state.Errors.ProductionYear}</span>
                                                         </div>
                                                         <div className="form-group">
-                                                            <label className="control-label">Brand</label>
+                                                            <label className="control-label">{Dictionary.Brand}</label>
                                                             <span className="text-danger m-l-xxxs">*</span>
                                                             <input type="text" name="Brand" className="form-control" autoComplete="off"
                                                                 value={this.state.Brand} onChange={this.onChange} />
@@ -284,21 +284,21 @@ class AddTruckDialog extends Component {
                                                     </div>
                                                     <div className="col-md-12">
                                                         <div className="form-group">
-                                                            <label className="control-label">Truck Model</label>
+                                                            <label className="control-label">{Dictionary.TruckModel}</label>
                                                             <span className="text-danger m-l-xxxs">*</span>
                                                             <input type="text" name="Model" className="form-control" autoComplete="off"
                                                                 value={this.state.Model} onChange={this.onChange} />
                                                             <span className="text-danger">{this.state.Errors.Model}</span>
                                                         </div>
                                                         <div className="form-group">
-                                                            <label className="control-label">Truck Type</label>
+                                                            <label className="control-label">{Dictionary.TruckType}</label>
                                                             <span className="text-danger m-l-xxxs">*</span>
                                                             <input type="text" name="Type" className="form-control" autoComplete="off"
                                                                 value={this.state.Type} onChange={this.onChange} />
                                                             <span className="text-danger">{this.state.Errors.Type}</span>
                                                         </div>
                                                         <div className="form-group">
-                                                            <label className="control-label">Maximum Weight (GVW)</label>
+                                                            <label className="control-label">{Dictionary.MaximumWeight}</label>
                                                             <span className="text-danger m-l-xxxs">*</span>
                                                             <input type="number" name="MaximumWeight" className="form-control" autoComplete="off"
                                                                 value={this.state.MaximumWeight} onChange={this.onChange} />
@@ -309,7 +309,7 @@ class AddTruckDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Add" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Add} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -321,5 +321,59 @@ class AddTruckDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AddTruck: "إضافة شاحنة",
+        PlateNumber: "رقم لوحة",
+        Owner: "صاحب",
+        ProductionYear: "سنة الإنتاج",
+        Brand: "العلامة التجارية",
+        TruckModel: "نموذج الشاحنة",
+        TruckType: "نوع الشاحنة",
+        MaximumWeight: "الوزن الأقصى (GVW)",
+        Add: "أضف",
+        PlateNumberError1: ".رقم اللوحة مطلوب",
+        PlateNumberError2: ".يجب أن يتكون رقم اللوحة من 3 أرقام",
+        OwnerError: ".لم يتم العثور على المالك",
+        ProductionYearError: ".يجب ألا تتجاوز سنة الإنتاج السنة الحالية",
+        BrandError: ".العلامة التجارية مطلوبة",
+        ModelError: ".النموذج مطلوب",
+        TypeError: ".النوع مطلوب",
+        MaximumWeightError1: ".مطلوب الوزن الأقصى",
+        MaximumWeightError2: ".يجب أن يكون الوزن الأقصى أكبر من 699",
+        PhotoURLError: ".صورة غير صالحة. يرجى تحميل واحد صحيح",
+    };
+}
+else {
+    Dictionary = {
+        AddTruck: "Add Truck",
+        PlateNumber: "Plate Number",
+        Owner: "Owner",
+        ProductionYear: "Production Year",
+        Brand: "Brand",
+        TruckModel: "Truck Model",
+        TruckType: "Truck Type",
+        MaximumWeight: "Maximum Weight (GVW)",
+        Add: "Add",
+        PlateNumberError1: "Plate number is required.",
+        PlateNumberError2: "Plate number must be 3-digits long.",
+        OwnerError: "Owner not found.",
+        ProductionYearError: "Production year must not exceed current year.",
+        BrandError: "Brand is required.",
+        ModelError: "Model is required.",
+        TypeError: "Type is required",
+        MaximumWeightError1: "Maximum Weight is required.",
+        MaximumWeightError2: "Maximum weight must be greater than 699.",
+        PhotoURLError: "Invalid Image. Please upload a correct one.",
+    };
+}
 
 export default AddTruckDialog;

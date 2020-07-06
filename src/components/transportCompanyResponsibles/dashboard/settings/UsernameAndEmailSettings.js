@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import CodeConfirmationDialog from "./CodeConfirmationDialog";
 import Preloader from "../../../../controls/Preloader";
 
 import {
     getData,
     validateUsername,
     validateEmail,
-    sendCode,
     usernameAndEmailSettings
 } from "../../TransportCompanyResponsiblesFunctions";
 
@@ -21,13 +19,10 @@ class UsernameAndEmailSettings extends Component {
             Email: "",
             NewEmail: "",
 
-            Code: "",
-
             ValidNewUsername: true,
             ValidNewEmail: true,
 
             ValidForm: false,
-            CodeConfirmationDialog: null,
             ShowPreloader: false,
 
             Errors: {
@@ -81,34 +76,32 @@ class UsernameAndEmailSettings extends Component {
     }
 
     validateField(field, value) {
-        let {
-            Errors,
-            ValidNewUsername,
-            ValidNewEmail
-        } = this.state;
+        let Errors = this.state.Errors;
+        let ValidNewUsername = this.state.ValidNewUsername;
+        let ValidNewEmail = this.state.ValidNewEmail;
 
         switch (field) {
             case "NewUsername":
                 ValidNewUsername = (value !== "");
-                Errors.NewUsername = ValidNewUsername ? "" : "Username is required.";
+                Errors.NewUsername = ValidNewUsername ? "" : Dictionary.UsernameError1;
 
                 if (Errors.NewUsername != "") {
                     break;
                 }
 
                 ValidNewUsername = (value.match(/^[a-z0-9]+$/i));
-                Errors.NewUsername = ValidNewUsername ? "" : "Username is invalid.";
+                Errors.NewUsername = ValidNewUsername ? "" : Dictionary.UsernameError2;
                 break;
             case "NewEmail":
                 ValidNewEmail = (value !== "");
-                Errors.NewEmail = ValidNewEmail ? "" : "Email is required.";
+                Errors.NewEmail = ValidNewEmail ? "" : Dictionary.EmailError1;
 
                 if (Errors.NewEmail != "") {
                     break;
                 }
 
                 ValidNewEmail = (value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i));
-                Errors.NewEmail = ValidNewEmail ? "" : "Email is invalid.";
+                Errors.NewEmail = ValidNewEmail ? "" : Dictionary.EmailError2;
                 break;
             default:
                 break;
@@ -120,8 +113,8 @@ class UsernameAndEmailSettings extends Component {
             ValidNewEmail: ValidNewEmail,
         }, () => {
             this.setState({
-                ValidForm: ValidNewUsername &&
-                    ValidNewEmail
+                ValidForm: this.state.ValidNewUsername &&
+                    this.state.ValidNewEmail
             });
         });
     }
@@ -138,6 +131,10 @@ class UsernameAndEmailSettings extends Component {
             return;
         }
 
+        this.setState({
+            ShowPreloader: true
+        });
+
         if (this.state.NewUsername !== this.state.Username) {
             const response = await validateUsername(this.state.NewUsername);
 
@@ -146,7 +143,9 @@ class UsernameAndEmailSettings extends Component {
                 errors.NewUsername = response.Message;
 
                 this.setState({
-                    Errors: errors
+                    ShowPreloader: false,
+                    Errors: errors,
+                    ValidForm: false,
                 });
 
                 return;
@@ -160,7 +159,9 @@ class UsernameAndEmailSettings extends Component {
                 errors.NewEmail = response.Message;
 
                 this.setState({
-                    Errors: errors
+                    ShowPreloader: false,
+                    Errors: errors,
+                    ValidForm: false,
                 });
 
                 return;
@@ -171,48 +172,27 @@ class UsernameAndEmailSettings extends Component {
             ShowPreloader: true
         });
 
-        if (this.state.NewEmail === this.state.Email) {
-            const updatedTransportCompanyResponsible = {
-                Token: localStorage.Token,
-                Username: this.state.NewUsername,
-                Email: this.state.NewEmail,
-            };
+        const updatedResponsible = {
+            Token: localStorage.Token,
+            Username: this.state.NewUsername,
+            Email: this.state.NewEmail,
+        };
 
-            await usernameAndEmailSettings(updatedTransportCompanyResponsible).then(response => {
+        await usernameAndEmailSettings(updatedResponsible).then(response => {
+            this.setState({
+                ShowPreloader: false,
+                ValidForm: false,
+            });
+
+            if (response.Message === "Transport company responsible is updated.") {
                 this.setState({
-                    ShowPreloader: false
+                    Username: this.state.NewUsername,
+                    Email: this.state.NewEmail
                 });
 
-                if (response.Message === "Transport company responsible is updated.") {
-                    this.props.OnSettingsSaved();
-                }
-            });
-        }
-        else {
-            await sendCode(this.state.NewEmail).then(response => {
-                this.setState({
-                    ShowPreloader: false
-                });
-
-                if (response.Message === "Code sent.") {
-                    this.setState({
-                        CodeConfirmationDialog: <CodeConfirmationDialog
-                            Code={response.Code}
-                            Username={this.state.NewUsername}
-                            Email={this.state.NewEmail}
-                            OnCancel={() => {
-                                this.setState({
-                                    CodeConfirmationDialog: null,
-                                });
-                            }}
-                            OnOK={cancelButton => {
-                                cancelButton.click();
-                                this.props.OnSettingsSaved();
-                            }} />
-                    });
-                }
-            });
-        }
+                this.props.OnSettingsSaved();
+            }
+        });
     }
 
     render() {
@@ -221,14 +201,13 @@ class UsernameAndEmailSettings extends Component {
             NewEmail,
             ValidForm,
             ShowPreloader,
-            CodeConfirmationDialog,
             Errors
         } = this.state;
 
         return (
             <section>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Username and Emails</div>
+                <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>{Dictionary.UsernameAndEmail}</div>
                 <form noValidate onSubmit={this.onSubmit}>
                     <div className="entity-list entity-list-expandable">
                         <div className="entity-list-item">
@@ -242,7 +221,7 @@ class UsernameAndEmailSettings extends Component {
                                 </div>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Username</div>
+                                <div className="content-text-primary">{Dictionary.Username}</div>
                                 <div className="content-text-secondary text-danger">{Errors.NewUsername}</div>
                             </div>
                         </div>
@@ -257,7 +236,7 @@ class UsernameAndEmailSettings extends Component {
                                 </div>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Email</div>
+                                <div className="content-text-primary">{Dictionary.Email}</div>
                                 <div className="content-text-secondary text-danger">{Errors.NewEmail}</div>
                             </div>
                         </div>
@@ -266,21 +245,56 @@ class UsernameAndEmailSettings extends Component {
                                 <span className="fas fa-save"></span>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Save Changes?</div>
-                                <div className="content-text-secondary">This cannot be undone.</div>
+                                <div className="content-text-primary">{Dictionary.SaveChanges}</div>
+                                <div className="content-text-secondary">{Dictionary.Undone}</div>
                             </div>
                             <div className="item-content-expanded">
-                                <input type="submit" value="Save" className="btn btn-primary" disabled={!ValidForm} />
+                                <input type="submit" value={Dictionary.Save} className="btn btn-primary" disabled={!ValidForm} />
                             </div>
                         </div>
                     </div>
                 </form>
-                
+
                 {ShowPreloader ? <Preloader /> : null}
-                {CodeConfirmationDialog}
-            </section> 
+            </section>
         );
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        UsernameAndEmail: "اسم المستخدم والبريد الإلكتروني",
+        Username: "اسم المستخدم",
+        Email: "البريد الإلكترونيl",
+        SaveChanges: "حفظ التغييرات؟",
+        Undone: ".هذا لا يمكن التراجع عنها",
+        Save: "حفظ",
+        UsernameError1: ".اسم المستخدم مطلوب",
+        UsernameError2: ".إسم المستخدم غير صحيح",
+        EmailError1: ".البريد الالكتروني مطلوب",
+        EmailError2: ".البريد الإلكتروني غير صالح",
+    };
+}
+else {
+    Dictionary = {
+        UsernameAndEmail: "Username and Email",
+        Username: "Username",
+        Email: "Email",
+        SaveChanges: "Save Changes?",
+        Undone: "This cannot be undone.",
+        Save: "Save",
+        UsernameError1: "Username is required.",
+        UsernameError2: "Username is invalid.",
+        EmailError1: "Email is required.",
+        EmailError2: "Email is invalid.",
+    };
+}
 
 export default UsernameAndEmailSettings;

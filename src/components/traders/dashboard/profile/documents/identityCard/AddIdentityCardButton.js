@@ -32,11 +32,29 @@ class AddIdentityCardButton extends Component {
                                     this.props.OnDocumentsUpdated();
                                 }} />,
                         });
-                    }}>Identity Card</button>
+                    }}>{Dictionary.AddIdentityCard}</button>
                 {this.state.AddIdentityCardDialog}
             </section>
         );
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AddIdentityCard: "أضف بطاقة الهوية"
+    };
+}
+else {
+    Dictionary = {
+        AddIdentityCard: "Add Identity Card"
+    };
+}
 
 export default AddIdentityCardButton;

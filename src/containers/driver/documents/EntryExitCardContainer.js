@@ -14,7 +14,7 @@ class EntryExitCardContainer extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-24">
-                                <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>Entry/Exit Card</div>
+                                <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>{Dictionary.EntryExitCardSubtitle}</div>
                                 <div className="row">
                                     <div className="col-md-24">
                                         <div class="entity-list">
@@ -23,7 +23,7 @@ class EntryExitCardContainer extends Component {
                                                     <span class="fas fa-hashtag"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Entry/Exit Number</div>
+                                                    <div class="content-text-primary">{Dictionary.EntryExitCard}</div>
                                                     <div class="content-text-secondary">{entryExitCard.EntryExitNumber}</div>
                                                 </div>
                                             </div>
@@ -34,7 +34,7 @@ class EntryExitCardContainer extends Component {
                                                     <span class="fas fa-cog"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Card Type</div>
+                                                    <div class="content-text-primary">{Dictionary.CardType}</div>
                                                     <div class="content-text-secondary">{entryExitCard.Type}</div>
                                                 </div>
                                             </div>
@@ -45,7 +45,7 @@ class EntryExitCardContainer extends Component {
                                                     <span class="fas fa-calendar"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Release Date</div>
+                                                    <div class="content-text-primary">{Dictionary.ReleaseDate}</div>
                                                     <div class="content-text-secondary">{new Date(entryExitCard.ReleaseDate).toDateString()}</div>
                                                 </div>
                                             </div>
@@ -56,7 +56,7 @@ class EntryExitCardContainer extends Component {
                                                     <span class="fas fa-hashtag"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">Number of Months</div>
+                                                    <div class="content-text-primary">{Dictionary.NumberOfMonths}</div>
                                                     <div class="content-text-secondary">{entryExitCard.NumberOfMonths}</div>
                                                 </div>
                                             </div>
@@ -71,5 +71,30 @@ class EntryExitCardContainer extends Component {
         </section> : null;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        EntryExitCardSubtitle: "بطاقة الدخول / الخروج",
+        CardType: "نوع البطاقة",
+        ReleaseDate: "يوم الاصدار",
+        NumberOfMonths: "عدد الأشهر",
+    };
+}
+else {
+    Dictionary = {
+        EntryExitCardSubtitle: "Entry/Exit Card",
+        EntryExitNumber: "Entry/Exit Number",
+        CardType: "Card Type",
+        ReleaseDate: "Release Date",
+        NumberOfMonths: "Number of Months",
+    };
+}
 
 export default EntryExitCardContainer;

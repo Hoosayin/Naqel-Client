@@ -59,8 +59,8 @@ class JobRequestPostListItem extends Component {
 
         if (traderRequest) {
             Badge = traderRequest.Selected ?
-                <span class="badge back-color-golden m-l-xxs">REQUEST ACCEPTED</span> :
-                <span class="badge back-color-default m-l-xxs">REQUEST SENT</span>;
+                <span class="badge back-color-golden m-l-xxs">{Dictionary.RequestAccepted}</span> :
+                <span class="badge back-color-default m-l-xxs">{Dictionary.RequestSent}</span>;
         }
         else {
             Badge = null;
@@ -82,10 +82,10 @@ class JobRequestPostListItem extends Component {
                                             <span className="fas fa-user"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">Posted By</div>
+                                            <div className="content-text-primary">{Dictionary.PostedBy}</div>
                                             <div className="content-text-secondary">{`${driver.FirstName} ${driver.LastName}`}
                                                 {driverOnJob ?
-                                                    <span class="badge back-color-danger m-l-xxs">ON JOB</span> :
+                                                    <span class="badge back-color-danger m-l-xxs">{Dictionary.OnJob}</span> :
                                                     null}
                                             </div>
                                         </div>
@@ -97,7 +97,7 @@ class JobRequestPostListItem extends Component {
                                             <span className="fas fa-clock"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">Posted On</div>
+                                            <div className="content-text-primary">{Dictionary.PostedOn}</div>
                                             <div className="content-text-secondary">{new Date(jobRequest.TimeCreated).toDateString()}</div>
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@ class JobRequestPostListItem extends Component {
                                             <span className="fas fa-tag"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">Price</div>
+                                            <div className="content-text-primary">{Dictionary.Price}</div>
                                             <div className="content-text-secondary">{`${jobRequest.Price} ${Strings.SAUDI_RIYAL}`}</div>
                                         </div>
                                     </div>
@@ -119,10 +119,9 @@ class JobRequestPostListItem extends Component {
                                             <span className="fas  fa-map-marker-alt"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">From </div>
-                                            <div className="content-text-secondary">{jobRequest.LoadingPlace}</div>
-                                            <div className="content-text-primary">To</div>
-                                            <div className="content-text-secondary">{jobRequest.UnloadingPlace}</div>
+                                            <div className="content-text-primary">{Dictionary.Route}</div>
+                                            <div className="content-text-secondary">{`${Dictionary.Source}: ${jobRequest.LoadingPlace}`}</div>
+                                            <div className="content-text-secondary">{`${Dictionary.Destination}: ${jobRequest.UnloadingPlace}`}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -131,20 +130,21 @@ class JobRequestPostListItem extends Component {
                                 {traderRequest ?
                                     <section>
                                         <button className="btn btn-secondary"
-                                            onClick={async () => { await this.onCancelRequest(jobRequest); }}>Cancel Request</button>
+                                            data-toggle="modal"
+                                            data-target={`#cancel-trader-request-dialog-${index}`}>{Dictionary.CancelRequest}</button>
                                         <button className="btn btn-primary"
                                             data-toggle="modal"
-                                            data-target={`#trader-request-dialog-${index}`}>View Request</button>
+                                            data-target={`#trader-request-dialog-${index}`}>{Dictionary.ViewRequest}</button>
                                         {traderRequest && traderRequest.Selected ?
                                             <button className="btn btn-primary"
                                                 disabled={!canAssign}
                                                 data-toggle="modal"
-                                                data-target={`#assign-from-request-dialog-${assignJobIndex}`}>Assign Job</button> :
+                                                data-target={`#assign-from-request-dialog-${assignJobIndex}`}>{Dictionary.AssignJob}</button> :
                                             null}
                                     </section> :
                                     <button className="btn btn-primary"
                                         data-toggle="modal"
-                                        data-target={`#send-trader-reqeust-dialog-${index}`}>Send Request</button>}
+                                        data-target={`#send-trader-reqeust-dialog-${index}`}>{Dictionary.SendRequest}</button>}
                             </div>
                         </div>
                     </div>
@@ -164,8 +164,8 @@ class JobRequestPostListItem extends Component {
                     null}
 
                 <div className="back-color-gray" data-toggle="collapse" aria-expanded="false" data-target={`#job-request-post-${index}`}>
-                    <div className="type-h4 color-default text-right p-xxxs">
-                        {"   More Details"} <i className="fas fa-ellipsis-v"></i>
+                    <div className="type-h4 color-default text-right p-xxxs m-r-xxs">{Dictionary.MoreDetails}
+                        <i className="fas fa-ellipsis-v"></i>
                         <i class="glyph glyph-add"></i>
                         <i class="glyph glyph-remove"></i>
                     </div>
@@ -178,14 +178,14 @@ class JobRequestPostListItem extends Component {
                             width: "100%",
                             margin: "0px"
                         }}>
-                        <li role="presentation" className="active"><a href={`#job-request-${index}`} aria-controls={`job-request-${index}`} role="tab" data-toggle="tab">Job Request</a></li>
+                        <li role="presentation" className="active"><a href={`#job-request-${index}`} aria-controls={`job-request-${index}`} role="tab" data-toggle="tab">{Dictionary.JobRequest}</a></li>
                         <li role="presentation">
                             <a href={`#driver-${index}`} aria-controls={`driver-${index}`} role="tab" data-toggle="tab"
-                                onClick={async () => { await this.RefreshDriverContainer(); }}>Driver</a>
+                                onClick={async () => { await this.RefreshDriverContainer(); }}>{Dictionary.Driver}</a>
                         </li>
                         <li role="presentation">
                             <a href={`#truck-${index}`} aria-controls={`truck-${index}`} role="tab" data-toggle="tab"
-                                onClick={async () => { await this.RefreshTruckContainer(); }}>Truck</a>
+                                onClick={async () => { await this.RefreshTruckContainer(); }}>{Dictionary.Truck}</a>
                         </li>
                     </ul>
                     <div className="tab-content">
@@ -206,9 +206,101 @@ class JobRequestPostListItem extends Component {
                     IsRequestSent={() => { return traderRequest ? true : false; }}
                     OnOK={traderRequest => { this.props.OnRequestUpdated(jobRequest, traderRequest); }} />
             </li>
+
+            {traderRequest ? 
+                <div className="modal modal-center-vertical" id={`cancel-trader-request-dialog-${index}`}
+                    tabIndex="-1" role="dialog"
+                    aria-labelledby="modal-sample-label" aria-hidden="true">
+                    <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                        <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                            <div className="modal-header">
+                                <div className="text-right">
+                                    <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                        data-dismiss="modal"
+                                        ref={cancelButton => this.cancelButton = cancelButton}>
+                                        <span className="fas fa-times"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="modal-body">
+                                <div className="jumbotron theme-default">
+                                    <div className="container">
+                                        <div className="row">
+                                            <div className="col-md-24">
+                                                <div className="type-sh3 m-b-xxs">{Dictionary.CancelMessage}</div>
+                                            </div>
+                                            <div className="text-right">
+                                                <button className="btn btn-danger"
+                                                    onClick={async () => {
+                                                        this.cancelButton.click();
+                                                        await this.onCancelRequest(jobRequest);
+                                                    }}>{Dictionary.Cancel}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> : null}
+
             {this.state.Preloader}
         </section>;     
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        RequestAccepted: "طلب مقبول",
+        RequestSent: "تم ارسال الطلب",
+        PostedBy: "منشور من طرف",
+        OnJob: "على الوظيفة",
+        PostedOn: "نشر على",
+        Price: "السعر",
+        Route: "طريق",
+        Source: "مصدر",
+        Destination: "المكان المقصود",
+        CancelRequest: "إلغاء الطلب",
+        ViewRequest: "عرض الطلب",
+        AssignJob: "تعيين الوظيفة",
+        SendRequest: "ارسل طلب",
+        MoreDetails: "المزيد من التفاصيل",
+        JobRequest: "طلب وظيفة",
+        Driver: "سائق",
+        Truck: "شاحنة",
+        CancelMessage: "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟",
+        Cancel: "إلغاء",
+    };
+}
+else {
+    Dictionary = {
+        RequestAccepted: "REQUEST ACCEPTED",
+        RequestSent: "REQUEST SENT",
+        PostedBy: "Posted By",
+        OnJob: "ON JOB",
+        PostedOn: "Posted On",
+        Price: "Price",
+        Route: "Route",
+        Source: "SOURCE",
+        Destination: "DESTINATION",
+        CancelRequest: "Cancel Request",
+        ViewRequest: "View Request",
+        AssignJob: "Assign Job",
+        SendRequest: "Send Request",
+        MoreDetails: "More Details",
+        JobRequest: "Job Request",   
+        Driver: "Driver",
+        Truck: "Truck",
+        CancelMessage: "Are you sure you want to cancel this request?",
+        Cancel: "Cancel",
+    };
+}
 
 export default JobRequestPostListItem;

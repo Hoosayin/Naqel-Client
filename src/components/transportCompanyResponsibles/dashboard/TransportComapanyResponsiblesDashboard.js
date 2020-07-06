@@ -36,19 +36,19 @@ class TransportCompanyResponsiblesDashboard extends Component {
                     margin: "0px",
                 }}>
                     <li role="presentation" className="active">
-                        <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">Trucks</a>
+                        <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">{Dictionary.Trucks}</a>
                     </li>
                     <li role="presentation">
-                        <a href="#financial-accounts" aria-controls="financial-accounts" role="tab" data-toggle="tab">Financial Accounts</a>
+                        <a href="#financial-accounts" aria-controls="financial-accounts" role="tab" data-toggle="tab">{Dictionary.FinancialAccounts}</a>
                     </li>
                     <li role="presentation">
-                        <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">Questions</a>
+                        <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">{Dictionary.Questions}</a>
                     </li>
                     <li role="presentation">
-                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">{Dictionary.Profile}</a>
                     </li>
                     <li role="presentation">
-                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
+                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">{Dictionary.Settings}</a>
                     </li>
                 </ul>
 
@@ -105,6 +105,32 @@ class TransportCompanyResponsiblesDashboard extends Component {
             </section>;
         }
     }
+}
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Trucks: "الشاحنات",
+        FinancialAccounts: "الحسابات المالية",
+        Questions: "الأسئلة",
+        Profile: "الملف الشخصي",
+        Settings: "الإعدادات",
+    };
+}
+else {
+    Dictionary = {
+        Trucks: "Trucks",
+        FinancialAccounts: "Financial Accounts",
+        Questions: "Questions",
+        Profile: "Profile",
+        Settings: "Settings",
+    };
 }
 
 export default TransportCompanyResponsiblesDashboard;

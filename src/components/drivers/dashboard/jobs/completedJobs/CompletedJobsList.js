@@ -131,18 +131,18 @@ class CompletedJobsList extends Component {
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",
                 backgroundColor: "#215761"
-            }}>
+            }} dir={GetDirection()}>
                 <div class="container" style={{ paddingBottom: "10px", marginBottom: "12px" }}>
                     <div class="row">
                         <div class="col-xs-18">
-                            <div className="type-h3 color-light"><span className="fas fa-check m-r-xxs"></span>Completed Jobs</div>
-                            <p className="color-light">{`You have completed ${this.state.AllCompletedJobPackages.length} jobs.`}</p>
+        <div className="type-h3 color-light"><span className="fas fa-check m-r-xxs"></span>{Dictionary.CompletedJobs}</div>
+                            <p className="color-light">{`${Dictionary.CompletedJobsSubtitle} ${this.state.AllCompletedJobPackages.length}`}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Your Completed Jobs
+        <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }} dir={GetDirection()}>{Dictionary.YourCompletedJobs}
                     {this.state.Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
             </div>
             <nav className="navbar navbar-default" style={{ backgroundColor: "#F5F5F5" }}>
@@ -151,7 +151,7 @@ class CompletedJobsList extends Component {
                         <form noValidate onSubmit={this.onSearch} className="navbar-form navbar-right" role="search">
                             <div className="putbox" style={{ margin: "0px" }}>
                                 <div className="form-group">
-                                    <input type="text" name="SearchString" className="form-control" placeholder="Search Jobs"
+                                    <input type="text" name="SearchString" className="form-control" placeholder={Dictionary.SearchJobs}
                                         style={{ maxWidth: "500px", width: "100%" }}
                                         value={this.state.SearchString} onChange={this.onChange} />
                                 </div>
@@ -188,5 +188,29 @@ class CompletedJobsList extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        CompletedJobs: "الوظائف المكتملة",
+        CompletedJobsSubtitle: "الوظائف التي أكملتها:",
+        YourCompletedJobs: "وظائفك المكتملة",
+        SearchJobs: "بحث وظائف",
+    };
+}
+else {
+    Dictionary = {
+        CompletedJobs: "Completed Jobs",
+        CompletedJobsSubtitle: "Jobs that you have completed:",
+        YourCompletedJobs: "Your Completed Jobs",
+        SearchJobs: "Search Jobs",
+    };
+}
 
 export default CompletedJobsList;

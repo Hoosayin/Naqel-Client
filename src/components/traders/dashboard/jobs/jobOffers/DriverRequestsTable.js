@@ -86,7 +86,7 @@ class DriverRequestsTable extends Component {
 
         if (this.state.Searching || this.state.DriverRequestPackages.length === 0) {
             return <SearchingContainer Searching={this.state.Searching}
-                SearchingFor={jobOfferType === "Fixed-Price" ? "requests" : "bids"} />;
+                SearchingFor={jobOfferType === "Fixed-Price" ? Dictionary.Requests : Dictionary.Bids} />;
         }
         else {
             const driverRequestPackages = this.state.DriverRequestPackages;
@@ -96,10 +96,10 @@ class DriverRequestsTable extends Component {
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>NUMBER</th>
-                                <th>DRIVER</th>
-                                <th>REQUESTED ON</th>
-                                {jobOfferType === "Auctionable" ? <th>BID PRICE</th> : null}
+                                <th>{Dictionary.Number}</th>
+                                <th>{Dictionary.Driver}</th>
+                                <th>{Dictionary.RequestedOn}</th>
+                                {jobOfferType === "Auctionable" ? <th>{Dictionary.BidPrice}</th> : null}
                                 <th></th>
                             </tr>
                         </thead>
@@ -119,5 +119,33 @@ class DriverRequestsTable extends Component {
         }
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Requests: "الطلبات",
+        Bids: "العطاءات",
+        Number: "رقم",
+        Driver: "سائق",
+        RequestedOn: "مطلوب على",
+        BidPrice: "سعر العرض",
+    };
+}
+else {
+    Dictionary = {
+        Requests: "Requests",
+        Bids: "Bids",
+        Number: "NUMBER",
+        Driver: "DRIVER",
+        RequestedOn: "REQUESTED ON",
+        BidPrice: "BID PRICE",
+    };
+}
 
 export default DriverRequestsTable;

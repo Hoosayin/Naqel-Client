@@ -17,19 +17,19 @@ class Jobs extends Component {
             }}>
                 <li role="presentation" className="active">
                     <a href="#job-requests" aria-controls="job-requests" role="tab" data-toggle="tab"
-                        onClick={async () => { await this.RefreshJobRequests(); }}>Job Requests</a>
+                        onClick={async () => { await this.RefreshJobRequests(); }}>{Dictionary.JobRequests}</a>
                 </li>
                 <li role="presentation">
                     <a href="#job-offers" aria-controls="job-offers" role="tab" data-toggle="tab"
-                        onClick={async () => { await this.RefreshJobOffers(); }}>Job Offers</a>
+                        onClick={async () => { await this.RefreshJobOffers(); }}>{Dictionary.JobOffers}</a>
                 </li>
                 <li role="presentation">
                     <a href="#on-going-job" aria-controls="on-going-job" role="tab" data-toggle="tab"
-                        onClick={async () => { await this.RefreshOnGoingJob(); }}>On-Going Job</a>
+                        onClick={async () => { await this.RefreshOnGoingJob(); }}>{Dictionary.OnGoingJob}</a>
                 </li>
                 <li role="presentation">
                     <a href="#completed-jobs" aria-controls="completed-jobs" role="tab" data-toggle="tab"
-                        onClick={async () => { await this.RefreshCompletedJobs(); }}>Completed Jobs</a>
+                        onClick={async () => { await this.RefreshCompletedJobs(); }}>{Dictionary.CompletedJobs}</a>
                 </li>
             </ul>
 
@@ -50,5 +50,34 @@ class Jobs extends Component {
         </section>;
     }
 };
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobRequests: "طلبات العمل",
+        JobOffers: "عروض العمل",
+        OnGoingJob: "العمل الجاري",
+        CompletedJobs: "الوظائف المكتملة",
+    };
+}
+else if (Language === "Urdu") {
+    Dictionary = {
+        JobRequests: "نوکری کی درخواستیں",
+        JobOffers: "نوکری کی پیشکش",
+        OnGoingJob: "نوکری جاری ہے",
+        CompletedJobs: "مکمل نوکریاں",
+    };
+}
+else {
+    Dictionary = {
+        JobRequests: "Job Requests",
+        JobOffers: "Job Offers",
+        OnGoingJob: "On-Going Job",
+        CompletedJobs: "Completed Jobs",
+    };
+}
+
 
 export default Jobs;

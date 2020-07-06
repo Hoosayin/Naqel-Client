@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import firebase from "firebase";
 import FirebaseApp from "../../../../res/FirebaseApp";
 import Preloader from "../../../../controls/Preloader";
+import NationalitySelector from "../../../../controls/NationalitySelector";
 import PhoneConfirmationDialog from "../../../../containers/phoneConfirmationDialog/PhoneConfirmationDialog";
-import { getData, generalSettings } from "../../DriverFunctions";
+import { getData, validatePhoneNumber, generalSettings } from "../../DriverFunctions";
 
 class GeneralSettings extends Component {
     constructor() {
@@ -13,6 +14,7 @@ class GeneralSettings extends Component {
             FirstName: "",
             LastName: "",
             Address: "",
+            OldPhoneNumber: "",
             PhoneNumber: "",
             Gender: "",
             Nationality: "",
@@ -20,6 +22,7 @@ class GeneralSettings extends Component {
 
             ValidFirstName: true,
             ValidLastName: true,
+            ValidDateOfBirth: true,
             ValidPhoneNumber: true,
 
             ConfirmationResult: null,
@@ -32,6 +35,7 @@ class GeneralSettings extends Component {
             Errors: {
                 FirstName: "",
                 LastName: "",
+                DateOfBirth: "",
                 PhoneNumber: "",
             },
         };
@@ -61,6 +65,7 @@ class GeneralSettings extends Component {
                         FirstName: driver.FirstName,
                         LastName: driver.LastName,
                         Address: driver.Address,
+                        OldPhoneNumber: driver.PhoneNumber,
                         PhoneNumber: driver.PhoneNumber,
                         Gender: driver.Gender,
                         Nationality: driver.Nationality,
@@ -94,20 +99,32 @@ class GeneralSettings extends Component {
         let Errors = this.state.Errors;
         let ValidFirstName = this.state.ValidFirstName;
         let ValidLastName = this.state.ValidLastName;
+        let ValidDateOfBirth = this.state.ValidDateOfBirth;
         let ValidPhoneNumber = this.state.ValidPhoneNumber;
 
         switch (field) {
             case "FirstName":
                 ValidFirstName = value.match(/^[a-zA-Z ]+$/);
-                Errors.FirstName = ValidFirstName ? "" : "First name is invalid.";
+                Errors.FirstName = ValidFirstName ? "" : Dictionary.FirstName;
                 break;
             case "LastName":
                 ValidLastName = value.match(/^[a-zA-Z ]+$/);
-                Errors.LastName = ValidLastName ? "" : "Last name is invalid.";
+                Errors.LastName = ValidLastName ? "" : Dictionary.LastName;
+                break;
+            case "DateOfBirth":
+                ValidDateOfBirth = value !== "";
+                Errors.DateOfBirth = ValidDateOfBirth? "" : Dictionary.DateOfBirthError1;
+
+                if (!ValidDateOfBirth) {
+                    break;
+                }
+
+                ValidDateOfBirth = (new Date().getFullYear() - new Date(value).getFullYear()) >= 18;
+                Errors.DateOfBirth = ValidDateOfBirth ? "" : Dictionary.DateOfBirthError2;
                 break;
             case "PhoneNumber":
                 ValidPhoneNumber = value.match(/^\+[0-9]?()[0-9](\s|\S)(\d[0-9]{9})$/);
-                Errors.PhoneNumber = ValidPhoneNumber ? "" : "Phone number is invalid.";
+                Errors.PhoneNumber = ValidPhoneNumber ? "" : Dictionary.PhoneNumberError;
                 break;
             default:
                 break;
@@ -117,11 +134,13 @@ class GeneralSettings extends Component {
             Errors: Errors,
             ValidFirstName: ValidFirstName,
             ValidLastName: ValidLastName,
+            ValidDateOfBirth: ValidDateOfBirth,
             ValidPhoneNumber: ValidPhoneNumber,
         }, () => {
             this.setState({
                 ValidForm: this.state.ValidFirstName &&
                     this.state.ValidLastName &&
+                    this.state.ValidDateOfBirth &&
                     this.state.ValidPhoneNumber
             });
         });
@@ -140,6 +159,23 @@ class GeneralSettings extends Component {
             ShowPreloader: true
         });
 
+        if (this.state.PhoneNumber !== this.state.OldPhoneNumber) {
+            const response = await validatePhoneNumber(this.state.PhoneNumber);
+
+            if (response.Message === "Phone number is already used.") {
+                let errors = this.state.Errors;
+                errors.PhoneNumber = response.Message;
+
+                this.setState({
+                    ShowPreloader: false,
+                    Errors: errors,
+                    ValidForm: false,
+                });
+
+                return;
+            }
+        }
+
         if (this.state.PhoneCodeVerified) {
             const updatedDriver = {
                 Token: localStorage.Token,
@@ -154,10 +190,15 @@ class GeneralSettings extends Component {
 
             await generalSettings(updatedDriver).then(response => {
                 this.setState({
-                    ShowPreloader: false
+                    ShowPreloader: false,
+                    ValidForm: false,
                 });
 
                 if (response.Message === "Driver is updated.") {
+                    this.setState({
+                        OldPhoneNumber: this.state.PhoneNumber
+                    });
+
                     this.props.OnSettingsSaved();
                 }
             });
@@ -182,7 +223,8 @@ class GeneralSettings extends Component {
 
                 this.setState({
                     ShowPreloader: false,
-                    Errors: Errors
+                    Errors: Errors,
+                    ValidForm: false,
                 });
             });
         }
@@ -190,7 +232,7 @@ class GeneralSettings extends Component {
 
     render() {
         return <section>
-            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>General Settings</div>
+            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>{Dictionary.GeneralSettings}</div>
             <form noValidate onSubmit={this.onSubmit}>
                 <div className="entity-list entity-list-expandable">
                     <div className="entity-list-item">
@@ -204,7 +246,7 @@ class GeneralSettings extends Component {
                             </div>
                         </div>
                         <div className="item-content-primary">
-                            <div className="content-text-primary">First Name</div>
+                            <div className="content-text-primary">{Dictionary.FirstName}</div>
                             <div className="text-danger">{this.state.Errors.FirstName}</div>
                         </div>
                     </div>
@@ -219,7 +261,7 @@ class GeneralSettings extends Component {
                             </div>
                         </div>
                         <div className="item-content-primary">
-                            <div className="content-text-primary">Last Name</div>
+                            <div className="content-text-primary">{Dictionary.LastName}</div>
                             <div className="text-danger">{this.state.Errors.LastName}</div>
                         </div>
                     </div>
@@ -234,7 +276,8 @@ class GeneralSettings extends Component {
                             </div>
                         </div>
                         <div className="item-content-primary">
-                            <div className="content-text-primary">Date of Birth</div>
+                            <div className="content-text-primary">{Dictionary.DateOfBirth}</div>
+                            <div className="text-danger">{this.state.Errors.DateOfBirth}</div>
                         </div>
                     </div>
                     <div className="entity-list-item">
@@ -245,17 +288,19 @@ class GeneralSettings extends Component {
                             <div className="dropdown" style={{ width: "193px", maxWidth: "296px", }}>
                                 <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
                                     aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                    <span>{this.state.Gender}</span>
+                                    {this.state.Gender === "Male" ? 
+                                    <span>{Dictionary.Male}</span> : 
+                                    <span>{Dictionary.Female}</span>}
                                     <span className="caret"></span>
                                 </button>
                                 <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                    <li><a onClick={() => { this.setState({ Gender: "Male" }); }}>Male</a></li>
-                                    <li><a onClick={() => { this.setState({ Gender: "Female" }); }}>Female</a></li>
+                                    <li><a onClick={() => { this.setState({ Gender: "Male" }); }}>{Dictionary.Male}</a></li>
+                                    <li><a onClick={() => { this.setState({ Gender: "Female" }); }}>{Dictionary.Female}</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div className="item-content-primary">
-                            <div className="content-text-primary">Gender</div>
+                            <div className="content-text-primary">{Dictionary.Gender}</div>
                         </div>
                     </div>
                     <div className="entity-list-item">
@@ -264,12 +309,24 @@ class GeneralSettings extends Component {
                         </div>
                         <div className="item-content-secondary">
                             <div className="form-group">
-                                <input type="text" className="form-control" name="Nationality" autoComplete="off"
-                                    value={this.state.Nationality} onChange={this.onChange} style={{ width: "193px", }} />
+                                <NationalitySelector Nationality={this.state.Nationality}
+                                    Width="193px"
+                                    OnNationalitySelected={nationality => {
+                                        this.setState({
+                                            Nationality: nationality
+                                        }, () => {
+                                            this.setState({
+                                                ValidForm: this.state.ValidFirstName &&
+                                                    this.state.ValidLastName &&
+                                                    this.state.ValidDateOfBirth &&
+                                                    this.state.ValidPhoneNumber
+                                            });
+                                        });
+                                    }} />
                             </div>
                         </div>
                         <div className="item-content-primary">
-                            <div className="content-text-primary">Nationality</div>
+                            <div className="content-text-primary">{Dictionary.Nationality}</div>
                         </div>
                     </div>
                     <div className="entity-list-item">
@@ -279,11 +336,11 @@ class GeneralSettings extends Component {
                         <div className="item-content-secondary">
                             <div className="form-group">
                                 <input type="text" className="form-control" name="PhoneNumber" autoComplete="off"
-                                    placeholder="+XXXXXXXXXXXX" value={this.state.PhoneNumber} onChange={this.onChange} style={{ width: "193px", }} />
+                                    placeholder="+966501234567" value={this.state.PhoneNumber} onChange={this.onChange} style={{ width: "193px", }} />
                             </div>
                         </div>
                         <div className="item-content-primary">
-                            <div className="content-text-primary">Phone Number</div>
+                            <div className="content-text-primary">{Dictionary.PhoneNumber}</div>
                             <div className="text-danger">{this.state.Errors.PhoneNumber}</div>
                         </div>
                     </div>
@@ -298,7 +355,7 @@ class GeneralSettings extends Component {
                             </div>
                         </div>
                         <div className="item-content-primary">
-                            <div className="content-text-primary">Address</div>
+                            <div className="content-text-primary">{Dictionary.Address}</div>
                         </div>
                     </div>
                     <div className="entity-list-item active">
@@ -306,11 +363,11 @@ class GeneralSettings extends Component {
                             <span className="fas fa-save"></span>
                         </div>
                         <div className="item-content-primary">
-                            <div className="content-text-primary">Save Changes?</div>
-                            <div className="content-text-secondary">This cannot be undone.</div>
+                            <div className="content-text-primary">{Dictionary.SaveChanges}</div>
+                            <div className="content-text-secondary">{Dictionary.Undone}</div>
                         </div>
                         <div className="item-content-expanded">
-                            <input type="submit" value="Save" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                            <input type="submit" value={Dictionary.Save} className="btn btn-primary" disabled={!this.state.ValidForm} />
                         </div>
                     </div>
                 </div>
@@ -336,7 +393,7 @@ class GeneralSettings extends Component {
                             Errors
                         } = this.state;
 
-                        Errors.PhoneNumber = "Confirmation code is invalid.";
+                        Errors.PhoneNumber = Dictionary.CodeError;
 
                         this.setState({
                             ValidForm: false,
@@ -349,5 +406,59 @@ class GeneralSettings extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        GeneralSettings: "الاعدادات العامة",
+        FirstName: "الاسم الاول",
+        LastName: "الكنية",
+        DateOfBirth: "تاريخ الولادة",
+        Gender: "جنس",
+        Male: "الذكر",
+        Female: "أنثى",
+        Nationality: "الجنسية",
+        PhoneNumber: "رقم الهاتف",
+        Address: "عنوان",
+        SaveChanges: "حفظ التغييرات؟",
+        Undone: ".هذا لا يمكن التراجع عنها",
+        Save: "حفظ",
+        FirstNameError: ".الاسم الأول غير صالح",
+        LastNameError: ".اسم العائلة غير صالح",
+        DateOfBirthError1: ".تاريخ الميلاد مطلوب",
+        DateOfBirthError2: ".يجب أن يكون عمرك 18 عامًا على الأقل",
+        PhoneNumberError: ".رقم الهاتف غير صالح", 
+        CodeError: ".رمز التأكيد غير صالح",
+    };
+}
+else {
+    Dictionary = {
+        GeneralSettings: "General Settings",
+        FirstName: "First Name",
+        LastName: "Last Name",
+        DateOfBirth: "Date of Birth",
+        Gender: "Gender",
+        Male: "Male",
+        Female: "Female",
+        Nationality: "Nationality",
+        PhoneNumber: "Phone Number",
+        Address: "Address",
+        SaveChanges: "Save Changes?",
+        Undone: "This cannot be undone.",
+        Save: "Save",
+        FirstNameError: "First name is invalid.",
+        LastNameError: "Last name is invalid.",
+        DateOfBirthError1: "Date of birth is required.",
+        DateOfBirthError2: "You must be at least 18 years old.",
+        PhoneNumberError: "Phone number is invalid.", 
+        CodeError: "Confirmation code is invalid.",
+    };
+}
 
 export default GeneralSettings;

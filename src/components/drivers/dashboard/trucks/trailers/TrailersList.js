@@ -29,19 +29,19 @@ class TrailersList extends Component {
         console.log(`Going to delete Trailers[${index}]...`);
 
         await deleteTrailer(discardedTrailer).then(response => {
-            if (response.Message === "Trailer is deleted.") {
-                this.props.OnTrailersUpdated();
-            }
-
             this.setState({
                 Preloader: null
             });
+
+            if (response.Message === "Trailer is deleted.") {
+                this.props.OnTrailersUpdated();
+            }
         });
     }
 
     render() {
         return <section>
-            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Trailers</div>
+            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }} dir={GetDirection()}>{Dictionary.Trailers}</div>
             <ol className="list-items" style={{ margin: "0px" }}>
                 {this.state.Trailers.map((value, index) => {
                     return <li key={index} className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
@@ -57,7 +57,7 @@ class TrailersList extends Component {
                                             }} />
                                     </div>
                                     <div className="col-md-18">
-                                        <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }}>{`Trailer # ${index + 1}.`}</div>
+                                        <div className="type-h3" style={{ color: "#008575", paddingTop: "0px" }} dir={GetDirection()}>{`${Dictionary.Trailer} # ${index + 1}.`}</div>
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="entity-list">
@@ -66,7 +66,7 @@ class TrailersList extends Component {
                                                             <span className="fas fa-weight"></span>
                                                         </div>
                                                         <div className="item-content-primary">
-                                                            <div className="content-text-primary">Maximum Weight</div>
+                                                            <div className="content-text-primary">{Dictionary.MaximumWeight}</div>
                                                             <div className="content-text-secondary">{`${value.MaximumWeight} GVM`}</div>
                                                         </div>
                                                     </div>
@@ -77,7 +77,7 @@ class TrailersList extends Component {
                                                             <span className="fas fa-star-of-life"></span>
                                                         </div>
                                                         <div className="item-content-primary">
-                                                            <div className="content-text-primary">Trailer Type</div>
+                                                            <div className="content-text-primary">{Dictionary.TrailerType}</div>
                                                             <div className="content-text-secondary">{value.Type}</div>
                                                         </div>
                                                     </div>
@@ -117,9 +117,48 @@ class TrailersList extends Component {
                                     this.setState({
                                         EditTrailerDialogs: editTrailerDialogs,
                                     });
-                                }}>Edit</button>
-                            <button type="button" className="btn btn-danger" onClick={() => { this.onDelete(index); }}>Delete</button>
+                                }}>{Dictionary.Edit}</button>
+                            <button type="button" className="btn btn-danger"
+                                data-toggle="modal"
+                                data-target={`#delete-trailer-dialog-${index}`}>{Dictionary.Delete}</button>
                         </div>
+
+                        <div className="modal modal-center-vertical" id={`delete-trailer-dialog-${index}`}
+                            tabIndex="-1" role="dialog"
+                            aria-labelledby="modal-sample-label" aria-hidden="true">
+                            <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                                <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                                    <div className="modal-header">
+                                        <div className="text-right">
+                                            <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                                data-dismiss="modal"
+                                                ref={cancelButton => this.cancelButton = cancelButton}>
+                                                <span className="fas fa-times"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="jumbotron theme-default" dir={GetDirection()}>
+                                            <div className="container">
+                                                <div className="row">
+                                                    <div className="col-md-24">
+                                                        <div className="type-sh3 m-b-xxs">{Dictionary.DeleteMessage}</div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <button className="btn btn-danger"
+                                                            onClick={async () => {
+                                                                this.cancelButton.click();
+                                                                await this.onDelete(index);
+                                                            }}>{Dictionary.Delete}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         {this.state.EditTrailerDialogs[index]}
                     </li>
                 })}
@@ -128,5 +167,36 @@ class TrailersList extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Trailers: "المقطورات",
+        Trailer: "عرض مختصر لفيلم",
+        MaximumWeight: "الوزن الأقصى",
+        TrailerType: "نوع المقطورة",
+        Edit: "تعديل",
+        Delete: "حذف",
+        DeleteMessage: "هل أنت متأكد أنك تريد حذف هذا المقطع الدعائي؟",
+    };
+}
+else {
+    Dictionary = {
+        Trailers: "Trailers",
+        Trailer: "Trailer",
+        MaximumWeight: "Maximum Weight",
+        TrailerType: "Trailer Type",
+        Edit: "Edit",
+        Delete: "Delete",
+        DeleteMessage: "Are you sure you want to delete this trailer?",
+
+    };
+}
 
 export default TrailersList;

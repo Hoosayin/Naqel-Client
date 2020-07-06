@@ -34,7 +34,7 @@ class TruckJobsRow extends Component {
                 <button className="btn btn-primary m-t-n"
                     data-toggle="modal"
                     data-target={`#truck-job-details-dialog-${Index}`}
-                    onClick={async () => { await this.SearchTruckJobDetails(TruckJob.CompletedJobID); }}>Details</button>
+                    onClick={async () => { await this.SearchTruckJobDetails(TruckJob.CompletedJobID); }}>{Dictionary.Details}</button>
 
                 <TruckJobDetailsDialog Index={Index}
                     SearchTruckJobDetails={searchTruckJobDetails => { this.SearchTruckJobDetails = searchTruckJobDetails }} />
@@ -42,5 +42,23 @@ class TruckJobsRow extends Component {
         </tr>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Details: "تفاصيل"
+    };
+}
+else {
+    Dictionary = {
+        Details: "Details"
+    };
+}
 
 export default TruckJobsRow;

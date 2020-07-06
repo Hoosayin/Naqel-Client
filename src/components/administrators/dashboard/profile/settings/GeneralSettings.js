@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import firebase from "firebase";
+import FirebaseApp from "../../../../../res/FirebaseApp";
 import Preloader from "../../../../../controls/Preloader";
-import { getData, generalSettings } from "../../../AdministratorFunctions";
+import PhoneConfirmationDialog from "../../../../../containers/phoneConfirmationDialog/PhoneConfirmationDialog";
+import { getData, validatePhoneNumber, generalSettings } from "../../../AdministratorFunctions";
 
 class GeneralSettings extends Component {
     constructor() {
@@ -9,9 +12,15 @@ class GeneralSettings extends Component {
         this.state = {
             FirstName: "",
             LastName: "",
+            OldPhoneNumber: "",
+            PhoneNumber: "",
 
             ValidFirstName: true,
             ValidLastName: true,
+            ValidPhoneNumber: true,
+
+            ConfirmationResult: null,
+            PhoneCodeVerified: false,
 
             ValidForm: false,
             SettingsSaved: false,
@@ -20,6 +29,7 @@ class GeneralSettings extends Component {
             Errors: {
                 FirstName: "",
                 LastName: "",
+                PhoneNumber: "",
             }
         };
 
@@ -28,6 +38,12 @@ class GeneralSettings extends Component {
     }
 
     async componentDidMount() {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha", {
+            "size": "invisible",
+            "callback": response => {
+            }
+        });
+
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
@@ -41,12 +57,16 @@ class GeneralSettings extends Component {
                     this.setState({
                         FirstName: administrator.FirstName,
                         LastName: administrator.LastName,
+                        OldPhoneNumber: administrator.PhoneNumber,
+                        PhoneNumber: administrator.PhoneNumber,
                     });
                 }
                 else {
                     this.setState({
                         FirstName: "",
-                        LastName: ""
+                        LastName: "",
+                        OldPhoneNumber: "",
+                        PhoneNumber: "",
                     });
                 }
             });
@@ -65,6 +85,7 @@ class GeneralSettings extends Component {
         let Errors = this.state.Errors;
         let ValidFirstName = this.state.ValidFirstName;
         let ValidLastName = this.state.ValidLastName;
+        let ValidPhoneNumber = this.state.ValidPhoneNumber;
 
         switch (field) {
             case "FirstName":
@@ -75,6 +96,10 @@ class GeneralSettings extends Component {
                 ValidLastName = value.match(/^[a-zA-Z ]+$/);
                 Errors.LastName = ValidLastName ? "" : "Last name is invalid.";
                 break;
+            case "PhoneNumber":
+                ValidPhoneNumber = value.match(/^\+[0-9]?()[0-9](\s|\S)(\d[0-9]{9})$/);
+                Errors.PhoneNumber = ValidPhoneNumber ? "" : "Phone number is invalid.";
+                break;
             default:
                 break;
         }
@@ -82,52 +107,103 @@ class GeneralSettings extends Component {
         this.setState({
             Errors: Errors,
             ValidFirstName: ValidFirstName,
-            ValidLastName: ValidLastName
+            ValidLastName: ValidLastName,
+            ValidPhoneNumber: ValidPhoneNumber,
         }, () => {
             this.setState({
                 ValidForm: this.state.ValidFirstName &&
-                    this.state.ValidLastName
+                    this.state.ValidLastName &&
+                    this.state.ValidPhoneNumber
             });
         });
     }
 
     onSubmit = async event => {
-        event.preventDefault();
+        if (event) {
+            event.preventDefault();
+        }
 
         if (!this.state.ValidForm) {
             return;
         }
 
-        const updatedAdministrator = {
-            Token: localStorage.Token,
-            FirstName: this.state.FirstName,
-            LastName: this.state.LastName
-        };
-
         this.setState({
             ShowPreloader: true
         });
 
-        await generalSettings(updatedAdministrator).then(response => {
-            if (response.Message === "Administrator is updated.") {
+        if (this.state.PhoneNumber !== this.state.OldPhoneNumber) {
+            const response = await validatePhoneNumber(this.state.PhoneNumber);
+
+            if (response.Message === "Phone number is already used.") {
+                let errors = this.state.Errors;
+                errors.PhoneNumber = response.Message;
+
                 this.setState({
-                    ShowPreloader: false
+                    ShowPreloader: false,
+                    Errors: errors,
+                    ValidForm: false,
                 });
 
-                this.props.OnSettingsSaved();
+                return;
             }
-            else {
+        }
+
+        if (this.state.PhoneCodeVerified) {
+            const updatedAdministrator = {
+                Token: localStorage.Token,
+                FirstName: this.state.FirstName,
+                LastName: this.state.LastName,
+                PhoneNumber: this.state.PhoneNumber,
+            };
+
+            await generalSettings(updatedAdministrator).then(response => {
+                if (response.Message === "Administrator is updated.") {
+                    this.setState({
+                        OldPhoneNumber: this.state.PhoneNumber,
+                        ShowPreloader: false
+                    });
+
+                    this.props.OnSettingsSaved();
+                }
+                else {
+                    this.setState({
+                        ShowPreloader: false
+                    });
+                }
+            });
+        }
+        else {
+            const appVerifier = window.recaptchaVerifier;
+
+            FirebaseApp.auth().languageCode = "en";
+            FirebaseApp.auth().signInWithPhoneNumber(this.state.PhoneNumber, appVerifier).then(confirmationResult => {
                 this.setState({
-                    ShowPreloader: false
+                    ShowPreloader: false,
+                    ConfirmationResult: confirmationResult
                 });
-            }
-        });
+
+                this.SendCodeButton.click();
+            }).catch(error => {
+                let {
+                    Errors
+                } = this.state;
+
+                Errors.PhoneNumber = error.message;
+
+                this.setState({
+                    ShowPreloader: false,
+                    Errors: Errors,
+                    ValidForm: false,
+                });
+            });
+        }
     }
 
     render() {
         const {
             FirstName,
             LastName,
+            PhoneNumber,
             ShowPreloader,
             ValidForm,
             Errors
@@ -168,6 +244,21 @@ class GeneralSettings extends Component {
                             <div className="text-danger">{Errors.LastName}</div>
                         </div>
                     </div>
+                    <div className="entity-list-item">
+                        <div className="item-icon">
+                            <span className="fas fa-phone"></span>
+                        </div>
+                        <div className="item-content-secondary">
+                            <div className="form-group">
+                                <input type="text" className="form-control" name="PhoneNumber" autoComplete="off"
+                                    placeholder="+699501234567" value={PhoneNumber} onChange={this.onChange} style={{ width: "193px", }} />
+                            </div>
+                        </div>
+                        <div className="item-content-primary">
+                            <div className="content-text-primary">Phone Number</div>
+                            <div className="text-danger">{Errors.PhoneNumber}</div>
+                        </div>
+                    </div>
                     <div className="entity-list-item active">
                         <div className="item-icon">
                             <span className="fas fa-save"></span>
@@ -182,6 +273,37 @@ class GeneralSettings extends Component {
                     </div>
                 </div>
             </form>
+
+            <button
+                style={{ display: "none" }}
+                data-toggle="modal"
+                data-target="#phone-confirmation-dialog"
+                ref={sendCodeButton => this.SendCodeButton = sendCodeButton}></button>
+            <PhoneConfirmationDialog ConfirmationResult={this.state.ConfirmationResult}
+                PhoneNumber={this.state.PhoneNumber}
+                OnOK={phoneCodeVerified => {
+                    if (phoneCodeVerified) {
+                        this.setState({
+                            PhoneCodeVerified: true
+                        });
+
+                        this.onSubmit();
+                    }
+                    else {
+                        let {
+                            Errors
+                        } = this.state;
+
+                        Errors.PhoneNumber = "Confirmation code is invalid.";
+
+                        this.setState({
+                            ValidForm: false,
+                            Errors: Errors
+                        });
+                    }
+                }} />
+            <div id="recaptcha"></div>
+
             {ShowPreloader ? <Preloader /> : null}
         </section>;
     }

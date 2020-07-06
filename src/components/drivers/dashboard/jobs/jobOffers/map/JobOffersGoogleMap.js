@@ -5,17 +5,17 @@ import Strings from "../../../../../../res/strings";
 const JobOfferInfoWindow = props => {
     const { JobOffer } = props;
 
-    return <section>
-        <div className="type-h6 color-default p-t-n">{`${JobOffer.JobOfferType} Job Offer`}</div>
+    return <section dir={GetDirection()}>
+        <div className="type-h6 color-default p-t-n">{`${JobOffer.JobOfferType} ${Dictionary.JobOffer}`}</div>
         <div className="type-sh9">
             <span className="fas fa-tag color-default m-r-xxxs"></span>
-            <span className="color-default">PRICE: </span>{`${JobOffer.Price} ${Strings.SAUDI_RIYAL}`}</div>
+            <span className="color-default">{Dictionary.Price}: </span>{`${JobOffer.Price} ${Strings.SAUDI_RIYAL}`}</div>
         <div className="type-sh9">
             <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
-            <span className="color-default">FROM: </span>{JobOffer.LoadingPlace}</div>
+            <span className="color-default">{Dictionary.From}: </span>{JobOffer.LoadingPlace}</div>
         <div className="type-sh9">
             <span className="fas fa-map-marker-alt color-default m-r-xxxs"></span>
-            <span className="color-default">TO: </span>{JobOffer.UnloadingPlace}</div>
+            <span className="color-default">{Dictionary.To}: </span>{JobOffer.UnloadingPlace}</div>
     </section>;
 };
 
@@ -62,6 +62,30 @@ const JobOffersGoogleMap = props => {
             mapElement={<div style={{ height: `100%` }} />}
             JobOfferPosts={props.JobOfferPosts} />
     </div>;
+}
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobOffer: "عرض عمل",
+        Price: "السعر",
+        From: "مصدر",
+        To: "المكان المقصود",
+    };
+}
+else {
+    Dictionary = {
+        JobOffer: "Job Offer",
+        Price: "PRICE",
+        From: "FROM",
+        To: "TO",
+    };
 }
 
 export default JobOffersGoogleMap;

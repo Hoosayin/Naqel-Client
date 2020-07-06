@@ -56,7 +56,7 @@ class CommercialRegisterCertificateListItem extends Component {
                                 <span style={{ fontWeight: "bold", color: "#008575" }}>1.</span>
                             </div>
                             <div className="content-text-secondary">
-                                <span style={{ fontWeight: "bold", color: "#008575" }}>COMMERCIAL REGISTER CERTIFICATE</span>
+                                <span style={{ fontWeight: "bold", color: "#008575" }}>{Dictionary.CRCertificate}</span>
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@ class CommercialRegisterCertificateListItem extends Component {
                                     }} />
                             </div>
                             <div className="col-md-18">
-                                <div className="type-h3 color-default p-t-xxs">Commercial Register Certificate</div>
+                                <div className="type-h3 color-default p-t-xxs">{Dictionary.CRCertificateSubtitle}</div>
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="entity-list">
@@ -85,7 +85,7 @@ class CommercialRegisterCertificateListItem extends Component {
                                                     <span className="fas fa-hashtag"></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">Certificate Number</div>
+                                                    <div className="content-text-primary">{Dictionary.CertificateNumber}</div>
                                                     <div className="content-text-secondary">{CommercialRegisterCertificate.Number}</div>
                                                 </div>
                                             </div>
@@ -96,7 +96,7 @@ class CommercialRegisterCertificateListItem extends Component {
                                                     <span className="fas fa-cog"></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">Certificate Type</div>
+                                                    <div className="content-text-primary">{Dictionary.CertificateType}</div>
                                                     <div className="content-text-secondary">{CommercialRegisterCertificate.Type}</div>
                                                 </div>
                                             </div>
@@ -112,15 +112,84 @@ class CommercialRegisterCertificateListItem extends Component {
                         type="button"
                         className="btn btn-primary"
                         data-toggle="modal"
-                        data-target="#edit-commercial-register-certificate-dialog">Edit</button>
-                    <button type="button" className="btn btn-danger" onClick={this.onDelete}>Delete</button>
+                        data-target="#edit-commercial-register-certificate-dialog">{Dictionary.Edit}</button>
+                    <button type="button" className="btn btn-danger"
+                        data-toggle="modal"
+                        data-target={`#delete-crc-dialog`}>{Dictionary.Delete}</button>
                 </div>
             </div>
+
+            <div className="modal modal-center-vertical" id={`delete-crc-dialog`}
+                tabIndex="-1" role="dialog"
+                aria-labelledby="modal-sample-label" aria-hidden="true">
+                <div className="modal-dialog" style={{ width: "auto", maxWidth: "95%" }}>
+                    <div className="modal-content" style={{ backgroundColor: "#FEFEFE" }}>
+                        <div className="modal-header">
+                            <div className="text-right">
+                                <button className="btn btn-primary" style={{ minWidth: "0px" }}
+                                    data-dismiss="modal"
+                                    ref={cancelButton => this.cancelButton = cancelButton}>
+                                    <span className="fas fa-times"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="modal-body">
+                            <div className="jumbotron theme-default" dir={GetDirection()}>
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col-md-24">
+                                            <div className="type-sh3 m-b-xxs">{Dictionary.DeleteMessage}</div>
+                                        </div>
+                                        <div className="text-right">
+                                            <button className="btn btn-danger"
+                                                onClick={async () => {
+                                                    this.cancelButton.click();
+                                                    await this.onDelete();
+                                                }}>{Dictionary.Delete}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {ShowPreloader ? <Preloader /> : null}
             <EditCommercialRegisterCertificateDialog CommercialRegisterCertificate={CommercialRegisterCertificate}
                 OnOK={this.props.OnCertificateUpdated} />
         </li>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        CRCertificate: "شهادة السجل التجاري",
+        CRCertificateSubtitle: "شهادة السجل التجاري",
+        CertificateNumber: "رقم شهادة",
+        CertificateType: "نوع الشهادة",
+        Edit: "تعديل",
+        Delete: "حذف",
+        DeleteMessage: "هل أنت متأكد أنك تريد حذف شهادة السجل التجاري هذه؟"
+    };
+}
+else {
+    Dictionary = {
+        CRCertificate: "COMMERCIAL REGISTER CERTIFICATE",
+        CRCertificateSubtitle: "Commercial Register Certificate",
+        CertificateNumber: "Certificate Number",
+        CertificateType: "Certificate Type",
+        Edit: "Edit",
+        Delete: "Delete",
+        DeleteMessage: "Are you sure you want to delete this commercial register certificate?"
+    };
+}
 
 export default CommercialRegisterCertificateListItem;

@@ -58,23 +58,23 @@ class EditPermitLicenceDialog extends Component {
         switch (field) {
             case "PermitNumber":
                 ValidPermitNumber = (value !== "");
-                Errors.PermitNumber = ValidPermitNumber ? "" : "Permit number is required.";
+                Errors.PermitNumber = ValidPermitNumber ? "" : Dictionary.PermitNumberError1;
                 break;
             case "ExpiryDate":
                 ValidExpiryDate = (new Date(value).getTime() >= new Date().getTime());
-                Errors.ExpiryDate = ValidExpiryDate ? "" : "Expiry Date must be later than yesterday.";
+                Errors.ExpiryDate = ValidExpiryDate ? "" : Dictionary.ExpiryDateError;
                 break;
             case "PhotoURL":
                 ValidPhotoURL = (value !== null);
-                Errors.PhotoURL = ValidPhotoURL ? "" : "Invalid Image. Please upload a correct one.";
+                Errors.PhotoURL = ValidPhotoURL ? "" : Dictionary.PhotoURLError;
                 break;
             case "Code":
                 ValidCode = (value !== "");
-                Errors.Code = ValidCode ? "" : "Permit code is required.";
+                Errors.Code = ValidCode ? "" : Dictionary.PermitCodeError;
                 break;
             case "Place":
                 ValidPlace = (value !== "");
-                Errors.Place = ValidPlace ? "" : "Permit place is required.";
+                Errors.Place = ValidPlace ? "" : Dictionary.PermitPlaceError;
                 break;
             default:
                 break;
@@ -175,31 +175,31 @@ class EditPermitLicenceDialog extends Component {
                                                     }} />
                                             </div>
                                             <div className="col-md-12">
-                                                <div className="type-h3 color-default p-t-xxs">Edit Permit Licence</div>
+                                                <div className="type-h3 color-default p-t-xxs">{Dictionary.EditPermit}</div>
                                                 <div className="type-sh4 text-danger">{this.state.Errors.PhotoURL}</div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Permit Number</label>
+                                                    <label className="control-label">{Dictionary.PermitNumber}r</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" name="PermitNumber" className="form-control" autoComplete="off"
                                                         value={this.state.PermitNumber} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.PermitNumber}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Expiry Date</label>
+                                                    <label className="control-label">{Dictionary.ExpiryDate}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="date" name="ExpiryDate" className="form-control" autoComplete="off"
                                                         value={this.state.ExpiryDate} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.ExpiryDate}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Permit Code</label>
+                                                    <label className="control-label">{Dictionary.PermitCode}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="text" name="Code" className="form-control" autoComplete="off"
                                                         value={this.state.Code} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.Code}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Permit Place</label>
+                                                    <label className="control-label">{Dictionary.PermitPlace}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="text" name="Place" className="form-control" autoComplete="off"
                                                         value={this.state.Place} onChange={this.onChange} />
@@ -208,7 +208,7 @@ class EditPermitLicenceDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Update} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -220,5 +220,45 @@ class EditPermitLicenceDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        EditPermit: "تحرير رخصة التصريح",
+        PermitNumber: "رقم الترخيص",
+        ExpiryDate: "تاريخ الانتهاء",
+        PermitCode: "كود التصريح",
+        PermitPlace: "مكان التصريح",
+        Update: "تحديث",
+        PermitNumberError1: ".رقم التصريح مطلوب",
+        PermitNumberError2: ".رقم التصريح مطلوب",
+        ExpiryDateError: ".يجب أن يكون تاريخ انتهاء الصلاحية في وقت متأخر عن الأمس",
+        PhotoURLError: ".صورة غير صالحة. يرجى تحميل واحد صحيح",
+        PermitCodeError: ".رمز التصريح مطلوب",
+        PermitPlaceError: ".مكان التصريح مطلوب",
+    };
+}
+else {
+    Dictionary = {
+        EditPermit: "Edit Permit Licence",
+        PermitNumber: "Permit Number",
+        ExpiryDate: "Expiry Date",
+        PermitCode: "Permit Code",
+        PermitPlace: "Permit Place",
+        Update: "Update",
+        PermitNumberError1: "Permit number is required.",
+        PermitNumberError2: "Permit number is required.",
+        ExpiryDateError: "Expiry Date must be later than yesterday.",
+        PhotoURLError: "Invalid Image. Please upload a correct one.",
+        PermitCodeError: "Permit code is required.",
+        PermitPlaceError: "Permit place is required.",
+    };
+}
 
 export default EditPermitLicenceDialog;

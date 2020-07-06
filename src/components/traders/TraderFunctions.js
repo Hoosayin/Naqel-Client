@@ -6,17 +6,11 @@ export const registerTrader = async newCredentials => {
     console.log("I'm in registerTrader axios...");
     return await axios.post(`${Strings.NAQEL_SERVER}traders/register`, {
         Username: newCredentials.Username,
-        Email: newCredentials.Email,
+        PhoneNumber: newCredentials.PhoneNumber,
         Password: newCredentials.Password,
         RegisterAs: newCredentials.RegisterAs,
-    }).then(res => {
-        if (res.data.localeCompare(Strings.USERNAME_OR_EMAIL_TAKEN) === 0) {
-            return res.data;
-        }
-        else {
-            localStorage.setItem("newCredentialsToken", res.data);
-            return res.data;
-        }
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -42,12 +36,22 @@ export const setupTraderAccount = async newTrader => {
 // POST: Login
 export const loginTrader = async trader => {
     return await axios.post(`${Strings.NAQEL_SERVER}traders/login`, {
-        EmailOrUsername: trader.EmailOrUsername,
+        PhoneNumberOrUsername: trader.PhoneNumberOrUsername,
         Password: trader.Password
     }).then(response => {
         return response.data;
     }).catch(error => {
         console.log(error);
+    });
+};
+
+// POST: RecoverPassword
+export const recoverPassword = async recoverPasswordPackage => {
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/recoverPassword`, {
+        PhoneNumber: recoverPasswordPackage.PhoneNumber,
+        Password: recoverPasswordPackage.Password
+    }).then(response => {
+        return response.data;
     });
 };
 
@@ -114,6 +118,15 @@ export const validateUsername = async username => {
 export const validateEmail = async email => {
     return await axios.post(`${Strings.NAQEL_SERVER}traders/validateEmail`, {
         Email: email
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ValidatePhoneNumber
+export const validatePhoneNumber = async phoneNumber => {
+    return await axios.post(`${Strings.NAQEL_SERVER}traders/validatePhoneNumber`, {
+        PhoneNumber: phoneNumber
     }).then(response => {
         return response.data;
     });
@@ -245,6 +258,7 @@ export const addJobOffer = async newJobOffer => {
         LoadingTime: newJobOffer.LoadingTime,
         EntryExit: newJobOffer.EntryExit,
         Price: newJobOffer.Price,
+        WaitingTime: newJobOffer.WaitingTime,
         AcceptedDelay: newJobOffer.AcceptedDelay,
         JobOfferType: newJobOffer.JobOfferType
     }, {
@@ -271,6 +285,7 @@ export const updateJobOffer = async updatedJobOffer => {
         LoadingTime: updatedJobOffer.LoadingTime,
         EntryExit: updatedJobOffer.EntryExit,
         Price: updatedJobOffer.Price,
+        WaitingTime: updatedJobOffer.WaitingTime,
         AcceptedDelay: updatedJobOffer.AcceptedDelay,
         JobOfferType: updatedJobOffer.JobOfferType
     }, {

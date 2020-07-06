@@ -93,12 +93,30 @@ class JobRequestsMap extends Component {
         return <section>
 
             {JobRequestPosts.length === 0 ?
-                <SearchingContainer Searching={Searching} SearchingFor="job requests" /> :
+                <SearchingContainer Searching={Searching} SearchingFor={Dictionary.JobRequests} /> :
                 <section>
                     <JobRequestsGoogleMap JobRequestPosts={JobRequestPosts} />
                 </section>}
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobRequests: "طلبات العمل"
+    };
+}
+else {
+    Dictionary = {
+        JobRequests: "Job Requests"
+    };
+}
 
 export default JobRequestsMap;

@@ -132,18 +132,18 @@ class JobRequestsList extends Component {
                 backgroundImage: "url(/images/poly_back.jpg)",
                 backgroundSize: "cover",
                 backgroundColor: "#215761"
-            }}>
-                <div class="container" style={{paddingBottom: "10px", marginBottom: "12px"}}>
+            }} dir={GetDirection()}>
+                <div class="container" style={{ paddingBottom: "10px", marginBottom: "12px" }}>
                     <div class="row">
                         <div class="col-xs-18">
-                            <div className="type-h3 color-light"><span className="fas fa-briefcase m-r-xxs"></span>Job Requests</div>
-                            <p className="color-light">Create new job requests for your current and/or near-by locations to get a chance to increase your revenue.</p>
+                            <div className="type-h3 color-light"><span className="fas fa-briefcase m-r-xxs"></span>{Dictionary.JobRequests}</div>
+                            <p className="color-light">{Dictionary.JobRequestsSubtitle}</p>
                             <div className="btn-group">
                                 <button
                                     type="button"
                                     className="btn btn-primary"
                                     data-toggle="modal"
-                                    data-target="#add-job-request-dialog">New Job Request</button>
+                                    data-target="#add-job-request-dialog">{Dictionary.NewJobRequest}</button>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@ class JobRequestsList extends Component {
                     this.onComponentUpdated();
                 }} />
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Your Job Requests
+            <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }} dir={GetDirection()}>{Dictionary.YourJobRequests}
                     {this.state.Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
             </div>
             <nav className="navbar navbar-default" style={{ backgroundColor: "#F5F5F5" }}>
@@ -163,7 +163,7 @@ class JobRequestsList extends Component {
                         <form noValidate onSubmit={this.onSearch} className="navbar-form navbar-right" role="search">
                             <div className="putbox" style={{ margin: "0px" }}>
                                 <div className="form-group">
-                                    <input type="search" name="SearchString" className="form-control" placeholder="Search by Places"
+                                    <input type="search" name="SearchString" className="form-control" placeholder={Dictionary.SearchByPlaces}
                                         style={{ maxWidth: "500px", width: "100%" }}
                                         value={this.state.SearchString} onChange={this.onChange} />
                                 </div>
@@ -174,16 +174,16 @@ class JobRequestsList extends Component {
                 </div>
             </nav>
             {(jobRequestPackages.length === 0) ?
-                <div className="jumbotron theme-default">
+                <div className="jumbotron theme-default" style={{ height: "100vh" }}>
                     <div className="container">
                         <div className="row">
                             {this.state.Searching ? <div className="col-md-24 text-center">
                                 <div>
-                                    <div className="type-h3" style={{ color: "#008575" }}>Searching</div>
+                                    <div className="type-h3" style={{ color: "#008575" }}>{Dictionary.Searching}</div>
                                     <ProgressBar />
                                 </div>
                             </div> : <div className="col-md-24 text-center">
-                                    <h3><span className="fas fa-exclamation-triangle" style={{ color: "#FFBF15" }}></span> No job requests found.</h3>
+                                    <h3><span className="fas fa-exclamation-triangle m-r-xxs" style={{ color: "#FFBF15" }}></span>{Dictionary.JobRequestsNotFound}</h3>
                                 </div>}
                         </div>
                     </div>
@@ -199,5 +199,35 @@ class JobRequestsList extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobRequests: "طلبات العمل",
+        JobRequestsSubtitle: ".أنشئ طلبات عمل جديدة لمواقعك الحالية و / أو القريبة منك للحصول على فرصة لزيادة أرباحك",
+        NewJobRequest: "طلب وظيفة جديدة",
+        YourJobRequests: "طلبات عملك",
+        SearchByPlaces: "البحث عن طريق الأماكن",
+        Searching: "يبحث",
+        JobRequestsNotFound: ".لم يتم العثور على طلبات العمل"
+    };
+}
+else {
+    Dictionary = {
+        JobRequests: "Job Requests",
+        JobRequestsSubtitle: "Create new job requests for your current and/or near-by locations to get a chance to increase your revenue.",
+        NewJobRequest: "New Job Request",
+        YourJobRequests: "Your Job Requests",
+        SearchByPlaces: "Search by Places",
+        Searching: "Searching",
+        JobRequestsNotFound: "Job Requests not Found."
+    };
+}
 
 export default JobRequestsList;

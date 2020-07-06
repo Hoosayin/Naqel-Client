@@ -20,15 +20,33 @@ class QuestionListItem extends Component {
             <div className="text-right p-xxs" style={{ backgroundColor: "#DDDDDD" }}>
                 <button className="btn btn-danger m-t-n"
                     data-toggle="modal"
-                    data-target={`#delete-driver-question-dialog-${Index}`}>Delete</button>
+                    data-target={`#delete-driver-question-dialog-${Index}`}>{Dictionary.Delete}</button>
             </div>
 
             <DeleteQuestionDialog Index={Index}
                 DriverQuestionID={Question.DriverQuestionID}
                 QuestionNumber={Question.QuestionNumber}
-                OnOK={this.props.OnQuestionDeleted}/>
+                OnOK={this.props.OnQuestionDeleted} />
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Delete: "حذف"
+    };
+}
+else {
+    Dictionary = {
+        Delete: "Delete"
+    };
+}
 
 export default QuestionListItem;

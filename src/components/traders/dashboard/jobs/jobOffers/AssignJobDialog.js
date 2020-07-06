@@ -72,16 +72,16 @@ class ProfileDialog extends Component {
                             </div>
                         </div>
                         <div className="modal-body">
-                            <div class="jumbotron">
+                            <div class="jumbotron" dir={GetDirection()}>
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-24">
                                             <img alt="new.png" src="./images/new.png" height="100" />
-                                            <div class="type-h4">You are About to Start a New Job with <span class="color-default">{`${driver.FirstName} ${driver.LastName}`}</span>.</div>
-                                            <div class="type-sh3">Your Payment Amount is <span class="color-default">{`$${price}`}</span>.</div>
-                                            <p><span class="color-default">Important Note:</span> After this step, you'll be engaged in an On-Going Job. You have to pay <span class="color-default">{`$${price}`}</span> after the completion of your job from the <span class="color-default">Payments</span> section.</p>
+                                            <div class="type-h4">{Dictionary.StartJobWith} <span class="color-default">{`${driver.FirstName} ${driver.LastName}`}</span>.</div>
+                                            <div class="type-sh3">{Dictionary.YourAmountIs} <span class="color-default">{`${price}`}</span>.</div>
+                                            <p><span class="color-default">{Dictionary.ImportantNote}</span> {Dictionary.AfterThisStep} <span class="color-default">{`$${price}`}</span> {Dictionary.AfterCompletion}.</p>
                                             <div class="text-right">
-                                                <button class="btn btn-primary" onClick={this.onAssignNow}>Assign Now</button>
+                                                <button class="btn btn-primary" onClick={this.onAssignNow}>{Dictionary.AssignNow}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -94,5 +94,33 @@ class ProfileDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        StartJobWith: "أنت على وشك البدء بعمل جديد",
+        YourAmountIs: "مبلغ الدفع هو",
+        ImportantNote: ":ملاحظة مهمة",
+        AfterThisStep: "بعد هذه الخطوة ، ستكون منخرطًا في مهمة مستمرة. عليك أن تدفع",
+        AfterCompletion: "بعد الانتهاء من عملك من قسم المدفوعات",
+        AssignNow: "تعيين الآن"
+    };
+}
+else {
+    Dictionary = {
+        StartJobWith: "You are About to Start a New Job with",
+        YourAmountIs: "Your Payment Amount is",
+        ImportantNote: "Important Note:",
+        AfterThisStep: "After this step, you'll be engaged in an On-Going Job. You have to pay",
+        AfterCompletion: "after the completion of your job from the Payments section",
+        AssignNow: "Assign Now"
+    };
+}
 
 export default ProfileDialog;

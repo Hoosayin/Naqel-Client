@@ -18,11 +18,11 @@ class Login extends Component {
         super();
 
         this.state = {
-            EmailOrUsername: "",
+            PhoneNumberOrUsername: "",
             Password: "",
             SignInAs: "Driver",
 
-            ValidEmailOrUsername: false,
+            ValidPhoneNumberOrUsername: false,
             ValidPassword: false,
 
             ValidForm: false,
@@ -33,7 +33,7 @@ class Login extends Component {
             LoginError: null,
 
             Errors: {
-                EmailOrUsername: "",
+                PhoneNumberOrUsername: "",
                 Password: ""
             }
         };
@@ -53,17 +53,17 @@ class Login extends Component {
 
     validateField(field, value) {
         let Errors = this.state.Errors;
-        let ValidEmailOrUsername = this.state.ValidEmailOrUsername;
+        let ValidPhoneNumberOrUsername = this.state.ValidPhoneNumberOrUsername;
         let ValidPassword = this.state.ValidPassword;
 
         switch (field) {
-            case "EmailOrUsername":
-                ValidEmailOrUsername = (value !== "");
-                Errors.EmailOrUsername = ValidEmailOrUsername ? "" : "Email or username is required.";
+            case "PhoneNumberOrUsername":
+                ValidPhoneNumberOrUsername = value !== "";
+                Errors.PhoneNumberOrUsername = ValidPhoneNumberOrUsername ? "" : Dictionary.PhoneNumberOrUsernameError;
                 break;
             case "Password":
                 ValidPassword = (value != "");
-                Errors.Password = ValidPassword ? "" : "Password is required.";
+                Errors.Password = ValidPassword ? "" : Dictionary.PasswordError;
                 break;
             default:
                 break;
@@ -71,11 +71,11 @@ class Login extends Component {
 
         this.setState({
             Errors: Errors,
-            ValidEmailOrUsername: ValidEmailOrUsername,
+            ValidPhoneNumberOrUsername: ValidPhoneNumberOrUsername,
             ValidPassword: ValidPassword
         }, () => {
-                this.setState({
-                    ValidForm: this.state.ValidEmailOrUsername &&
+            this.setState({
+                ValidForm: this.state.ValidPhoneNumberOrUsername &&
                     this.state.ValidPassword
             });
         });
@@ -93,7 +93,7 @@ class Login extends Component {
         });
 
         const user = {
-            EmailOrUsername: this.state.EmailOrUsername,
+            PhoneNumberOrUsername: this.state.PhoneNumberOrUsername,
             Password: this.state.Password,
             SignInAs: this.state.SignInAs,
         };
@@ -199,49 +199,53 @@ class Login extends Component {
             return <Redirect to={"/transportCompanyResponsibles"} />;
         }
         else {
-            return <div>
+            return <div dir={GetDirection()}>
                 <div className="middle" style={LoginCardBack}>
                     <div className="theme-default animated fadeIn" style={Card} >
                         <div style={CardChild}>
                             <img src="./images/lock.svg" alt="Login.png" height="60" />
-                            <div className="type-h3" style={CardTitle}>Sign In</div>
+                            <div className="type-h3" style={CardTitle}>{Dictionary.SignIn}</div>
                             <br />
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div className="form-group">
-                                    <label htmlFor="EmailOrUsername" className="control-label">Email or Username</label>
-                                    <input type="email" className="form-control" name="EmailOrUsername" placeholder="someone@provider.com"
-                                        value={this.state.EmailOrUsername} onChange={this.onChange} />
-                                    <span className="text-danger">{this.state.Errors.EmailOrUsername}</span>
+                                <div class="form-group">
+                                    <label htmlFor="PhoneNumber" class="control-label">{Dictionary.PhoneNumberOrUsername}</label>
+                                    <input type="text" className="form-control" name="PhoneNumberOrUsername" autocomplete="off" 
+                                    placeholder="+966501234567 | someone"
+                                    value={this.state.PhoneNumberOrUsername} onChange={this.onChange} />
+                                    <span class="text-danger">{this.state.Errors.PhoneNumberOrUsername}</span>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="Password" className="control-label">Password</label>
+                                    <label htmlFor="Password" className="control-label">{Dictionary.Password}</label>
                                     <input type="password" className="form-control" name="Password" placeholder="Password"
                                         value={this.state.Password} onChange={this.onChange} />
                                     <span className="text-danger">{this.state.Errors.Password}</span>
                                 </div>
                                 <div className="form-group">
-                                    <label className="control-label">Sign In As</label>
+                                    <label className="control-label">{Dictionary.SignInAs}</label>
                                     <div className="dropdown" style={{ width: "100%" }}>
                                         <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
                                             aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                            <span>{this.state.SignInAs}</span>
+                                            {this.state.SignInAs === "Driver" && <span>{Dictionary.Driver}</span>}
+                                            {this.state.SignInAs === "Trader" && <span>{Dictionary.Trader}</span>}
+                                            {this.state.SignInAs === "Broker" && <span>{Dictionary.Broker}</span>}
+                                            {this.state.SignInAs === "TC Responsible" && <span>{Dictionary.TCResponsible}</span>}
                                             <span className="caret"></span>
                                         </button>
                                         <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                            <li><Link onClick={e => { this.state.SignInAs = "Driver" }} onChange={this.onChange}>Driver</Link></li>
-                                            <li><Link onClick={e => { this.state.SignInAs = "Trader" }} onChange={this.onChange}>Trader</Link></li>
-                                            <li><Link onClick={e => { this.state.SignInAs = "Broker" }} onChange={this.onChange}>Broker</Link></li>
-                                            <li><Link onClick={e => { this.state.SignInAs = "TC Responsible" }} onChange={this.onChange}>TC Responsible</Link></li>
-                                            <li><Link onClick={e => { this.state.SignInAs = "Administrator" }} onChange={this.onChange}>Administrator</Link></li>
+                                            <li><Link onClick={e => { this.state.SignInAs = "Driver" }} onChange={this.onChange}>{Dictionary.Driver}</Link></li>
+                                            <li><Link onClick={e => { this.state.SignInAs = "Trader" }} onChange={this.onChange}>{Dictionary.Trader}</Link></li>
+                                            <li><Link onClick={e => { this.state.SignInAs = "Broker" }} onChange={this.onChange}>{Dictionary.Broker}</Link></li>
+                                            <li><Link onClick={e => { this.state.SignInAs = "TC Responsible" }} onChange={this.onChange}>{Dictionary.TCResponsible}</Link></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     {this.state.LoginError}
-                                    <label className="control-label">No account? <span><Link to="/register">Register now</Link></span></label>
+                                    <label className="control-label"><Link to="/forgotPassword">{Dictionary.ForgotPassword}</Link></label><br />
+                                    <label className="control-label">{Dictionary.NoAccount} <span><Link to="/register">{Dictionary.RegisterNow}</Link></span></label>
                                 </div>
                                 <div>
-                                    <input type="submit" value="Sign In" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                    <input type="submit" value={Dictionary.SignIn} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                 </div>
                             </form>
                         </div>
@@ -252,5 +256,49 @@ class Login extends Component {
         }
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        SignIn: "تسجيل الدخول",
+        Password: "كلمه السر",
+        SignInAs: "تسجيل الدخول باسم",
+        Driver: "سائق",
+        Trader: "التاجر",
+        Broker: "وسيط",
+        TCResponsible: "مسؤول التعاون الفني",
+        Administrator: "مدير",
+        ForgotPassword: "هل نسيت كلمة المرور؟",
+        NoAccount: "لا حساب؟",
+        RegisterNow: "سجل الان",
+        PhoneNumberOrUsername: "رقم الهاتف أو اسم المستخدم",
+        PhoneNumberOrUsernameError: ".مطلوب رقم الهاتف أو اسم المستخدم",
+        PasswordError: ".كلمة المرور مطلوبة"
+    };
+}
+else {
+    Dictionary = {
+        SignIn: "Sign In",
+        Password: "Password",
+        SignInAs: "Sign In As",
+        Driver: "Driver",
+        Trader: "Trader",
+        Broker: "Broker",
+        TCResponsible: "TC Responsible",
+        Administrator: "Administrator",
+        ForgotPassword: "Forgot Password?",
+        NoAccount: "No account?",
+        RegisterNow: "Register now",
+        PhoneNumberOrUsername: "Phone Number or Username",
+        PhoneNumberOrUsernameError: "Phone number or username is required.",
+        PasswordError: "Password is required.",
+    };
+}
 
 export default Login;

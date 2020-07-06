@@ -86,7 +86,7 @@ class DocumentsList extends Component {
         return (
             <section>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                <div className="h3 back-color-gray m-n p-xxs">Documents</div>
+                <div className="h3 back-color-gray m-n p-xxs">{Dictionary.Documents}</div>
                 <div className= "text-right back-color-gray p-xxs">
                     {this.state.AddIdentityCardButton}
                     {this.state.AddCommercialRegisterCertificateButton}
@@ -99,5 +99,23 @@ class DocumentsList extends Component {
         );
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Documents: "مستندات"
+    };
+}
+else {
+    Dictionary = {
+        Documents: "Documents"
+    };
+}
 
 export default DocumentsList;

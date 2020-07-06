@@ -50,22 +50,22 @@ class EditTrailerDialog extends Component {
         switch (field) {
             case "MaximumWeight":
                 ValidMaximumWeight = (value !== "");
-                Errors.MaximumWeight = ValidMaximumWeight ? "" : "Maximum Weight is required.";
+                Errors.MaximumWeight = ValidMaximumWeight ? "" : Dictionary.MaximumWeightError1;
 
                 if (Errors.MaximumWeight !== "") {
                     break;
                 }
 
                 ValidMaximumWeight = (value >= 700);
-                Errors.MaximumWeight = ValidMaximumWeight ? "" : "Maximum weight must be greater than 699.";
+                Errors.MaximumWeight = ValidMaximumWeight ? "" : Dictionary.MaximumWeightError2;
                 break;
             case "PhotoURL":
                 ValidPhotoURL = (value !== null);
-                Errors.PhotoURL = ValidPhotoURL ? "" : "Invalid Image. Please upload a correct one.";
+                Errors.PhotoURL = ValidPhotoURL ? "" : Dictionary.PhotoURLError;
                 break;
             case "Type":
                 ValidType = (value !== "");
-                Errors.Type = ValidType ? "" : "Type is required.";
+                Errors.Type = ValidType ? "" : Dictionary.TypeError;
                 break;
             default:
                 break;
@@ -160,17 +160,17 @@ class EditTrailerDialog extends Component {
                                                     ImageCategory="IdentityCard" />
                                             </div>
                                             <div className="col-md-12">
-                                                <div className="type-h3 color-default p-t-xxs">Edit Your Trailer</div>
+                                                <div className="type-h3 color-default p-t-xxs">{Dictionary.EditTrailer}</div>
                                                 <div className="type-sh4 text-danger">{this.state.Errors.PhotoURL}</div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Maximum Weight (GVW)</label>
+                                                    <label className="control-label">{Dictionary.MaximumWeight}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" name="MaximumWeight" className="form-control" autocomplete="off"
                                                         value={this.state.MaximumWeight} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.MaximumWeight}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Trailer Type</label>
+                                                    <label className="control-label">{Dictionary.TrailerType}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="text" name="Type" className="form-control" autocomplete="off"
                                                         value={this.state.Type} onChange={this.onChange} />
@@ -179,7 +179,7 @@ class EditTrailerDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Update} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -191,5 +191,37 @@ class EditTrailerDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        EditTrailer: "تعديل المقطع الدعائي الخاص بك",
+        MaximumWeight: "الوزن الأقصى (GVW)",
+        TrailerType: "نوع المقطورة",
+        Update: "تحديث",
+        MaximumWeightError1: ".مطلوب الوزن الأقصى",
+        MaximumWeightError2: ".يجب أن يكون الوزن الأقصى أكبر من 699",
+        PhotoURLError: ".صورة غير صالحة. يرجى تحميل واحد صحيح",
+        TypeError: ".النوع مطلوب",
+    };
+}
+else {
+    Dictionary = {
+        EditTrailer: "Edit Your Trailer",
+        MaximumWeight: "Maximum Weight (GVW)",
+        TrailerType: "Trailer Type",
+        Update: "Update",
+        MaximumWeightError1: "Maximum Weight is required.",
+        MaximumWeightError2: "Maximum weight must be greater than 699.",
+        PhotoURLError: "Invalid Image. Please upload a correct one.",
+        TypeError: "Type is required.",
+    };
+}
 
 export default EditTrailerDialog;

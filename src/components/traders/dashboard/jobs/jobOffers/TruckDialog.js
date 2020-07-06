@@ -31,10 +31,10 @@ class TruckDialog extends Component {
                             <section>
                                 <ul className="nav nav-tabs tabs-light" role="tablist">
                                     <li role="presentation" className="active">
-                                        <a href={`#truck-tab-${index}`} aria-controls={`truck-tab-${index}`} role="tab" data-toggle="tab">Truck</a>
+                                        <a href={`#truck-tab-${index}`} aria-controls={`truck-tab-${index}`} role="tab" data-toggle="tab">{Dictionary.Truck}</a>
                                     </li>
                                     <li role="presentation">
-                                        <a href={`#trailers-tab-${index}`} aria-controls={`trailers-tab-${index}`} role="tab" data-toggle="tab">Trailers</a>
+                                        <a href={`#trailers-tab-${index}`} aria-controls={`trailers-tab-${index}`} role="tab" data-toggle="tab">{Dictionary.Trailers}</a>
                                     </li>
                                 </ul>
                                 <div className="tab-content">
@@ -60,5 +60,25 @@ class TruckDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Truck: "شاحنة",
+        Trailers: "المقطورات"
+    };
+}
+else {
+    Dictionary = {
+        Truck: "Truck",
+        Trailers: "Trailers"
+    };
+}
 
 export default TruckDialog;

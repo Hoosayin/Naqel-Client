@@ -32,11 +32,30 @@ class AddCommercialRegisterCertificateButton extends Component {
                                     this.props.OnDocumentsUpdated();
                                 }} />
                         });
-                    }}>Add CR Certificate</button>
+                    }}>{Dictionary.AddCRCertificate}</button>
                 {this.state.AddCommercialRegisterCertificateDialog}
             </section>
         );
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AddCRCertificate: "CR إضافة شهادة"
+    };
+}
+else {
+    Dictionary = {
+        AddCRCertificate: "Add CR Certificate"
+    };
+}
+
 
 export default AddCommercialRegisterCertificateButton;

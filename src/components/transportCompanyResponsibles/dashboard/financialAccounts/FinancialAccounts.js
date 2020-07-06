@@ -14,10 +14,10 @@ class FinancialAccounts extends Component {
                 margin: "0px",
             }}>
                 <li role="presentation" className="active">
-                    <a href="#account-statement" aria-controls="account-statement" role="tab" data-toggle="tab">Account Statement</a>
+                    <a href="#account-statement" aria-controls="account-statement" role="tab" data-toggle="tab">{Dictionary.AccountStatement}</a>
                 </li>
                 <li role="presentation">
-                    <a href="#trucks-account-statement" aria-controls="trucks-account-statement" role="tab" data-toggle="tab">Trucks' Account Statement</a>
+                    <a href="#trucks-account-statement" aria-controls="trucks-account-statement" role="tab" data-toggle="tab">{Dictionary.TrucksAccountStatements}</a>
                 </li>
             </ul>
 
@@ -32,5 +32,25 @@ class FinancialAccounts extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AccountStatement: "كشف حساب",
+        TrucksAccountStatements: "كشوف حسابات الشاحنات"
+    };
+}
+else {
+    Dictionary = {
+        AccountStatement: "Account Statement",
+        TrucksAccountStatements: "Trucks' Account Statements"
+    };
+}
 
 export default FinancialAccounts;

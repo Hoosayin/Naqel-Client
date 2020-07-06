@@ -83,7 +83,7 @@ class DocumentsContainer extends Component {
 
         return (this.state.Searching || !traderDocuments) ?
             <SearchingContainer Searching={this.state.Searching}
-                SearchingFor="documents" /> :
+                SearchingFor={Dictionary.Documents} /> :
             <section>
                 <ol className="list-items" style={{ margin: "0px" }}>
                     <IdentityCardContainer IdentityCard={traderDocuments.IdentityCard} />
@@ -92,5 +92,23 @@ class DocumentsContainer extends Component {
             </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Documents: "مستندات"
+    };
+}
+else {
+    Dictionary = {
+        Documents: "Documents"
+    };
+}
 
 export default DocumentsContainer;

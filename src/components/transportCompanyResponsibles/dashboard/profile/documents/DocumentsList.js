@@ -49,7 +49,7 @@ class DocumentsList extends Component {
 
         return <section>
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            <div className="h3 back-color-gray m-n p-xxs">Documents</div>
+            <div className="h3 back-color-gray m-n p-xxs">{Dictionary.Documents}</div>
 
             {Searching ? null : <section>
                 <div className="text-right back-color-gray p-xxs">
@@ -60,7 +60,7 @@ class DocumentsList extends Component {
                                 type="button"
                                 className="btn btn-primary"
                                 data-toggle="modal"
-                                data-target="#add-commercial-register-certificate-dialog">Add CR Certificate</button>
+                                data-target="#add-commercial-register-certificate-dialog">{Dictionary.AddCRCertificate}</button>
                             <AddCommercialRegisterCertifcateDialog
                                 OnOK={commercialRegisterCertificate => {
                                     this.setState({
@@ -96,5 +96,25 @@ class DocumentsList extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AddCRCertificate: "CR إضافة شهادة",
+        Documents: "مستندات",
+    };
+}
+else {
+    Dictionary = {
+        AddCRCertificate: "Add CR Certificate",
+        Documents: "Documents",
+    };
+}
 
 export default DocumentsList;

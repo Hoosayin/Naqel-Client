@@ -8,7 +8,7 @@ class AddObjectionDialog extends Component {
         super(props);
 
         this.state = {
-            Reason: "Select from the list.",
+            Reason: Dictionary.SelectFromList,
             Comment: "",
 
             ValidReason: false,
@@ -42,14 +42,14 @@ class AddObjectionDialog extends Component {
         switch (field) {
             case "Comment":
                 ValidComment = (value !== "");
-                Errors.Comment = ValidComment ? "" : "Comment is required";
+                Errors.Comment = ValidComment ? "" : Dictionary.CommentError1;
 
                 if (Errors.Comment !== "") {
                     break;
                 }
 
                 ValidComment = (value.length <= 200);
-                Errors.Comment = ValidComment ? value.length : "Too long...";
+                Errors.Comment = ValidComment ? value.length : Dictionary.CommentError2;
                 break;
             default:
                 break;
@@ -118,27 +118,27 @@ class AddObjectionDialog extends Component {
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="jumbotron theme-default">
                                     <div className="container">
-                                        <div className="type-h3 color-default p-t-xxs">Add an Objection</div>
+                                        <div className="type-h3 color-default p-t-xxs">{Dictionary.AddAnObjection}</div>
                                         <div className="row p-t-xxs">
                                             <div className="col-md-8">
                                                 <div class="form-group">
-                                                    <label>Reason</label>
+                                                    <label>{Dictionary.Reason}</label>
                                                     <input type="text" class="form-control" name="Reason" style={{ maxWidth: "100%" }} readonly
                                                         value={this.state.Reason} />
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Comment</label>
+                                                    <label>{Dictionary.Comment}</label>
                                                     <textarea rows="4" class="form-control" style={{ maxWidth: "100%" }} name="Comment"
                                                         value={this.state.Comment} onChange={this.onChange}></textarea>
                                                     <span className="text-danger">{this.state.Errors.Comment}</span>
                                                 </div>
                                                 <div className="text-right">
-                                                    <input type="submit" value="Add Objection" className="btn btn-primary" style={{ margin: "0px" }} disabled={!this.state.ValidForm} />
+                                                    <input type="submit" value={Dictionary.AddObjection} className="btn btn-primary" style={{ margin: "0px" }} disabled={!this.state.ValidForm} />
                                                 </div>
                                             </div>
                                             <div className="col-md-16">
                                                 <div className="m-t-xxxs" style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                                                <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>Reasons</div>
+                                                <div className="type-h4" style={{ color: "#008575", padding: "10px", textAlign: "right" }}>{Dictionary.Reasons}</div>
                                                 <ReasonsList ObjectionReasons={this.props.ObjectionReasons} OnReasonSelected={reason => {
                                                     this.setState({
                                                         Reason: reason,
@@ -161,5 +161,33 @@ class AddObjectionDialog extends Component {
         </section>;
     }
 };
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AddAnObjection: "أضف اعتراضًا",
+        Reason: "السبب",
+        Comment: "تعليق",
+        Reasons: "الأسباب",
+        AddObjection: "إضافة اعتراض",
+        CommentError1: ".التعليق مطلوب",
+        CommentError2: "...طويل جدا",
+        SelectFromList: ".اختر من القائمة"
+    };
+}
+else {
+    Dictionary = {
+        AddAnObjection: "Add an Objection",
+        Reason: "Reason",
+        Comment: "Comment",
+        Reasons: "Reasons",
+        AddObjection: "Add Objection",
+        CommentError1: "Comment is required.",
+        CommentError2: "Too long...",
+        SelectFromList: "Select from the list."
+    };
+}
 
 export default AddObjectionDialog;

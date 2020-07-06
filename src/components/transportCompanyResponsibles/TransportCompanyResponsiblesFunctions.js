@@ -5,7 +5,7 @@ import Strings from "../../res/strings";
 export const registerTransportCompanyResponsible = async newCredentials => {
     return await axios.post(`${Strings.NAQEL_SERVER}transportCompanyResponsibles/register`, {
         Username: newCredentials.Username,
-        Email: newCredentials.Email,
+        PhoneNumber: newCredentials.PhoneNumber,
         Password: newCredentials.Password,
         RegisterAs: newCredentials.RegisterAs,
     }).then(response => {
@@ -30,12 +30,22 @@ export const setupTransportCompanyResponsibleAccount = async newTransportCompany
 // POST: Login
 export const loginTransportCompanyResponsible = async transportCompanyResponsible => {
     return await axios.post(`${Strings.NAQEL_SERVER}transportCompanyResponsibles/login`, {
-        EmailOrUsername: transportCompanyResponsible.EmailOrUsername,
+        PhoneNumberOrUsername: transportCompanyResponsible.PhoneNumberOrUsername,
         Password: transportCompanyResponsible.Password,
         SignInAs: transportCompanyResponsible.SignInAs,
     }).then(response => {
         return response.data;
     })
+};
+
+// POST: RecoverPassword
+export const recoverPassword = async recoverPasswordPackage => {
+    return await axios.post(`${Strings.NAQEL_SERVER}transportCompanyResponsibles/recoverPassword`, {
+        PhoneNumber: recoverPasswordPackage.PhoneNumber,
+        Password: recoverPasswordPackage.Password
+    }).then(response => {
+        return response.data;
+    });
 };
 
 // GET: GetData
@@ -106,6 +116,15 @@ export const validateUsername = async username => {
 export const validateEmail = async email => {
     return await axios.post(`${Strings.NAQEL_SERVER}transportCompanyResponsibles/validateEmail`, {
         Email: email
+    }).then(response => {
+        return response.data;
+    });
+};
+
+// POST: ValidatePhoneNumber
+export const validatePhoneNumber = async phoneNumber => {
+    return await axios.post(`${Strings.NAQEL_SERVER}transportCompanyResponsibles/validatePhoneNumber`, {
+        PhoneNumber: phoneNumber
     }).then(response => {
         return response.data;
     });

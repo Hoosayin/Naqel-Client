@@ -32,11 +32,29 @@ class AddEntryExitCardButton extends Component {
                                     this.props.OnDocumentsUpdated();
                                 }} />
                         });
-                    }}>Add Entry/Exit Card</button>
+                    }}>{Dictionary.AddEntryExitCard}</button>
                 {this.state.AddEntryExitCardDialog}
             </section>
         );
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        AddEntryExitCard: "إضافة بطاقة دخول / خروج"  
+    };
+}
+else {
+    Dictionary = {
+        AddEntryExitCard: "Add Entry/Exit Card"
+    };
+}
 
 export default AddEntryExitCardButton;

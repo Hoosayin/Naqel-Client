@@ -29,12 +29,12 @@ class TrailersDialog extends Component {
                                     <span className="fas fa-times"></span>
                                 </button>
                             </div>
-                            <div className="type-h2" style={{ color: "#008575", paddingTop: "0px" }}>Trailers</div>
+                            <div className="type-h2" style={{ color: "#008575", paddingTop: "0px" }}>{Dictionary.Trailers}</div>
                         </div>
                         <div className="modal-body">
                             {(trailers.length === 0) ?
                                 <SearchingContainer Searching={false}
-                                    SearchingFor="trailers" /> : Trailers}
+                                    SearchingFor={Dictionary.Trailers} /> : Trailers}
                         </div>
                     </div>
                 </div>
@@ -42,5 +42,23 @@ class TrailersDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Trailers: "المقطورات",
+    };
+}
+else {
+    Dictionary = {
+        Trailers: "Trailers",
+    };
+}
 
 export default TrailersDialog;

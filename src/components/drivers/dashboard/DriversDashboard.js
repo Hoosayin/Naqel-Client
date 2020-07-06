@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+﻿import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Profile from "./profile/Profile";
 import Truck from "./trucks/Truck";
@@ -6,11 +6,13 @@ import Permits from "./permits/Permits";
 import Earnings from "./earnings/Earnings";
 import Jobs from "./jobs/Jobs";
 import Payments from "./payments/Payments";
+import AccountStatement from "./accountStatement/AccountStatement";
 import Questions from "./questions/Questions";
 import Settings from "./settings/Settings";
 import SearchingContainer from "../../../containers/searching/SearchingContainer";
 import BlockedUserContainer from "../../../containers/blockedUser/BlockedUserContainer";
 import { getData } from "../DriverFunctions";
+import UTF8 from "utf8";
 
 class DriversDashboard extends Component {
     constructor(props) {
@@ -80,40 +82,44 @@ class DriversDashboard extends Component {
                                 backgroundColor: "#133F4F",
                                 width: "100%",
                                 margin: "0px",
-                            }}>
+                            }} dir={(!Language || Language === "English") ? "ltr" : "rtl"}>
                                 {DashboardData.IsActiveAccount ?
                                     <li role="presentation" className="active">
-                                        <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a>
+                                        <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">{Dictionary.Jobs}</a>
                                     </li> : null}
                                 {!DashboardData.IsActiveAccount ?
                                     <li role="presentation" className="active">
-                                        <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">Trucks</a>
+                                        <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">{Dictionary.Trucks}</a>
                                     </li> : null}
                                 {DashboardData.IsActiveAccount ?
                                     <li role="presentation">
-                                        <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">Trucks</a>
+                                        <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab">{Dictionary.Trucks}</a>
                                     </li> : null}
                                 <li role="presentation">
-                                    <a href="#permits" aria-controls="permits" role="tab" data-toggle="tab">Permits</a>
+                                    <a href="#permits" aria-controls="permits" role="tab" data-toggle="tab">{Dictionary.Permits}</a>
                                 </li>
                                 {DashboardData.IsActiveAccount ?
                                     <li role="presentation">
-                                    <a href="#earnings" aria-controls="earnings" role="tab" data-toggle="tab"
-                                        onClick={async () => { await this.RefreshEarnings(); }}>Earnings</a>
+                                        <a href="#earnings" aria-controls="earnings" role="tab" data-toggle="tab"
+                                            onClick={async () => { await this.RefreshEarnings(); }}>{Dictionary.Earnings}</a>
                                     </li> : null}
                                 {DashboardData.IsActiveAccount ?
                                     <li role="presentation">
-                                        <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">Payments</a>
+                                        <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">{Dictionary.Payments}</a>
+                                    </li> : null}
+                                    {DashboardData.IsActiveAccount ?
+                                    <li role="presentation">
+                                        <a href="#account-statement" aria-controls="account-statement" role="tab" data-toggle="tab">{Dictionary.AccountStatement}</a>
                                     </li> : null}
                                 {DashboardData.IsActiveAccount ?
                                     <li role="presentation">
-                                        <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">Questions</a>
+                                        <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">{Dictionary.Questions}</a>
                                     </li> : null}
                                 <li role="presentation">
-                                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">{Dictionary.Profile}</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
+                                    <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">{Dictionary.Settings}</a>
                                 </li>
                             </ul>
 
@@ -159,11 +165,11 @@ class DriversDashboard extends Component {
 
                             <div className="tab-content">
                                 {DashboardData.IsActiveAccount ?
-                                    null : <div class="alert alert-warning m-n">
+                                    null : <div class="alert alert-warning m-n" dir={(!Language || Language === "English") ? "ltr" : "rtl"}>
                                         <div class="container">
                                             <div class="row">
                                                 <div class="col-xs-24">
-                                                    <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>Your account isn't yet activated by our team. Make sure to keep your profile up-to-date with your valid information. Our team will soon review your information. At the moment, you cannot use all Naqel services.</p>
+                                <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>{Dictionary.AccountActivationMessage}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,6 +201,10 @@ class DriversDashboard extends Component {
                                     <div role="tabpanel" className="tab-pane" id="payments">
                                         <Payments />
                                     </div> : null}
+                                    {DashboardData.IsActiveAccount ?
+                                    <div role="tabpanel" className="tab-pane" id="account-statement">
+                                        <AccountStatement />
+                                    </div> : null}
                                 {DashboardData.IsActiveAccount ?
                                     <div role="tabpanel" className="tab-pane" id="questions">
                                         <Questions />
@@ -216,6 +226,38 @@ class DriversDashboard extends Component {
                 </section>;
         }
     }
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Jobs: "وظائف",
+        Trucks: "الشاحنات",
+        Permits: "تسمح",
+        Earnings: "أرباح",
+        Payments: "المدفوعات",
+        AccountStatement: "كشف حساب",
+        Questions: "الأسئلة",
+        Profile: "الملف الشخصي",
+        Settings: "الإعدادات",
+        AccountActivationMessage: "لم يتم تنشيط حسابك حتى الآن من قبل فريقنا. تأكد من تحديث ملفك الشخصي بمعلوماتك الصالحة. سيراجع فريقنا معلوماتك قريبًا. في الوقت الحالي ، لا يمكنك استخدام جميع خدمات نقل."
+    };
+}
+else {
+    Dictionary = {
+        Jobs: "Jobs",
+        Trucks: "Trucks",
+        Permits: "Permits",
+        Earnings: "Earnings",
+        Payments: "Payments",
+        AccountStatement: "Account Statement",
+        Questions: "Questions",
+        Profile: "Profile",
+        Settings: "Settings",
+        AccountActivationMessage: "Your account isn't yet activated by our team. Make sure to keep your profile up-to-date with your valid information. Our team will soon review your information. At the moment, you cannot use all Naqel services."
+    };
 }
 
 export default DriversDashboard;

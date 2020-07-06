@@ -12,7 +12,7 @@ class TrailersDialog extends Component {
 
         return (trailers.length === 0) ?
             <SearchingContainer Searching={false}
-                SearchingFor="trailers" /> : 
+                SearchingFor={Dictionary.Trailers} /> : 
             <section>
                 <ol className="list-items" style={{ margin: "0px" }}>
                     {trailers.map((trailer, index) => {
@@ -22,5 +22,23 @@ class TrailersDialog extends Component {
             </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Trailers: "المقطورات",
+    };
+}
+else {
+    Dictionary = {
+        Trailers: "Trailers",
+    };
+}
 
 export default TrailersDialog;

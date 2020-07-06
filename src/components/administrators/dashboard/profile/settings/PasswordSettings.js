@@ -96,12 +96,12 @@ class PasswordSettings extends Component {
 
         await validatePassword(passwordPackage).then(async response => {
             if (response.Message === "Invalid password.") {
-                this.validateField("CurrentPassword", response.Message);
                 let errors = this.state.Errors;
                 errors.CurrentPassword = response.Message;
 
                 this.setState({
-                    Errors: errors
+                    Errors: errors,
+                    ValidForm: false,
                 });
             }
             else {
@@ -119,7 +119,8 @@ class PasswordSettings extends Component {
                         ShowPreloader: false,
                         CurrentPassword: "",
                         NewPassword: "",
-                        ConfirmPassword: ""
+                        ConfirmPassword: "",
+                        ValidForm: false,
                     });
 
                     if (response.Message === "Administrator is updated.") {

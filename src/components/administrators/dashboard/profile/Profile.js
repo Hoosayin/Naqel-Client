@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ProfilePhoto from "./ProfilePhoto";
 import { getData } from "../../AdministratorFunctions";
-import PageHeading from "../../../../controls/PageHeading";
 import Settings from "./settings/Settings";
 
 class Profile extends Component {
@@ -32,6 +31,7 @@ class Profile extends Component {
                         LastName: administrator.LastName,
                         Email: administrator.Email,
                         Username: administrator.Username,
+                        PhoneNumber: administrator.PhoneNumber,
                         PhotoURL: administrator.PhotoURL
                     });
                 }
@@ -41,6 +41,7 @@ class Profile extends Component {
                         LastName: "",
                         Email: "",
                         Username: "",
+                        PhoneNumber: "",
                         PhotoURL: "./images/defaultProfilePhoto.png"
                     });
                 }
@@ -54,11 +55,11 @@ class Profile extends Component {
             LastName,
             Email,
             Username,
+            PhoneNumber,
             PhotoURL
         } = this.state;
 
         return <section>
-            {/* <PageHeading Heading="PROFILE" /> */}
             <div className="jumbotron theme-default">
                 <div className="container">
                     <div className="row">
@@ -86,8 +87,6 @@ class Profile extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="entity-list">
                                         <div className="entity-list-item">
                                             <div className="item-icon">
                                                 <span className="fas fa-envelope"></span>
@@ -95,6 +94,15 @@ class Profile extends Component {
                                             <div className="item-content-primary">
                                                 <div className="content-text-primary">Email</div>
                                                 <div className="content-text-secondary">{Email}</div>
+                                            </div>
+                                        </div>
+                                        <div className="entity-list-item">
+                                            <div className="item-icon">
+                                                <span className="fas fa-phone"></span>
+                                            </div>
+                                            <div className="item-content-primary">
+                                                <div className="content-text-primary">Phone Number</div>
+                                                <div className="content-text-secondary">{PhoneNumber}</div>
                                             </div>
                                         </div>
                                     </div>

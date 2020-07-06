@@ -70,7 +70,7 @@ class Profile extends Component {
                 <div className="container">
                     <div className="type-h3 color-default p-t-xxs">{Name}</div>
                     <div className="type-sh3">
-                        <span className="fas fa-copyright m-r-xxxs" style={{ color: "#606060" }}></span>Transport Company</div>
+                        <span className="fas fa-copyright m-r-xxxs" style={{ color: "#606060" }}></span>{Dictionary.TransportCompany}</div>
 
                     <div className="row">
                         <div className="col-md-8">
@@ -80,7 +80,7 @@ class Profile extends Component {
                                         <span className="fas fa-at"></span>
                                     </div>
                                     <div className="item-content-primary">
-                                        <div className="content-text-primary">Username</div>
+                                        <div className="content-text-primary">{Dictionary.Username}</div>
                                         <div className="content-text-secondary">{Username}</div>
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@ class Profile extends Component {
                                         <span className="fas fa-envelope"></span>
                                     </div>
                                     <div className="item-content-primary">
-                                        <div className="content-text-primary">Email</div>
+                                        <div className="content-text-primary">{Dictionary.Email}</div>
                                         <div className="content-text-secondary">{Email}</div>
                                     </div>
                                 </div>
@@ -102,7 +102,7 @@ class Profile extends Component {
                                         <span className="fas fa-phone"></span>
                                     </div>
                                     <div className="item-content-primary">
-                                        <div className="content-text-primary">Phone Number</div>
+                                        <div className="content-text-primary">{Dictionary.PhoneNumber}</div>
                                         <div className="content-text-secondary">{PhoneNumber}</div>
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@ class Profile extends Component {
                                             <span className="fas fa-hashtag"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">Internal Number</div>
+                                            <div className="content-text-primary">{Dictionary.InternalNumber}</div>
                                             <div className="content-text-secondary">{InternalNumber}</div>
                                         </div>
                                     </div>
@@ -127,7 +127,7 @@ class Profile extends Component {
                                             <span className="fas fa-hashtag"></span>
                                         </div>
                                         <div className="item-content-primary">
-                                            <div className="content-text-primary">Commercial Register Number</div>
+                                            <div className="content-text-primary">{Dictionary.CommercialRegisterNumber}</div>
                                             <div className="content-text-secondary">{CommercialRegisterNumber}</div>
                                         </div>
                                     </div>
@@ -137,7 +137,7 @@ class Profile extends Component {
                                         <span className="fas fa-globe-asia"></span>
                                     </div>
                                     <div className="item-content-primary">
-                                        <div className="content-text-primary">Active</div>
+                                        <div className="content-text-primary">{Dictionary.Active}</div>
                                         <div className="content-text-secondary">{Active ?
                                             <span className="fa fa-check-circle" style={{ color: "#25AE88" }}></span> :
                                             <span className="fa fa-times-circle" style={{ color: "#D75A4A" }}></span>}</div>
@@ -152,5 +152,35 @@ class Profile extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        TransportCompany: "شركة النقل",
+        Username: "اسم المستخدم",
+        Email: "البريد الإلكتروني",
+        PhoneNumber: "رقم الهاتف",
+        InternalNumber: "الرقم الداخلي",
+        CommercialRegisterNumber: "رقم السجل التجاري",
+        Active: "نشيط"
+    };
+}
+else {
+    Dictionary = {
+        TransportCompany: "Transport Company",
+        Username: "Username",
+        Email: "Email",
+        PhoneNumber: "Phone Number",
+        InternalNumber: "Internal Number",
+        CommercialRegisterNumber: "Commercial Register Number",
+        Active: "Active"
+    };
+}
 
 export default Profile;

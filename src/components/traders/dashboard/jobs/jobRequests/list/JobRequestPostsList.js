@@ -90,7 +90,7 @@ class JobRequestPostsList extends Component {
     render() {
         if (this.state.Searching) {
             return <section>
-                <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }}>
+                <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }} dir={GetDirection()}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
@@ -98,9 +98,9 @@ class JobRequestPostsList extends Component {
                                     alt="job_requests.png" src="./images/job_requests.svg" data-source-index="2" style={{ maxWidth: "70%" }} />
                             </div>
                             <div className="col-md-12 col-md-pull-12">
-                                <div className="type-h3">Job Requests</div>
-                                <p>Job requests from Drivers are dispalyed here.</p>
-                                <div class="type-sh3" style={{ color: "#008575" }}>Searhcing</div>
+                                <div className="type-h3">{Dictionary.JobRequests}</div>
+                                <p>{Dictionary.JobRequestsSubtitle}</p>
+                                <div class="type-sh3" style={{ color: "#008575" }}>{Dictionary.Searching}</div>
                                 <ProgressBar />
                             </div>
                         </div>
@@ -110,7 +110,7 @@ class JobRequestPostsList extends Component {
         }
         else if (this.state.JobRequestPosts.length === 0) {
             return <section>
-                <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }}>
+                <div className="jumbotron theme-alt" style={{ backgroundColor: "#333333", width: "100%", height: "100vh" }} dir={GetDirection()}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-md-push-12 text-center">
@@ -118,9 +118,9 @@ class JobRequestPostsList extends Component {
                                     alt="job_requests.png" src="./images/job_requests.svg" data-source-index="2" style={{ maxWidth: "70%" }} />
                             </div>
                             <div className="col-md-12 col-md-pull-12">
-                                <div className="type-h3">Job Requests</div>
-                                <div className="type-sh3">No Job Requests Found...</div>
-                                <p>Job requests from Drivers are dispalyed here.</p>
+                                <div className="type-h3">{Dictionary.JobRequests}</div>
+                                <div className="type-sh3">{Dictionary.NoRequestsFound}</div>
+                                <p>{Dictionary.JobRequestsSubtitle}</p>
                             </div>
                         </div>
                     </div>
@@ -130,18 +130,18 @@ class JobRequestPostsList extends Component {
         else {
             return <section>
                 {this.state.TraderOnJob ?
-                    <div class="alert alert-danger m-n">
+                    <div class="alert alert-danger m-n" dir={GetDirection()}>
                         <div class="container">
                             <div class="row">
                                 <div class="col-xs-24">
-                                    <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>While you are engaged in an On-Going Job, you cannot assign more jobs to drivers. View details in <span className="color-default">On-Going Job</span> tab.</p>
+                <p><span className="fas fa-exclamation-circle m-r-xxxs"></span>{Dictionary.OnJobMessage} <span className="color-default">{Dictionary.OnGoingJob}</span> {Dictionary.Tab}.</p>
                                 </div>
                             </div>
                         </div>
                     </div> :
                     null}
            <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Job Requests
+                <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }} dir={GetDirection()}>{Dictionary.JobRequests}
                     {this.state.Refreshing ? <span className="m-l-xxs"><ProgressRing /></span> : null}
                 </div>
                 <ol className="list-items" style={{ marginTop: "0px" }}>
@@ -170,5 +170,35 @@ class JobRequestPostsList extends Component {
         }      
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobRequests: "طلبات العمل",
+        JobRequestsSubtitle: ".يتم طلب طلبات العمل من السائقين هنا",
+        Searching: "يبحث",
+        NoRequestsFound: "...لم يتم العثور على طلبات عمل",
+        OnJobMessage: "أثناء مشاركتك في وظيفة مستمرة ، لا يمكنك تعيين المزيد من الوظائف للسائقين. عرض التفاصيل في",
+        OnGoingJob: "العمل المستمر",
+        Tab: "التبويب",
+    };
+}
+else {
+    Dictionary = {
+        JobRequests: "Job Requests",
+        JobRequestsSubtitle: "Job requests from Drivers are dispalyed here.",
+        Searching: "Searching",
+        NoRequestsFound: "No Job Requests Found...",
+        OnJobMessage: "While you are engaged in an On-Going Job, you cannot assign more jobs to drivers. View details in",
+        OnGoingJob: "On-Going Job",
+        Tab: "tab",
+    };
+}
 
 export default JobRequestPostsList;

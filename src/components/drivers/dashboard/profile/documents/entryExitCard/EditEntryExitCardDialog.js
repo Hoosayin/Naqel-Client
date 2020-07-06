@@ -79,22 +79,22 @@ class EditEntryExitCardDialog extends Component {
         switch (field) {
             case "EntryExitNumber":
                 ValidEntryExitNumber = (value !== "");
-                Errors.EntryExitNumber = ValidEntryExitNumber ? "" : "Entry/exit number is required.";
+                Errors.EntryExitNumber = ValidEntryExitNumber ? "" : Dictionary.EntryExitNumberError;
                 break;
             case "ReleaseDate":
                 ValidReleaseDate = (new Date(value).getTime() <= new Date());
-                Errors.ReleaseDate = ValidReleaseDate ? "" : "Release date must not be later than today.";
+                Errors.ReleaseDate = ValidReleaseDate ? "" : Dictionary.ReleaseDateError;
                 break;
             case "NumberOfMonths":
                 ValidNumberOfMonths = (value !== "");
-                Errors.NumberOfMonths = ValidNumberOfMonths ? "" : "Number of months is required.";
+                Errors.NumberOfMonths = ValidNumberOfMonths ? "" : Dictionary.NumberOfMonthsError1;
 
                 if (Errors.NumberOfMonths !== "") {
                     break;
                 }
 
                 ValidNumberOfMonths = (value > 0)
-                Errors.NumberOfMonths = ValidNumberOfMonths ? "" : "Number of months must be greater than 0.";
+                Errors.NumberOfMonths = ValidNumberOfMonths ? "" : Dictionary.NumberOfMonthsError2;
 
                 if (Errors.NumberOfMonths !== "") {
                     break;
@@ -104,7 +104,7 @@ class EditEntryExitCardDialog extends Component {
                 let expiryDate = new Date(releaseDate.setMonth(releaseDate.getMonth() + value));
 
                 ValidNumberOfMonths = (expiryDate > new Date());
-                Errors.NumberOfMonths = ValidNumberOfMonths ? "" : `Your card is expired if it is for ${value} months. Your card might be expired on ${expiryDate.toLocaleString()}`;
+                Errors.NumberOfMonths = ValidNumberOfMonths ? "" : Dictionary.NumberOfMonthsError3;
                 break;
             default:
                 break;
@@ -179,37 +179,39 @@ class EditEntryExitCardDialog extends Component {
                                     <div className="container">
                                         <div className="row">
                                             <div className="col-md-24">
-                                                <div className="type-h3 color-default p-t-xxs">Add Entry/Exit Card</div>
+                                                <div className="type-h3 color-default p-t-xxs">{Dictionary.EditEntryExitCard}</div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Entry/Exit Number</label>
+                                                    <label className="control-label">{Dictionary.EntryExitNumber}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" name="EntryExitNumber" className="form-control" autoComplete="off"
                                                         value={this.state.EntryExitNumber} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.EntryExitNumber}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Card Type</label><br />
+                                                    <label className="control-label">{Dictionary.CardType}</label><br />
                                                     <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
-                                                        <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
+                                                        <button className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
                                                             aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                                            <span>{this.state.Type}</span>
+                                                            {this.state.Type === "Simple" ?
+                                                            <span>{Dictionary.Simple}</span> :
+                                                            <span>{Dictionary.Multiple}</span>}
                                                             <span className="caret"></span>
                                                         </button>
                                                         <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                                            <li><a onClick={() => { this.setState({ Type: "Simple" }); }}>Simple</a></li>
-                                                            <li><a onClick={() => { this.setState({ Type: "Multiple" }); }}>Multiple</a></li>
+                                                            <li><a onClick={() => { this.setState({ Type: "Simple" }); }}>{Dictionary.Simple}</a></li>
+                                                            <li><a onClick={() => { this.setState({ Type: "Multiple" }); }}>{Dictionary.Multiple}</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Release Date</label>
+                                                    <label className="control-label">{Dictionary.ReleaseDate}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="date" name="ReleaseDate" className="form-control" autoComplete="off"
                                                         value={this.state.ReleaseDate} onChange={this.onChange} />
                                                     <span className="text-danger">{this.state.Errors.ReleaseDate}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">Number of Months</label>
+                                                    <label className="control-label">{Dictionary.NumberOfMonths}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" name="NumberOfMonths" className="form-control" autoComplete="off"
                                                         value={this.state.NumberOfMonths} onChange={this.onChange} />
@@ -218,7 +220,7 @@ class EditEntryExitCardDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Update} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -230,5 +232,47 @@ class EditEntryExitCardDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        EditEntryExitCard: "تحرير بطاقة الدخول / الخروج",
+        EntryExitNumber: "رقم الدخول / الخروج",
+        CardType: "نوع البطاقة",
+        Simple: "بسيط",
+        Multiple: "مضاعف",
+        ReleaseDate: "يوم الاصدار",
+        NumberOfMonths: "عدد الأشهر",
+        Update: "تحديث",
+        EntryExitNumberError: "رقم الدخول / الخروج مطلوب",
+        ReleaseDateError: ".يجب ألا يكون تاريخ الإصدار في وقت لاحق اليوم",
+        NumberOfMonthsError1: ".عدد الأشهر مطلوب",
+        NumberOfMonthsError2: ".يجب أن يكون عدد الأشهر أكبر من 0",
+        NumberOfMonthsError3: ".انتهت صلاحية بطاقتك",  
+    };
+}
+else {
+    Dictionary = {
+        EditEntryExitCard: "Edit Entry/Exit Card",
+        EntryExitNumber: "Entry/Exit Number",
+        CardType: "Card Type",
+        Simple: "Simple",
+        Multiple: "Multiple",
+        ReleaseDate: "Release Date",
+        NumberOfMonths: "Number of Months",
+        Update: "Update",
+        EntryExitNumberError: "Entry/exit number is required.",
+        ReleaseDateError: "Release date must not be later than today.",
+        NumberOfMonthsError1: "Number of months is required.",
+        NumberOfMonthsError2: "Number of months must be greater than 0.",
+        NumberOfMonthsError3: "Your card is expired.",
+    };
+}
 
 export default EditEntryExitCardDialog;

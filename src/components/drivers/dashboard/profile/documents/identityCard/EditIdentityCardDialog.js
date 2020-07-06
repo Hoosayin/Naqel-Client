@@ -72,18 +72,18 @@ class EditIdentityCardDialog extends Component {
         switch (field) {
             case "IDNumber":
                 ValidIDNumber = (value !== "");
-                Errors.IDNumber = ValidIDNumber ? "" : "ID number is required.";
+                Errors.IDNumber = ValidIDNumber ? "" : Dictionary.IDNumberError1;
 
                 if (Errors.IDNumber !== "") {
                     break;
                 }
 
                 ValidIDNumber = (value >= 1000000000 && value <= 9999999999);
-                Errors.IDNumber = ValidIDNumber ? "" : "ID number must be 10-digits long.";
+                Errors.IDNumber = ValidIDNumber ? "" : Dictionary.IDNumberError2;
                 break;
             case "PhotoURL":
                 ValidPhotoURL = (value !== null);
-                Errors.PhotoURL = ValidPhotoURL ? "" : "Invalid Image. Please upload a correct one.";
+                Errors.PhotoURL = ValidPhotoURL ? "" : Dictionary.IDNumberError3;
                 break;
             default:
                 break;
@@ -174,10 +174,10 @@ class EditIdentityCardDialog extends Component {
                                                     ImageCategory="IdentityCard" />
                                             </div>
                                             <div className="col-md-12">
-                                                <div className="type-h3 color-default p-t-xxs">Add Your Identity Card</div>
+                                                <div className="type-h3 color-default p-t-xxs">{Dictionary.EditIdentityCard}</div>
                                                 <div className="type-sh4 text-danger">{this.state.Errors.PhotoURL}</div>
                                                 <div className="form-group">
-                                                    <label className="control-label">ID Number</label>
+                                                    <label className="control-label">{Dictionary.IDNumber}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" name="IDNumber" className="form-control" autoComplete="off" required
                                                         value={this.state.IDNumber} onChange={this.onChange} min="1000000000" max="99999999999" />
@@ -186,7 +186,7 @@ class EditIdentityCardDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Update" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                            <input type="submit" value={Dictionary.Update} className="btn btn-primary" disabled={!this.state.ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -198,5 +198,33 @@ class EditIdentityCardDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        EditIdentityCard: "تحرير بطاقة الهوية الخاصة بك",
+        IDNumber: "رقم الهوية",
+        Update: "تحديث",
+        IDNumberError1: ".رقم الهوية مطلوب",
+        IDNumberError2: ".يجب أن يتكون رقم الهوية من 10 أرقام",
+        IDNumberError3: ".صورة غير صالحة. يرجى تحميل واحد صحيح"
+    };
+}
+else {
+    Dictionary = {
+        EditIdentityCard: "Edit Your Identity Card",
+        IDNumber: "ID Number",
+        Update: "Update",
+        IDNumberError1: "ID number is required.",
+        IDNumberError2: "ID number must be 10-digits long.",
+        IDNumberError3: "Invalid Image. Please upload a correct one."
+    };
+}
 
 export default EditIdentityCardDialog;

@@ -98,8 +98,15 @@ class TruckSettings extends Component {
 
         switch (field) {
             case "PlateNumber":
-                ValidPlateNumber = ((value !== "") && (value >= 1 && value <= 999));
-                Errors.PlateNumber = ValidPlateNumber ? "" : "Plate Number must be between 001 and 999.";
+                ValidPlateNumber = (value !== "");
+                Errors.PlateNumber = ValidPlateNumber ? "" : Dictionary.PlateNumberError1;
+
+                if (Errors.PlateNumber !== "") {
+                    break;
+                }
+
+                ValidPlateNumber = (value >= 100 && value <= 999);
+                Errors.PlateNumber = ValidPlateNumber ? "" : Dictionary.PlateNumberError2;
                 break;
             case "Owner":
                 ValidOwner = (value !== "");
@@ -108,30 +115,30 @@ class TruckSettings extends Component {
             case "ProductionYear":
                 let currentYear = new Date().getFullYear();
                 ValidProductionYear = ((value !== "") && (value >= 2000 && value <= currentYear));
-                Errors.ProductionYear = ValidProductionYear ? "" : `Production Year must be between 2000 and ${currentYear}`;
+                Errors.ProductionYear = ValidProductionYear ? "" : Dictionary.ProductionYearError;
                 break;
             case "Brand":
                 ValidBrand = (value !== "");
-                Errors.Brand = ValidBrand ? "" : "Brand is required.";
+                Errors.Brand = ValidBrand ? "" : Dictionary.BrandError;
                 break;
             case "Model":
                 ValidModel = (value !== "");
-                Errors.Model = ValidModel ? "" : "Model is required.";
+                Errors.Model = ValidModel ? "" : Dictionary.ModelError;
                 break;
             case "Type":
                 ValidType = (value !== "");
-                Errors.Type = ValidType ? "" : "Type is required";
+                Errors.Type = ValidType ? "" : Dictionary.TypeError;
                 break;
             case "MaximumWeight":
                 ValidMaximumWeight = (value !== "");
-                Errors.MaximumWeight = ValidMaximumWeight ? "" : "Maximum Weight is required.";
+                Errors.MaximumWeight = ValidMaximumWeight ? "" : Dictionary.MaximumWeightError1;
 
                 if (Errors.MaximumWeight !== "") {
                     break;
                 }
 
                 ValidMaximumWeight = (value >= 700);
-                Errors.MaximumWeight = ValidMaximumWeight ? "" : "Maximum weight must be greater than 699.";
+                Errors.MaximumWeight = ValidMaximumWeight ? "" : Dictionary.MaximumWeightError2;
                 break;
             default:
                 break;
@@ -211,7 +218,7 @@ class TruckSettings extends Component {
                     Errors,
                 } = this.state;
 
-                Errors.Owner = "Owner not found."
+                Errors.Owner = Dictionary.OwnerError
 
                 this.setState({
                     Errors: Errors,
@@ -226,7 +233,7 @@ class TruckSettings extends Component {
         return (
             <div>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-                <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Truck Settings</div>
+                <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>{Dictionary.TruckSettings}</div>
                 <form noValidate onSubmit={this.onSubmit}>
                     <div className="entity-list entity-list-expandable">
                         <div className="entity-list-item">
@@ -240,7 +247,7 @@ class TruckSettings extends Component {
                                 </div>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Plate Number</div>
+                                <div className="content-text-primary">{Dictionary.PlateNumber}</div>
                                 <div className="text-danger">{this.state.Errors.PlateNumber}</div>
                             </div>
                         </div>
@@ -255,7 +262,7 @@ class TruckSettings extends Component {
                                 </div>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Owner</div>
+                                <div className="content-text-primary">{Dictionary.Owner}</div>
                                 <div className="text-danger">{this.state.Errors.Owner}</div>
                             </div>
                         </div>
@@ -270,7 +277,7 @@ class TruckSettings extends Component {
                                 </div>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Production Year</div>
+                                <div className="content-text-primary">{Dictionary.ProductionYear}</div>
                                 <div className="text-danger">{this.state.Errors["ProductionYear"]}</div>
                             </div>
                         </div>
@@ -285,7 +292,7 @@ class TruckSettings extends Component {
                                 </div>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Brand</div>
+                                <div className="content-text-primary">{Dictionary.Brand}</div>
                                 <div className="text-danger">{this.state.Errors.Brand}</div>
                             </div>
                         </div>
@@ -300,7 +307,7 @@ class TruckSettings extends Component {
                                 </div>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Truck Model</div>
+                                <div className="content-text-primary">{Dictionary.TruckModel}</div>
                                 <div className="text-danger">{this.state.Errors.Model}</div>
                             </div>
                         </div>
@@ -315,7 +322,7 @@ class TruckSettings extends Component {
                                 </div>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Truck Type</div>
+                                <div className="content-text-primary">{Dictionary.TruckType}</div>
                                 <div className="text-danger">{this.state.Errors.Type}</div>
                             </div>
                         </div>
@@ -330,7 +337,7 @@ class TruckSettings extends Component {
                                 </div>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Maximum Weight (GVW)</div>
+                                <div className="content-text-primary">{Dictionary.MaximumWeight}</div>
                                 <div className="text-danger">{this.state.Errors.MaximumWeight}</div>
                             </div>
                         </div>                      
@@ -339,11 +346,11 @@ class TruckSettings extends Component {
                                 <span className="fas fa-save"></span>
                             </div>
                             <div className="item-content-primary">
-                                <div className="content-text-primary">Save Changes?</div>
-                                <div className="content-text-secondary">This cannot be undone.</div>
+                                <div className="content-text-primary">{Dictionary.SaveChanges}</div>
+                                <div className="content-text-secondary">{Dictionary.Undone}</div>
                             </div>
                             <div className="item-content-expanded">
-                                <input type="submit" value="Save" className="btn btn-primary" disabled={!this.state.ValidForm} />
+                                <input type="submit" value={Dictionary.Save} className="btn btn-primary" disabled={!this.state.ValidForm} />
                             </div>
                         </div>
                     </div>
@@ -354,5 +361,63 @@ class TruckSettings extends Component {
         );
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        TruckSettings: "إعدادات الشاحنة",
+        PlateNumber: "رقم لوحة",
+        Owner: "صاحب",
+        ProductionYear: "سنة الإنتاج",
+        Brand: "العلامة التجارية",
+        TruckModel: "نموذج الشاحنة",
+        TruckType: "نوع الشاحنة",
+        MaximumWeight: "الوزن الأقصى (GVW)",
+        SaveChanges: "حفظ التغييرات؟",
+        Undone: ".هذا لا يمكن التراجع عنها",
+        Save: "حفظ",
+        PlateNumberError1: ".رقم اللوحة مطلوب",
+        PlateNumberError2: ".يجب أن يتكون رقم اللوحة من 3 أرقام",
+        OwnerError: ".لم يتم العثور على المالك",
+        ProductionYearError: ".يجب ألا تتجاوز سنة الإنتاج السنة الحالية",
+        BrandError: ".العلامة التجارية مطلوبة",
+        ModelError: ".النموذج مطلوب",
+        TypeError: ".النوع مطلوب",
+        MaximumWeightError1: ".مطلوب الوزن الأقصى",
+        MaximumWeightError2: ".يجب أن يكون الوزن الأقصى أكبر من 699",
+        PhotoURLError: ".صورة غير صالحة. يرجى تحميل واحد صحيح",
+    };
+}
+else {
+    Dictionary = {
+        TruckSettings: "Truck Settings",
+        PlateNumber: "Plate Number",
+        Owner: "Owner",
+        ProductionYear: "Production Year",
+        Brand: "Brand",
+        TruckModel: "Truck Model",
+        TruckType: "Truck Type",
+        MaximumWeight: "Maximum Weight (GVW)",
+        SaveChanges: "Save Changes?",
+        Undone: "This cannot be undone.",
+        Save: "Save",
+        PlateNumberError1: "Plate number is required.",
+        PlateNumberError2: "Plate number must be 3-digits long.",
+        OwnerError: "Owner not found.",
+        ProductionYearError: "Production year must not exceed current year.",
+        BrandError: "Brand is required.",
+        ModelError: "Model is required.",
+        TypeError: "Type is required",
+        MaximumWeightError1: "Maximum Weight is required.",
+        MaximumWeightError2: "Maximum weight must be greater than 699.",
+        PhotoURLError: "Invalid Image. Please upload a correct one.",
+    };
+}
 
 export default TruckSettings;

@@ -28,7 +28,7 @@ class TruckListItem extends Component {
             <td className="text-right">
                 <button className="btn btn-secondary m-t-n"
                     data-toggle="modal"
-                    data-target={`#truck-dialog-${Index}`}>Details</button>
+                    data-target={`#truck-dialog-${Index}`}>{Dictionary.Details}</button>
 
                 <button className="btn btn-secondary m-t-n"
                     data-toggle="modal"
@@ -36,12 +36,12 @@ class TruckListItem extends Component {
                     onClick={async () => {
                         await this.RefreshDriverContainer();
                         await this.RefreshDocumentsContainer();
-                    }}>Driver</button>
+                    }}>{Dictionary.Driver}</button>
 
                 <button className="btn btn-primary m-t-n"
                     data-toggle="modal"
                     data-target={`#locate-truck-dialog-${Index}`}
-                    onClick={() => { this.LocateTruck(); }}>Locate</button>
+                    onClick={() => { this.LocateTruck(); }}>{Dictionary.Locate}</button>
 
                 <TruckDialog Index={Index}
                     DriverID={Truck.DriverID}
@@ -59,5 +59,27 @@ class TruckListItem extends Component {
         </tr>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        Details: "تفاصيل",
+        Driver: "سائق",
+        Locate: "حدد",
+    };
+}
+else {
+    Dictionary = {
+        Details: "Details",
+        Driver: "Driver",
+        Locate: "Locate",
+    };
+}
 
 export default TruckListItem;

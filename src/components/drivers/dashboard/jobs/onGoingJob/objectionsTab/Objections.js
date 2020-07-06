@@ -64,7 +64,7 @@ class Objections extends Component {
             };
 
             await getData(request).then(response => {
-                if (response.Message === "Job objection packages found.") {
+                if (response.Message === "Job objections found.") {
                     this.setState({
                         JobObjections: response.JobObjections
                     });
@@ -82,18 +82,18 @@ class Objections extends Component {
         const jobObjections = this.state.JobObjections;
 
         return <section>
-            <div class="page-header back-color-gradient">
+            <div class="page-header back-color-gradient" dir={GetDirection()}>
                 <div class="container" style={{ paddingBottom: "10px", marginBottom: "12px" }}>
                     <div class="row">
                         <div class="col-xs-18">
-                            <div className="type-h3 color-light"><span className="fas fa-thumbs-down"></span>   Job Objections</div>
-                            <p className="color-light">Objections on this job, either by you or your customer, will terminate the job.</p>
+                            <div className="type-h3 color-light"><span className="fas fa-thumbs-down m-r-xxs m-l-xxs"></span>{Dictionary.JobObjections}</div>
+                            <p className="color-light">{Dictionary.JobObjectionsSubtitle}</p>
                             <div className="btn-group">
                                 <button
                                     type="button"
                                     className="btn btn-primary"
                                     data-toggle="modal"
-                                    data-target="#add-objection-dialog">Add Objection</button>
+                                    data-target="#add-objection-dialog">{Dictionary.AddObjection}</button>
                             </div>
                         </div>
                     </div>
@@ -102,10 +102,10 @@ class Objections extends Component {
             <AddObjectionDialog OnGoingJobID={this.props.OnGoingJobID}
                 OnOK={this.onComponentUpdated} />
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
-            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }}>Job Objections</div>
+            <div className="h3" style={{ margin: "0px", padding: "10px", backgroundColor: "#EFEFEF", }} dir={GetDirection()}>{Dictionary.JobObjections}</div>
             {(jobObjections.length === 0) ?
                 <SearchingContainer Searching={this.state.Searching}
-                    SearchingFor="job objctions" /> : <ol className="list-items" style={{ margin: "0px" }}>
+                    SearchingFor={Dictionary.JobObjections}/> : <ol className="list-items" style={{ margin: "0px" }}>
                     {jobObjections.map((jobObjection, index) => {
                         return <li key={index} className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
                             <JobObjectionContainer Index={index}
@@ -116,5 +116,29 @@ class Objections extends Component {
        </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        JobObjections: "اعتراضات الوظيفة",
+        JobObjectionsSubtitle: ".الاعتراضات على هذه الوظيفة ، سواء من جانبك أو من قبل عميلك ، ستنهي الوظيفة",
+        AddObjection: "إضافة اعتراض",
+        JobObjections: "اعتراضات الوظيفة",
+    };
+}
+else {
+    Dictionary = {
+        JobObjections: "Job Objections",
+        JobObjectionsSubtitle: "Objections on this job, either by you or your customer, will terminate the job.",
+        AddObjection: "Add Objection",
+        JobObjections: "Job Objections",
+    };
+}
 
 export default Objections;

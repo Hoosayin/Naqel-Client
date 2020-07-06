@@ -40,7 +40,7 @@ class PhoneConfirmationDialog extends Component {
         switch (field) {
             case "Code":
                 ValidCode = (value !== "");
-                Errors.Code = ValidCode ? "" : "Code is required.";
+                Errors.Code = ValidCode ? "" : Dictionary.CodeError;
                 break;
             default:
                 break;
@@ -138,12 +138,12 @@ class PhoneConfirmationDialog extends Component {
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="jumbotron theme-default">
                                     <div className="container">
-                                        <div className="type-h3 color-default p-t-xxs">Code Confirmation</div>
-                                        <div className="type-sh3">{`Enter 6-Digit Code sent on ${PhoneNumber}.`}</div>
+                                        <div className="type-h3 color-default p-t-xxs">{Dictionary.CodeConfirmation}</div>
+                                        <div className="type-sh3" dir={GetDirection()}>{`${Dictionary.CodeConfirmationSubtitle} ${PhoneNumber}.`}</div>
                                         <div className="row p-t-xxs">
                                             <div className="col-md-24">
                                                 <div className="form-group">
-                                                    <label className="control-label">Code</label>
+                                                    <label className="control-label">{Dictionary.Code}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
                                                     <input type="number" name="Code" className="form-control" autoComplete="off"
                                                         value={Code} onChange={this.onChange} />
@@ -152,7 +152,7 @@ class PhoneConfirmationDialog extends Component {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <input type="submit" value="Verify" className="btn btn-primary" disabled={!ValidForm} />
+                                            <input type="submit" value={Dictionary.Verify} className="btn btn-primary" disabled={!ValidForm} />
                                         </div>
                                     </div>
                                 </div>
@@ -164,5 +164,31 @@ class PhoneConfirmationDialog extends Component {
         </section>;
     }
 };
+
+const GetDirection = () => {
+    return (!Language || Language === "English") ? "ltr" : "rtl";
+};
+
+const Language = localStorage.Language;
+let Dictionary;
+
+if (Language === "Arabic") {
+    Dictionary = {
+        CodeConfirmation: "تأكيد الرمز",
+        CodeConfirmationSubtitle: "أدخل الرمز المكون من 6 أرقام الذي تم إرساله",
+        Code: "الشفرة",
+        Verify: "تحقق",
+        CodeError: ".الرمز مطلوب",
+    };
+}
+else {
+    Dictionary = {
+        CodeConfirmation: "Code Confirmation",
+        CodeConfirmationSubtitle: "Enter 6-Digit Code sent on",
+        Code: "Code",
+        Verify: "Verify",
+        CodeError: "Code is required.",
+    };
+}
 
 export default PhoneConfirmationDialog;
