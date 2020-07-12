@@ -133,6 +133,31 @@ class AddPermitLicenceDialog extends Component {
             });
 
             if (response.Message === "Permit Licence is added.") {
+                this.setState({
+                    PermitNumber: "",
+            ExpiryDate: new Date(),
+            PhotoURL: "./images/default_image.png",
+            Code: "",
+            Place: "",
+
+            ValidPermitNumber: false,
+            ValidExpiryDate: false,
+            ValidPhotoURL: false,
+            ValidCode: false,
+            ValidPlace: false,
+
+            ValidForm: false,
+            Preloader: null,
+
+            Errors: {
+                PermitNumber: "",
+                ExpiryDate: "",
+                PhotoURL: "",
+                Code: "",
+                Place: "",
+            },
+                });
+                
                 this.props.OnOK(this.cancelButton);
             }
         });

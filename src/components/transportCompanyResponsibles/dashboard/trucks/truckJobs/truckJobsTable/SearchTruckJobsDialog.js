@@ -236,8 +236,8 @@ if (Language === "Arabic") {
         JobNumber: "رقم الوظيفة",
         StartingDate: "تاريخ البدء",
         EndingDate: "تاريخ الانتهاء",
-        StaringAmount: "(المبلغ المحدق (ريال",
-        EndingAmount: "(المبلغ الختامي (ريال",
+        StaringAmount: "(السعر المبدئي (ريال",
+        EndingAmount: "(السعر النهائي (ريال",
         SearchNow: "ابحث الآن",
     };
 }
@@ -247,8 +247,8 @@ else {
         JobNumber: "Job Number",
         StartingDate: "Starting Date",
         EndingDate: "Ending Date",
-        StaringAmount: "Staring Amount (SR)",
-        EndingAmount: "Ending Amount (SR)",
+        StaringAmount: "Starting Price (SR)",
+        EndingAmount: "Ending Price (SR)",
         SearchNow: "Search Now",
     };
 }

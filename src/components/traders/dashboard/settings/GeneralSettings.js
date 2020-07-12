@@ -26,7 +26,9 @@ class GeneralSettings extends Component {
             ValidPhoneNumber: true,
 
             ConfirmationResult: null,
+            OldPhoneCodeVerified: false,
             PhoneCodeVerified: false,
+            VerificationFor: "Old Phone Number",
 
             ValidForm: false,
             SettingsSaved: false,
@@ -176,7 +178,35 @@ class GeneralSettings extends Component {
             }
         }
 
-        if (this.state.PhoneCodeVerified) {
+        if (this.state.PhoneNumber !== this.state.OldPhoneNumber &&
+            !this.state.OldPhoneCodeVerified) {
+                const appVerifier = window.recaptchaVerifier;
+
+            FirebaseApp.auth().languageCode = "en";
+            FirebaseApp.auth().signInWithPhoneNumber(this.state.OldPhoneNumber, appVerifier).then(confirmationResult => {
+                this.setState({
+                    ShowPreloader: false,
+                    ConfirmationResult: confirmationResult,
+                    VerificationFor: "Old Phone Number"
+                });
+
+                this.SendCodeButton.click();
+            }).catch(error => {
+                let {
+                    Errors
+                } = this.state;
+
+                Errors.PhoneNumber = error.message;
+
+                this.setState({
+                    ShowPreloader: false,
+                    Errors: Errors,
+                    ValidForm: false,
+                });
+            });
+
+        }
+        else if (this.state.PhoneCodeVerified) {
             const updatedTrader = {
                 Token: localStorage.Token,
                 FirstName: this.state.FirstName,
@@ -210,7 +240,8 @@ class GeneralSettings extends Component {
             FirebaseApp.auth().signInWithPhoneNumber(this.state.PhoneNumber, appVerifier).then(confirmationResult => {
                 this.setState({
                     ShowPreloader: false,
-                    ConfirmationResult: confirmationResult
+                    ConfirmationResult: confirmationResult,
+                    VerificationFor: "New Phone Number"
                 });
 
                 this.SendCodeButton.click();
@@ -285,19 +316,23 @@ class GeneralSettings extends Component {
                                 <span className={this.state.Gender === "Male" ? "fas fa-male" : "fas fa-female"}></span>
                             </div>
                             <div className="item-content-secondary">
-                                <div className="dropdown" style={{ width: "193px", maxWidth: "296px", }}>
-                                    <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                        {this.state.Gender === "Male" ? 
-                                        <span>{Dictionary.Male}</span> : 
-                                        <span>{Dictionary.Female}</span>}
-                                        <span className="caret"></span>
-                                    </button>
-                                    <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                        <li><a onClick={() => { this.setState({ Gender: "Male" }); this.validateField("", ""); }}>{Dictionary.Male}</a></li>
-                                        <li><a onClick={() => { this.setState({ Gender: "Female" }); this.validateField("", ""); }}>{Dictionary.Female}</a></li>
-                                    </ul>
-                                </div>
+                            <div class="combobox">
+            <select class="form-control"
+                style={{
+                    width: "193px",
+                    maxWidth: "296px",
+                    minWidth: "88px"
+                }}
+                onChange={event => {
+                    this.setState({
+                        Gender: event.target.value
+                    }, this.validateField("", ""));
+                }}
+                value={this.state.Gender}>
+                <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            </select>
+        </div>
                             </div>
                             <div className="item-content-primary">
                                 <div className="content-text-primary">{Dictionary.Gender}</div>
@@ -379,28 +414,37 @@ class GeneralSettings extends Component {
                     data-target="#phone-confirmation-dialog"
                     ref={sendCodeButton => this.SendCodeButton = sendCodeButton}></button>
                 <PhoneConfirmationDialog ConfirmationResult={this.state.ConfirmationResult}
-                    PhoneNumber={this.state.PhoneNumber}
-                    OnOK={phoneCodeVerified => {
-                        if (phoneCodeVerified) {
+                PhoneNumber={this.state.VerificationFor === "Old Phone Number" ? 
+                this.state.OldPhoneNumber : 
+            this.state.NewPhoneNumber}
+                OnOK={phoneCodeVerified => {
+                    if (phoneCodeVerified) {
+                        if (this.state.VerificationFor === "Old Phone Number") {
+                            this.setState({
+                                OldPhoneCodeVerified: true,
+                            });
+                        }
+                        else {
                             this.setState({
                                 PhoneCodeVerified: true
                             });
-
-                            this.onSubmit();
                         }
-                        else {
-                            let {
-                                Errors
-                            } = this.state;
 
-                            Errors.PhoneNumber = Dictionary.CodeError;
+                        this.onSubmit();
+                    }
+                    else {
+                        let {
+                            Errors
+                        } = this.state;
 
-                            this.setState({
-                                ValidForm: false,
-                                Errors: Errors
-                            });
-                        }
-                    }} />
+                        Errors.PhoneNumber = Dictionary.PhoneNumberError;
+
+                        this.setState({
+                            ValidForm: false,
+                            Errors: Errors
+                        });
+                    }
+                }} />
                 <div id="recaptcha"></div>
                 {this.state.ShowPreloader ? <Preloader /> : null}
             </div>

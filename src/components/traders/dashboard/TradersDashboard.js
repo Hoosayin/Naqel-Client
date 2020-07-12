@@ -9,6 +9,8 @@ import Settings from "./settings/Settings";
 import SearchingContainer from "../../../containers/searching/SearchingContainer";
 import ExoneratedTraderContainer from "../../../containers/exoneratedTrader/ExoneratedTraderContainer";
 import { getData } from "../TraderFunctions";
+import jwt_decode from "jwt-decode";
+import PageNotFoundContainer from "../../../containers/404/404";
 
 class TradersDashboard extends Component {
     constructor(props) {
@@ -19,15 +21,7 @@ class TradersDashboard extends Component {
             DashboardData: null,
             Searching: false
         };
-
-        //this.onCloseNavigation = this.onCloseNavigation.bind(this);
     }
-
-    //onCloseNavigation = () => {
-    //    this.setState({
-    //        Left: -400
-    //    });
-    //}
 
     async componentDidMount() {
         if (localStorage.Token) {
@@ -60,6 +54,9 @@ class TradersDashboard extends Component {
     render() {
         if (!localStorage.Token) {
             return <Redirect to="/login" />;
+        }
+        else if (!jwt_decode(localStorage.Token).TraderID) {
+            return <PageNotFoundContainer />;
         }
         else {
             const {
@@ -101,30 +98,6 @@ class TradersDashboard extends Component {
                                     </li>
                                 </ul>
 
-                                {/*
-                                 <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
-                                    <a className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
-
-                                    <div class="entity-list" role="tablist">
-                                        <div class="entity-list-item" role="presentation">
-                                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Profile</a>
-                                        </div>
-                                        <div class="entity-list-item" role="presentation">
-                                            <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
-                                        </div>
-                                        <div class="entity-list-item" role="presentation">
-                                            <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Payments</a>
-                                        </div>
-                                        <div class="entity-list-item" role="presentation">
-                                            <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Questions</a>
-                                        </div>
-                                        <div class="entity-list-item" role="presentation">
-                                            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Settings</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                 */}
-
                                 <div className="tab-content">
                                     <div role="tabpanel" className="tab-pane" id="profile">
                                         <Profile ref="Profile" />
@@ -145,15 +118,6 @@ class TradersDashboard extends Component {
                                         <Settings />
                                     </div>
                                 </div>
-
-                                {/*
-                                 <div className="side-nav-btn" onClick={() => {
-                                    this.setState({
-                                        Left: 0
-                                    });
-                                }}><div className="fas fa-bars" style={{ fontSize: "x-large" }}></div>
-                                </div>
-                                 */}
                             </section>
                         </section>}
                 </section>;

@@ -188,20 +188,25 @@ class EditEntryExitCardDialog extends Component {
                                                     <span className="text-danger">{this.state.Errors.EntryExitNumber}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">{Dictionary.CardType}</label><br />
-                                                    <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
-                                                        <button className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
-                                                            aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
-                                                            {this.state.Type === "Simple" ?
-                                                            <span>{Dictionary.Simple}</span> :
-                                                            <span>{Dictionary.Multiple}</span>}
-                                                            <span className="caret"></span>
-                                                        </button>
-                                                        <ul className="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                                            <li><a onClick={() => { this.setState({ Type: "Simple" }); }}>{Dictionary.Simple}</a></li>
-                                                            <li><a onClick={() => { this.setState({ Type: "Multiple" }); }}>{Dictionary.Multiple}</a></li>
-                                                        </ul>
-                                                    </div>
+                                                    <label className="control-label">{Dictionary.CardType}</label>
+                                                    <span className="text-danger m-l-xxxs">*</span>
+                                                    <div class="combobox">
+            <select class="form-control"
+                style={{
+                    width: "100%",
+                    maxWidth: "296px",
+                    minWidth: "88px"
+                }}
+                onChange={event => {
+                    this.setState({
+                        Type: event.target.value
+                    }, this.validateField("", ""));
+                }}
+                value={this.state.Type === "Simple" ? Dictionary.Simple : Dictionary.Multiple}>
+                <option value="Simple">{Dictionary.Simple}</option>
+            <option value="Multiple">{Dictionary.Multiple}</option>
+            </select>
+        </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="control-label">{Dictionary.ReleaseDate}</label>

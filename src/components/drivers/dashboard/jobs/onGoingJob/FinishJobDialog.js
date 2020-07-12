@@ -74,7 +74,7 @@ class FinishJobDialog extends Component {
                                             <div class="col-md-24">
                                                 <p>{Dictionary.Question}</p>
                                                 <div class="text-right">
-                                                    <button class="btn btn-primary" onClick={this.onYes}>{Dictionary.Question}</button>
+                                                    <button class="btn btn-primary" onClick={this.onYes}>{Dictionary.Yes}</button>
                                                 </div>
                                             </div>}
                                     </div>

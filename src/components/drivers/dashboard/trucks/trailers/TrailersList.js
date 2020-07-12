@@ -67,7 +67,7 @@ class TrailersList extends Component {
                                                         </div>
                                                         <div className="item-content-primary">
                                                             <div className="content-text-primary">{Dictionary.MaximumWeight}</div>
-                                                            <div className="content-text-secondary">{`${value.MaximumWeight} GVM`}</div>
+                                                            <div className="content-text-secondary">{`${value.MaximumWeight} KG`}</div>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -80,7 +80,7 @@ class JobContainer extends Component {
                                     </div>
                                     <div className="item-content-primary">
                                         <div className="content-text-primary">{Dictionary.CargoWeight}</div>
-                                        <div className="content-text-secondary">{`${onGoingJob.CargoWeight} lbs.`}</div>
+                                        <div className="content-text-secondary">{`${onGoingJob.CargoWeight} KG.`}</div>
                                     </div>
                                 </div>
                                 <div className="entity-list-item">

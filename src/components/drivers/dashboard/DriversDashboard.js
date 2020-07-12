@@ -12,7 +12,8 @@ import Settings from "./settings/Settings";
 import SearchingContainer from "../../../containers/searching/SearchingContainer";
 import BlockedUserContainer from "../../../containers/blockedUser/BlockedUserContainer";
 import { getData } from "../DriverFunctions";
-import UTF8 from "utf8";
+import jwt_decode from "jwt-decode";
+import PageNotFoundContainer from "../../../containers/404/404";
 
 class DriversDashboard extends Component {
     constructor(props) {
@@ -23,8 +24,6 @@ class DriversDashboard extends Component {
             DashboardData: null,
             Searching: false
         };
-
-        //this.onCloseNavigation = this.onCloseNavigation.bind(this);
     }
 
     async componentDidMount() {
@@ -55,15 +54,12 @@ class DriversDashboard extends Component {
         }
     }
 
-    //onCloseNavigation = () => {
-    //    this.setState({
-    //        Left: -400
-    //    });
-    //}
-
     render() {
         if (!localStorage.Token) {
             return <Redirect to={"/login"} />;
+        }
+        else if (!jwt_decode(localStorage.Token).DriverID) {
+            return <PageNotFoundContainer />;
         }
         else {
             const {
@@ -123,46 +119,6 @@ class DriversDashboard extends Component {
                                 </li>
                             </ul>
 
-
-                            {/*
-                             <div className="sidenav" style={{ left: `${this.state.Left}px` }}>
-                                <a className="closebtn" onClick={this.onCloseNavigation}>&times;</a>
-
-                                <div class="entity-list" role="tablist">
-                                    <div class="entity-list-item" role="presentation">
-                                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Profile</a>
-                                    </div>
-                                    <div class="entity-list-item" role="presentation">
-                                        <a href="#trucks" aria-controls="trucks" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Trucks</a>
-                                    </div>
-                                    <div class="entity-list-item" role="presentation">
-                                        <a href="#permits" aria-controls="permits" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Permits</a>
-                                    </div>
-                                    {DashboardData.IsActiveAccount ?
-                                        <section>
-                                            <div class="entity-list-item" role="presentation">
-                                                <a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Jobs</a>
-                                            </div>
-                                            <div class="entity-list-item" role="presentation">
-                                                <a href="#earnings" aria-controls="earnings" role="tab" data-toggle="tab" onClick={async () => {
-                                                    this.onCloseNavigation();
-                                                    await this.RefreshEarnings();
-                                                }}>Earnings</a>
-                                            </div>
-                                            <div class="entity-list-item" role="presentation">
-                                                <a href="#payments" aria-controls="payments" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Payments</a>
-                                            </div>
-                                            <div class="entity-list-item" role="presentation">
-                                                <a href="#questions" aria-controls="questions" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Questions</a>
-                                            </div>
-                                        </section> : null}
-                                    <div class="entity-list-item" role="presentation">
-                                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onClick={this.onCloseNavigation}>Settings</a>
-                                    </div>
-                                </div>
-                            </div>
-                             */}
-
                             <div className="tab-content">
                                 {DashboardData.IsActiveAccount ?
                                     null : <div class="alert alert-warning m-n" dir={(!Language || Language === "English") ? "ltr" : "rtl"}>
@@ -213,15 +169,6 @@ class DriversDashboard extends Component {
                                     <Settings />
                                 </div>
                             </div>
-
-                            {/*
-                             <div className="side-nav-btn" onClick={() => {
-                                this.setState({
-                                    Left: 0
-                                });
-                            }}><div className="fas fa-bars" style={{ fontSize: "x-large" }}></div>
-                            </div>
-                             */}
                         </section>}
                 </section>;
         }

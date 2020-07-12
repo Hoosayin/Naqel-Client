@@ -32,7 +32,7 @@ class TraderRequestContainer extends Component {
                                     </div>
                                     <div className="item-content-primary">
                                         <div className="content-text-primary">{Dictionary.CargoWeight}</div>
-                                        <div className="content-text-secondary">{`${traderRequest.CargoWeight} lbs.`}</div>
+                                        <div className="content-text-secondary">{`${traderRequest.CargoWeight} KG.`}</div>
                                     </div>
                                 </div>
                                 <div className="entity-list-item">

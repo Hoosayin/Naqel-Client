@@ -23,7 +23,7 @@ class PlacePicker extends Component {
         } = this.props;
 
         return <section style={{ border: "4px solid #ADADAD" }}>
-            <div className="type-h5 p-xxxs color-light" style={{ backgroundColor: "#ADADAD", fontWeight: "bold" }}>PICK PLACES</div>
+            <div className="type-h5 p-xxxs color-light" style={{ backgroundColor: "#ADADAD", fontWeight: "bold" }}>{Dictionary.PickPlaces}</div>
 
             <div class="alert alert-info m-n" style={{ backgroundColor: "#E5E5E5" }}>
                 <div class="row">
@@ -88,6 +88,7 @@ let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
+        PickPlaces: "أماكن اختيار",
         LoadingPlace: "مكان التحميل",
         UnloadingPlace: "مكان التفريغ"
 
@@ -95,6 +96,7 @@ if (Language === "Arabic") {
 }
 else {
     Dictionary = {
+        PickPlaces: "PICK PLACES",
         LoadingPlace: "Loading Place",
         UnloadingPlace: "Unloading Place"
     };

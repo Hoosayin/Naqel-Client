@@ -200,7 +200,7 @@ let Dictionary;
 if (Language === "Arabic") {
     Dictionary = {
         AddTrailer: "إضافة مقطع دعائي جديد",
-        MaximumWeight: "الوزن الأقصى (GVW)",
+        MaximumWeight: "الوزن الأقصى (KG)",
         TrailerType: "نوع المقطورة",
         Add: "أضف",
         MaximumWeightError1: ".مطلوب الوزن الأقصى",
@@ -212,7 +212,7 @@ if (Language === "Arabic") {
 else {
     Dictionary = {
         AddTrailer: "Add a New Trailer",
-        MaximumWeight: "Maximum Weight (GVW)",
+        MaximumWeight: "Maximum Weight (KG)",
         TrailerType: "Trailer Type",
         Add: "Add",
         MaximumWeightError1: "Maximum Weight is required.",

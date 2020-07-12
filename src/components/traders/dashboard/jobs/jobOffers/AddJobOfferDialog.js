@@ -26,7 +26,7 @@ class AddJobOfferDialog extends Component {
             LoadingTime: new Date().getTime(),
             AcceptedDelay: 0,
             Price: 0.00,
-            WaitingTime: 0,
+            WaitingTime: 48,
             JobOfferType: "Fixed-Price",
             EntryExit: 0,
 
@@ -36,9 +36,9 @@ class AddJobOfferDialog extends Component {
             ValidUnloadingPlace: false,
             ValidLoadingDate: false,
             ValidLoadingTime: false,
-            ValidAcceptedDelay: false,
+            ValidAcceptedDelay: true,
             ValidPrice: false,
-            ValidWaitingTime: false,
+            ValidWaitingTime: true,
 
             ValidForm: false,
             ShowPreloader: null,
@@ -199,6 +199,7 @@ class AddJobOfferDialog extends Component {
         };
 
         console.log("Going to add Job offer.");
+        console.log(newJobOffer);
 
         this.setState({
             ShowPreloader: true
@@ -212,6 +213,54 @@ class AddJobOfferDialog extends Component {
             if (response.Message === "Job offer is added.") {
                 this.cancelButton.click();
                 this.props.OnOK();
+
+                this.setState({
+                    LoadingPlace: {
+                        Lat: 24.642132551799346,
+                        Lng: 46.718101978759776,
+                        Place: "شارع الغرابي، حي، Al Amal, Riyadh 12643, Saudi Arabia"
+                    },
+                    UnloadingPlace: {
+                        Lat: 24.62208132788588,
+                        Lng: 46.73878717468263,
+                        Place: "4179 Ammar Bin Yasir St, Ghubairah, Riyadh 12664 7229, Saudi Arabia"
+                    },
+                    TripType: "One Way",
+                    CargoType: "",
+                    CargoWeight: 0,          
+                    LoadingDate: new Date(),
+                    LoadingTime: new Date().getTime(),
+                    AcceptedDelay: 0,
+                    Price: 0.00,
+                    WaitingTime: 48,
+                    JobOfferType: "Fixed-Price",
+                    EntryExit: 0,
+        
+                    ValidCargoType: false,
+                    ValidCargoWeight: false,
+                    ValidLoadingPlace: false,
+                    ValidUnloadingPlace: false,
+                    ValidLoadingDate: false,
+                    ValidLoadingTime: false,
+                    ValidAcceptedDelay: true,
+                    ValidPrice: false,
+                    ValidWaitingTime: true,
+        
+                    ValidForm: false,
+                    ShowPreloader: null,
+        
+                    Errors: {
+                        CargoType: "",
+                        CargoWeight: "",
+                        LoadingPlace: "",
+                        UnloadingPlace: "",
+                        LoadingDate: "",
+                        LoadingTime: "",
+                        AcceptedDelay: "",
+                        Price: "",
+                        WaitingTime: ""
+                    },
+                });
             }
         });
     }
@@ -259,7 +308,7 @@ class AddJobOfferDialog extends Component {
                                         <div className="row p-t-xxs">
                                             <div className="col-md-8">
                                                 <div className="form-group">
-                                                    <label className="control-label">Trip Type</label><br />
+                                                    <label className="control-label">{Dictionary.TripType}</label><br />
                                                     <div className="dropdown" style={{ width: "100%", maxWidth: "296px", }}>
                                                         <button id="example-dropdown" className="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"
                                                             aria-haspopup="true" role="button" aria-expanded="false" style={{ width: "100%", }}>
@@ -328,7 +377,8 @@ class AddJobOfferDialog extends Component {
                                                     <span className="text-danger">{Errors.WaitingTime}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <button type="button" data-toggle="button" className="btn btn-toggle-switch"
+                                                    <button type="button" data-toggle="button" className={JobOfferType === "Fixed-Price" ? 
+                                                        "btn btn-toggle-switch" : "btn btn-toggle-switch active"}
                                                         autocomplete="off" aria-pressed="false"
                                                         onClick={() => {
                                                             this.state.JobOfferType = (JobOfferType === "Fixed-Price") ?
@@ -339,11 +389,12 @@ class AddJobOfferDialog extends Component {
                                                     </button>
                                                 </div>
                                                 <div className="form-group">
-                                                    <button type="button" data-toggle="button" className="btn btn-toggle-switch"
+                                                    <button type="button" data-toggle="button" className={!EntryExit ?
+                                                        "btn btn-toggle-switch" : "btn btn-toggle-switch active"}
                                                         autocomplete="off" aria-pressed="false"
                                                         onClick={() => {
                                                             this.state.EntryExit = EntryExit ?
-                                                                "No Entry/Exit" : "Entry/Exit";
+                                                                false : true;
                                                         }}>
                                                         <span className="stateLabel stateLabel-on">{Dictionary.EntryExit}</span>
                                                         <span className="stateLabel stateLabel-off">{Dictionary.NoEntryExit}</span>

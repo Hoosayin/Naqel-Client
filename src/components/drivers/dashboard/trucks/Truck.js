@@ -5,13 +5,14 @@ import TruckSettings from "./TruckSettings";
 import AddTruckDialog from "./AddTruckDialog";
 import Trailers from "./trailers/Trailers";
 import Preloader from "../../../../controls/Preloader";
-import PageHeading from "../../../../controls/PageHeading";
+import SearchingContainer from "../../../../containers/searching/SearchingContainer";
 
 class Truck extends Component {
     constructor() {
         super();
         this.state = {
             Truck: null,
+            Searching: false,
             ShowPreloader: false
         };
 
@@ -31,20 +32,23 @@ class Truck extends Component {
             };
 
             this.setState({
-                Preloader: <Preloader />
+                Preloader: <Preloader />,
+                Searching: true,
             });
 
             getData(request).then(response => {
                 if (response.Message === "Truck found.") {
                     this.setState({
                         Truck: response.Truck,
-                        Preloader: null
+                        Preloader: null,
+                        Searching: false,
                     });
                 }
                 else {
                     this.setState({
                         Truck: null,
-                        Preloader: null
+                        Preloader: null,
+                        Searching: false,
                     });
                 }
             });
@@ -82,8 +86,14 @@ class Truck extends Component {
         const truck = this.state.Truck;
         const showPreloader = this.state.ShowPreloader;
 
-        return <section>
-            {/* <PageHeading Heading="TRUCKS" /> */}
+        if (this.state.Searching)
+        {
+            return <SearchingContainer Searching={this.state.Searching}
+            SearchingFor={Dictionary.Truck} />;
+        }
+        else
+        {
+            return <section>
             {truck ? 
                 <section>
                     <div className="jumbotron theme-default">
@@ -99,10 +109,18 @@ class Truck extends Component {
                                                     PhotoURL: response.imageUrl
                                                 };
 
+                                                let photoURL = response.imageUrl;
+
                                                 await updateTruckPhoto(updatedTruck).then(response => {
                                                     if (response.Message === "Truck photo updated.") {
+                                                        let {
+                                                            Truck 
+                                                        } = this.state;
+
+                                                        Truck.PhotoURL = photoURL;
+
                                                         this.setState({
-                                                            PhotoURL: updatedTruck.PhotoURL
+                                                            Truck: Truck
                                                         });
                                                     }
                                                 });
@@ -151,7 +169,7 @@ class Truck extends Component {
                                                     </div>
                                                     <div className="item-content-primary">
                                                         <div className="content-text-primary">{Dictionary.MaximumWeight}</div>
-                                                        <div className="content-text-secondary">{`${truck.MaximumWeight} GVW`}</div>
+                                                        <div className="content-text-secondary">{`${truck.MaximumWeight} KG`}</div>
                                                     </div>
                                                 </div>
                                                 <div className="entity-list-item">
@@ -228,7 +246,8 @@ class Truck extends Component {
                                 <div className="col-md-12 col-md-pull-12">
                                     <div className="type-h3">{Dictionary.Truck}</div>
                                     <div className="type-sh3">{Dictionary.TruckSubtitle}</div>
-                                                    <p>{Dictionary.TruckDetails}</p>
+                                    <p>{Dictionary.TruckDetails}</p>
+                                    <p>{Dictionary.Tip}</p>
                                     <div className="btn-group">
                                         <button className="btn btn-primary"
                                             data-toggle="modal"
@@ -242,6 +261,7 @@ class Truck extends Component {
                     {showPreloader ? <Preloader /> : null}
                 </section>}
         </section>;
+        }
     }
 };
 
@@ -264,6 +284,7 @@ if (Language === "Arabic") {
         Truck: "شاحنة",
         TruckSubtitle: ".لم تقم بإضافة أي شاحنة حتى الآن",
         TruckDetails: ".ستؤدي إضافة شاحنتك إلى السماح للمتداولين أو الوسطاء بالاطلاع على التفاصيل المتعلقة بها. توفر التفاصيل الصحيحة والكاملة لشاحنتك فرصًا أكبر لتلقي طلبات العمل",
+        Tip: ".نصيحة: يجب أن تمتلك شاحنة من إحدى شركات النقل المسجلة في شركة نقل. لهذا السبب ، يجب أن تعرف اسم مستخدم مسؤول شركة النقل قبل إضافة الشاحنة",
         AddNow: "إضافة الآن"
     };
 }
@@ -279,6 +300,7 @@ else {
         Truck: "Truck",
         TruckSubtitle: "You have not added any truck yet.",
         TruckDetails: "Adding your truck will let the Traders or Brokers see details about your it. Valid and complete details of your truck make more chances for you to receive job requests.",
+        Tip: "TIP: You must possess a truck from one of the transport companies registered on Naqel. For this reason, you must know Transport Company Responsible's username before you add the truck.",
         AddNow: "Add Now"
     };
 }

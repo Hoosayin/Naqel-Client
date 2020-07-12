@@ -161,7 +161,7 @@ class TruckContainer extends Component {
                                                 </div>
                                                 <div class="item-content-primary">
                                                     <div class="content-text-primary">{Dictionary.MaximumWeight}</div>
-                                                    <div class="content-text-secondary">{`${truck.MaximumWeight} GVW`}</div>
+                                                    <div class="content-text-secondary">{`${truck.MaximumWeight} KG`}</div>
                                                 </div>
                                             </div>
                                         </div>

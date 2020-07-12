@@ -12,6 +12,8 @@ class AccountStatementTable extends Component {
             AccountStatement
         } = this.props;
 
+        console.log(AccountStatement);
+
         const transportCompany = AccountStatement.TransportCompany;
 
         let netAmount = 0.0;

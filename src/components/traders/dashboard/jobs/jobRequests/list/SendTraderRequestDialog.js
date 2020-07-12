@@ -263,7 +263,7 @@ if (Language === "Arabic") {
     Dictionary = {
         SendRequest: "ارسل طلب",
         CargoType: "نوع البضائع",
-        CargoWeight: "(وزن الشحنة (رطل",
+        CargoWeight: "(وزن البضائع (كغالعلامة",
         AcceptedDelay: "(التأخير المقبول (ساعات",
         LoadingDate: "تاريخ التحميل",
         LoadingTime: "وقت التحميل",
@@ -283,7 +283,7 @@ else {
     Dictionary = {
         SendRequest: "Send Request",
         CargoType: "Cargo Type",
-        CargoWeight: "Cargo Weight (lbs)",
+        CargoWeight: "Cargo Weight (KG)",
         AcceptedDelay: "Accepted Delay (Hours)",
         LoadingDate: "Loading Date",
         LoadingTime: "Loading Time",

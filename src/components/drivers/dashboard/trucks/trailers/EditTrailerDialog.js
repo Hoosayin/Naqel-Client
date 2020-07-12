@@ -202,7 +202,7 @@ let Dictionary;
 if (Language === "Arabic") {
     Dictionary = {
         EditTrailer: "تعديل المقطع الدعائي الخاص بك",
-        MaximumWeight: "الوزن الأقصى (GVW)",
+        MaximumWeight: "الوزن الأقصى (KG)",
         TrailerType: "نوع المقطورة",
         Update: "تحديث",
         MaximumWeightError1: ".مطلوب الوزن الأقصى",
@@ -214,7 +214,7 @@ if (Language === "Arabic") {
 else {
     Dictionary = {
         EditTrailer: "Edit Your Trailer",
-        MaximumWeight: "Maximum Weight (GVW)",
+        MaximumWeight: "Maximum Weight (KG)",
         TrailerType: "Trailer Type",
         Update: "Update",
         MaximumWeightError1: "Maximum Weight is required.",

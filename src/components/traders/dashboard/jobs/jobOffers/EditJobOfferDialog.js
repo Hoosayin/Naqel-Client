@@ -426,7 +426,7 @@ class EditJobOfferDialog extends Component {
                                             }} />
 
                                         <div className="text-right">
-                                            <input type="submit" value="Update" className="btn btn-primary" disabled={!ValidForm} />
+                                            <input type="submit" value={Dictionary.Update} className="btn btn-primary" disabled={!ValidForm} />
                                         </div>
                                     </div>
                                 </div>

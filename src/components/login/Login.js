@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { loginDriver } from "../drivers/DriverFunctions";
 import { loginTrader } from "../traders/TraderFunctions";
-import { loginAdministrator } from "../administrators/AdministratorFunctions";
 import { loginTransportCompanyResponsible } from "../transportCompanyResponsibles/TransportCompanyResponsiblesFunctions";
 import Preloader from "../../controls/Preloader";
+import jwt_decode from "jwt-decode";
 
 import {
     LoginCardBack,
@@ -40,6 +40,41 @@ class Login extends Component {
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        if (localStorage.Token) {
+            let token = jwt_decode(localStorage.Token);
+
+            if (token.DriverID) {
+                this.setState({
+                    LoggedInAsDriver: true,
+                    LoggedInAsTrader: false,
+                    LoggedInAsTCResponsible: false,
+                });
+            }
+            else if (token.TraderID) {
+                this.setState({
+                    LoggedInAsDriver: false,
+                    LoggedInAsTrader: true,
+                    LoggedInAsTCResponsible: false,
+                });
+            }
+            else if (token.TransportCompanyResponsibleID) {
+                this.setState({
+                    LoggedInAsDriver: false,
+                    LoggedInAsTrader: false,
+                    LoggedInAsTCResponsible: true,
+                });
+            }
+            else {
+                this.setState({
+                    LoggedInAsDriver: false,
+                    LoggedInAsTrader: false,
+                    LoggedInAsTCResponsible: false,
+                });
+            }
+        }
     }
 
     onChange = event => {
@@ -120,27 +155,6 @@ class Login extends Component {
                 }
             });
         }
-        else if (this.state.SignInAs === "Administrator") {
-            await loginAdministrator(user).then(response => {
-                if (response.Message === "Login successful.") {
-                    localStorage.setItem("Token", response.Token);
-
-                    this.setState({
-                        LoggedInAsAdministrator: true,
-                        Preloader: null
-                    });
-                }
-                else {
-                    this.setState({
-                        LoginError: <div>
-                            <label className="control-label text-danger">{response.Message}</label>
-                            <br />
-                        </div>,
-                        Preloader: null,
-                    });
-                }
-            });
-        }
         else if (this.state.SignInAs === "TC Responsible") {
             await loginTransportCompanyResponsible(user).then(response => {
                 if (response.Message === "Login successful.") {
@@ -191,9 +205,6 @@ class Login extends Component {
         }
         else if (this.state.LoggedInAsTrader) {
             return <Redirect to={"/traders"} />;
-        }
-        else if (this.state.LoggedInAsAdministrator) {
-            return <Redirect to={"/administrators"} />;
         }
         else if (this.state.LoggedInAsTCResponsible) {
             return <Redirect to={"/transportCompanyResponsibles"} />;
@@ -272,7 +283,7 @@ if (Language === "Arabic") {
         Driver: "سائق",
         Trader: "التاجر",
         Broker: "وسيط",
-        TCResponsible: "مسؤول التعاون الفني",
+        TCResponsible: "مسؤول شركة نقل",
         Administrator: "مدير",
         ForgotPassword: "هل نسيت كلمة المرور؟",
         NoAccount: "لا حساب؟",

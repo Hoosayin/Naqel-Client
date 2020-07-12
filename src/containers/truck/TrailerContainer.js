@@ -33,7 +33,7 @@ class TrailerContainer extends Component {
                                                 </div>
                                                 <div class="item-content-primary">
                                                     <div class="content-text-primary">{Dictionary.MaximumWeight}</div>
-                                                    <div class="content-text-secondary">{`${trailer.MaximumWeight} GVM`}</div>
+                                                    <div class="content-text-secondary">{`${trailer.MaximumWeight} KG`}</div>
                                                 </div>
                                             </div>
                                         </div>

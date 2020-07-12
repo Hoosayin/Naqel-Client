@@ -6,7 +6,6 @@ import Preloader from "../../controls/Preloader";
 import PhoneConfirmationDialog from "../../containers/phoneConfirmationDialog/PhoneConfirmationDialog";
 import { registerDriver } from "../drivers/DriverFunctions";
 import { registerTrader } from "../traders/TraderFunctions";
-import { registerAdministrator } from "../administrators/AdministratorFunctions";
 import { registerTransportCompanyResponsible } from "../transportCompanyResponsibles/TransportCompanyResponsiblesFunctions";
 
 import {
@@ -193,15 +192,6 @@ class Register extends Component {
 
             if (newUser.RegisterAs === "Driver") {
                 await registerDriver(newUser).then(response => {
-                    this.setState({
-                        ShowPreloader: false
-                    });
-
-                    this.handleResponse(response, newUser.RegisterAs);
-                });
-            }
-            else if (newUser.RegisterAs === "Administrator") {
-                await registerAdministrator(newUser).then(response => {
                     this.setState({
                         ShowPreloader: false
                     });
@@ -415,7 +405,7 @@ if (Language === "Arabic") {
         Driver: "سائق",
         Trader: "التاجر",
         Broker: "وسيط",
-        TCResponsible: "مسؤول التعاون الفني",
+        TCResponsible: "مسؤول شركة نقل",
         Administrator: "مدير",
         AgreeWithOur: "نتفق مع",
         TermsAndConditions: "الأحكام والشروط",

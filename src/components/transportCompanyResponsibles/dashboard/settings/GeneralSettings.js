@@ -18,7 +18,9 @@ class GeneralSettings extends Component {
             ValidPhoneNumber: true,
 
             ConfirmationResult: null,
+            OldPhoneCodeVerified: false,
             PhoneCodeVerified: false,
+            VerificationFor: "Old Phone Number",
 
             ValidForm: false,
             SettingsSaved: false,
@@ -151,7 +153,35 @@ class GeneralSettings extends Component {
             }
         }
 
-        if (this.state.PhoneCodeVerified) {
+        if (this.state.PhoneNumber !== this.state.OldPhoneNumber &&
+            !this.state.OldPhoneCodeVerified) {
+                const appVerifier = window.recaptchaVerifier;
+
+            FirebaseApp.auth().languageCode = "en";
+            FirebaseApp.auth().signInWithPhoneNumber(this.state.OldPhoneNumber, appVerifier).then(confirmationResult => {
+                this.setState({
+                    ShowPreloader: false,
+                    ConfirmationResult: confirmationResult,
+                    VerificationFor: "Old Phone Number"
+                });
+
+                this.SendCodeButton.click();
+            }).catch(error => {
+                let {
+                    Errors
+                } = this.state;
+
+                Errors.PhoneNumber = error.message;
+
+                this.setState({
+                    ShowPreloader: false,
+                    Errors: Errors,
+                    ValidForm: false,
+                });
+            });
+
+        }
+        else if (this.state.PhoneCodeVerified) {
             const updatedTransportCompanyResponsible = {
                 Token: localStorage.Token,
                 Name: this.state.Name,
@@ -180,7 +210,8 @@ class GeneralSettings extends Component {
             FirebaseApp.auth().signInWithPhoneNumber(this.state.PhoneNumber, appVerifier).then(confirmationResult => {
                 this.setState({
                     ShowPreloader: false,
-                    ConfirmationResult: confirmationResult
+                    ConfirmationResult: confirmationResult,
+                    VerificationFor: "New Phone Number"
                 });
 
                 this.SendCodeButton.click();
@@ -263,13 +294,22 @@ class GeneralSettings extends Component {
                 data-toggle="modal"
                 data-target="#phone-confirmation-dialog"
                 ref={sendCodeButton => this.SendCodeButton = sendCodeButton}></button>
-            <PhoneConfirmationDialog ConfirmationResult={ConfirmationResult}
-                PhoneNumber={this.state.PhoneNumber}
+            <PhoneConfirmationDialog ConfirmationResult={this.state.ConfirmationResult}
+                PhoneNumber={this.state.VerificationFor === "Old Phone Number" ? 
+                this.state.OldPhoneNumber : 
+            this.state.NewPhoneNumber}
                 OnOK={phoneCodeVerified => {
                     if (phoneCodeVerified) {
-                        this.setState({
-                            PhoneCodeVerified: true
-                        });
+                        if (this.state.VerificationFor === "Old Phone Number") {
+                            this.setState({
+                                OldPhoneCodeVerified: true,
+                            });
+                        }
+                        else {
+                            this.setState({
+                                PhoneCodeVerified: true
+                            });
+                        }
 
                         this.onSubmit();
                     }
@@ -278,7 +318,7 @@ class GeneralSettings extends Component {
                             Errors
                         } = this.state;
 
-                        Errors.PhoneNumber = Dictionary.CodeError;
+                        Errors.PhoneNumber = Dictionary.PhoneNumberError;
 
                         this.setState({
                             ValidForm: false,

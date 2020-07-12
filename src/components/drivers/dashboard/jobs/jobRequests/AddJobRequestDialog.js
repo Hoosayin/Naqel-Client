@@ -20,13 +20,13 @@ class AddJobRequestDialog extends Component {
                 Place: "4179 Ammar Bin Yasir St, Ghubairah, Riyadh 12664 7229, Saudi Arabia"
             },
             TripType: "One Way",
-            Price: 0.00,
-            WaitingTime: 0,
+            Price: 0,
+            WaitingTime: 48,
 
             ValidLoadingPlace: false,
             ValidUnloadingPlace: false,
             ValidPrice: false,
-            ValidWaitingTime: false,
+            ValidWaitingTime: true,
 
             ValidForm: false,
             ShowPreloader: false,

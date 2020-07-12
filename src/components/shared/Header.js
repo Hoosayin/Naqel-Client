@@ -46,9 +46,6 @@ class Header extends Component {
             else if (token.TraderID) {
                 dashboardRoute = "/traders";
             }
-            else if (token.AdministratorID) {
-                dashboardRoute = "/administrators";
-            }
             else if (token.TransportCompanyResponsibleID) {
                 dashboardRoute = "/transportCompanyResponsibles";
             }

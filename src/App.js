@@ -6,18 +6,18 @@ import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import CodeConfirmation from "./components/register/CodeConfirmation";
 import AccountSetup from "./components/register/AccountSetup";
-import SetupAdministratorAccount from "./components/register/SetupAdministratorAccount";
 import SetupTransportCompanyResponsibleAccount from "./components/register/SetupTransportCompanyResponsibleAccount";
 import Congratulations from "./components/register/Congratulations";
 import DriversDashboard from "./components/drivers/dashboard/DriversDashboard";
 import TradersDashboard from "./components/traders/dashboard/TradersDashboard";
-import AdministratorsDashboard from "./components/administrators/dashboard/AdministratorsDashboard";
 import TransportCompanyResponsiblesDashboard from "./components/transportCompanyResponsibles/dashboard/TransportComapanyResponsiblesDashboard";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import RecoverPassword from "./components/forgotPassword/RecoverPassword";
 import PasswordRecovered from "./components/forgotPassword/PasswordRecovered";
 import BackToTop from "./controls/BackToTop";
 import Footer from "./components/shared/Footer";
+import PageNotFoundContainer from "./containers/404/404";
+import jwt_decode from "jwt-decode";
 
 class App extends Component {
     render() {
@@ -28,7 +28,6 @@ class App extends Component {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/codeConfirmation" component={CodeConfirmation} />
                 <Route exact path="/setupAccount" component={AccountSetup} />
-                <Route exact path="/setupAdministratorAccount" component={SetupAdministratorAccount} />
                 <Route exact path="/setupTransportCompanyResponsibleAccount" component={SetupTransportCompanyResponsibleAccount} />
                 <Route exact path="/congratulations" component={Congratulations} />
                 <Route exact path="/login" component={Login} />
@@ -37,7 +36,6 @@ class App extends Component {
                 <Route exact path="/passwordRecovered" component={PasswordRecovered} />
                 <Route exact path="/drivers" component={DriversDashboard} />
                 <Route exact path="/traders" component={TradersDashboard} />
-                <Route exact path="/administrators" component={AdministratorsDashboard} />
                 <Route exact path="/transportCompanyResponsibles" component={TransportCompanyResponsiblesDashboard} />
                 <BackToTop />
                 <Footer />

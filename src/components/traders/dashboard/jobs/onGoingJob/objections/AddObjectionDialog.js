@@ -127,7 +127,7 @@ class AddObjectionDialog extends Component {
                                                         value={this.state.Reason} />
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>{Dictionary.Comment}t</label>
+                                                    <label>{Dictionary.Comment}</label>
                                                     <textarea rows="4" class="form-control" style={{ maxWidth: "100%" }} name="Comment"
                                                         value={this.state.Comment} onChange={this.onChange}></textarea>
                                                     <span className="text-danger">{this.state.Errors.Comment}</span>

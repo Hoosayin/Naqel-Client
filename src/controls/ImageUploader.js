@@ -15,6 +15,18 @@ class ImageUploader extends Component {
     }
 
     onImageUpload = event => {
+        this.setState({
+            UploadProgress: (
+                <div className="progress-bar">
+                    <div className="progress-circle"></div>
+                    <div className="progress-circle"></div>
+                    <div className="progress-circle"></div>
+                    <div className="progress-circle"></div>
+                    <div className="progress-circle"></div>
+                </div>
+            ),
+        });
+        
         this.state.Image = event.target.files[0];
 
         if (this.state.Image) {
@@ -41,17 +53,7 @@ class ImageUploader extends Component {
 
         axios.post(Strings.IMAGE_UPLOADER, formData, {
             onUploadProgress: event => {
-                this.setState({
-                    UploadProgress: (
-                        <div className="progress-bar">
-                            <div className="progress-circle"></div>
-                            <div className="progress-circle"></div>
-                            <div className="progress-circle"></div>
-                            <div className="progress-circle"></div>
-                            <div className="progress-circle"></div>
-                        </div>
-                    ),
-                });
+                // do nothing
             }
         }).then(async response => {
             this.props.OnImageUploaded(response.data);

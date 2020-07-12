@@ -213,14 +213,14 @@ class ForgotPassword extends Component {
                                         {this.state.RegisteredAs === "Driver" && <span>{Dictionary.Driver}</span>}
                                         {this.state.RegisteredAs === "Trader" && <span>{Dictionary.Trader}</span>}
                                         {this.state.RegisteredAs === "Broker" && <span>{Dictionary.Broker}</span>}
-                                        {this.state.RegisteredAs === "TC Responsible" && <span>TC Resposible</span>}
+                                        {this.state.RegisteredAs === "TC Responsible" && <span>{Dictionary.TCResponsible}</span>}
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-example">
-                                        <li><Link onClick={e => { this.state.RegisterAs = "Driver" }} onChange={this.onChange}>{Dictionary.Driver}</Link></li>
-                                        <li><Link onClick={e => { this.state.RegisterAs = "Trader" }} onChange={this.onChange}>{Dictionary.Trader}</Link></li>
-                                        <li><Link onClick={e => { this.state.RegisterAs = "Broker" }} onChange={this.onChange}>{Dictionary.Broker}</Link></li>
-                                        <li><Link onClick={e => { this.state.RegisterAs = "TC Responsible" }} onChange={this.onChange}>{Dictionary.TCResponsible}</Link></li>
+                                        <li><Link onClick={e => { this.state.RegisteredAs = "Driver" }} onChange={this.onChange}>{Dictionary.Driver}</Link></li>
+                                        <li><Link onClick={e => { this.state.RegisteredAs = "Trader" }} onChange={this.onChange}>{Dictionary.Trader}</Link></li>
+                                        <li><Link onClick={e => { this.state.RegisteredAs = "Broker" }} onChange={this.onChange}>{Dictionary.Broker}</Link></li>
+                                        <li><Link onClick={e => { this.state.RegisteredAs = "TC Responsible" }} onChange={this.onChange}>{Dictionary.TCResponsible}</Link></li>
                                     </ul>
                                 </div>
                             </div>
@@ -289,7 +289,7 @@ if (Language === "Arabic") {
         Driver: "سائق",
         Trader: "التاجر",
         Broker: "وسيط",
-        TCResponsible: "مسؤول التعاون الفني",
+        TCResponsible: "مسؤول شركة نقل",
         Next: "التالى",
         PhoneNumberError1: ".رقم الهاتف مطلوب",
         PhoneNumberError2: ".رقم الهاتف غير صالح",

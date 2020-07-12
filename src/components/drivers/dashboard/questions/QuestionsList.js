@@ -146,7 +146,7 @@ class QuestionsList extends Component {
             </nav>
 
             {(Questions.length === 0) ?
-                <SearchingContainer Searching={Searching} SearchingFor="questions" /> :
+                <SearchingContainer Searching={Searching} SearchingFor={Dictionary.Questions} /> :
                 <ol className="list-items m-n">
                     {Questions.map((question, index) => {
                         return <li key={index} className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>

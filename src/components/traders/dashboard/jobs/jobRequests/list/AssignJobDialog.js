@@ -79,7 +79,7 @@ class AssignJobDialog extends Component {
                                             <img alt="new.png" src="./images/new.png" height="80" />
                                             <div class="type-h4">{Dictionary.StartJobWith} <span class="color-default">{`${driver.FirstName} ${driver.LastName}`}</span>.</div>
                                             <div class="type-sh3">{Dictionary.YourAmountIs} <span class="color-default">{`${price} ${Strings.SAUDI_RIYAL}`}</span>.</div>
-                                            <p><span class="color-default">{Dictionary.ImportantNote}</span> {Dictionary.AfterThisStep} <span class="color-default">{`$${price}`}</span> {Dictionary.AfterCompletion}.</p>
+                                            <p><span class="color-default">{Dictionary.ImportantNote}</span> {Dictionary.AfterThisStep} <span class="color-default">{`${price} ${Strings.SAUDI_RIYAL}`}</span> {Dictionary.AfterCompletion}.</p>
                                             <div class="text-right">
                                                 <button class="btn btn-primary" onClick={this.onAssignNow}>{Dictionary.AssignNow}</button>
                                             </div>
