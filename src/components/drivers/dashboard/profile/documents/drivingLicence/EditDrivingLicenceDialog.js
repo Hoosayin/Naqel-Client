@@ -39,9 +39,9 @@ class EditDrivingLicenceDialog extends Component {
     }
 
     componentDidMount() {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "DrivingLicence"
             };
 
@@ -140,7 +140,7 @@ class EditDrivingLicenceDialog extends Component {
         }
 
         const updatedDrivingLicence = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             LicenceNumber: this.state.LicenceNumber,
             Type: this.state.Type,
             ReleaseDate: this.state.ReleaseDate,
@@ -258,7 +258,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

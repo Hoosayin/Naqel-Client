@@ -31,9 +31,9 @@ class ReasonsList extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "ObjectionReasons"
             };
 
@@ -101,7 +101,7 @@ class ReasonsList extends Component {
         });
 
         const newObjectionReason = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             Reason: this.state.NewReason
         };
 
@@ -177,7 +177,7 @@ class ReasonsList extends Component {
     }
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

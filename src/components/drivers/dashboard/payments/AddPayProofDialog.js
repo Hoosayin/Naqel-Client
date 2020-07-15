@@ -55,7 +55,7 @@ class AddPayProofDialog extends Component {
         }
 
         const newDriverPayProof = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             DriverBillID: this.props.DriverBillID,
             PhotoURL: this.state.PhotoURL
         };
@@ -154,7 +154,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

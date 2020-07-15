@@ -6,7 +6,7 @@ const Language = LangugageDispatcher.GetLanguage();
 
 class Landing extends Component {
     render() {
-        return <section dir={(!localStorage.Language || localStorage.Language === "English") ? "ltr" : "rtl"}>
+        return <section dir={(!sessionStorage.Language || sessionStorage.Language === "English") ? "ltr" : "rtl"}>
             <div class="jumbotron theme-alt" style={{ width: "100%", backgroundColor: "#202020" }}>
                 <div class="container">
                     <div class="row">

@@ -20,9 +20,9 @@ class Trailers extends Component {
     }
 
     onComponentUpdated() {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "Trailers"
             };
 

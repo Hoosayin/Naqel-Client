@@ -102,7 +102,7 @@ class SetupTransportCompanyResponsibleAccount extends Component {
             ShowPreloader: true
         });
 
-        const newUser = jwt_decode(localStorage.NewUserToken);
+        const newUser = jwt_decode(sessionStorage.NewUserToken);
 
         const newTransportCompanyResponsible = {
             Username: newUser.Username,
@@ -119,8 +119,8 @@ class SetupTransportCompanyResponsibleAccount extends Component {
             });
 
             if (response.Message === "Transport company responsible created.") {
-                localStorage.removeItem("NewUserToken");
-                localStorage.setItem("IsCreatedSuccessfully", true);
+                sessionStorage.removeItem("NewUserToken");
+                sessionStorage.setItem("IsCreatedSuccessfully", true);
 
                 this.props.history.push("/congratulations");
             }
@@ -128,7 +128,7 @@ class SetupTransportCompanyResponsibleAccount extends Component {
     }
 
     render() {
-        if (!localStorage.NewUserToken) {
+        if (!sessionStorage.NewUserToken) {
             return <Redirect to={"/register"} />;
         }
         else {
@@ -180,7 +180,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

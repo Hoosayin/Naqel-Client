@@ -59,7 +59,7 @@ const Map = props => {
     </GoogleMap>;
 }
 
-const MapWrapped = withScriptjs(withGoogleMap(Map));
+const MapWrapped = withGoogleMap(Map);
 
 const OnGoingJobMap = props => {
     return <div style={{ width: "100%", height: "100vh" }}>

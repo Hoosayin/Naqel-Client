@@ -133,7 +133,7 @@ class AccountSetup extends Component {
             ShowPreloader: true
         });
 
-        const newUserDecoded = jwt_decode(localStorage.NewUserToken);
+        const newUserDecoded = jwt_decode(sessionStorage.NewUserToken);
 
         const newUser = {
             Username: newUserDecoded.Username,
@@ -155,8 +155,8 @@ class AccountSetup extends Component {
                     ShowPreloader: false
                 });
 
-                localStorage.removeItem("NewUserToken");
-                localStorage.setItem("IsCreatedSuccessfully", true);
+                sessionStorage.removeItem("NewUserToken");
+                sessionStorage.setItem("IsCreatedSuccessfully", true);
                 this.props.history.push("/congratulations");
             });
         }
@@ -166,15 +166,15 @@ class AccountSetup extends Component {
                     ShowPreloader: false
                 });
 
-                localStorage.removeItem("NewUserToken");
-                localStorage.setItem("IsCreatedSuccessfully", true);
+                sessionStorage.removeItem("NewUserToken");
+                sessionStorage.setItem("IsCreatedSuccessfully", true);
                 this.props.history.push("/congratulations");
             });
         }
     }
 
     render() {
-        if (!localStorage.NewUserToken) {
+        if (!sessionStorage.NewUserToken) {
             this.props.history.push("/register");
             return <a />
         }
@@ -317,7 +317,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

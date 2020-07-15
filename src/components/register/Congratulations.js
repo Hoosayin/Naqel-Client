@@ -10,12 +10,12 @@ class EmailConfirmation extends Component {
 
     onSubmit = event => {
         event.preventDefault();
-        localStorage.removeItem("IsCreatedSuccessfully");
+        sessionStorage.removeItem("IsCreatedSuccessfully");
         this.props.history.push("/login");
     }
 
     render() {
-        if (!localStorage.IsCreatedSuccessfully) {
+        if (!sessionStorage.IsCreatedSuccessfully) {
             this.props.history.push("/register");
             return <a />
         }
@@ -44,7 +44,7 @@ class EmailConfirmation extends Component {
     }
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

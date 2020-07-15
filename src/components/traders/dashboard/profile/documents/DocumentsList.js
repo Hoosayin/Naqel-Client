@@ -29,9 +29,9 @@ class DocumentsList extends Component {
         let identityCard;
         let commercialRegisterCertificate;
 
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "IdentityCard"
             };
 
@@ -46,7 +46,7 @@ class DocumentsList extends Component {
                 }
 
                 request = {
-                    Token: localStorage.Token,
+                    Token: sessionStorage.Token,
                     Get: "CommercialRegisterCertificate"
                 };
 
@@ -104,7 +104,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

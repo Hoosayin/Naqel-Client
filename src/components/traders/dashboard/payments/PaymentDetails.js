@@ -23,9 +23,9 @@ class PaymentDetails extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "PaymentDetails",
                 Params: {
                     TraderBillID: this.props.TraderBillID
@@ -56,9 +56,9 @@ class PaymentDetails extends Component {
     };
 
     refresh = async () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "PaymentDetails",
                 Params: {
                     TraderBillID: this.props.TraderBillID

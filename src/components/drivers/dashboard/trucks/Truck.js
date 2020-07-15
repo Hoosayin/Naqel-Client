@@ -25,9 +25,9 @@ class Truck extends Component {
     }
 
     onComponentUpdated = () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "Truck"
             };
 
@@ -61,7 +61,7 @@ class Truck extends Component {
         });
 
         const discardedTruck = {
-            Token: localStorage.Token
+            Token: sessionStorage.Token
         };
 
         console.log(`Going to delete truck...`);
@@ -105,7 +105,7 @@ class Truck extends Component {
                                         OnImageUploaded={async response => {
                                             if (response.message === "Image uploaded successfully.") {
                                                 const updatedTruck = {
-                                                    Token: localStorage.Token,
+                                                    Token: sessionStorage.Token,
                                                     PhotoURL: response.imageUrl
                                                 };
 
@@ -269,7 +269,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

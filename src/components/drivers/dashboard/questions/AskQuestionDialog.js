@@ -67,7 +67,7 @@ class AskQuestionDialog extends Component {
         });
 
         const newQuestion = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             Question: this.state.Question
         };
 
@@ -141,7 +141,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

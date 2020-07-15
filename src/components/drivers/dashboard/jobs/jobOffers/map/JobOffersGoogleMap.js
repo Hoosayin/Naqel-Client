@@ -21,6 +21,7 @@ const JobOfferInfoWindow = props => {
 
 const Map = props => {
     const [SelectedJobOffer, SetSelectedJobOffer] = useState(null);
+    let MapReference;
 
     const {
         JobOfferPosts
@@ -51,12 +52,11 @@ const Map = props => {
     </GoogleMap>;
 }
 
-const MapWrapped = withScriptjs(withGoogleMap(Map));
+const MapWrapped = withGoogleMap(Map);
 
 const JobOffersGoogleMap = props => {
     return <div style={{ width: "100%", height: "100vh" }}>
         <MapWrapped
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${Strings.GOOGLE_API_KEY}`}
             loadingElement={<div style={{ height: `100%` }} />}
             containerElement={<div style={{ height: `100%` }} />}
             mapElement={<div style={{ height: `100%` }} />}
@@ -68,7 +68,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

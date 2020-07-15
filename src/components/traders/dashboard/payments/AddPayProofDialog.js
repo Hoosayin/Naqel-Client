@@ -55,7 +55,7 @@ class AddPayProofDialog extends Component {
         }
 
         const newTraderPayProof = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             TraderBillID: this.props.TraderBillID,
             PhotoURL: this.state.PhotoURL
         };

@@ -25,7 +25,7 @@ class DocumentsContainer extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
 
             this.setState({
                 Searching: true
@@ -56,7 +56,7 @@ class DocumentsContainer extends Component {
     };
 
     refresh = async () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
 
             let request = {
                 Get: "DriverDocuments",
@@ -100,7 +100,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

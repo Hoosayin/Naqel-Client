@@ -93,7 +93,7 @@ class EditTrailerDialog extends Component {
         }
 
         const updatedTrailer = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             TrailerID: this.props.Trailer.TrailerID,
             MaximumWeight: this.state.MaximumWeight,
             PhotoURL: this.state.PhotoURL,
@@ -196,7 +196,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

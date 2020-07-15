@@ -9,6 +9,7 @@ const Map = props => {
     const [UnloadingPlace, SetUnloadingPlace] = useState(props.UnloadingPlace);
 
     const {
+        Icon,
         OnLoadingPlacePicked,
         OnUnloadingPlacePicked
     } = props;
@@ -48,7 +49,7 @@ const Map = props => {
             }}
             name="Loading Place"
             icon={{
-                url: "./images/source.svg",
+                url: `./images/${Icon}.svg`,
                 scaledSize: new window.google.maps.Size(40, 40)
             }}
         />
@@ -101,6 +102,7 @@ const PlacePickerMap = props => {
             containerElement={<div style={{ height: `100%` }} />}
             mapElement={<div style={{ height: `100%` }} />}
             LoadingPlace={props.LoadingPlace}
+            Icon={props.Icon}
             UnloadingPlace={props.UnloadingPlace}
             OnLoadingPlacePicked={props.OnLoadingPlacePicked}
             OnUnloadingPlacePicked={props.OnUnloadingPlacePicked} />

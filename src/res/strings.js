@@ -1,4 +1,4 @@
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 const currencey = (!Language || Language === "English") ? "SR" : "ريال"; 
 
 module.exports = {

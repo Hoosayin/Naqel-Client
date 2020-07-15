@@ -25,9 +25,9 @@ class TruckJobs extends Component {
     }
 
     searchTruckJobs = async truckNumber => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "TruckJobs",
                 Params: {
                     TruckNumber: truckNumber
@@ -114,7 +114,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

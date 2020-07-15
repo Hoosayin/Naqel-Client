@@ -28,9 +28,9 @@ class CompletedJobsList extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "CompletedJobPackages"
             };
 
@@ -58,9 +58,9 @@ class CompletedJobsList extends Component {
     };
 
     refresh = async () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "CompletedJobPackages"
             };
 
@@ -193,7 +193,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

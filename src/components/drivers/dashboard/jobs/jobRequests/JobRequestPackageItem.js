@@ -23,7 +23,7 @@ class JobRequestPackageItem extends Component {
         });
 
         const discardedJobRequest = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             JobRequestID: jobRequestID
         };
 
@@ -133,7 +133,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

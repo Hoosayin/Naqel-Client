@@ -38,9 +38,9 @@ class UsernameAndEmailSettings extends Component {
     }
 
     async componentDidMount() {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "Driver"
             };
 
@@ -173,7 +173,7 @@ class UsernameAndEmailSettings extends Component {
         });
 
         const updatedDriver = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             Username: this.state.NewUsername,
             Email: this.state.NewEmail,
         };
@@ -265,7 +265,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

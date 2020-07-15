@@ -92,7 +92,7 @@ class AddTrailerDialog extends Component {
         }
 
         const newTrailer = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             MaximumWeight: this.state.MaximumWeight,
             PhotoURL: this.state.PhotoURL,
             Type: this.state.Type
@@ -194,7 +194,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

@@ -22,11 +22,11 @@ class Header extends Component {
     logOut = event => {
         event.preventDefault();
 
-        if (localStorage.userToken) {
-            localStorage.removeItem("userToken");
+        if (sessionStorage.userToken) {
+            sessionStorage.removeItem("userToken");
         }
-        else if (localStorage.Token) {
-            localStorage.removeItem("Token");
+        else if (sessionStorage.Token) {
+            sessionStorage.removeItem("Token");
         }
 
         this.props.history.push(`/login`);
@@ -37,8 +37,8 @@ class Header extends Component {
         let dashboardRoute;
         const Language = LanguageDispatcher.GetLanguage();
 
-        if (localStorage.Token) {
-            token = jwt_decode(localStorage.Token);
+        if (sessionStorage.Token) {
+            token = jwt_decode(sessionStorage.Token);
 
             if (token.DriverID) {
                 dashboardRoute = "/drivers";
@@ -101,7 +101,7 @@ class Header extends Component {
                             </div>
                             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                                 <ul className="nav navbar-nav"></ul>
-                                {localStorage.Token ? userLinks : loginRegisterLinks}
+                                {sessionStorage.Token ? userLinks : loginRegisterLinks}
                             </div>
                         </div>
                     </div>

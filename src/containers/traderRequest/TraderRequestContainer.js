@@ -108,7 +108,7 @@ class TraderRequestContainer extends Component {
     }
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

@@ -25,7 +25,7 @@ class AssignJobDialog extends Component {
         });
 
         const newOnGoingJob = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             TraderRequestID: this.props.TraderRequestID
         };
 
@@ -99,7 +99,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

@@ -27,7 +27,7 @@ class JobRequestPostListItem extends Component {
         });
 
         const discardedTraderRequest = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             JobRequestID: jobRequest.JobRequestID
         };
 
@@ -253,7 +253,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

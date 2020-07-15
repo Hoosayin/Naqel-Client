@@ -20,7 +20,7 @@ class JobOfferPostsList extends Component {
 
     onCancelRequest = async jobOffer => {
         const discardedDriverRequest = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             JobOfferID: jobOffer.JobOfferID
         };
 
@@ -47,7 +47,7 @@ class JobOfferPostsList extends Component {
         }
 
         const newDriverRequest = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             JobOfferID: jobOffer.JobOfferID,
             Price: null
         };
@@ -224,7 +224,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

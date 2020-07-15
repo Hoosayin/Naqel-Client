@@ -144,7 +144,7 @@ class Register extends Component {
     handleResponse = (response, registerAs) => {
         console.log(response);
         if (response.Message === "Token received.") {
-            localStorage.setItem("NewUserToken", response.Token);
+            sessionStorage.setItem("NewUserToken", response.Token);
 
             if (registerAs === "Administrator") {
                 this.props.history.push("/setupAdministratorAccount");
@@ -391,7 +391,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

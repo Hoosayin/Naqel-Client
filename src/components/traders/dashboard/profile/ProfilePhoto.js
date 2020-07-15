@@ -17,9 +17,9 @@ class ProfilePhoto extends Component {
     }
 
     async componentDidMount() {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "ProfilePhoto"
             };
 
@@ -64,7 +64,7 @@ class ProfilePhoto extends Component {
 
                 if (response.message === "Image uploaded successfully.") {
                     const traderProfilePhoto = {
-                        Token: localStorage.Token,
+                        Token: sessionStorage.Token,
                         PhotoURL: response.imageUrl,
                         FileName: response.filename
                     }

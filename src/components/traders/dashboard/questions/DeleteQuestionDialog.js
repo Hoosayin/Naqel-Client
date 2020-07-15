@@ -19,7 +19,7 @@ class DeleteQuestionDialog extends Component {
         });
 
         const discardedQuestion = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             TraderQuestionID: this.props.TraderQuestionID
         };
 
@@ -88,7 +88,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

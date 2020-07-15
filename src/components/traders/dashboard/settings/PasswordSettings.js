@@ -94,7 +94,7 @@ class PasswordSettings extends Component {
         });
 
         let passwordPackage = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             Password: this.state.CurrentPassword
         };
 
@@ -111,7 +111,7 @@ class PasswordSettings extends Component {
             }
             else {
                 const updatedTrader = {
-                    Token: localStorage.Token,
+                    Token: sessionStorage.Token,
                     Password: this.state.NewPassword
                 };
 
@@ -216,7 +216,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

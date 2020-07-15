@@ -23,9 +23,9 @@ class BillsList extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "Bills"
             };
 

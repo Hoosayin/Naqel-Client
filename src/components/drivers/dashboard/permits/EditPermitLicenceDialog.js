@@ -106,7 +106,7 @@ class EditPermitLicenceDialog extends Component {
         }
 
         const updatedPermitLicence = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             PermitLicenceID: this.props.PermitLicence.PermitLicenceID,
             PermitNumber: this.state.PermitNumber,
             ExpiryDate: this.state.ExpiryDate,
@@ -225,7 +225,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

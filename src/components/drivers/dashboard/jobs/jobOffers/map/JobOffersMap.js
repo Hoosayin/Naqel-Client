@@ -25,9 +25,9 @@ class JobOffersMap extends Component {
     }
 
     onComponentUpdated = () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "JobOfferPosts"
             };
 
@@ -53,9 +53,9 @@ class JobOffersMap extends Component {
     };
 
     refresh = () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "JobOfferPosts"
             };
 

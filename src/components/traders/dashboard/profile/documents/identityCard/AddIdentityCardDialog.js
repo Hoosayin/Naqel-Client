@@ -82,7 +82,7 @@ class AddIdentityCardDialog extends Component {
         }
 
         const newIdentityCard = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             IDNumber: this.state.IDNumber,
             PhotoURL: this.state.PhotoURL
         };
@@ -178,7 +178,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

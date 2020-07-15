@@ -33,9 +33,9 @@ class DocumentsList extends Component {
         let entryExitCard;
         let identityCard;
 
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "DrivingLicence"
             };
 
@@ -48,7 +48,7 @@ class DocumentsList extends Component {
                 }
 
                 request = {
-                    Token: localStorage.Token,
+                    Token: sessionStorage.Token,
                     Get: "EntryExitCard"
                 };
 
@@ -61,7 +61,7 @@ class DocumentsList extends Component {
                     }
 
                     request = {
-                        Token: localStorage.Token,
+                        Token: sessionStorage.Token,
                         Get: "IdentityCard"
                     };
 
@@ -137,7 +137,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

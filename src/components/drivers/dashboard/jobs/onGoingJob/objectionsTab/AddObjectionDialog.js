@@ -77,7 +77,7 @@ class AddObjectionDialog extends Component {
         });
 
         const newJobObjection = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             OnGoingJobID: this.props.OnGoingJobID,
             Reason: this.state.Reason,
             Comment: this.state.Comment
@@ -162,7 +162,7 @@ class AddObjectionDialog extends Component {
     }
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

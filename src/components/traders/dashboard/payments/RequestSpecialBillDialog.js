@@ -69,7 +69,7 @@ class RequestSpecialBillDialog extends Component {
         });
 
         const requestedSpecialBill = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             TraderBillID: this.props.TraderBill.TraderBillID,
             Amount: this.state.Price
         };

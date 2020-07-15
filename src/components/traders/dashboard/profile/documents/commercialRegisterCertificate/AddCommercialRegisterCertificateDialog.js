@@ -74,7 +74,7 @@ class AddCommercialRegisterCertificateDialog extends Component {
         }
 
         const newCommercialRegisterCertificate = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             Type: this.state.Type,
             PhotoURL: this.state.PhotoURL
         };
@@ -167,7 +167,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

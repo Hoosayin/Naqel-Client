@@ -27,9 +27,9 @@ class DriversDashboard extends Component {
     }
 
     async componentDidMount() {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "DashboardData"
             };
 
@@ -55,10 +55,10 @@ class DriversDashboard extends Component {
     }
 
     render() {
-        if (!localStorage.Token) {
+        if (!sessionStorage.Token) {
             return <Redirect to={"/login"} />;
         }
-        else if (!jwt_decode(localStorage.Token).DriverID) {
+        else if (!jwt_decode(sessionStorage.Token).DriverID) {
             return <PageNotFoundContainer />;
         }
         else {
@@ -175,7 +175,7 @@ class DriversDashboard extends Component {
     }
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

@@ -151,7 +151,7 @@ class AddTruckDialog extends Component {
         }
 
         let request = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             Get: "Owner",
             Params: {
                 Owner: this.state.Owner
@@ -168,7 +168,7 @@ class AddTruckDialog extends Component {
                 });
 
                 const newTruck = {
-                    Token: localStorage.Token,
+                    Token: sessionStorage.Token,
                     TransportCompanyResponsibleID: response.Owner.TransportCompanyResponsibleID,
                     PlateNumber: this.state.PlateNumber,
                     Owner: response.Owner.Username,
@@ -326,7 +326,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

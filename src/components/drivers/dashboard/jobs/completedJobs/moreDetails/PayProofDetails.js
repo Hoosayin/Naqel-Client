@@ -24,7 +24,7 @@ class PayProofDetails extends Component {
         });
 
         let approvedTraderPayProof = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             TraderPayProofID: this.props.PayProof.TraderPayProofID
         };
 
@@ -77,7 +77,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

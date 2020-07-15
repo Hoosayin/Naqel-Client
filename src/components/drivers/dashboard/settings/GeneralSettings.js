@@ -53,9 +53,9 @@ class GeneralSettings extends Component {
             }
         });
 
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "Driver"
             };
 
@@ -208,7 +208,7 @@ class GeneralSettings extends Component {
         }
         else if (this.state.PhoneCodeVerified) {
             const updatedDriver = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 FirstName: this.state.FirstName,
                 LastName: this.state.LastName,
                 Address: this.state.Address,
@@ -455,7 +455,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

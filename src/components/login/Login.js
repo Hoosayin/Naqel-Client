@@ -43,8 +43,8 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        if (localStorage.Token) {
-            let token = jwt_decode(localStorage.Token);
+        if (sessionStorage.Token) {
+            let token = jwt_decode(sessionStorage.Token);
 
             if (token.DriverID) {
                 this.setState({
@@ -137,7 +137,7 @@ class Login extends Component {
             await loginDriver(user).then(response => {
                 console.log(response);
                 if (response.Message === "Login successful.") {
-                    localStorage.setItem("Token", response.Token);
+                    sessionStorage.setItem("Token", response.Token);
 
                     this.setState({
                         LoggedInAsDriver: true,
@@ -158,7 +158,7 @@ class Login extends Component {
         else if (this.state.SignInAs === "TC Responsible") {
             await loginTransportCompanyResponsible(user).then(response => {
                 if (response.Message === "Login successful.") {
-                    localStorage.setItem("Token", response.Token);
+                    sessionStorage.setItem("Token", response.Token);
 
                     this.setState({
                         LoggedInAsTCResponsible: true,
@@ -179,7 +179,7 @@ class Login extends Component {
         else {
             await loginTrader(user).then(response => {
                 if (response.Message === "Login successful.") {
-                    localStorage.setItem("Token", response.Token);
+                    sessionStorage.setItem("Token", response.Token);
 
                     this.setState({
                         LoggedInAsTrader: true,
@@ -272,7 +272,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

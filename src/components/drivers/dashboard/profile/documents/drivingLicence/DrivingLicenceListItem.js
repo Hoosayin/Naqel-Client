@@ -28,7 +28,7 @@ class DrivingLicenceListItem extends Component {
         });
 
         const discardedDrivingLicence = {
-            Token: localStorage.Token
+            Token: sessionStorage.Token
         };
 
         console.log(`Going to delete Driving Licence...`);
@@ -49,9 +49,9 @@ class DrivingLicenceListItem extends Component {
     }
 
     onComponentUpdated = () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "DrivingLicence"
             };
 
@@ -245,7 +245,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

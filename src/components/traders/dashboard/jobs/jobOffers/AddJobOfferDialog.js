@@ -1,6 +1,6 @@
 ﻿import React, { Component } from "react";
 import Preloader from "../../../../../controls/Preloader.js";
-import PlacePicker from "../../../../../controls/PlacePicker";
+import LocationPicker from "../../../../../controls/LocationPicker";
 import Strings from "../../../../../res/strings";
 import { addJobOffer } from "../../../TraderFunctions.js";
 
@@ -179,7 +179,7 @@ class AddJobOfferDialog extends Component {
         }
 
         const newJobOffer = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             TripType: this.state.TripType,
             CargoType: this.state.CargoType,
             CargoWeight: this.state.CargoWeight,
@@ -403,19 +403,30 @@ class AddJobOfferDialog extends Component {
                                             </div>
                                         </div>
 
-                                        <PlacePicker
-                                            LoadingPlace={LoadingPlace}
-                                            UnloadingPlace={UnloadingPlace}
-                                            OnLoadingPlacePicked={loadingPlace => {
-                                                this.setState({
-                                                    LoadingPlace: loadingPlace
-                                                });
-                                            }}
-                                            OnUnloadingPlacePicked={unloadingPlace => {
-                                                this.setState({
-                                                    UnloadingPlace: unloadingPlace
-                                                });
-                                            }} />
+                                        <div className="row p-t-xxs">
+                                            <div className="col-md-12">
+                                                <LocationPicker
+                                                    Label="Loading Place"
+                                                    Icon="source"
+                                                    Location={LoadingPlace}
+                                                    OnLocationPicked={location => {
+                                                        this.setState({
+                                                            LoadingPlace: location
+                                                        });
+                                                    }} />
+                                            </div>
+                                            <div className="col-md-12">
+                                                <LocationPicker
+                                                    Label="Unloading Place"
+                                                    Icon="destination"
+                                                    Location={UnloadingPlace}
+                                                    OnLocationPicked={location => {
+                                                        this.setState({
+                                                            UnloadingPlace: location
+                                                        });
+                                                    }} />
+                                            </div>
+                                        </div>
 
                                         <div className="text-right">
                                             <input type="submit" value={Dictionary.Add} className="btn btn-primary" disabled={!ValidForm} />
@@ -435,7 +446,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

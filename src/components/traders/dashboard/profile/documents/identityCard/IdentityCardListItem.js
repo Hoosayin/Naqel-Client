@@ -27,7 +27,7 @@ class IdentityCardListItem extends Component {
         });
 
         let discardedIdentityCard = {
-            Token: localStorage.Token
+            Token: sessionStorage.Token
         };
 
         console.log(`Going to delete Identity Card.`);
@@ -49,9 +49,9 @@ class IdentityCardListItem extends Component {
     }
 
     onRefresh = () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "IdentityCard"
             };
 
@@ -204,7 +204,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

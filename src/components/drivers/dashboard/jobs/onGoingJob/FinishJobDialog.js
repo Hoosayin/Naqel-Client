@@ -19,7 +19,7 @@ class FinishJobDialog extends Component {
         });
 
         const finishedJob = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
         }
 
         console.log("Going to finish the job...");
@@ -92,7 +92,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

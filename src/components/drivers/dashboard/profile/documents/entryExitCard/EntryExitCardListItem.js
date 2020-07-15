@@ -28,7 +28,7 @@ class EntryExitCardListItem extends Component {
         });
 
         const discardedEntryExitCard = {
-            Token: localStorage.Token
+            Token: sessionStorage.Token
         };
 
         console.log(`Going to delete Exit/Entry card.`);
@@ -49,9 +49,9 @@ class EntryExitCardListItem extends Component {
     }
 
     onComponentUpdated = () => {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "EntryExitCard"
             };
 
@@ -233,7 +233,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

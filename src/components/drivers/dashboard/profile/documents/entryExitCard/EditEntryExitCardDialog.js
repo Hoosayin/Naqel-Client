@@ -32,9 +32,9 @@ class EditEntryExitCardDialog extends Component {
     }
 
     componentDidMount() {
-        if (localStorage.Token) {
+        if (sessionStorage.Token) {
             let request = {
-                Token: localStorage.Token,
+                Token: sessionStorage.Token,
                 Get: "EntryExitCard"
             };
 
@@ -132,7 +132,7 @@ class EditEntryExitCardDialog extends Component {
         }
 
         const updatedEntryExitCard = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             EntryExitNumber: this.state.EntryExitNumber,
             Type: this.state.Type,
             ReleaseDate: this.state.ReleaseDate,
@@ -242,7 +242,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

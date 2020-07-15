@@ -14,10 +14,10 @@ class TransportCompanyResponsiblesDashboard extends Component {
     }
 
     render() {
-        if (!localStorage.Token) {
+        if (!sessionStorage.Token) {
             return <Redirect to={"/login"} />;
         }
-        else if (!jwt_decode(localStorage.Token).TransportCompanyResponsibleID) {
+        else if (!jwt_decode(sessionStorage.Token).TransportCompanyResponsibleID) {
             return <PageNotFoundContainer />;
         }
         else {
@@ -71,7 +71,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

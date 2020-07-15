@@ -105,7 +105,7 @@ class AddDrivingLicenceDialog extends Component {
         }
 
         const newDrivingLicence = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             LicenceNumber: this.state.LicenceNumber,
             Type: this.state.Type,
             ReleaseDate: this.state.ReleaseDate,
@@ -223,7 +223,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

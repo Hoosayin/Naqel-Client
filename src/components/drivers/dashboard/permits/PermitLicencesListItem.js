@@ -24,7 +24,7 @@ class PermitLicenceListItem extends Component {
         });
 
         const discardedPermitLicence = {
-            Token: localStorage.Token,
+            Token: sessionStorage.Token,
             PermitLicenceID: permitLicenceID
         };
 
@@ -173,7 +173,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = localStorage.Language;
+const Language = sessionStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
