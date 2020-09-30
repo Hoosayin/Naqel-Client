@@ -24,9 +24,9 @@ class Profile extends Component {
     }
 
     async componentDidMount() {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "Trader"
             };
 
@@ -140,7 +140,7 @@ class Profile extends Component {
                                                     <span className="fas fa-birthday-cake color-default"></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">{Dictionary.Birthday}</div>
+                                                    <div className="content-text-primary">{Dictionary.DateofBirth}</div>
                                                     <div className="content-text-secondary">{this.state.DateOfBirth}</div>
                                                 </div>
                                             </div>
@@ -197,7 +197,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -209,7 +209,7 @@ if (Language === "Arabic") {
         Username: "اسم المستخدم",
         Email: "البريد الإلكتروني",
         Details: "تفاصيل",
-        Birthday: "عيد الميلاد",
+        DateofBirth: "عيد الميلاد",
         Gender: "جنس",
         Nationality: "الجنسية",
         Address: "عنوان"
@@ -224,7 +224,7 @@ else {
         Username: "Username",
         Email: "Email",
         Details: "Details",
-        Birthday: "Birthday",
+        DateofBirth: "Date of Birth",
         Gender: "Gender",
         Nationality: "Nationality",
         Address: "Address"

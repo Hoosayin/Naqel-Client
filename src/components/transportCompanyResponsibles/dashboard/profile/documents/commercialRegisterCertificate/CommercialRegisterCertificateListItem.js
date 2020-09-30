@@ -20,7 +20,7 @@ class CommercialRegisterCertificateListItem extends Component {
         });
 
         let discardedCommercialRegisterCertificate = {
-            Token: sessionStorage.Token
+            Token: localStorage.Token
         };
 
         await deleteCommercialRegisterCertificate(discardedCommercialRegisterCertificate).then(response => {
@@ -166,7 +166,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

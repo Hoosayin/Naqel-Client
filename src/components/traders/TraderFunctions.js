@@ -248,6 +248,9 @@ export const addJobOffer = async newJobOffer => {
         TripType: newJobOffer.TripType,
         CargoType: newJobOffer.CargoType,
         CargoWeight: newJobOffer.CargoWeight,
+        DriverNationalities: newJobOffer.DriverNationalities,
+        TruckTypes: newJobOffer.TruckTypes,
+        TruckSizes: newJobOffer.TruckSizes,
         LoadingPlace: newJobOffer.LoadingPlace,
         LoadingLat: newJobOffer.LoadingLat,
         LoadingLng: newJobOffer.LoadingLng,
@@ -260,6 +263,7 @@ export const addJobOffer = async newJobOffer => {
         Price: newJobOffer.Price,
         WaitingTime: newJobOffer.WaitingTime,
         AcceptedDelay: newJobOffer.AcceptedDelay,
+        PermitType: newJobOffer.PermitType,
         JobOfferType: newJobOffer.JobOfferType
     }, {
         headers: { Authorization: `JWT ${newJobOffer.Token}` }
@@ -275,6 +279,9 @@ export const updateJobOffer = async updatedJobOffer => {
         TripType: updatedJobOffer.TripType,
         CargoType: updatedJobOffer.CargoType,
         CargoWeight: updatedJobOffer.CargoWeight,
+        DriverNationalities: updatedJobOffer.DriverNationalities,
+        TruckTypes: updatedJobOffer.TruckTypes,
+        TruckSizes: updatedJobOffer.TruckSizes,
         LoadingPlace: updatedJobOffer.LoadingPlace,
         LoadingLat: updatedJobOffer.LoadingLat,
         LoadingLng: updatedJobOffer.LoadingLng,
@@ -287,6 +294,7 @@ export const updateJobOffer = async updatedJobOffer => {
         Price: updatedJobOffer.Price,
         WaitingTime: updatedJobOffer.WaitingTime,
         AcceptedDelay: updatedJobOffer.AcceptedDelay,
+        PermitType: updatedJobOffer.PermitType,
         JobOfferType: updatedJobOffer.JobOfferType
     }, {
         headers: { Authorization: `JWT ${updatedJobOffer.Token}` }

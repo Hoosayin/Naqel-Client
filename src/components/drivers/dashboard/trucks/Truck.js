@@ -25,9 +25,9 @@ class Truck extends Component {
     }
 
     onComponentUpdated = () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "Truck"
             };
 
@@ -61,7 +61,7 @@ class Truck extends Component {
         });
 
         const discardedTruck = {
-            Token: sessionStorage.Token
+            Token: localStorage.Token
         };
 
         console.log(`Going to delete truck...`);
@@ -105,7 +105,7 @@ class Truck extends Component {
                                         OnImageUploaded={async response => {
                                             if (response.message === "Image uploaded successfully.") {
                                                 const updatedTruck = {
-                                                    Token: sessionStorage.Token,
+                                                    Token: localStorage.Token,
                                                     PhotoURL: response.imageUrl
                                                 };
 
@@ -269,14 +269,14 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         PlateNumber: "رقم لوحة",
-        Owner: "صاحب",
-        ProductionYear: "سنة الإنتاج",
+        Owner: "اسم مالك الشاحنة",
+        ProductionYear: "سنة الصنع",
         MaximumWeight: "الوزن الأقصى",
         DeleteTruck: "حذف الشاحنة",
         Delete: "حذف",

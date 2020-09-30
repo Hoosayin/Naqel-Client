@@ -25,9 +25,9 @@ class TruckJobs extends Component {
     }
 
     searchTruckJobs = async truckNumber => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "TruckJobs",
                 Params: {
                     TruckNumber: truckNumber
@@ -73,8 +73,7 @@ class TruckJobs extends Component {
                             <div className="type-h4 color-default">{Dictionary.Searching}</div>
                             <ProgressBar />
                         </div> : <div className="text-center p-xxs">
-                                <div className="type-h4"><span className="fas fa-exclamation-triangle m-r-xxs m-l-xxs"
-                                    style={{ color: "#FFBF15" }}></span>{Dictionary.NoJobsFound}.</div>
+                                <div className="type-h4"><span className="fas fa-search m-r-xxs m-l-xxs"></span>{Dictionary.NoJobsFound}.</div>
                             </div>}
                     </div>
                 </div>
@@ -114,14 +113,14 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         Searching: "يبحث",
-        NoJobsFound: "لا توجد وظائف شاحنة لعرضها. ابحث في الشاحنة عن طريق الرقم لعرض وظائفها",
-        SearchJobs: "بحث وظائف",
+        NoJobsFound: "لا توجد أوامر العمل , الرجاء البحث ",
+        SearchJobs: "بحث بامر العمل",
         CancelSearch: "إلغاء البحث", 
     };
 }

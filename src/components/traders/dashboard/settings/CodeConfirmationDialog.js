@@ -58,7 +58,7 @@ class CodeConfirmationDialog extends Component {
         }
 
         const updatedTrader = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             Username: this.props.Username,
             Email: this.props.Email,
         };

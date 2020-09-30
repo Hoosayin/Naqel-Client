@@ -43,12 +43,12 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        AddCRCertificate: "CR إضافة شهادة"
+        AddCRCertificate: "إضافة شهادة السجل التجاري"
     };
 }
 else {
@@ -56,6 +56,5 @@ else {
         AddCRCertificate: "Add CR Certificate"
     };
 }
-
 
 export default AddCommercialRegisterCertificateButton;

@@ -8,7 +8,7 @@ class TruckSettings extends Component {
 
         this.state = {
             PlateNumber: "",
-            Owner: "",
+            Owner: "Anonymous Owner",
             ProductionYear: "",
             Brand: "",
             Model: "",
@@ -42,9 +42,9 @@ class TruckSettings extends Component {
     }
 
     componentDidMount() {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "Truck"
             };
 
@@ -105,12 +105,12 @@ class TruckSettings extends Component {
                     break;
                 }
 
-                ValidPlateNumber = (value >= 100 && value <= 999);
+                ValidPlateNumber = value.match(/^(?:[A-Z][A-Z-][A-Z]-[0-9]{4})$/);
                 Errors.PlateNumber = ValidPlateNumber ? "" : Dictionary.PlateNumberError2;
                 break;
             case "Owner":
-                ValidOwner = (value !== "");
-                Errors.Owner = ValidOwner ? "" : "Owner is required.";
+                //ValidOwner = (value !== "");
+                //Errors.Owner = ValidOwner ? "" : "Owner is required.";
                 break;
             case "ProductionYear":
                 let currentYear = new Date().getFullYear();
@@ -156,7 +156,7 @@ class TruckSettings extends Component {
         }, () => {
             this.setState({
                 ValidForm: this.state.ValidPlateNumber &&
-                    this.state.ValidOwner &&
+                    //this.state.ValidOwner &&
                     this.state.ValidProductionYear &&
                     this.state.ValidBrand &&
                     this.state.ValidModel &&
@@ -174,7 +174,7 @@ class TruckSettings extends Component {
         }
 
         let request = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             Get: "Owner",
             Params: {
                 Owner: this.state.Owner
@@ -182,16 +182,16 @@ class TruckSettings extends Component {
         };
 
         await getData(request).then(async response => {
-            if (response.Message === "Owner found.") {
+            if (response || response.Message === "Owner found.") {
                 this.setState({
                     Preloader: <Preloader />
                 });
 
                 const updatedTruck = {
-                    Token: sessionStorage.Token,
-                    TransportCompanyResponsibleID: response.Owner.TransportCompanyResponsibleID,
+                    Token: localStorage.Token,
+                    TransportCompanyResponsibleID: response.Owner ? response.Owner.TransportCompanyResponsibleID : null,
                     PlateNumber: this.state.PlateNumber,
-                    Owner: response.Owner.Username,
+                    Owner: response.Owner ? response.Owner.Username : this.state.Owner,
                     ProductionYear: this.state.ProductionYear,
                     Brand: this.state.Brand,
                     Model: this.state.Model,
@@ -242,7 +242,7 @@ class TruckSettings extends Component {
                             </div>
                             <div className="item-content-secondary">
                                 <div className="form-group">
-                                    <input type="number" name="PlateNumber" className="form-control" autocomplete="off"
+                                    <input type="text" name="PlateNumber" placeholder="ABC-1234" className="form-control" autocomplete="off"
                                         value={this.state.PlateNumber} onChange={this.onChange} />
                                 </div>
                             </div>
@@ -366,39 +366,39 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         TruckSettings: "إعدادات الشاحنة",
         PlateNumber: "رقم لوحة",
-        Owner: "صاحب",
-        ProductionYear: "سنة الإنتاج",
+        Owner: "اسم مالك الشاحنة",
+        ProductionYear: "سنة الصنع",
         Brand: "العلامة التجارية",
-        TruckModel: "نموذج الشاحنة",
+        TruckModel: "موديل الشاحنة",
         TruckType: "نوع الشاحنة",
         MaximumWeight: "الوزن الأقصى (KG)",
         SaveChanges: "حفظ التغييرات؟",
-        Undone: ".هذا لا يمكن التراجع عنها",
+        Undone: ". لا يمكن التراجع عنها",
         Save: "حفظ",
         PlateNumberError1: ".رقم اللوحة مطلوب",
-        PlateNumberError2: ".يجب أن يتكون رقم اللوحة من 3 أرقام",
+        PlateNumberError2: ".(ABC-1234 :يجب أن يتكون رقم اللوحة من 3 أحرف وأربعة أرقام فقط (مثال",
         OwnerError: ".لم يتم العثور على المالك",
-        ProductionYearError: ".يجب ألا تتجاوز سنة الإنتاج السنة الحالية",
+        ProductionYearError: ".يجب ان لا تتجاوز سنةالصنع السنة الحالية",
         BrandError: ".العلامة التجارية مطلوبة",
-        ModelError: ".النموذج مطلوب",
-        TypeError: ".النوع مطلوب",
+        ModelError: ".موديل الشاحنة مطلوب",
+        TypeError: ".نوع الشاحنة مطلوب",
         MaximumWeightError1: ".مطلوب الوزن الأقصى",
         MaximumWeightError2: ".يجب أن يكون الوزن الأقصى أكبر من 699",
-        PhotoURLError: ".صورة غير صالحة. يرجى تحميل واحد صحيح",
+        PhotoURLError: ". صورة غير صالحه يرجى تحميل الصورة مره اخرى ",
     };
 }
 else {
     Dictionary = {
         TruckSettings: "Truck Settings",
         PlateNumber: "Plate Number",
-        Owner: "Owner",
+        Owner: "Owner Username",
         ProductionYear: "Production Year",
         Brand: "Brand",
         TruckModel: "Truck Model",
@@ -408,7 +408,7 @@ else {
         Undone: "This cannot be undone.",
         Save: "Save",
         PlateNumberError1: "Plate number is required.",
-        PlateNumberError2: "Plate number must be 3-digits long.",
+        PlateNumberError2: "Plate number must have only 3 letters and 4-digits (Example: ABC-1234).",
         OwnerError: "Owner not found.",
         ProductionYearError: "Production year must not exceed current year.",
         BrandError: "Brand is required.",

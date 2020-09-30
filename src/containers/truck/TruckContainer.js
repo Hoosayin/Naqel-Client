@@ -23,7 +23,7 @@ class TruckContainer extends Component {
     }
 
    onComponentUpdated = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
 
             this.setState({
                 Searching: true
@@ -59,7 +59,7 @@ class TruckContainer extends Component {
     };
 
     refresh = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
 
             let request = {
                 Get: "TruckProfile",
@@ -188,7 +188,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

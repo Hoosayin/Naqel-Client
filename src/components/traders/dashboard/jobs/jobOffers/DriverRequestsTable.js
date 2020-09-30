@@ -22,14 +22,14 @@ class DriverRequestsTable extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
 
             this.setState({
                 Searching: true
             });
 
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "DriverRequestPackages",
                 Params: {
                     JobOfferID: this.props.JobOfferID
@@ -56,10 +56,10 @@ class DriverRequestsTable extends Component {
     };
 
     refresh = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
 
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "DriverRequests",
                 Params: {
                     JobOfferID: this.props.JobOfferID
@@ -124,13 +124,13 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         Requests: "الطلبات",
-        Bids: "العطاءات",
+        Bids: "العروضات",
         Number: "رقم",
         Driver: "سائق",
         RequestedOn: "مطلوب على",

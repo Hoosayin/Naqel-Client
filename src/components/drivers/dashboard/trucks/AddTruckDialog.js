@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Preloader from "../../../../controls/Preloader";
-import { Required } from "../../../../styles/MiscellaneousStyles";
 import ImageUploader from "../../../../controls/ImageUploader";
 import { getData, addTruck } from "../../DriverFunctions";
 
@@ -10,7 +9,7 @@ class AddTruckDialog extends Component {
 
         this.state = {
             PlateNumber: "",
-            Owner: "",
+            Owner: "Anonymous Owner",
             ProductionYear: "",
             Brand: "",
             Model: "",
@@ -76,12 +75,12 @@ class AddTruckDialog extends Component {
                     break;
                 }
 
-                ValidPlateNumber = (value >= 100 && value <= 999);
+                ValidPlateNumber = value.match(/^(?:[A-Z][A-Z-][A-Z]-[0-9]{4})$/);
                 Errors.PlateNumber = ValidPlateNumber ? "" : Dictionary.PlateNumberError2;
                 break;
             case "Owner":
-                ValidOwner = (value !== "");
-                Errors.Owner = ValidOwner ? "" : "Owner is required.";
+                //ValidOwner = (value !== "");
+                //Errors.Owner = ValidOwner ? "" : "Owner is required.";
                 break;
             case "ProductionYear":
                 let currentYear = new Date().getFullYear();
@@ -132,7 +131,7 @@ class AddTruckDialog extends Component {
         }, () => {
                 this.setState({
                     ValidForm: this.state.ValidPlateNumber &&
-                        this.state.ValidOwner &&
+                        //this.state.ValidOwner &&
                         this.state.ValidProductionYear &&
                         this.state.ValidBrand &&
                         this.state.ValidModel &&
@@ -151,7 +150,7 @@ class AddTruckDialog extends Component {
         }
 
         let request = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             Get: "Owner",
             Params: {
                 Owner: this.state.Owner
@@ -159,19 +158,17 @@ class AddTruckDialog extends Component {
         };
 
         await getData(request).then(async response => {
-            console.log(response);
-
-            if (response.Message === "Owner found.") {
+            if (response || response.Message === "Owner found.") {
                 
                 this.setState({
                     ShowPreloader: true
                 });
 
                 const newTruck = {
-                    Token: sessionStorage.Token,
-                    TransportCompanyResponsibleID: response.Owner.TransportCompanyResponsibleID,
+                    Token: localStorage.Token,
+                    TransportCompanyResponsibleID: response.Owner ? response.Owner.TransportCompanyResponsibleID : null,
                     PlateNumber: this.state.PlateNumber,
-                    Owner: response.Owner.Username,
+                    Owner: response.Owner ? response.Owner.Username : this.state.Owner,
                     ProductionYear: this.state.ProductionYear,
                     Brand: this.state.Brand,
                     Model: this.state.Model,
@@ -256,13 +253,12 @@ class AddTruckDialog extends Component {
                                                         <div className="form-group">
                                                             <label className="control-label">{Dictionary.PlateNumber}</label>
                                                             <span className="text-danger m-l-xxxs">*</span>
-                                                            <input type="number" name="PlateNumber" className="form-control" autoComplete="off"
+                                                            <input type="text" name="PlateNumber" placeholder="ABC-1234" className="form-control" autoComplete="off"
                                                                 value={this.state.PlateNumber} onChange={this.onChange} />
                                                             <span className="text-danger">{this.state.Errors.PlateNumber}</span>
                                                         </div>
                                                         <div className="form-group">
                                                             <label className="control-label">{Dictionary.Owner}</label>
-                                                            <span className="text-danger m-l-xxxs">*</span>
                                                             <input type="text" name="Owner" className="form-control" autoComplete="off"
                                                                 value={this.state.Owner} onChange={this.onChange} />
                                                             <span className="text-danger">{this.state.Errors.Owner}</span>
@@ -326,37 +322,37 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         AddTruck: "إضافة شاحنة",
         PlateNumber: "رقم لوحة",
-        Owner: "صاحب",
-        ProductionYear: "سنة الإنتاج",
+        Owner: "اسم مالك الشاحنة",
+        ProductionYear: "سنة الصنع",
         Brand: "العلامة التجارية",
-        TruckModel: "نموذج الشاحنة",
+        TruckModel: "موديل الشاحنة ",
         TruckType: "نوع الشاحنة",
         MaximumWeight: "الوزن الأقصى (KG)",
         Add: "أضف",
         PlateNumberError1: ".رقم اللوحة مطلوب",
-        PlateNumberError2: ".يجب أن يتكون رقم اللوحة من 3 أرقام",
+        PlateNumberError2: ".(ABC-1234 :يجب أن يتكون رقم اللوحة من 3 أحرف وأربعة أرقام فقط (مثال",
         OwnerError: ".لم يتم العثور على المالك",
-        ProductionYearError: ".يجب ألا تتجاوز سنة الإنتاج السنة الحالية",
+        ProductionYearError: ".نطاق سنة الإنتاج 2000 إلى العام الحالي",
         BrandError: ".العلامة التجارية مطلوبة",
-        ModelError: ".النموذج مطلوب",
-        TypeError: ".النوع مطلوب",
+        ModelError: ".موديل الشاحنة مطلوب",
+        TypeError: ".نوع الشاحنة مطلوب",
         MaximumWeightError1: ".مطلوب الوزن الأقصى",
         MaximumWeightError2: ".يجب أن يكون الوزن الأقصى أكبر من 699",
-        PhotoURLError: ".صورة غير صالحة. يرجى تحميل واحد صحيح",
+        PhotoURLError: ". صورة غير صالحه يرجى تحميل الصورة مره اخرى ",
     };
 }
 else {
     Dictionary = {
         AddTruck: "Add Truck",
         PlateNumber: "Plate Number",
-        Owner: "Owner",
+        Owner: "Owner Username",
         ProductionYear: "Production Year",
         Brand: "Brand",
         TruckModel: "Truck Model",
@@ -364,9 +360,9 @@ else {
         MaximumWeight: "Maximum Weight (KG)",
         Add: "Add",
         PlateNumberError1: "Plate number is required.",
-        PlateNumberError2: "Plate number must be 3-digits long.",
+        PlateNumberError2: "Plate number must have only 3 letters and 4-digits (Example: ABC-1234).",
         OwnerError: "Owner not found.",
-        ProductionYearError: "Production year must not exceed current year.",
+        ProductionYearError: "Production year range is 2000 to present year.",
         BrandError: "Brand is required.",
         ModelError: "Model is required.",
         TypeError: "Type is required",

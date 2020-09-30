@@ -74,13 +74,13 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         TruckJobs: "وظائف الشاحنات",
-        SearchTruckNumber: "رقم شاحنة البحث",
+        SearchTruckNumber: "البحث برقم الشاحنة",
     };
 }
 else {

@@ -82,20 +82,20 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        NoBillingDetails: "لم يتم العثور على تفاصيل الفوترة",
-        Naqel: "نا قل",
-        Date: "تاريخ",
+        NoBillingDetails: "لم يتم العثور على تفاصيل الفواتير",
+        Naqel: "ناقل",
+        Date: "التاريخ",
         BillNumber: "رقم الفاتوره",
         Paid: "دفع؟",
         FeeRate: "معدل الرسوم",
         PayMethod: "طريقة الدفع",
         RecipientCharges: "رسوم المتلقي",
-        NaqelCharges: "تهم نا قل",
+        NaqelCharges: "رسوم فريق ناقل",
         Amount: "كمية",
         Total: "مجموع"
     };

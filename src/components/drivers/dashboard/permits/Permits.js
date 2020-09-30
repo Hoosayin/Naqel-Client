@@ -72,14 +72,14 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        PermitLicences: "تصاريح التراخيص",
+        PermitLicences: "التراخيص",
         PermitLicencesSubtitle: ".إذا كنت سائقًا غير سعودي ، فيجب أن يكون لديك رخصة واحدة على الأقل",
-        NewPermitLicence: "رخصة تصريح جديدة",
+        NewPermitLicence: "رخصة سير جديدة",
     };
 }
 else {

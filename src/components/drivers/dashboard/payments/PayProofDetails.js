@@ -24,7 +24,7 @@ class PayProofDetails extends Component {
         });
 
         let discardedDriverPayProof = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             DriverPayProofID: this.props.PayProof.DriverPayProofID
         };
 

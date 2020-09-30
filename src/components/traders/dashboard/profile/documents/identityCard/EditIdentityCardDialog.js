@@ -30,13 +30,13 @@ class EditIdentityCardDialog extends Component {
     }
 
     componentDidMount() {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             this.setState({
                 Preloader: <Preloader />
             });
 
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "IdentityCard"
             };
 
@@ -115,7 +115,7 @@ class EditIdentityCardDialog extends Component {
         }
 
         const updatedIdentityCard = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             IDNumber: this.state.IDNumber,
             PhotoURL: this.state.PhotoURL,
         }
@@ -211,7 +211,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

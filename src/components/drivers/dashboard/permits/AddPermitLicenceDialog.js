@@ -113,7 +113,7 @@ class AddPermitLicenceDialog extends Component {
         }
 
         const newPermitLicence = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             PermitNumber: this.state.PermitNumber,
             ExpiryDate: this.state.ExpiryDate,
             PhotoURL: this.state.PhotoURL,
@@ -255,7 +255,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

@@ -25,9 +25,9 @@ class AccountStatement extends Component {
     }
 
     searchTruckAccountStatement = async truckNumber => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "TruckAccountStatement",
                 Params: {
                     TruckNumber: truckNumber
@@ -73,8 +73,7 @@ class AccountStatement extends Component {
                             <div className="type-h4 color-default">{Dictionary.Searching}</div>
                             <ProgressBar />
                         </div> : <div className="text-center p-xxs">
-                                <div className="type-h4"><span className="fas fa-exclamation-triangle m-r-xxs m-l-xxs"
-                                    style={{ color: "#FFBF15" }}></span>{Dictionary.NoAccountStatementFound}.</div>
+                                <div className="type-h4"><span className="fas fa-search m-r-xxs m-l-xxs"></span>{Dictionary.NoAccountStatementFound}.</div>
                             </div>}
                     </div>
                 </div>
@@ -131,7 +130,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

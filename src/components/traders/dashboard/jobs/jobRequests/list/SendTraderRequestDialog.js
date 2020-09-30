@@ -130,7 +130,7 @@ class SendTraderRequestDialog extends Component {
         }
 
         const newTraderRequest = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             JobRequestID: this.props.JobRequest.JobRequestID,
             CargoType: this.state.CargoType,
             CargoWeight: this.state.CargoWeight,
@@ -256,7 +256,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

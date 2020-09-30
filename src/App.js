@@ -16,7 +16,9 @@ import RecoverPassword from "./components/forgotPassword/RecoverPassword";
 import PasswordRecovered from "./components/forgotPassword/PasswordRecovered";
 import BackToTop from "./controls/BackToTop";
 import Footer from "./components/shared/Footer";
-import PageNotFoundContainer from "./containers/404/404";
+import TraderBill from "./components/traders/dashboard/payments/TraderBill";
+import TraderSpecialBill from "./components/traders/dashboard/payments/TraderSpecialBill";
+import DriverBill from "./components/drivers/dashboard/payments/DriverBill";
 import jwt_decode from "jwt-decode";
 
 class App extends Component {
@@ -37,6 +39,9 @@ class App extends Component {
                 <Route exact path="/drivers" component={DriversDashboard} />
                 <Route exact path="/traders" component={TradersDashboard} />
                 <Route exact path="/transportCompanyResponsibles" component={TransportCompanyResponsiblesDashboard} />
+                <Route exact path="/traderBill:Bill" component={TraderBill} />
+                <Route exact path="/traderSpecialBill:Bill" component={TraderSpecialBill} />
+                <Route exact path="/driverBill:Bill" component={DriverBill} />
                 <BackToTop />
                 <Footer />
             </div>

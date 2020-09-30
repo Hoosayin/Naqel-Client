@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import Preloader from "../../controls/Preloader";
 import { setupTransportCompanyResponsibleAccount } from "../transportCompanyResponsibles/TransportCompanyResponsiblesFunctions";
+import { validateEmail } from "../shared/UserFunctions";
 
 import {
     AccountSetupCardBack,
@@ -102,7 +103,9 @@ class SetupTransportCompanyResponsibleAccount extends Component {
             ShowPreloader: true
         });
 
-        const newUser = jwt_decode(sessionStorage.NewUserToken);
+        await validateEmail(this.state.Email).then(async response => {
+            if (response.Message === "Email is valid.") {
+                const newUser = jwt_decode(localStorage.NewUserToken);
 
         const newTransportCompanyResponsible = {
             Username: newUser.Username,
@@ -119,16 +122,29 @@ class SetupTransportCompanyResponsibleAccount extends Component {
             });
 
             if (response.Message === "Transport company responsible created.") {
-                sessionStorage.removeItem("NewUserToken");
-                sessionStorage.setItem("IsCreatedSuccessfully", true);
+                localStorage.removeItem("NewUserToken");
+                localStorage.setItem("IsCreatedSuccessfully", true);
 
                 this.props.history.push("/congratulations");
+            }
+        });
+            }
+            else {
+                let errors = this.state.Errors;
+                errors.Email = "Email is already taken.";
+
+                this.setState({
+                    Errors: errors,
+                    ShowPreloader: false,
+                    ValidForm: false,
+                    ValidEmail: false,
+                });
             }
         });
     }
 
     render() {
-        if (!sessionStorage.NewUserToken) {
+        if (!localStorage.NewUserToken) {
             return <Redirect to={"/register"} />;
         }
         else {
@@ -180,7 +196,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -189,7 +205,7 @@ if (Language === "Arabic") {
         CreateAccountSubtitle: "!فقط خطوة أخرى ، لقد انتهيت",
         Email: "البريد الإلكتروني",
         CompanyName: "اسم الشركة",
-        Create: "خلق",
+        Create: "انشاء",
         CompanyNameError1: ".اسم الشركة مطلوب",
         CompanyNameError2: ".اسم الشركة غير صالح",
         EmailError1: ".البريد الالكتروني مطلوب",

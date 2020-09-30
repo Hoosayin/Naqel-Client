@@ -92,7 +92,7 @@ class ForgotPassword extends Component {
 
     handleResponse = (response, forgotPasswordPackage) => {
         if (response.Message === "Phone number is already used.") {
-            sessionStorage.setItem("ForgotPasswordPackageToken", JSON.stringify(forgotPasswordPackage));
+            localStorage.setItem("ForgotPasswordPackageToken", JSON.stringify(forgotPasswordPackage));
             this.props.history.push("/recoverPassword");
         }
         else {
@@ -278,7 +278,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

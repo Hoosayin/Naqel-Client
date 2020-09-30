@@ -77,7 +77,7 @@ class ReviewDialog extends Component {
         });
 
         const newDriverReview = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             CompletedJobID: this.props.CompletedJobID,
             Rating: this.state.Rating,
             Review: this.state.Review
@@ -166,7 +166,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

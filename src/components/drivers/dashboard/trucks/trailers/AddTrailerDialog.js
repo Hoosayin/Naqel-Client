@@ -92,7 +92,7 @@ class AddTrailerDialog extends Component {
         }
 
         const newTrailer = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             MaximumWeight: this.state.MaximumWeight,
             PhotoURL: this.state.PhotoURL,
             Type: this.state.Type
@@ -194,18 +194,18 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        AddTrailer: "إضافة مقطع دعائي جديد",
+        AddTrailer: "إضافة مقطورة",
         MaximumWeight: "الوزن الأقصى (KG)",
         TrailerType: "نوع المقطورة",
         Add: "أضف",
         MaximumWeightError1: ".مطلوب الوزن الأقصى",
         MaximumWeightError2: ".يجب أن يكون الوزن الأقصى أكبر من 699",
-        PhotoURLError: ".صورة غير صالحة. يرجى تحميل واحد صحيح",
+        PhotoURLError: ". صورة غير صالحه يرجى تحميل الصورة مره اخرى ",
         TypeError: ".النوع مطلوب",
     };
 }

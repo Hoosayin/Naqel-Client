@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import CountryList from "iso-3166-country-list";
 import Preloader from "../../../../../controls/Preloader.js";
 import LocationPicker from "../../../../../controls/LocationPicker";
 import Strings from "../../../../../res/strings";
 import { updateJobOffer } from "../../../TraderFunctions.js";
+import { getPublicData } from "../../../../shared/UserFunctions";
 
 class EditJobOfferDialog extends Component {
     constructor(props) {
@@ -26,9 +28,13 @@ class EditJobOfferDialog extends Component {
             TripType: JobOffer.TripType,
             CargoType: JobOffer.CargoType,
             CargoWeight: JobOffer.CargoWeight,
+            DriverNationalities: JobOffer.DriverNationalities,
+            TruckTypes: JobOffer.TruckTypes,
+            TruckSizes: JobOffer.TruckSizes, 
             LoadingDate: JobOffer.LoadingDate,
             LoadingTime: JobOffer.LoadingTime,
             AcceptedDelay: JobOffer.AcceptedDelay,
+            PermitType: JobOffer.PermitType,
             Price: JobOffer.Price,
             WaitingTime: JobOffer.WaitingTime,
             JobOfferType: JobOffer.JobOfferType,
@@ -43,6 +49,10 @@ class EditJobOfferDialog extends Component {
             ValidAcceptedDelay: true,
             ValidPrice: true,
             ValidWaitingTime: true,
+
+            TruckTypesList: [],
+            TruckSizesList: [],
+            WaitingTimesList: [],
 
             ValidForm: false,
             ShowPreloader: null,
@@ -62,6 +72,61 @@ class EditJobOfferDialog extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.validateField = this.validateField.bind(this);
+    }
+
+    async componentDidMount () {
+        if (localStorage.Token) {
+            let request = {
+                Get: "TruckTypes"
+            };
+
+            await getPublicData(request).then(response => {
+                if (response.Message === "Truck types found.") {
+                    this.setState({
+                        TruckTypesList: response.TruckTypes
+                    });
+                }
+                else {
+                    this.setState({
+                        TruckTypesList: []
+                    });
+                }
+            });
+
+            request = {
+                Get: "TruckSizes"
+            };
+
+            await getPublicData(request).then(response => {
+                if (response.Message === "Truck sizes found.") {
+                    this.setState({
+                        TruckSizesList: response.TruckSizes
+                    });
+                }
+                else {
+                    this.setState({
+                        TruckSizesList: []
+                    });
+                }
+            });
+
+            request = {
+                Get: "WaitingTimes"
+            };
+
+            await getPublicData(request).then(response => {
+                if (response.Message === "Waiting times found.") {
+                    this.setState({
+                        WaitingTimesList: response.WaitingTimes
+                    });
+                }
+                else {
+                    this.setState({
+                        WaitingTimesList: []
+                    });
+                }
+            });
+        }
     }
 
     onChange = event => {
@@ -186,11 +251,14 @@ class EditJobOfferDialog extends Component {
         });
 
         const updatedJobOffer = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             JobOfferID: this.props.JobOffer.JobOfferID,
             TripType: this.state.TripType,
             CargoType: this.state.CargoType,
             CargoWeight: this.state.CargoWeight,
+            DriverNationalities: this.state.DriverNationalities,
+            TruckTypes: this.state.TruckTypes,
+            TruckSizes: this.state.TruckSizes,
             LoadingPlace: this.state.LoadingPlace.Place,
             LoadingLat: this.state.LoadingPlace.Lat,
             LoadingLng: this.state.LoadingPlace.Lng,
@@ -202,6 +270,7 @@ class EditJobOfferDialog extends Component {
             EntryExit: this.state.EntryExit,
             Price: this.state.Price,
             WaitingTime: this.state.WaitingTime,
+            PermitType: this.state.PermitType,
             AcceptedDelay: this.state.AcceptedDelay,
             JobOfferType: this.state.JobOfferType
         };
@@ -225,11 +294,15 @@ class EditJobOfferDialog extends Component {
             TripType,
             CargoType,
             CargoWeight,
+            DriverNationalities,
+            TruckSizes,
+            TruckTypes,
             LoadingDate,
             LoadingTime,
             AcceptedDelay,
             Price,
             WaitingTime,
+            PermitType,
             JobOfferType,
             EntryExit,
             ValidCargoType,
@@ -242,6 +315,9 @@ class EditJobOfferDialog extends Component {
             ValidForm,
             ShowPreloader,
             Errors,
+            TruckSizesList,
+            TruckTypesList,
+            WaitingTimesList,
         } = this.state;
 
         const {
@@ -335,10 +411,27 @@ class EditJobOfferDialog extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="control-label">{Dictionary.WaitingTime}</label>
-                                                    <span className="text-danger m-l-xxxs">*</span>
-                                                    <input type="number" min="48" name="WaitingTime"
-                                                        className="form-control" autoComplete="off" value={WaitingTime} onChange={this.onChange} />
-                                                    <span className="text-danger">{Errors.WaitingTime}</span>
+                                                    <select class="form-control"
+                                                    value={WaitingTime}
+                                                    style={{
+                 width: "100%",
+                    maxWidth: "296px",
+                    minWidth: "88px"
+                }}
+                onChange={event => {
+                    this.setState({
+                        WaitingTime: event.target.value
+                    });
+                }}>
+                {WaitingTimesList.map((waitingTime, index) => {
+                    return <option key={index} value={waitingTime.WaitingTime}>{waitingTime.WaitingTime}</option>;
+                })}
+            </select>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="control-label">{Dictionary.PermitType}</label>
+                                                    <input type="text" name="PermitType" className="form-control" autoComplete="off"
+                                                        value={PermitType} onChange={this.onChange} />
                                                 </div>
                                                 <div className="form-group">
                                                     <button type="button" data-toggle="button" className={JobOfferType === "Fixed-Price" ? 
@@ -392,6 +485,117 @@ class EditJobOfferDialog extends Component {
                                         </div>
 
                                         <div className="row p-t-xxs">
+                                            <div className="col-md-8">
+                                            <div class="form-group">
+                                                <label className="control-label">{Dictionary.DriverNationalities}</label>
+            <select multiple class="form-control" 
+            style={{
+                width: "100%",
+                maxWidth: "296px",
+                minWidth: "88px"
+            }}
+            onChange={event => {
+                let driverNationalities = "|";
+                let options = event.target.options;
+
+                for (let option of options) {              
+                  if (option.selected) {
+                    driverNationalities += ` ${option.value || option.text} |`;
+                  }
+                }
+
+                this.setState({
+                    DriverNationalities: driverNationalities
+                });
+            }}>
+                <option value="Any Naitonality" selected>Any Nationality</option>
+                {CountryList.names.map((name, index) => {
+                    return <option key={index} value={name}>{name}</option>;
+                })}
+            </select>
+            <label className="control-label p-xxxs"
+                                            style={{
+                                                width: "100%",
+                                                maxWidth: "296px",
+                                                minWidth: "88px"
+                                            }}>{DriverNationalities}</label>
+        </div>
+                                            </div>
+                                            <div className="col-md-8">
+                                            <div class="form-group">
+                                                <label className="control-label">{Dictionary.TruckSizes}</label>
+            <select multiple class="form-control" 
+            style={{
+                width: "100%",
+                maxWidth: "296px",
+                minWidth: "88px"
+            }}
+            onChange={event => {
+                let truckSizes = "|";
+                let options = event.target.options;
+
+                for (let option of options) {              
+                  if (option.selected) {
+                    truckSizes += ` ${option.value || option.text} |`;
+                  }
+                }
+
+                this.setState({
+                    TruckSizes: truckSizes
+                });
+            }}>
+                <option value="Any Truck Size" selected>Any Truck Size</option>
+                {TruckSizesList.map((truckSize, index) => {
+                    return <option key={index} value={`${truckSize.TruckSize} KG`}>{`${truckSize.TruckSize} KG`}</option>;
+                })}
+            </select>
+            <label className="control-label p-xxxs"
+                                            style={{
+                                                width: "100%",
+                                                maxWidth: "296px",
+                                                minWidth: "88px"
+                                            }}>{TruckSizes}</label>
+        </div>
+                                            </div>
+                                            <div className="col-md-8">
+                                            <div class="form-group">
+                                                <label className="control-label">{Dictionary.TruckTypes}</label>
+            <select multiple class="form-control" 
+            style={{
+                width: "100%",
+                maxWidth: "296px",
+                minWidth: "88px"
+            }}
+            onChange={event => {
+                let truckTypes = "|";
+                let options = event.target.options;
+
+                for (let option of options) {              
+                  if (option.selected) {
+                    truckTypes += ` ${option.value || option.text} |`;
+                  }
+                }
+
+                this.setState({
+                    TruckTypes: truckTypes
+                });
+            }}>
+                <option value="Any Truck Type" selected>Any Truck Type</option>
+                {TruckTypesList.map((truckType, index) => {
+                    return <option key={index} value={truckType.TruckType}>{truckType.TruckType}</option>;
+                })}
+            </select>
+            <label className="control-label p-xxxs"
+                                            style={{
+                                                width: "100%",
+                                                maxWidth: "296px",
+                                                minWidth: "88px"
+                                            }}>{TruckTypes}</label>
+        </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row p-t-xxs">
                                             <div className="col-md-12">
                                                 <LocationPicker
                                                     Label="Loading Place"
@@ -434,7 +638,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -444,13 +648,13 @@ if (Language === "Arabic") {
         OneWay: "اتجاه واحد",
         TwoWay: "اتجاهين",
         CargoType: "نوع البضائع",
-        CargoWeight: "(وزن الشحنة (رطل",
+        CargoWeight: "(وزن البضائع (كغالعلامة",
         LoadingDate: "تاريخ التحميل",
         LoadingTime: "وقت التحميل",
         AcceptedDelay: "(التأخير المقبول (ساعات",
         Price: "السعر",
         WaitingTime: "(وقت الانتظار (ساعات",
-        AuctionableJobOffer: "عرض عمل قابل للمزاد",
+        AuctionableJobOffer: "عرض عمل قابل للمزايدة",
         FixedPriceJobOffer: "عرض عمل بسعر ثابت",
         EntryExit: "الدخول / الخروج",
         NoEntryExit: "لا دخول / خروج",
@@ -466,7 +670,11 @@ if (Language === "Arabic") {
         PriceError1: ".السعر مطلوب",
         PriceError2: ".يجب أن يكون السعر أكثر من 0 ريال",
         WaitingTimeError1: ".مطلوب وقت الانتظار",
-        WaitingTimeError2: ".يجب أن يكون وقت الانتظار أكثر من 47 ساعة"
+        WaitingTimeError2: ".يجب أن يكون وقت الانتظار أكثر من 47 ساعة",
+        PermitType: "نوع التصريح",
+        DriverNationalities: "جنسيات السائقين",
+        TruckTypes: "أنواع الشاحنات",
+        TruckSizes: "أحجام الشاحنات",
     };
 }
 else {
@@ -476,7 +684,7 @@ else {
         OneWay: "One Way",
         TwoWay: "Two Way",
         CargoType: "Cargo Type",
-        CargoWeight: "Cargo Weight (lbs)",
+        CargoWeight: "Cargo Weight (KG)",
         LoadingDate: "Loading Date",
         LoadingTime: "Loading Time",
         AcceptedDelay: "Accepted Delay (Hours)",
@@ -498,7 +706,11 @@ else {
         PriceError1: "Price is required.",
         PriceError2: "Price must be more than 0 SR.",
         WaitingTimeError1: "Waiting time is required.",
-        WaitingTimeError2: "Waiting time must be more than 47 hours."
+        WaitingTimeError2: "Waiting time must be more than 47 hours.",
+        PermitType: "Permit Type",
+        DriverNationalities: "Driver Nationalities",
+        TruckTypes: "Truck Types",
+        TruckSizes: "Truck Sizes",
     };
 }
 

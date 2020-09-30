@@ -27,9 +27,9 @@ class DriversDashboard extends Component {
     }
 
     async componentDidMount() {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "DashboardData"
             };
 
@@ -55,10 +55,10 @@ class DriversDashboard extends Component {
     }
 
     render() {
-        if (!sessionStorage.Token) {
+        if (!localStorage.Token) {
             return <Redirect to={"/login"} />;
         }
-        else if (!jwt_decode(sessionStorage.Token).DriverID) {
+        else if (!jwt_decode(localStorage.Token).DriverID) {
             return <PageNotFoundContainer />;
         }
         else {
@@ -175,15 +175,15 @@ class DriversDashboard extends Component {
     }
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        Jobs: "وظائف",
+        Jobs: "أوامر العمل",
         Trucks: "الشاحنات",
-        Permits: "تسمح",
-        Earnings: "أرباح",
+        Permits: "التصاريح",
+        Earnings: "التحصيل",
         Payments: "المدفوعات",
         AccountStatement: "كشف حساب",
         Questions: "الأسئلة",

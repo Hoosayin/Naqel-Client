@@ -23,7 +23,7 @@ class JobOfferPackageItem extends Component {
         });
 
         const discardedJobOffer = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             JobOfferID: jobOfferID
         };
 
@@ -137,7 +137,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -145,7 +145,7 @@ if (Language === "Arabic") {
         Edit: "تعديل",
         Delete: "حذف",
         DriverRequests: "طلبات السائق",
-        DriverBids: "عطاءات السائق",
+        DriverBids: "عروض السائق",
         DeleteMessage: "هل أنت متأكد أنك تريد حذف عرض العمل هذا؟",
     };
 }

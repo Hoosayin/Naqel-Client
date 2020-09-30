@@ -20,7 +20,7 @@ class JobOfferPostsList extends Component {
 
     onCancelRequest = async jobOffer => {
         const discardedDriverRequest = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             JobOfferID: jobOffer.JobOfferID
         };
 
@@ -47,7 +47,7 @@ class JobOfferPostsList extends Component {
         }
 
         const newDriverRequest = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             JobOfferID: jobOffer.JobOfferID,
             Price: null
         };
@@ -224,18 +224,18 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         CancelRequest: "إلغاء الطلب",
         CancelBid: "إلغاء العطاء",
-        SendRequest: "ارسل طلب",
+        SendRequest: "ارسل الطلب",
         Bid: "المناقصة",
         RequestSent: "تم ارسال الطلب",
         AlreadyBade: "قاعدة بالفعل",
-        PostedBy: "منشور من طرف",
+        PostedBy: "تم نشره بواسطة",
         PostedOn: "نشر على",
         YourBidPrice: "سعر العرض الخاص بك",
         Price: "السعر",

@@ -103,7 +103,7 @@ class AddJobRequestDialog extends Component {
         });
 
         const newJobRequest = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             LoadingPlace: this.state.LoadingPlace.Place,
             LoadingLat: this.state.LoadingPlace.Lat,
             LoadingLng: this.state.LoadingPlace.Lng,
@@ -241,12 +241,12 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        AddJobRequest: "إضافة طلب وظيفة",
+        AddJobRequest: "إضافة طلب عمل",
         LoadingPlace: "مكان التحميل",
         UnloadingPlace: "مكان التفريغ",
         TripType: "نوع الرحلة",

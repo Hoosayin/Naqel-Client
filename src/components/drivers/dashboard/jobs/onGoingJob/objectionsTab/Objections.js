@@ -23,9 +23,9 @@ class Objections extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "JobObjections",
                 Params: {
                     OnGoingJobID: this.props.OnGoingJobID
@@ -54,9 +54,9 @@ class Objections extends Component {
     };
 
     refresh = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "JobObjections",
                 Params: {
                     OnGoingJobID: this.props.OnGoingJobID
@@ -121,15 +121,15 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        JobObjections: "اعتراضات الوظيفة",
+        JobObjections: "اعتراضات على أوامر العمل",
         JobObjectionsSubtitle: ".الاعتراضات على هذه الوظيفة ، سواء من جانبك أو من قبل عميلك ، ستنهي الوظيفة",
         AddObjection: "إضافة اعتراض",
-        JobObjections: "اعتراضات الوظيفة",
+        JobObjections: "اعتراضات على اوامر العمل",
     };
 }
 else {

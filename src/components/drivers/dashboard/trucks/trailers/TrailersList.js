@@ -22,7 +22,7 @@ class TrailersList extends Component {
         });
 
         const discardedTrailer = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             TrailerID: this.state.Trailers[index].TrailerID 
         };
 
@@ -172,18 +172,18 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         Trailers: "المقطورات",
-        Trailer: "عرض مختصر لفيلم",
+        Trailer: "عرض مختصر للمقطورات",
         MaximumWeight: "الوزن الأقصى",
         TrailerType: "نوع المقطورة",
         Edit: "تعديل",
         Delete: "حذف",
-        DeleteMessage: "هل أنت متأكد أنك تريد حذف هذا المقطع الدعائي؟",
+        DeleteMessage: "هل أنت متأكد انك تريد حذف المقطورة؟",
     };
 }
 else {

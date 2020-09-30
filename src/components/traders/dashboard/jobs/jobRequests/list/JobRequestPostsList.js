@@ -27,9 +27,9 @@ class JobRequestPostsList extends Component {
 
     onComponentUpdated = async () => {
         this.props.Refresh(this.refresh);
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "JobRequestPosts"
             };
 
@@ -57,14 +57,14 @@ class JobRequestPostsList extends Component {
     };
 
     refresh = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
 
             this.setState({
                 Refreshing: true
             });
 
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "JobRequestPosts"
             };
 
@@ -175,7 +175,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

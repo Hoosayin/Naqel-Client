@@ -57,14 +57,14 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         Trailers: "المقطورات",
         TrailersSubtitle: ".موصى به: نظرًا لأنه تم إعداد شاحنتك بالكامل ، فأنت على ما يرام لإضافة مقطورتين إليها",
-        AddTrailer: "إضافة مقطع دعائي",
+        AddTrailer: "أضافة مقطورة",
     };
 }
 else {

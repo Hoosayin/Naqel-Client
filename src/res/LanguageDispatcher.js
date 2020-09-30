@@ -3,12 +3,12 @@ import Urdu from "./Urdu";
 import Arabic from "./Arabic";
 
 const setLanguage = language => {
-    sessionStorage.setItem("Language", language);
+    localStorage.setItem("Language", language);
 };
 
 const getLanguage = () => {
-    if (sessionStorage.Language) {
-        const language = sessionStorage.Language;
+    if (localStorage.Language) {
+        const language = localStorage.Language;
 
         if (language === "Arabic") {
             return Arabic;

@@ -67,12 +67,12 @@ class CodeConfirmation extends Component {
             return;
         }
 
-        const confirmationResult = JSON.parse(sessionStorage.ConfirmationResult);
+        const confirmationResult = JSON.parse(localStorage.ConfirmationResult);
         console.log(this.props.location.state.detail);
 
         confirmationResult.confirm(this.state.ConfirmationCode).then(result => {
-            sessionStorage.removeItem("ConfirmationResultToken");
-            const newUser = jwt_decode(sessionStorage.NewUserToken);
+            localStorage.removeItem("ConfirmationResultToken");
+            const newUser = jwt_decode(localStorage.NewUserToken);
 
             if (newUser.RegisterAs === "Administrator") {
                 this.props.history.push("/setupAdministratorAccount");
@@ -97,7 +97,7 @@ class CodeConfirmation extends Component {
     }
 
     render() {
-        if (!sessionStorage.NewUserToken) {
+        if (!localStorage.NewUserToken) {
             return <Redirect to={"/register"} />;
         }
         else {
@@ -131,7 +131,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

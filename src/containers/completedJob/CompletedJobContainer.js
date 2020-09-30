@@ -173,7 +173,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -182,7 +182,7 @@ if (Language === "Arabic") {
         Latest: "آخر",
         CargoDelivered: "تم تسليم أصناف البضائع:",
         To: "إلى",
-        JobNumber: "رقم الوظيفة",
+        JobNumber: " رقم امر العمل",
         LoadingPlace: "مكان التحميل",
         UnloadingPlace: "مكان التفريغ",
         TripType: "نوع الرحلة",

@@ -126,7 +126,7 @@ class PayOnlineDialog extends Component {
         };
 
         const newClientSecret = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             Amount: bill.Amount * 100
         };
 
@@ -159,7 +159,7 @@ class PayOnlineDialog extends Component {
                     }
 
                     const newDriverPayDetails = {
-                        Token: sessionStorage.Token,
+                        Token: localStorage.Token,
                         DriverBillID: this.props.Bill.DriverBillID,
                         OwnerName: this.state.Owner,
                         OwnerEmail: this.state.Email,

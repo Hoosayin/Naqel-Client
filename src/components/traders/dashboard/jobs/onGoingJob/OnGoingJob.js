@@ -32,9 +32,9 @@ class OnGoingJob extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "OnGoingJob"
             };
 
@@ -82,9 +82,9 @@ class OnGoingJob extends Component {
     };
 
     refresh = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "OnGoingJob"
             };
 
@@ -223,16 +223,16 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        OnGoingJob: "العمل المستمر",
+        OnGoingJob: "أوامر العمل القائمة",
         Searching: "يبحث",
-        JobNotFound: "تعذر العثور على وظيفتك",
+        JobNotFound: "تعذر العثور على امر عمل",
         ObjectionsMessage: "هذه الوظيفة لها اعتراضات ، ولا يمكن إنهاؤها الآن. الإجراءات معلقة عن طريق النقل. لمزيد من المعلومات ، يرجى النقر على علامة التبويب اعتراض",
-        Job: "مهنة",
+        Job: "امر العمل",
         Driver: "سائق",
         Truck: "شاحنة",
         Map: "خريطة",

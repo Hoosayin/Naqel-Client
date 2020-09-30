@@ -81,15 +81,15 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        ObjectionableJob: "وظيفة مرفوضة",
+        ObjectionableJob: "امر العمل مرفوض",
         ObjectinoableJobSubtitle: "!نظرًا لأن عملك لديه اعتراضات ، سيراجعه فريق النقل ، وبالتالي يتخذ أي إجراءات مناسبة",
-        JobCompletionStatus: "حالة إتمام الوظيفة",
-        FinishedByYou: "الانتهاء منك",
+        JobCompletionStatus: "الحاله لقد تم الانتهاء من امر العمل",
+        FinishedByYou: "تم انهائه بواسطتك",
         ApprovedByTrader: "وافق عليه التاجر",
         FinishJob: "إنهاء المهمة"
     };

@@ -24,7 +24,7 @@ class PayProofDetails extends Component {
         });
 
         let discardedTraderPayProof = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             TraderPayProofID: this.props.PayProof.TraderPayProofID
         };
 

@@ -102,7 +102,7 @@ class AddEntryExitCardDialog extends Component {
         }
 
         const newEntryExitCard = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             EntryExitNumber: this.state.EntryExitNumber,
             Type: this.state.Type,
             ReleaseDate: this.state.ReleaseDate,
@@ -212,7 +212,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

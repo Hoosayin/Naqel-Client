@@ -64,7 +64,10 @@ class AddDrivingLicenceDialog extends Component {
                 Errors.Type = ValidType ? "" : Dictionary.LicenceTypeError;
                 break;
             case "ReleaseDate":
-                ValidReleaseDate = (new Date(value).getTime() < new Date(this.state.ExpiryDate).getTime());
+                let releaseDate = new Date(value).getTime();
+                let today = new Date().getTime();
+
+                ValidReleaseDate = (releaseDate < today);
                 Errors.ReleaseDate = ValidReleaseDate ? "" : Dictionary.ReleaseDateError;
                 break;
             case "ExpiryDate":
@@ -105,7 +108,7 @@ class AddDrivingLicenceDialog extends Component {
         }
 
         const newDrivingLicence = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             LicenceNumber: this.state.LicenceNumber,
             Type: this.state.Type,
             ReleaseDate: this.state.ReleaseDate,
@@ -223,7 +226,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

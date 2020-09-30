@@ -12,7 +12,7 @@ class Footer extends Component {
     render() {
         return <footer className="border-top footer theme-default color-bg-light-neutral-high text-light">
             <div className="container">
-                &copy; {new Date().getFullYear()} - {Language.CoreInfinite} - <a style={LinkStyle}
+                &copy; {new Date().getFullYear()} - {Language.ApplicationName} - <a style={LinkStyle}
                     onClick={() => {
                         LanguageDispatcher.SetLanguage("English");
                         window.location.reload(false);

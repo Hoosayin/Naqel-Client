@@ -105,7 +105,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -116,7 +116,7 @@ if (Language === "Arabic") {
         Review: "مراجعة",
         RateAndReview: "تقييم ومراجعة برنامج التشغيل",
         RateAndReviewSubtitle: ".ملاحظاتك تعني الكثير لنا وللسائق أيضًا",
-        WriteAReview: "أكتب مراجعة",
+        WriteAReview: "أكتب تعليق",
         DriverDetails: "تفاصيل السائق",
     };
 }

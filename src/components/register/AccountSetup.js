@@ -4,6 +4,7 @@ import PhoneConfirmationDialog from "../../containers/phoneConfirmationDialog/Ph
 import NationalitySelector from "../../controls/NationalitySelector";
 import { setupDriverAccount } from "../drivers/DriverFunctions";
 import { setupTraderAccount } from "../traders/TraderFunctions";
+import { validateEmail } from "../shared/UserFunctions";
 import jwt_decode from "jwt-decode";
 
 import {
@@ -133,7 +134,9 @@ class AccountSetup extends Component {
             ShowPreloader: true
         });
 
-        const newUserDecoded = jwt_decode(sessionStorage.NewUserToken);
+        await validateEmail(this.state.Email).then(async response => {
+            if (response.Message === "Email is valid.") {
+                const newUserDecoded = jwt_decode(localStorage.NewUserToken);
 
         const newUser = {
             Username: newUserDecoded.Username,
@@ -155,8 +158,8 @@ class AccountSetup extends Component {
                     ShowPreloader: false
                 });
 
-                sessionStorage.removeItem("NewUserToken");
-                sessionStorage.setItem("IsCreatedSuccessfully", true);
+                localStorage.removeItem("NewUserToken");
+                localStorage.setItem("IsCreatedSuccessfully", true);
                 this.props.history.push("/congratulations");
             });
         }
@@ -166,15 +169,28 @@ class AccountSetup extends Component {
                     ShowPreloader: false
                 });
 
-                sessionStorage.removeItem("NewUserToken");
-                sessionStorage.setItem("IsCreatedSuccessfully", true);
+                localStorage.removeItem("NewUserToken");
+                localStorage.setItem("IsCreatedSuccessfully", true);
                 this.props.history.push("/congratulations");
             });
         }
+            }
+            else {
+                let errors = this.state.Errors;
+                errors.Email = "Email is already taken.";
+
+                this.setState({
+                    Errors: errors,
+                    ShowPreloader: false,
+                    ValidForm: false,
+                    ValidEmail: false,
+                });
+            }
+        });
     }
 
     render() {
-        if (!sessionStorage.NewUserToken) {
+        if (!localStorage.NewUserToken) {
             this.props.history.push("/register");
             return <a />
         }
@@ -317,7 +333,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -325,15 +341,15 @@ if (Language === "Arabic") {
         CreateAccount: "إنشاء حساب",
         CreateAccountSubtitle: "!فقط خطوة أخرى ، لقد انتهيت",
         FirstName: "الاسم الاول",
-        LastName: "الكنية",
-        DateOfBirth: "تاريخ الولادة",
+        LastName: "اسم العائلة",
+        DateOfBirth: "تاريخ الميلاد",
         Gender: "جنس",
-        Male: "الذكر",
+        Male: "ذكر",
         Female: "أنثى",
         Nationality: "الجنسية",
         Email: "البريد الإلكتروني",
-        Address: "عنوان",
-        Create: "خلق",
+        Address: "العنوان",
+        Create: "انشاء",
         FirstNameError: ".الاسم الأول غير صالح",
         LastNameError: ".اسم العائلة غير صالح",
         BirthdayError: ".يجب أن يكون عيد ميلادك قبل اليوم",
@@ -359,7 +375,7 @@ else {
         Create: "Create",
         FirstNameError: "First name is invalid.",
         LastNameError: "Last name is invalid.",
-        BirthdayError: "Your Birthday must be earlier than today.",
+        BirthdayError: "Your Date of Birth must be earlier than today.",
         NationalityError: "Nationality is invalid.",
         AddressError: "Address is required.",
         EmailError1: "Email is required.",

@@ -60,16 +60,16 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         DriversReview: "مراجعة السائق",
-        Rating: "تقييم",
+        Rating: "التقييم",
         Review: "مراجعة",
         NoRatingFound: "لم يتم العثور على تصنيف",
-        NoRatingFoundDetails: ".يظهر تقييم ومراجعة السائق هنا",
+        NoRatingFoundDetails: ".لم يظهر تقييم ومراجعة السائق هنا",
     };
 }
 else {
@@ -81,6 +81,5 @@ else {
         NoRatingFoundDetails: "Driver's rating and review appears here.",
     };
 }
-
 
 export default DriverReviewContainer;

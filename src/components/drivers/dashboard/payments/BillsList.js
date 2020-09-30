@@ -9,12 +9,16 @@ class BillsList extends Component {
         super(props);
 
         this.state = {
+            AllBills: [],
             Bills: [],
             NumberOfPaidBills: 0,
             NumberOfUnpaidBills: 0, 
-            Searching: false
+            Searching: false,
+            ShowingPaidBills: false,
         }
 
+        this.onChange = this.onChange.bind(this);
+        this.onSearch = this.onSearch.bind(this);
         this.onComponentUpdated = this.onComponentUpdated.bind(this);
     }
 
@@ -23,9 +27,9 @@ class BillsList extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "Bills"
             };
 
@@ -36,6 +40,7 @@ class BillsList extends Component {
             await getData(request).then(response => {
                 if (response.Message === "Bills found.") {
                     this.setState({
+                        AllBills: response.Bills,
                         Bills: response.Bills,
                         NumberOfPaidBills: response.NumberOfPaidBills,
                         NumberOfUnpaidBills: response.NumberOfUnpaidBills,
@@ -44,6 +49,7 @@ class BillsList extends Component {
                 }
                 else {
                     this.setState({
+                        AllBills: [],
                         Bills: [],
                         NumberOfPaidBills: 0,
                         NumberOfUnpaidBills: 0,
@@ -53,6 +59,43 @@ class BillsList extends Component {
             });
         }
     };
+
+    onChange = event => {
+        const name = event.target.name;
+        const value = event.target.value;
+
+        this.setState({ [name]: value });
+    }
+
+    onSearch = event => {
+        event.preventDefault();
+
+        this.setState({
+            ShowingPaidBills: false,
+        });
+
+        if (this.state.SearchString === "") {
+            this.setState({
+                Bills: this.state.AllBills
+            });
+
+            return;
+        }
+
+        const allBills = this.state.AllBills;
+        let filteredBills = [];
+        let count = 0;
+
+        for (let bill of allBills) {
+            if (bill.BillNumber.includes(this.state.SearchString)) {
+                filteredBills[count++] = bill;
+            }
+        }
+
+        this.setState({
+            Bills: filteredBills
+        });
+    }
 
     render() {
         const bills = this.state.Bills;
@@ -109,9 +152,52 @@ class BillsList extends Component {
             <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
             <div className="h3 m-n p-xxs" style={{ backgroundColor: "#EFEFEF", }}>Your Bills</div>
 
+            <nav className="navbar navbar-default" style={{ backgroundColor: "#F5F5F5" }}>
+                <div className="navbar-global theme-default" style={{ backgroundColor: "#E5E5E5;" }}>
+                    <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
+
+                        <button className={this.state.ShowingPaidBills ? "btn btn-secondary" : "btn btn-primary"}
+                        onClick={() => {
+                            if (this.state.ShowingPaidBills) {
+                                this.setState({
+                                    Bills: this.state.AllBills,
+                                    ShowingPaidBills: false,
+                                });
+                            } else {
+                                let allBills = this.state.AllBills;
+                                let filteredBills = [];
+                                let count = 0;
+                            
+                                for (let bill of allBills) {
+                                    if (bill.Paid) {
+                                        filteredBills[count++] = bill;
+                                    }
+                                }
+
+                                this.setState({
+                                    Bills: filteredBills,
+                                    ShowingPaidBills: true,
+                                });
+                            }
+                        }}>{this.state.ShowingPaidBills ? "Show All Bills" : "Filter Paid Bills"}</button>
+
+                        <form noValidate onSubmit={this.onSearch} className="navbar-form navbar-right" role="search">
+                            <div className="putbox" style={{ margin: "0px" }}>
+                                <div className="form-group">
+                                    <input type="search" name="SearchString" className="form-control" placeholder="Search by Bill Number"
+                                        style={{ maxWidth: "500px", width: "100%" }}
+                                        value={this.state.SearchString} onChange={this.onChange} />
+                                </div>
+                                <button type="submit" className="btn btn-default form-control" style={{ width: "34px" }}></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+
             {(bills.length === 0) ?
                 <SearchingContainer Searching={this.state.Searching}
-                    SearchingFor="bills" /> :
+                    SearchingFor="Bills" /> :
                 <ol className="list-items m-n">
                     {bills.map((bill, index) => {
                         return <BillListItem key={index}

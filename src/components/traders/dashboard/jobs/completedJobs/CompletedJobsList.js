@@ -28,9 +28,9 @@ class CompletedJobsList extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "CompletedJobPackages"
             };
 
@@ -58,9 +58,9 @@ class CompletedJobsList extends Component {
     };
 
     refresh = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "CompletedJobPackages"
             };
 
@@ -193,16 +193,16 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        CompletedJobs: "الوظائف المكتملة",
-        TotalAssignedJobs: "إجمالي الوظائف المعينة حتى الآن",
+        CompletedJobs: "أوامر العمل المكتملة",
+        TotalAssignedJobs: "اجمالي أوامر العمل المكتملة",
         CompletedJobsSubtitle: "هل لديك المزيد من البضائع لتوصيلها؟ أضف عرض عمل الآن ، أو تصفح بعض طلبات العمل",
-        SearchJobs: "بحث وظائف",
-        YourCompletedJobs: "وظائفك المكتملة",
+        SearchJobs: "بحث عن أمر عمل",
+        YourCompletedJobs: "تم اكتمال أوامر العمل الخاصه بك",
     };
 }
 else {

@@ -25,7 +25,7 @@ class TraderContainer extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
 
             this.setState({
                 Searching: true
@@ -56,7 +56,7 @@ class TraderContainer extends Component {
     };
 
     refresh = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
                 Get: "TraderProfile",
                 Params: {
@@ -146,7 +146,7 @@ class TraderContainer extends Component {
                                                     <span className="fas fa-birthday-cake"></span>
                                                 </div>
                                                 <div className="item-content-primary">
-                                                    <div className="content-text-primary">{Dictionary.Birthday}</div>
+                                                    <div className="content-text-primary">{Dictionary.DateofBirth}</div>
                                                     <div className="content-text-secondary">{trader.DateOfBirth}</div>
                                                 </div>
                                             </div>
@@ -214,7 +214,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -223,7 +223,7 @@ if (Language === "Arabic") {
         OnJob: "على الوظيفة",
         Active: "نشيط",
         Gender: "جنس",
-        Birthday: "عيد الميلاد",
+        DateofBirth: "عيد الميلاد",
         Nationality: "الجنسية",
         Email: "البريد الإلكتروني",
         PhoneNumber: "رقم الهاتف",
@@ -237,7 +237,7 @@ else {
         OnJob: "ON JOB",
         Active: "Active",
         Gender: "Gender",
-        Birthday: "Birthday",
+        DateofBirth: "Date of Birth",
         Nationality: "Nationality",
         Email: "Email",
         PhoneNumber: "Phone Number",

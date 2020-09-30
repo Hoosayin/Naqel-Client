@@ -227,13 +227,13 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         SearchTransactions: "معاملات البحث",
-        JobNumber: "رقم الوظيفة",
+        JobNumber: "رقم امر العمل",
         StartingDate: "تاريخ البدء",
         EndingDate: "تاريخ الانتهاء",
         StaringAmount: "(المبلغ المحدق (ريال",

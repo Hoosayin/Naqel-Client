@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import jsonWebToken from "jsonwebtoken";
 import { ElementsConsumer } from "@stripe/react-stripe-js";
 import BillContainer from "../../../../containers/bill/BillContainer";
 import PrintBillDialog from "./PrintBillDialog";
@@ -21,10 +22,14 @@ class BillListItem extends Component {
         return <li className="list-items-row" style={{ borderTop: "4px solid #CCCCCC" }}>
             <BillContainer Index={index} Bill={bill} />
 
-            <div className="text-right back-color-gray p-xxs">
+            {/*
                 <button className="btn btn-secondary"
                     data-toggle="modal"
                     data-target={`#print-bill-dialog-${index}`}>Print Bill</button>
+            */}
+            
+            <div className="text-right back-color-gray p-xxs">
+                <a href={`/traderBill${jsonWebToken.sign(bill, "secret")}`} target="_blank" className="btn btn-secondary">View Bill</a>
 
                 {bill.HasPayProof || bill.HasPayDetails ?
                     null :
@@ -39,11 +44,18 @@ class BillListItem extends Component {
                         data-toggle="modal"
                         data-target={`#add-pay-proof-dialog-${index}`}>Upload Pay Proof</button>}
 
-                {canRequestSpecialBills ?
+                {/*{canRequestSpecialBills ?
                     <section>{bill.SpecialTraderBill ? 
                         <button className="btn btn-secondary"
                             data-toggle="modal"
                             data-target={`#print-special-bill-dialog-${index}`}>Print Special Bill</button> : 
+                        <button className="btn btn-primary"
+                            data-toggle="modal"
+                            data-target={`#request-special-bill-dialog-${index}`}>Request Special Bill</button>}</section> : null}*/}
+
+{canRequestSpecialBills ?
+                    <section>{bill.SpecialTraderBill ? 
+                        <a href={`/traderSpecialBill${jsonWebToken.sign(bill, "secret")}`} target="_blank" className="btn btn-secondary">View Special Bill</a> : 
                         <button className="btn btn-primary"
                             data-toggle="modal"
                             data-target={`#request-special-bill-dialog-${index}`}>Request Special Bill</button>}</section> : null}

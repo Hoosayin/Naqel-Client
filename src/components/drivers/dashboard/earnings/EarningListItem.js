@@ -26,7 +26,7 @@ class EarningListItem extends Component {
     }
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

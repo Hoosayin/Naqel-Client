@@ -19,7 +19,7 @@ class ApproveJobDialog extends Component {
         });
 
         const approvedJob = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
         }
 
         console.log("Going to approve the job...");
@@ -87,7 +87,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

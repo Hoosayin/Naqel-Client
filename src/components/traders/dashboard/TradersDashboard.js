@@ -24,9 +24,9 @@ class TradersDashboard extends Component {
     }
 
     async componentDidMount() {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "DashboardData"
             };
 
@@ -52,10 +52,10 @@ class TradersDashboard extends Component {
     }
 
     render() {
-        if (!sessionStorage.Token) {
+        if (!localStorage.Token) {
             return <Redirect to="/login" />;
         }
-        else if (!jwt_decode(sessionStorage.Token).TraderID) {
+        else if (!jwt_decode(localStorage.Token).TraderID) {
             return <PageNotFoundContainer />;
         }
         else {
@@ -129,7 +129,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

@@ -27,7 +27,7 @@ class JobRequestPostListItem extends Component {
         });
 
         const discardedTraderRequest = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             JobRequestID: jobRequest.JobRequestID
         };
 
@@ -253,7 +253,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -261,7 +261,7 @@ if (Language === "Arabic") {
         RequestAccepted: "طلب مقبول",
         RequestSent: "تم ارسال الطلب",
         PostedBy: "منشور من طرف",
-        OnJob: "على الوظيفة",
+        OnJob: "امر عمل قائم",
         PostedOn: "نشر على",
         Price: "السعر",
         Route: "طريق",
@@ -269,10 +269,10 @@ if (Language === "Arabic") {
         Destination: "المكان المقصود",
         CancelRequest: "إلغاء الطلب",
         ViewRequest: "عرض الطلب",
-        AssignJob: "تعيين الوظيفة",
+        AssignJob: "تعيين امر العمل",
         SendRequest: "ارسل طلب",
         MoreDetails: "المزيد من التفاصيل",
-        JobRequest: "طلب وظيفة",
+        JobRequest: "طلب امر عمل",
         Driver: "سائق",
         Truck: "شاحنة",
         CancelMessage: "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟",

@@ -22,7 +22,7 @@ class TraderRequestRow extends Component {
         });
 
         const selectedTraderRequest = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             TraderRequestID: traderRequestID,
             Selected: isSelected
         };
@@ -103,13 +103,13 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
         New: "جديد",
-        OnJob: "على الوظيفة",
+        OnJob: "امر العمل القائم الان",
         Profile: "الملف الشخصي",
         TraderRequest: "طلب التاجر",
         Select: "تحديد",

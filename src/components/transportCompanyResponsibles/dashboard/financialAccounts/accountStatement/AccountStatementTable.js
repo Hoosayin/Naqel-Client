@@ -103,29 +103,29 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        Naqel: "نا قل",
+        Naqel: "ناقل",
         TransportComapanyDetails: "تفاصيل شركة النقل",
         CompanyName: "اسم الشركة",
         Username: "اسم المستخدم",
         InternalNumber: "الرقم الداخلي",
         CommercialRegisterNumber: "رقم السجل التجاري",
-        NoTransactionFound: "لم يتم العثور على معاملات",
+        NoTransactionFound: "لم يتم العثور على المعاملات",
         Date: "تاريخ",
         TruckNumber: "رقم الشاحنة",
-        JobNumber: "رقم الوظيفة",
+        JobNumber: "رقم امر العمل",
         TraderBillNumber: "رقم فاتورة التاجر",
-        TraderBillPaid: "دفع فاتورة التاجر؟",
-        TradePayMethod: "طريقة دفع التاجر",
+        TraderBillPaid: "دفع فاتورة التاجر",
+        TradePayMethod: "طريقة دفع فاتورة التاجر",
         DriverBillNumber: "رقم فاتورة السائق",
-        DriverBillPaid: "مدفوع فاتورة السائق؟",
-        DriverPayMethod: "طريقة دفع السائق",
+        DriverBillPaid: "دفعت فاتورة السائق",
+        DriverPayMethod: "طريقة دفع فاتورة السائق",
         FeeRate: "معدل الرسوم",
-        Earned: "حصل",
+        Earned: "التحصيل",
         Charged: "متهم",
         TotalAmount: "المبلغ الإجمالي",
         Total: "مجموع"

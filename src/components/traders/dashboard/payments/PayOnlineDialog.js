@@ -123,7 +123,7 @@ class PayOnlineDialog extends Component {
         };
 
         const newClientSecret = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             Amount: bill.Amount * 100
         };
 
@@ -156,7 +156,7 @@ class PayOnlineDialog extends Component {
                     }
 
                     const newTraderPayDetails = {
-                        Token: sessionStorage.Token,
+                        Token: localStorage.Token,
                         TraderBillID: this.props.Bill.TraderBillID,
                         OwnerName: this.state.Owner,
                         OwnerEmail: this.state.Email,

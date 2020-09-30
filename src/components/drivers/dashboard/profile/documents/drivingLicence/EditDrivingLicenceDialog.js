@@ -39,9 +39,9 @@ class EditDrivingLicenceDialog extends Component {
     }
 
     componentDidMount() {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "DrivingLicence"
             };
 
@@ -99,7 +99,10 @@ class EditDrivingLicenceDialog extends Component {
                 Errors.Type = ValidType ? "" : Dictionary.LicenceTypeError;
                 break;
             case "ReleaseDate":
-                ValidReleaseDate = (new Date(value).getTime() < new Date(this.state.ExpiryDate).getTime());
+                let releaseDate = new Date(value).getTime();
+                let today = new Date().getTime();
+
+                ValidReleaseDate = (releaseDate < today);
                 Errors.ReleaseDate = ValidReleaseDate ? "" : Dictionary.ReleaseDateError;
                 break;
             case "ExpiryDate":
@@ -140,7 +143,7 @@ class EditDrivingLicenceDialog extends Component {
         }
 
         const updatedDrivingLicence = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             LicenceNumber: this.state.LicenceNumber,
             Type: this.state.Type,
             ReleaseDate: this.state.ReleaseDate,
@@ -258,7 +261,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -273,7 +276,7 @@ if (Language === "Arabic") {
         LicenceTypeError: ".نوع الترخيص مطلوب",
         ReleaseDateError: ".يجب أن يكون تاريخ الإصدار قبل تاريخ انتهاء الصلاحية",
         ExipryDateError: ".يجب أن يكون تاريخ الانتهاء بعد اليوم",
-        PhotoURLError: ".صورة غير صالحة. يرجى تحميل واحد صحيح",  
+        PhotoURLError: ". صورة غير صالحه يرجى تحميل الصورة مره اخرى ",  
     };
 }
 else {
@@ -291,5 +294,6 @@ else {
         PhotoURLError: "Invalid Image. Please upload a correct one.",        
     };
 }
+
 
 export default EditDrivingLicenceDialog;

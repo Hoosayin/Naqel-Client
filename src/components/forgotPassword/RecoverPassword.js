@@ -89,7 +89,7 @@ class RecoverPassword extends Component {
 
     handleResponse = (response) => {
         if (response.Message === "Password is updated.") {
-            sessionStorage.removeItem("ForgotPasswordPackageToken");
+            localStorage.removeItem("ForgotPasswordPackageToken");
             this.props.history.push("/passwordRecovered");
         }
         else {
@@ -116,7 +116,7 @@ class RecoverPassword extends Component {
             ShowPreloader: true
         });
 
-        const ForgotPasswordPackage = JSON.parse(sessionStorage.ForgotPasswordPackageToken);
+        const ForgotPasswordPackage = JSON.parse(localStorage.ForgotPasswordPackageToken);
         const registeredAs = ForgotPasswordPackage.RegisteredAs;
 
         const recoverPasswordPackage = {
@@ -154,7 +154,7 @@ class RecoverPassword extends Component {
     }
 
     render() {
-        if (!sessionStorage.ForgotPasswordPackageToken) {
+        if (!localStorage.ForgotPasswordPackageToken) {
             return <Redirect to={"/login"} />;
         }
         else {
@@ -210,7 +210,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

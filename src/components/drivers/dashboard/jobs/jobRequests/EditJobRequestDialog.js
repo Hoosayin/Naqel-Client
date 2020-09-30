@@ -106,7 +106,7 @@ class EditJobRequestDialog extends Component {
         });
 
         const updatedJobRequest = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             JobRequestID: this.props.JobRequest.JobRequestID,
             LoadingPlace: this.state.LoadingPlace.Place,
             LoadingLat: this.state.LoadingPlace.Lat,
@@ -251,7 +251,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

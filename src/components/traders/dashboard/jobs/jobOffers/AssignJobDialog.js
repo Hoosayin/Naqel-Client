@@ -24,7 +24,7 @@ class ProfileDialog extends Component {
         });
 
         const newOnGoingJob = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             DriverRequestID: this.props.DriverRequestID
         };
 
@@ -100,7 +100,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

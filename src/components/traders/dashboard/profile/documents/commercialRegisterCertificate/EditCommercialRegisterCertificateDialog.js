@@ -39,9 +39,9 @@ class EditCommercialRegisterCertificateDialog extends Component {
             Preloader: <Preloader />
         });
 
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "CommercialRegisterCertificate"
             };
 
@@ -112,7 +112,7 @@ class EditCommercialRegisterCertificateDialog extends Component {
         }
 
         const updatedCommercialRegisterCertificate = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             Type: this.state.Type,
             PhotoURL: this.state.PhotoURL
         };
@@ -205,7 +205,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

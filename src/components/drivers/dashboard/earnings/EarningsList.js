@@ -27,9 +27,9 @@ class EarningsList extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "Earnings"
             };
 
@@ -57,9 +57,9 @@ class EarningsList extends Component {
     };
 
     refresh = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "Earnings"
             };
 
@@ -161,7 +161,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -172,22 +172,9 @@ if (Language === "Arabic") {
         YourEarnings: "أرباحك",
         Number: "رقم",
         Amount: "كمية",
-        JobNumber: "رقم الوظيفة",
+        JobNumber: "رقم امر العمل",
         DuesPaid: "مدفوعة المستحقات؟",
         EarnedOn: "مكسب",
-    };
-}
-else if (Language === "Urdu") {
-    Dictionary = {
-        Earnings: "آمدنی",
-        EarningsSubtitle: "ملازمت کے معاوضے: اگر آپ کے پاس بقول ادائیگی واجب الادا رقم ہے تو ، آپ کو ادائیگیوں کے سیکشن سے انہیں ادائیگی کرنا ہوگی۔",
-        NetEarning: "نیٹ کمائی",
-        YourEarnings: "آپ کی آمدنی",
-        Number: "نمبر",
-        Amount: "رقم",
-        JobNumber: "نوکری نمبر",
-        DuesPaid: "واجبات ادا؟",
-        EarnedOn: "کمائی گئی",
     };
 }
 else {

@@ -112,35 +112,33 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        ObjectionableJob: "وظيفة مرفوضة",
-        ObjectionableJobDetails1: "!نظرًا لأن عملك لديه اعتراضات ، سيراجعه فريق النقل ، وبالتالي يتخذ أي إجراءات مناسبة",
-        ObjectionableJobDetails2: ".نظرًا لأن عملك لديه اعتراضات ، سيراجعه فريق النقل ، وبالتالي يتخذ أي إجراءات مناسبة! إذا وجدت أن السائق مشكلة ، يمكنك ترك مراجعة",
-        DriverIsRated: "تم تقييم السائق",
-        RateDriver: "سائق معدل",
-        JobCompletionStatus: "حالة إتمام الوظيفة",
-        JobCompletionStatusDetails: ".ستتمكن من الموافقة على هذه الوظيفة بعد أن يكمل سائقك المهمة",
-        CompletedByDriver: "أكمله السائق؟",
-        ApprovedByYou: "هل وافقت عليها؟",
-        Approve: "يوافق",
+        OnGoingJob: "أوامر العمل القائمة",
+        Searching: "يبحث",
+        JobNotFound: "تعذر العثور على امر عمل",
+        ObjectionsMessage: "هذه الوظيفة لها اعتراضات ، ولا يمكن إنهاؤها الآن. الإجراءات معلقة عن طريق النقل. لمزيد من المعلومات ، يرجى النقر على علامة التبويب اعتراض",
+        Job: "امر العمل",
+        Driver: "سائق",
+        Truck: "شاحنة",
+        Map: "خريطة",
+        Objections: "اعتراضات",
     };
 }
 else {
     Dictionary = {
-        ObjectionableJob: "Objectionable Job",
-        ObjectionableJobDetails1: "Since your job has got objections, Naqel team will review them, and consequently take any suitable actions!",
-        ObjectionableJobDetails2: "Since your job has got objections, Naqel team will review them, and consequently take any suitable actions! If you have found the driver to be problematic, you can leave a review.",
-        DriverIsRated: "DRIVER IS RATED",
-        RateDriver: "Rate Driver",
-        JobCompletionStatus: "Job Completion Status",
-        JobCompletionStatusDetails: "You'll be able to approve this job after your driver completes the job.",
-        CompletedByDriver: "Completed By Driver?",
-        ApprovedByYou: "Approved By You?",
-        Approve: "Approve",
+        OnGoingJob: "On-Going Job",
+        Searching: "Searhcing",
+        JobNotFound: "Couldn't Find Your Job",
+        ObjectionsMessage: "This job has objections, and it cannot be finished now. Actions are pending by Naqel. For more information, please tap on Objectiona tab",
+        Job: "Job",
+        Driver: "Driver",
+        Truck: "Truck",
+        Map: "Map",
+        Objections: "Objections",
     };
 }
 

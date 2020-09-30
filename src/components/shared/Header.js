@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import LanguageDispatcher from "../../res/LanguageDispatcher";
 import jwt_decode from "jwt-decode";
+import Preloader from "../../controls/Preloader";
 import { Link, withRouter } from "react-router-dom";
+import { logout } from "./UserFunctions";
 
 class Header extends Component {
     constructor(props) {
@@ -9,27 +11,61 @@ class Header extends Component {
 
         this.state = {
             DriverLoggedIn: false,
-            ShowDashboardButton: true
+            ShowDashboardButton: true,
+            ShowPreloader: false,
         };
 
         this.logOut = this.logOut.bind(this);
     }
 
     componentDidMount() {
-        
     }
 
-    logOut = event => {
-        event.preventDefault();
+    logOut = async () => {
+        if (localStorage.Token) {
+            let token = jwt_decode(localStorage.Token);
+            let user;
 
-        if (sessionStorage.userToken) {
-            sessionStorage.removeItem("userToken");
-        }
-        else if (sessionStorage.Token) {
-            sessionStorage.removeItem("Token");
-        }
+            if (token.DriverID) {
+                user = {
+                    UserType: "Driver",
+                    ID: token.DriverID
+                }; 
+            }
+            else if (token.TraderID) {
+                user = {
+                    UserType: "Trader",
+                    ID: token.TraderID
+                }; 
+            }
+            else if (token.TransportCompanyResponsibleID) {
+                user = {
+                    UserType: "Transport Company Responsible",
+                    ID: token.TransportCompanyResponsibleID,
+                }; 
+            }
 
-        this.props.history.push(`/login`);
+            this.setState({
+                ShowPreloader: true
+            });
+
+            try {
+                await logout(user).then(response => {
+                    this.setState({
+                        ShowPreloader: false
+                    });
+    
+                    if (response.Message === "Logout successful.") {
+                        localStorage.removeItem("Token");
+                        this.props.history.push(`/login`);
+                    }
+                });
+            } catch (error) {
+                this.setState({
+                    ShowPreloader: false
+                });
+            }
+        }
     }
 
     render() {
@@ -37,8 +73,8 @@ class Header extends Component {
         let dashboardRoute;
         const Language = LanguageDispatcher.GetLanguage();
 
-        if (sessionStorage.Token) {
-            token = jwt_decode(sessionStorage.Token);
+        if (localStorage.Token) {
+            token = jwt_decode(localStorage.Token);
 
             if (token.DriverID) {
                 dashboardRoute = "/drivers";
@@ -83,7 +119,8 @@ class Header extends Component {
             </li>
         </ul>;
         return (
-            <header>
+            <section>
+                <header>
                 <nav className="navbar navbar-default">
                     <div className="navbar-local color-accent theme-dark">
                         <div className="container">
@@ -101,12 +138,14 @@ class Header extends Component {
                             </div>
                             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                                 <ul className="nav navbar-nav"></ul>
-                                {sessionStorage.Token ? userLinks : loginRegisterLinks}
+                                {localStorage.Token ? userLinks : loginRegisterLinks}
                             </div>
                         </div>
                     </div>
                 </nav>
             </header>
+            {this.state.ShowPreloader ? <Preloader /> : null}
+            </section>
         );
     }
 };

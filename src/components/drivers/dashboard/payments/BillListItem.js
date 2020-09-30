@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import jsonWebToken from "jsonwebtoken";
 import { ElementsConsumer } from "@stripe/react-stripe-js";
 import BillContainer from "../../../../containers/bill/BillContainer";
 import PrintBillDialog from "./PrintBillDialog";
@@ -19,9 +20,12 @@ class BillListItem extends Component {
             <BillContainer Index={index} Bill={bill} />
 
             <div className="text-right back-color-gray p-xxs">
-                <button className="btn btn-secondary"
+                {/*<button className="btn btn-secondary"
                     data-toggle="modal"
-                    data-target={`#print-bill-dialog-${index}`}>Print Bill</button>
+    data-target={`#print-bill-dialog-${index}`}>Print Bill</button>*/}
+
+                <a href={`/driverBill${jsonWebToken.sign(bill, "secret")}`} 
+                target="_blank" className="btn btn-secondary">View Bill</a>
 
                 {bill.HasPayProof || bill.HasPayDetails ?
                     null :

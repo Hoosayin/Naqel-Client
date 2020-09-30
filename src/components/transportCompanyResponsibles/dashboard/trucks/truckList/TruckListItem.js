@@ -64,13 +64,13 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
     Dictionary = {
-        Details: "تفاصيل",
-        Driver: "سائق",
+        Details: "التفاصيل",
+        Driver: "السائق",
         Locate: "حدد",
     };
 }

@@ -75,7 +75,7 @@ class BidJobOfferDialog extends Component {
         }
 
         const newDriverRequest = {
-            Token: sessionStorage.Token,
+            Token: localStorage.Token,
             JobOfferID: this.props.JobOffer.JobOfferID,
             Price: this.state.Price
         };
@@ -155,7 +155,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {

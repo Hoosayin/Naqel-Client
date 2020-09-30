@@ -30,9 +30,9 @@ class JobOffersList extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "JobOfferPackages"
             };
 
@@ -62,9 +62,9 @@ class JobOffersList extends Component {
     };
 
     refresh = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
             let request = {
-                Token: sessionStorage.Token,
+                Token: localStorage.Token,
                 Get: "JobOfferPackages"
             };
 
@@ -209,11 +209,11 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
-    Dictionary = {
+    Dictionary = {	
         OnJobMessage: ".أثناء مشاركتك في وظيفة مستمرة ، لا يمكنك تعيين المزيد من الوظائف للسائقين. عرض التفاصيل في علامة التبويب مهمة مستمرة",
         JobOffers: "عروض العمل",
         JobOffersSubtitle: "!مرحبا! تريد نقل الشحن الخاص بك في مكان ما؟ لماذا لا تنشئ عرض عمل جديد الآن",

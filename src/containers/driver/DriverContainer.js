@@ -24,7 +24,7 @@ class DriverContainer extends Component {
     }
 
     onComponentUpdated = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
 
             this.setState({
                 Searching: true
@@ -55,7 +55,7 @@ class DriverContainer extends Component {
     };
 
     refresh = async () => {
-        if (sessionStorage.Token) {
+        if (localStorage.Token) {
 
             let request = {
                 Get: "DriverProfile",
@@ -151,7 +151,7 @@ class DriverContainer extends Component {
                                                     <span class="fas fa-birthday-cake"></span>
                                                 </div>
                                                 <div class="item-content-primary">
-                                                    <div class="content-text-primary">{Dictionary.Birthday}</div>
+                                                    <div class="content-text-primary">{Dictionary.DateofBirth}</div>
                                                     <div class="content-text-secondary">{driver.DateOfBirth}</div>
                                                 </div>
                                             </div>
@@ -219,7 +219,7 @@ const GetDirection = () => {
     return (!Language || Language === "English") ? "ltr" : "rtl";
 };
 
-const Language = sessionStorage.Language;
+const Language = localStorage.Language;
 let Dictionary;
 
 if (Language === "Arabic") {
@@ -230,7 +230,7 @@ if (Language === "Arabic") {
         NoReviews: "لم يتم تقديم تعليقات",
         Active: "نشيط",
         Gender: "جنس",
-        Birthday: "عيد الميلاد",
+        DateofBirth: "تاريخ الميلاد",
         Email: "البريد الإلكتروني",
         PhoneNumber: "رقم الهاتف",
         Nationality: "الجنسية",
@@ -246,7 +246,7 @@ else {
         NoReviews: "No Reviews",
         Active: "Active",
         Gender: "Gender",
-        Birthday: "Birthday",
+        DateofBirth: "Date of Birth",
         Email: "Email",
         PhoneNumber: "Phone Number",
         Nationality: "Nationality",
