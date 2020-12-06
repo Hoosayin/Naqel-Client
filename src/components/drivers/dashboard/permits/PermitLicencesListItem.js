@@ -91,8 +91,8 @@ class PermitLicenceListItem extends Component {
                                                 <span className="fas fa-asterisk"></span>
                                             </div>
                                             <div className="item-content-primary">
-                                                <div className="content-text-primary">{Dictionary.PermitCode}</div>
-                                                <div className="content-text-secondary">{permitLicence.Code}</div>
+                                                <div className="content-text-primary">{Dictionary.PermitType}</div>
+                                                <div className="content-text-secondary">{permitLicence.Type}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +180,7 @@ if (Language === "Arabic") {
     Dictionary = {
         PermitNumber: "رقم الترخيص",
         ExpiryDate: "تاريخ الانتهاء",
-        PermitCode: "كود التصريح",
+        PermitType: "نوع رخصة التصريح",
         PermitPlace: "مكان التصريح",
         Edit: "تعديل",
         Delete: "حذف"
@@ -190,7 +190,7 @@ else {
     Dictionary = {
         PermitNumber: "Permit Number",
         ExpiryDate: "Expiry Date",
-        PermitCode: "Permit Code",
+        PermitType: "Permit Type",
         PermitPlace: "Permit Place",
         Edit: "Edit",
         Delete: "Delete"

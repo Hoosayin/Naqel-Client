@@ -9,7 +9,7 @@ class JobOfferContainer extends Component {
     render() {
         const index = this.props.Index;
         const jobOffer = this.props.JobOffer;
-        const createdHoursAgo = new Date() - new Date(jobOffer.TimeCreated) / 36e5;
+        const createdHoursAgo = (new Date() - new Date(jobOffer.TimeCreated)) / 36e5;
 
         let loadingDate = new Date(jobOffer.LoadingDate);
         loadingDate.setHours((parseInt(jobOffer.LoadingTime.substring(0, 2))));

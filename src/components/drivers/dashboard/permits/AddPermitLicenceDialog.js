@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import ImageUploader from "../../../../controls/ImageUploader.js";
 import Preloader from "../../../../controls/Preloader.js";
+import PlaceInput from "../../../../controls/PlaceInput";
 import { addPermitLicence } from "../../DriverFunctions.js";
+import { getPublicData } from "../../../shared/UserFunctions";
 
 class AddPermitLicenceDialog extends Component {
     constructor(props) {
@@ -11,30 +13,55 @@ class AddPermitLicenceDialog extends Component {
             PermitNumber: "",
             ExpiryDate: new Date(),
             PhotoURL: "./images/default_image.png",
-            Code: "",
-            Place: "",
+            Type: "",
+            Place: {
+                Lat: 24.642132551799346,
+                Lng: 46.718101978759776,
+                Address: "شارع الغرابي، حي، Al Amal, Riyadh 12643, Saudi Arabia"
+            },
 
             ValidPermitNumber: false,
             ValidExpiryDate: false,
             ValidPhotoURL: false,
-            ValidCode: false,
-            ValidPlace: false,
 
             ValidForm: false,
             Preloader: null,
 
+            PermitTypes: [],
+
             Errors: {
                 PermitNumber: "",
                 ExpiryDate: "",
-                PhotoURL: "",
-                Code: "",
-                Place: "",
+                PhotoURL: ""
             },
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.validateField = this.validateField.bind(this);
+    }
+
+    async componentDidMount () {
+        if (localStorage.Token) {
+            let request = {
+                Get: "PermitTypes"
+            };
+
+            await getPublicData(request).then(response => {
+                if (response.Message === "Permit types found.") {
+                    this.setState({
+                        PermitTypes: response.PermitTypes,
+                        Type: response.PermitTypes[0].PermitType,
+                    });
+                }
+                else {
+                    this.setState({
+                        PermitTypes: [],
+                        Type: "No Permit Type"
+                    });
+                }
+            });
+        }
     }
 
     onChange = event => {
@@ -51,8 +78,6 @@ class AddPermitLicenceDialog extends Component {
         let ValidPermitNumber = this.state.ValidPermitNumber;
         let ValidExpiryDate = this.state.ValidExpiryDate;
         let ValidPhotoURL = this.state.ValidPhotoURL;
-        let ValidCode = this.state.ValidCode;
-        let ValidPlace = this.state.ValidPlace;
 
         switch (field) {
             case "PermitNumber":
@@ -75,14 +100,6 @@ class AddPermitLicenceDialog extends Component {
                 ValidPhotoURL = (value !== null);
                 Errors.PhotoURL = ValidPhotoURL ? "" : Dictionary.PhotoURLError;
                 break;
-            case "Code":
-                ValidCode = (value !== "");
-                Errors.Code = ValidCode ? "" : Dictionary.PermitCodeError;
-                break;
-            case "Place":
-                ValidPlace = (value !== "");
-                Errors.Place = ValidPlace ? "" : Dictionary.PermitPlaceError;
-                break;
             default:
                 break;
         }
@@ -92,15 +109,11 @@ class AddPermitLicenceDialog extends Component {
             ValidPermitNumber: ValidPermitNumber,
             ValidExpiryDate: ValidExpiryDate,
             ValidPhotoURL: ValidPhotoURL,
-            ValidCode: ValidCode,
-            ValidPlace: ValidPlace,
         }, () => {
                 this.setState({
                     ValidForm: this.state.ValidPermitNumber &&
                         this.state.ValidExpiryDate &&
-                        this.state.ValidPhotoURL &&
-                        this.state.ValidCode &&
-                        this.state.ValidPlace
+                        this.state.ValidPhotoURL
                 });
         });
     }
@@ -117,8 +130,10 @@ class AddPermitLicenceDialog extends Component {
             PermitNumber: this.state.PermitNumber,
             ExpiryDate: this.state.ExpiryDate,
             PhotoURL: this.state.PhotoURL,
-            Code: this.state.Code,
-            Place: this.state.Place
+            Type: this.state.Type,
+            Place: this.state.Place.Address,
+            Lat: this.state.Place.Lat,
+            Lng: this.state.Place.Lng
         }
 
         console.log("Going to add Permit Licence.");
@@ -137,14 +152,17 @@ class AddPermitLicenceDialog extends Component {
                     PermitNumber: "",
             ExpiryDate: new Date(),
             PhotoURL: "./images/default_image.png",
-            Code: "",
-            Place: "",
+            Type: "",
+            Place: {
+                Lat: 24.642132551799346,
+                Lng: 46.718101978759776,
+                Address: "شارع الغرابي، حي، Al Amal, Riyadh 12643, Saudi Arabia"
+            },
 
             ValidPermitNumber: false,
             ValidExpiryDate: false,
             ValidPhotoURL: false,
-            ValidCode: false,
-            ValidPlace: false,
+            ValidType: false,
 
             ValidForm: false,
             Preloader: null,
@@ -153,8 +171,7 @@ class AddPermitLicenceDialog extends Component {
                 PermitNumber: "",
                 ExpiryDate: "",
                 PhotoURL: "",
-                Code: "",
-                Place: "",
+                Type: ""
             },
                 });
                 
@@ -164,6 +181,10 @@ class AddPermitLicenceDialog extends Component {
     }
 
     render() {
+        const {
+            PermitTypes
+        } = this.state;
+
         return <section>
             <div className="modal modal-center-vertical" id="add-permit-licence-dialog"
                 tabIndex="-1" role="dialog"
@@ -222,18 +243,34 @@ class AddPermitLicenceDialog extends Component {
                                                     <span className="text-danger">{this.state.Errors.ExpiryDate}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">{Dictionary.PermitCode}</label>
-                                                    <span className="text-danger m-l-xxxs">*</span>
-                                                    <input type="text" name="Code" className="form-control" autoComplete="off"
-                                                        value={this.state.Code} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.Code}</span>
+                                                    <label className="control-label">{Dictionary.PermitType}</label>
+                                                    <select class="form-control"
+                                                        style={{
+                                                            width: "100%",
+                                                            maxWidth: "296px",
+                                                            minWidth: "193px"
+                                                        }}
+                                                        onChange={event => {
+                                                            this.setState({
+                                                                Type: event.target.value
+                                                            }, this.validateField("", ""));
+                                                        }}
+                                                        value={this.state.Type}>
+                                                        {PermitTypes.map((type, index) => {
+                                                            return <option key={index} value={type.PermitType}>{type.PermitType}</option>;
+                                                        })}
+                                                    </select>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="control-label">{Dictionary.PermitPlace}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
-                                                    <input type="text" name="Place" className="form-control" autoComplete="off"
-                                                        value={this.state.Place} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.Place}</span>
+                                                    <PlaceInput 
+                                                        Address={this.state.Place.Address}
+                                                        OnPlaceSelected={(place) => {
+                                                            this.setState({
+                                                                Place: place
+                                                            }, this.validateField("", ""));
+                                                        }}/>
                                                 </div>
                                             </div>
                                         </div>
@@ -263,7 +300,7 @@ if (Language === "Arabic") {
         AddPermit: "إضافة ترخيص تصريح صالح",
         PermitNumber: "رقم الترخيص",
         ExpiryDate: "تاريخ الانتهاء",
-        PermitCode: "كود التصريح",
+        PermitType: "نوع رخصة التصريح",
         PermitPlace: "مكان التصريح",
         Add: "أضف",
         PermitNumberError1: ".رقم التصريح مطلوب",
@@ -279,7 +316,7 @@ else {
         AddPermit: "Add a Valid Permit Licence",
         PermitNumber: "Permit Number",
         ExpiryDate: "Expiry Date",
-        PermitCode: "Permit Code",
+        PermitType: "Permit Type",
         PermitPlace: "Permit Place",
         Add: "Add",
         PermitNumberError1: "Permit number is required.",

@@ -68,6 +68,7 @@ class TraderRequestRow extends Component {
 
             <td class="text-right">
                 <div>
+                    {/*
                     <button className="btn btn-secondary m-xxxs"
                         data-toggle="modal"
                         data-target={`#profile-dialog-${profileIndex}`}
@@ -75,6 +76,7 @@ class TraderRequestRow extends Component {
                             await this.RefreshTraderContainer();
                             await this.RefreshDocumentsContainer();
                         }}>{Dictionary.Profile}</button>
+                    */}
 
                     <button className="btn btn-secondary m-xxxs"
                         data-toggle="modal"
@@ -86,10 +88,12 @@ class TraderRequestRow extends Component {
                         <button className="btn btn-primary m-xxxs" disabled={requestSelected}
                             onClick={async () => { await this.onToggleSelect(traderRequest.TraderRequestID, true); }}>{Dictionary.Select}</button>}
 
+                    {/*
                     <ProfileDialog Index={profileIndex}
                         TraderID={traderRequest.TraderID}
                         RefreshTrader={refresh => { this.RefreshTraderContainer = refresh; }}
                         RefreshDocuments={refresh => { this.RefreshDocumentsContainer = refresh; }} />
+                    */}
 
                     <RequestDialog Index={requestIndex}
                         TraderRequest={traderRequest} />

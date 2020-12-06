@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Required } from "../../../../styles/MiscellaneousStyles";
 import ImageUploader from "../../../../controls/ImageUploader";
 import Preloader from "../../../../controls/Preloader.js";
+import PlaceInput from "../../../../controls/PlaceInput";
 import { updatePermitLicence } from "../../DriverFunctions.js";
+import { getPublicData } from "../../../shared/UserFunctions";
 
 class EditPermitLicenceDialog extends Component {
     constructor(props) {
@@ -12,30 +13,53 @@ class EditPermitLicenceDialog extends Component {
             PermitNumber: this.props.PermitLicence.PermitNumber,
             ExpiryDate: this.props.PermitLicence.ExpiryDate,
             PhotoURL: this.props.PermitLicence.PhotoURL,
-            Code: this.props.PermitLicence.Code,
-            Place: this.props.PermitLicence.Place,
+            Type: this.props.PermitLicence.Type,
+            Place: {
+                Lat: this.props.PermitLicence.Lat,
+                Lng: this.props.PermitLicence.Lng,
+                Address: this.props.PermitLicence.Place
+            },
 
             ValidPermitNumber: true,
             ValidExpiryDate: true,
             ValidPhotoURL: true,
-            ValidCode: true,
-            ValidPlace: true,
-
             ValidForm: false,
             Preloader: null,
+
+            PermitTypes: [],
 
             Errors: {
                 PermitNumber: "",
                 ExpiryDate: "",
                 PhotoURL: "",
-                Code: "",
-                Place: "",
             },
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.validateField = this.validateField.bind(this);
+    }
+
+    async componentDidMount () {
+        if (localStorage.Token) {
+            let request = {
+                Get: "PermitTypes"
+            };
+
+            await getPublicData(request).then(response => {
+                if (response.Message === "Permit types found.") {
+                    this.setState({
+                        PermitTypes: response.PermitTypes,
+                    });
+                }
+                else {
+                    this.setState({
+                        PermitTypes: [],
+                        Type: "No Permit Type"
+                    });
+                }
+            });
+        }
     }
 
     onChange = event => {
@@ -52,8 +76,6 @@ class EditPermitLicenceDialog extends Component {
         let ValidPermitNumber = this.state.ValidPermitNumber;
         let ValidExpiryDate = this.state.ValidExpiryDate;
         let ValidPhotoURL = this.state.ValidPhotoURL;
-        let ValidCode = this.state.ValidCode;
-        let ValidPlace = this.state.ValidPlace;
 
         switch (field) {
             case "PermitNumber":
@@ -68,14 +90,6 @@ class EditPermitLicenceDialog extends Component {
                 ValidPhotoURL = (value !== null);
                 Errors.PhotoURL = ValidPhotoURL ? "" : Dictionary.PhotoURLError;
                 break;
-            case "Code":
-                ValidCode = (value !== "");
-                Errors.Code = ValidCode ? "" : Dictionary.PermitCodeError;
-                break;
-            case "Place":
-                ValidPlace = (value !== "");
-                Errors.Place = ValidPlace ? "" : Dictionary.PermitPlaceError;
-                break;
             default:
                 break;
         }
@@ -85,15 +99,11 @@ class EditPermitLicenceDialog extends Component {
             ValidPermitNumber: ValidPermitNumber,
             ValidExpiryDate: ValidExpiryDate,
             ValidPhotoURL: ValidPhotoURL,
-            ValidCode: ValidCode,
-            ValidPlace: ValidPlace,
         }, () => {
             this.setState({
                 ValidForm: this.state.ValidPermitNumber &&
                     this.state.ValidExpiryDate &&
-                    this.state.ValidPhotoURL &&
-                    this.state.ValidCode &&
-                    this.state.ValidPlace
+                    this.state.ValidPhotoURL
             });
         });
     }
@@ -111,8 +121,10 @@ class EditPermitLicenceDialog extends Component {
             PermitNumber: this.state.PermitNumber,
             ExpiryDate: this.state.ExpiryDate,
             PhotoURL: this.state.PhotoURL,
-            Code: this.state.Code,
-            Place: this.state.Place
+            Type: this.state.Type,
+            Place: this.state.Place.Address,
+            Lat: this.state.Place.Lat,
+            Lng: this.state.Place.Lng,
         }
 
         console.log("Going to update Permit Licence.");
@@ -134,6 +146,10 @@ class EditPermitLicenceDialog extends Component {
     }
 
     render() {
+        const {
+            PermitTypes
+        } = this.state;
+
         return <section>
             <div className="modal modal-center-vertical" id={`edit-permit-dialog${this.props.DialogID}`}
                 tabIndex="-1" role="dialog"
@@ -192,18 +208,34 @@ class EditPermitLicenceDialog extends Component {
                                                     <span className="text-danger">{this.state.Errors.ExpiryDate}</span>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="control-label">{Dictionary.PermitCode}</label>
-                                                    <span className="text-danger m-l-xxxs">*</span>
-                                                    <input type="text" name="Code" className="form-control" autoComplete="off"
-                                                        value={this.state.Code} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.Code}</span>
+                                                    <label className="control-label">{Dictionary.PermitType}</label>
+                                                    <select class="form-control"
+                                                        style={{
+                                                            width: "100%",
+                                                            maxWidth: "296px",
+                                                            minWidth: "193px"
+                                                        }}
+                                                        onChange={event => {
+                                                            this.setState({
+                                                                Type: event.target.value
+                                                            }, this.validateField("", ""));
+                                                        }}
+                                                        value={this.state.Type}>
+                                                        {PermitTypes.map((type, index) => {
+                                                            return <option key={index} value={type.PermitType}>{type.PermitType}</option>;
+                                                        })}
+                                                    </select>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="control-label">{Dictionary.PermitPlace}</label>
                                                     <span className="text-danger m-l-xxxs">*</span>
-                                                    <input type="text" name="Place" className="form-control" autoComplete="off"
-                                                        value={this.state.Place} onChange={this.onChange} />
-                                                    <span className="text-danger">{this.state.Errors.Place}</span>
+                                                    <PlaceInput 
+                                                        Address={this.state.Place.Address}
+                                                        OnPlaceSelected={(place) => {
+                                                            this.setState({
+                                                                Place: place
+                                                            }, this.validateField("", ""));
+                                                        }}/>
                                                 </div>
                                             </div>
                                         </div>
@@ -233,7 +265,7 @@ if (Language === "Arabic") {
         EditPermit: "تحرير رخصة التصريح",
         PermitNumber: "رقم الترخيص",
         ExpiryDate: "تاريخ الانتهاء",
-        PermitCode: "كود التصريح",
+        PermitType: "نوع رخصة التصريح",
         PermitPlace: "مكان التصريح",
         Update: "تحديث",
         PermitNumberError1: ".رقم التصريح مطلوب",
@@ -249,7 +281,7 @@ else {
         EditPermit: "Edit Permit Licence",
         PermitNumber: "Permit Number",
         ExpiryDate: "Expiry Date",
-        PermitCode: "Permit Code",
+        PermitType: "Permit Type",
         PermitPlace: "Permit Place",
         Update: "Update",
         PermitNumberError1: "Permit number is required.",

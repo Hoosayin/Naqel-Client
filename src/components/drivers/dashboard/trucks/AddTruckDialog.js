@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Preloader from "../../../../controls/Preloader";
 import ImageUploader from "../../../../controls/ImageUploader";
 import { getData, addTruck } from "../../DriverFunctions";
+import { getPublicData } from "../../../shared/UserFunctions";
 
 class AddTruckDialog extends Component {
     constructor(props) {
@@ -22,12 +23,13 @@ class AddTruckDialog extends Component {
             ValidProductionYear: false,
             ValidBrand: false,
             ValidModel: false,
-            ValidType: false,
-            ValidMaximumWeight: false,
             ValidPhotoURL: false,
 
             ValidForm: false,
             ShowPreloader: false,
+
+            TruckTypes: [],
+            TruckSizes: [],
 
             Errors: {
                 PlateNumber: "",
@@ -35,8 +37,6 @@ class AddTruckDialog extends Component {
                 ProductionYear: "",
                 Brand: "",
                 Model: "",
-                Type: "",
-                MaximumWeight: "",
                 PhotoURL: "",
             },
         };
@@ -44,6 +44,48 @@ class AddTruckDialog extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.validateField = this.validateField.bind(this);
+    }
+
+    async componentDidMount () {
+        if (localStorage.Token) {
+            let request = {
+                Get: "TruckTypes"
+            };
+
+            await getPublicData(request).then(response => {
+                if (response.Message === "Truck types found.") {
+                    this.setState({
+                        TruckTypes: response.TruckTypes,
+                        Type: response.TruckTypes[0].TruckType,
+                    });
+                }
+                else {
+                    this.setState({
+                        TruckTypes: [],
+                        Type: "Delivery Truck"
+                    });
+                }
+            });
+
+            request = {
+                Get: "TruckSizes"
+            };
+
+            await getPublicData(request).then(response => {
+                if (response.Message === "Truck sizes found.") {
+                    this.setState({
+                        TruckSizes: response.TruckSizes,
+                        MaximumWeight: response.TruckSizes[0].TruckSize
+                    });
+                }
+                else {
+                    this.setState({
+                        TruckSizes: [],
+                        MaximumWeight: 700,
+                    });
+                }
+            });
+        }
     }
 
     onChange = event => {
@@ -62,8 +104,6 @@ class AddTruckDialog extends Component {
         let ValidProductionYear = this.state.ValidProductionYear;
         let ValidBrand = this.state.ValidBrand;
         let ValidModel = this.state.ValidModel;
-        let ValidType = this.state.ValidType;
-        let ValidMaximumWeight = this.state.ValidMaximumWeight;
         let ValidPhotoURL = this.state.ValidPhotoURL;
 
         switch (field) {
@@ -95,21 +135,6 @@ class AddTruckDialog extends Component {
                 ValidModel = (value !== "");
                 Errors.Model = ValidModel ? "" : Dictionary.ModelError;
                 break;
-            case "Type":
-                ValidType = (value !== "");
-                Errors.Type = ValidType ? "" : Dictionary.TypeError;
-                break;
-            case "MaximumWeight":
-                ValidMaximumWeight = (value !== "");
-                Errors.MaximumWeight = ValidMaximumWeight ? "" : Dictionary.MaximumWeightError1;
-
-                if (Errors.MaximumWeight !== "") {
-                    break;
-                }
-
-                ValidMaximumWeight = (value >= 700);
-                Errors.MaximumWeight = ValidMaximumWeight ? "" : Dictionary.MaximumWeightError2;
-                break;
             case "PhotoURL":
                 ValidPhotoURL = (value !== null);
                 Errors.PhotoURL = ValidPhotoURL ? "" :Dictionary.PhotoURLError;
@@ -125,8 +150,6 @@ class AddTruckDialog extends Component {
             ValidProductionYear: ValidProductionYear,
             ValidBrand: ValidBrand,
             ValidModel: ValidModel,
-            ValidType: ValidType,
-            ValidMaximumWeight: ValidMaximumWeight,
             ValidPhotoURL: ValidPhotoURL,
         }, () => {
                 this.setState({
@@ -135,8 +158,6 @@ class AddTruckDialog extends Component {
                         this.state.ValidProductionYear &&
                         this.state.ValidBrand &&
                         this.state.ValidModel &&
-                        this.state.ValidType &&
-                        this.state.ValidMaximumWeight &&
                         this.state.ValidPhotoURL
                 });
         });
@@ -205,6 +226,10 @@ class AddTruckDialog extends Component {
     }
 
     render() {
+        const {
+            TruckTypes,
+            TruckSizes
+        } = this.state;
         return <section>
             <div className="modal modal-center-vertical" id="add-truck-dialog"
                 tabIndex="-1" role="dialog"
@@ -288,17 +313,35 @@ class AddTruckDialog extends Component {
                                                         </div>
                                                         <div className="form-group">
                                                             <label className="control-label">{Dictionary.TruckType}</label>
-                                                            <span className="text-danger m-l-xxxs">*</span>
-                                                            <input type="text" name="Type" className="form-control" autoComplete="off"
-                                                                value={this.state.Type} onChange={this.onChange} />
-                                                            <span className="text-danger">{this.state.Errors.Type}</span>
+                                                            <div class="combobox">
+                                                                <select class="form-control"
+                                                                    onChange={event => {
+                                                                        this.setState({
+                                                                            Type: event.target.value
+                                                                        }, this.validateField("", ""));
+                                                                    }}
+                                                                    value={this.state.Type}>
+                                                                    {TruckTypes.map((type, index) => {
+                                                                        return <option key={index} value={type.TruckType}>{type.TruckType}</option>;
+                                                                    })}
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div className="form-group">
                                                             <label className="control-label">{Dictionary.MaximumWeight}</label>
-                                                            <span className="text-danger m-l-xxxs">*</span>
-                                                            <input type="number" name="MaximumWeight" className="form-control" autoComplete="off"
-                                                                value={this.state.MaximumWeight} onChange={this.onChange} />
-                                                            <span className="text-danger">{this.state.Errors.MaximumWeight}</span>
+                                                            <div class="combobox">
+                                                                <select class="form-control"
+                                                                    onChange={event => {
+                                                                        this.setState({
+                                                                            MaximumWeight: event.target.value
+                                                                        }, this.validateField("", ""));
+                                                                    }}
+                                                                    value={this.state.MaximumWeight}>
+                                                                    {TruckSizes.map((size, index) => {
+                                                                        return <option key={index} value={size.TruckSize}>{`${size.TruckSize} KG`}</option>;
+                                                                    })}
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

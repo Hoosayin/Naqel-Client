@@ -31,6 +31,10 @@ class JobOfferPackageItem extends Component {
 
         await deleteJobOffer(discardedJobOffer).then(response => {
             if (response.Message === "Job offer is deleted.") {
+                this.setState({
+                    Preloader: null
+                });
+
                 this.props.OnJobOfferUpdated();
             }
         });

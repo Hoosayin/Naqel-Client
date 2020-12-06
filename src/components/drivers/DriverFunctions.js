@@ -395,8 +395,10 @@ export const addPermitLicence = async newPermitLicence => {
         PermitNumber: newPermitLicence.PermitNumber,
         ExpiryDate: newPermitLicence.ExpiryDate,
         PhotoURL: newPermitLicence.PhotoURL,
-        Code: newPermitLicence.Code,
-        Place: newPermitLicence.Place
+        Type: newPermitLicence.Type,
+        Place: newPermitLicence.Place,
+        Lat: newPermitLicence.Lat,
+        Lng: newPermitLicence.Lng
     }, {
         headers: { Authorization: `JWT ${newPermitLicence.Token}` }
     }).then(response => {
@@ -423,8 +425,10 @@ export const updatePermitLicence = async updatedPermitLicence => {
         PermitNumber: updatedPermitLicence.PermitNumber,
         ExpiryDate: updatedPermitLicence.ExpiryDate,
         PhotoURL: updatedPermitLicence.PhotoURL,
-        Code: updatedPermitLicence.Code,
-        Place: updatedPermitLicence.Place
+        Type: updatedPermitLicence.Type,
+        Place: updatedPermitLicence.Place,
+        Lat: updatedPermitLicence.Lat,
+        Lng: updatePermitLicence.Lng
     }, {
         headers: { Authorization: `JWT ${updatedPermitLicence.Token}` }
     }).then(response => {

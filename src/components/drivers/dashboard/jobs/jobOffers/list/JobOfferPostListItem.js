@@ -196,17 +196,21 @@ class JobOfferPostsList extends Component {
                         <li role="presentation" className="active">
                             <a href={`#job-offer-${index}`} aria-controls={`job-offer-${index}`} role="tab" data-toggle="tab">{Dictionary.JobOffer}</a>
                         </li>
+                        {/* 
                         <li role="presentation">
                             <a href={`#trader-${index}`} aria-controls={`trader-${index}`} role="tab" data-toggle="tab">{Dictionary.Trader}</a>
                         </li>
+                        */}
                     </ul>
                     <div className="tab-content">
                         <div role="tabpanel" className="tab-pane active" id={`job-offer-${index}`}>
                             <JobOfferContainer JobOffer={jobOffer} />
                         </div>
+                        {/*
                         <div role="tabpanel" className="tab-pane" id={`trader-${index}`}>
                             <TraderContainer TraderID={jobOffer.TraderID} />
                         </div>
+                        */}
                     </div>
                 </div>
                 <BidJobOfferDialog

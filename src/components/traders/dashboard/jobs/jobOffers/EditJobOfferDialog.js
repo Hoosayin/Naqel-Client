@@ -53,6 +53,7 @@ class EditJobOfferDialog extends Component {
             TruckTypesList: [],
             TruckSizesList: [],
             WaitingTimesList: [],
+            PermitTypes: [],
 
             ValidForm: false,
             ShowPreloader: null,
@@ -126,6 +127,23 @@ class EditJobOfferDialog extends Component {
                     });
                 }
             });
+
+            request = {
+                Get: "PermitTypes"
+            };
+
+            await getPublicData(request).then(response => {
+                if (response.Message === "Permit types found.") {
+                    this.setState({
+                        PermitTypes: response.PermitTypes
+                    });
+                }
+                else {
+                    this.setState({
+                        PermitTypes: []
+                    });
+                }
+            });
         }
     }
 
@@ -146,7 +164,8 @@ class EditJobOfferDialog extends Component {
             ValidLoadingTime,
             ValidAcceptedDelay,
             ValidPrice,
-            ValidWaitingTime
+            ValidWaitingTime,
+            PermitTypes
         } = this.state;
 
         switch (field) {
@@ -318,6 +337,7 @@ class EditJobOfferDialog extends Component {
             TruckSizesList,
             TruckTypesList,
             WaitingTimesList,
+            PermitTypes
         } = this.state;
 
         const {
@@ -430,8 +450,22 @@ class EditJobOfferDialog extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="control-label">{Dictionary.PermitType}</label>
-                                                    <input type="text" name="PermitType" className="form-control" autoComplete="off"
-                                                        value={PermitType} onChange={this.onChange} />
+                                                    <select class="form-control"
+                                                        style={{
+                                                            width: "100%",
+                                                            maxWidth: "296px",
+                                                            minWidth: "193px"
+                                                        }}
+                                                        onChange={event => {
+                                                            this.setState({
+                                                                PermitType: event.target.value
+                                                            }, this.validateField("", ""));
+                                                        }}
+                                                        value={this.state.PermitType}>
+                                                        {PermitTypes.map((type, index) => {
+                                                            return <option key={index} value={type.PermitType}>{type.PermitType}</option>;
+                                                        })}
+                                                    </select>
                                                 </div>
                                                 <div className="form-group">
                                                     <button type="button" data-toggle="button" className={JobOfferType === "Fixed-Price" ? 

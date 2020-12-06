@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { getData, updateTruck } from "../../DriverFunctions";
+import { getPublicData } from "../../../shared/UserFunctions";
 import Preloader from "../../../../controls/Preloader";
 
 class TruckSettings extends Component {
@@ -20,8 +21,9 @@ class TruckSettings extends Component {
             ValidProductionYear: true,
             ValidBrand: true,
             ValidModel: true,
-            ValidType: true,
-            ValidMaximumWeight: true,
+
+            TruckTypes: [],
+            TruckSizes: [],
 
             ValidForm: false,
             Preloader: null,
@@ -32,8 +34,6 @@ class TruckSettings extends Component {
                 ProductionYear: "",
                 Brand: "",
                 Model: "",
-                Type: "",
-                MaximumWeight: ""
             },
         };
 
@@ -41,14 +41,14 @@ class TruckSettings extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (localStorage.Token) {
             let request = {
                 Token: localStorage.Token,
                 Get: "Truck"
             };
 
-            getData(request).then(response => {
+            await getData(request).then(response => {
                 if (response.Message === "Truck found.") {
                     let truck = response.Truck;
 
@@ -74,6 +74,40 @@ class TruckSettings extends Component {
                     });
                 }
             });
+
+            request = {
+                Get: "TruckTypes"
+            };
+
+            await getPublicData(request).then(response => {
+                if (response.Message === "Truck types found.") {
+                    this.setState({
+                        TruckTypes: response.TruckTypes,
+                    });
+                }
+                else {
+                    this.setState({
+                        TruckTypes: [],
+                    });
+                }
+            });
+
+            request = {
+                Get: "TruckSizes"
+            };
+
+            await getPublicData(request).then(response => {
+                if (response.Message === "Truck sizes found.") {
+                    this.setState({
+                        TruckSizes: response.TruckSizes,
+                    });
+                }
+                else {
+                    this.setState({
+                        TruckSizes: [],
+                    });
+                }
+            });
         }
     }
 
@@ -93,8 +127,6 @@ class TruckSettings extends Component {
         let ValidProductionYear = this.state.ValidProductionYear;
         let ValidBrand = this.state.ValidBrand;
         let ValidModel = this.state.ValidModel;
-        let ValidType = this.state.ValidType;
-        let ValidMaximumWeight = this.state.MaximumWeight;
 
         switch (field) {
             case "PlateNumber":
@@ -125,21 +157,6 @@ class TruckSettings extends Component {
                 ValidModel = (value !== "");
                 Errors.Model = ValidModel ? "" : Dictionary.ModelError;
                 break;
-            case "Type":
-                ValidType = (value !== "");
-                Errors.Type = ValidType ? "" : Dictionary.TypeError;
-                break;
-            case "MaximumWeight":
-                ValidMaximumWeight = (value !== "");
-                Errors.MaximumWeight = ValidMaximumWeight ? "" : Dictionary.MaximumWeightError1;
-
-                if (Errors.MaximumWeight !== "") {
-                    break;
-                }
-
-                ValidMaximumWeight = (value >= 700);
-                Errors.MaximumWeight = ValidMaximumWeight ? "" : Dictionary.MaximumWeightError2;
-                break;
             default:
                 break;
         }
@@ -151,17 +168,13 @@ class TruckSettings extends Component {
             ValidProductionYear: ValidProductionYear,
             ValidBrand: ValidBrand,
             ValidModel: ValidModel,
-            ValidType: ValidType,
-            ValidMaximumWeight: ValidMaximumWeight
         }, () => {
             this.setState({
                 ValidForm: this.state.ValidPlateNumber &&
                     //this.state.ValidOwner &&
                     this.state.ValidProductionYear &&
                     this.state.ValidBrand &&
-                    this.state.ValidModel &&
-                    this.state.ValidType &&
-                    this.state.MaximumWeight
+                    this.state.ValidModel
             });
         });
     }
@@ -230,6 +243,11 @@ class TruckSettings extends Component {
     }
 
     render() {
+        const {
+            TruckTypes,
+            TruckSizes
+        } = this.state;
+
         return (
             <div>
                 <div style={{ width: "100%", height: "2px", backgroundColor: "#008575" }}></div>
@@ -316,14 +334,27 @@ class TruckSettings extends Component {
                                 <span className="fas fa-cog"></span>
                             </div>
                             <div className="item-content-secondary">
-                                <div className="form-group">
-                                    <input type="text" name="Type" className="form-control" autocomplete="off"
-                                        value={this.state.Type} onChange={this.onChange} />
+                                <div class="combobox">
+                                    <select class="form-control"
+                                        style={{
+                                            width: "100%",
+                                            maxWidth: "296px",
+                                            minWidth: "193px"
+                                        }}
+                                        onChange={event => {
+                                            this.setState({
+                                                Type: event.target.value
+                                            }, this.validateField("", ""));
+                                        }}
+                                        value={this.state.Type}>
+                                        {TruckTypes.map((type, index) => {
+                                            return <option key={index} value={type.TruckType}>{type.TruckType}</option>;
+                                        })}
+                                    </select>
                                 </div>
                             </div>
                             <div className="item-content-primary">
                                 <div className="content-text-primary">{Dictionary.TruckType}</div>
-                                <div className="text-danger">{this.state.Errors.Type}</div>
                             </div>
                         </div>
                         <div className="entity-list-item">
@@ -331,14 +362,27 @@ class TruckSettings extends Component {
                                 <span className="fas fa-weight"></span>
                             </div>
                             <div className="item-content-secondary">
-                                <div className="form-group">
-                                    <input type="number" name="MaximumWeight" className="form-control" autocomplete="off"
-                                        value={this.state.MaximumWeight} onChange={this.onChange} />
+                                <div class="combobox">
+                                    <select class="form-control"
+                                        style={{
+                                            width: "100%",
+                                            maxWidth: "296px",
+                                            minWidth: "193px"
+                                        }}
+                                        onChange={event => {
+                                            this.setState({
+                                                MaximumWeight: event.target.value
+                                            }, this.validateField("", ""));
+                                        }}
+                                        value={this.state.MaximumWeight}>
+                                        {TruckSizes.map((size, index) => {
+                                            return <option key={index} value={size.TruckSize}>{`${size.TruckSize} KG`}</option>;
+                                        })}
+                                    </select>
                                 </div>
                             </div>
                             <div className="item-content-primary">
                                 <div className="content-text-primary">{Dictionary.MaximumWeight}</div>
-                                <div className="text-danger">{this.state.Errors.MaximumWeight}</div>
                             </div>
                         </div>                      
                         <div className="entity-list-item active">
